@@ -1,0 +1,40 @@
+Ho analizzato la struttura attuale su aiutodoc.netlify.app. Il sistema attuale è già molto orientato all'anamnesi (raccolta dati), ma per renderlo "blindato" e aggiungere le funzioni di ID univoco e riepilogo stampabile, dobbiamo evolvere il prompt e la logica di backend.
+Ecco il documento tecnico aggiornato da consegnare ad Antgravity per integrare queste nuove funzioni specifiche.
+
+Specifiche Tecniche Evolutive – Aiutodoc.it
+1. Evoluzione del System Prompt (Core Logico)
+Questo prompt deve sostituire o integrare quello attuale per mantenere la capacità anamnestica, aggiungendo le istruzioni per l'impegnativa e il comportamento del paziente.
+> SYSTEM PROMPT AGGIORNATO:
+> "Tu sei l'esperto di orientamento medico di Aiutodoc.it. Il tuo obiettivo è condurre un'intervista anamnestica accurata per guidare il paziente verso lo specialista corretto.
+> Fasi della risposta:
+>  * Anamnesi: Continua a porre domande mirate per circoscrivere il problema (localizzazione, durata, intensità del sintomo).
+>  * Identificazione Specialista: Indica lo specialista più idoneo basandoti sulla letteratura medica standard.
+>  * Guida al Comportamento: Spiega all'utente come prepararsi alla visita (es. 'porta con te esami del sangue recenti', 'rimani a digiuno se richiesto').
+>  * Nota per l'Impegnativa: Suggerisci all'utente cosa riferire al Medico di Medicina Generale (MMG) per facilitare la scrittura dell'impegnativa (es. 'Chiedi al tuo medico una visita [Specialistica] per [Sintomo principale]').
+> Vincoli: Mantieni i disclaimer di sicurezza (niente diagnosi, niente prescrizioni, gestione emergenze 118). Usa un linguaggio chiaro ma professionale."
+> 
+2. Generazione ID Univoco Dispositivo-Agnotico
+Per permettere all'utente di recuperare la ricerca da un altro dispositivo senza fare il login, Antgravity dovrà implementare un sistema di "Short-Code":
+ * Logica: Al termine dell'intervista, il sistema genera un codice alfanumerico semplice (es: AD-7821-XJ).
+ * Database: Il codice deve puntare a un record nel database che contiene il JSON dell'intervista e i risultati.
+ * Recupero: In homepage deve esserci un campo "Recupera ricerca" dove inserire l'ID.
+ * Privacy: Poiché non c'è login, l'ID è l'unica chiave. Specifica nei termini che "chiunque sia in possesso del codice può visualizzare il riepilogo".
+3. File Riepilogativo e Stampabile (Layout PDF)
+Il file deve essere generato in formato PDF (massimo 2 pagine) con un layout pulito. Ecco la struttura che Antgravity deve seguire:
+ * Intestazione: Logo e dicitura AiutoDoc.it.
+ * Identificativo: Riportare in alto l'ID Univoco della ricerca.
+ * Sezione 1: Sintesi Anamnestica: Un riassunto di quanto riferito dall'utente (es: "Il paziente lamenta dolore lombare da 3 settimane...").
+ * Sezione 2: Specialista Consigliato: Elenco dei professionisti individuati con relativi contatti/link.
+ * Sezione 3: Promemoria per il Medico: Spazio dedicato a cosa dire per l'impegnativa.
+ * Piè di pagina: Disclaimer legale obbligatorio: "Documento generato da IA a scopo informativo. Non costituisce referto medico."
+4. Note per l'Integrazione (Antgravity)
+ * Libreria PDF: Suggerisco l'uso di jsPDF o React-pdf per generare il file direttamente lato client o Puppeteer lato server per una resa grafica superiore.
+ * Stato della Ricerca: Lo stato dell'intervista deve essere salvato nel database (es. Supabase o Firebase) associato all'ID univoco, per garantire la persistenza tra dispositivi.
+ * CSS per la Stampa: Prevedere un foglio di stile @media print per ottimizzare la stampa della pagina web qualora l'utente preferisse stampare direttamente dal browser invece del PDF.
+Come procedere con Antgravity?
+Consegnando loro questo schema, possono procedere a:
+ * Modificare il flusso dell'IA (Prompt).
+ * Creare la funzione di salvataggio/generazione ID.
+ * Sviluppare il template del PDF "AiutoDoc.it".
+Ti serve che scriva io un esempio di come dovrebbe apparire graficamente la "Nota per l'impegnativa" nel riepilogo?
+

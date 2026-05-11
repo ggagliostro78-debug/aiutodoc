@@ -1,0 +1,28 @@
+Bozze legali e note operative per Aiutodoc.it
+
+BOZZA 1: Termini e Condizioni di Utilizzo
+
+Oggetto: Regolamento per l'uso della piattaforma aiutodoc.it
+
+- Natura del Servizio: Aiutodoc.it è un motore di ricerca assistito da Intelligenza Artificiale che aggrega e filtra informazioni pubbliche riguardanti professionisti sanitari. Il servizio ha scopo puramente informativo e di orientamento.
+- Esclusione di parere medico: La piattaforma non fornisce diagnosi, non prescrive farmaci e non suggerisce terapie. L'IA analizza i termini inseriti dall'utente al solo fine di individuare la categoria specialistica più pertinente. L'utente è tenuto a consultare un medico prima di intraprendere qualsiasi decisione sanitaria.
+- Limitazione di Responsabilità: Aiutodoc.it non garantisce l'aggiornamento costante dei dati dei professionisti estratti dalla rete né risponde della qualità della prestazione professionale fornita dai medici individuati.
+- Emergenze: In caso di emergenza medica o sintomi acuti, l'utente non deve utilizzare la piattaforma ma contattare immediatamente i servizi di soccorso.
+- Contatti per richieste: Per richieste informative o di rimozione dall'indicizzazione è possibile scrivere a info@aiutodoc.it.
+
+BOZZA 2: Privacy Policy
+
+Informativa ai sensi del Regolamento UE 2016/679 (GDPR)
+
+- Dati Trattati: La piattaforma è progettata per funzionare senza registrazione. Non vengono raccolti nomi, cognomi o dati identificativi dell'utente. Le informazioni inserite nella barra di ricerca vengono elaborate in tempo reale.
+- Finalità e Conservazione: Le query vengono utilizzate esclusivamente per generare il risultato richiesto. Non vengono creati profili sanitari dell'utente. I dati di navigazione vengono anonimizzati o cancellati al termine della sessione.
+- Comunicazione a Terzi: Il testo della query, privo di dati identificativi, può essere elaborato tramite API di fornitori di Intelligenza Artificiale che operano secondo protocolli di sicurezza standard.
+- Diritti dell'interessato: Non conservando dati identificativi, la piattaforma potrebbe non essere in grado di ricondurre una richiesta a ricerche specifiche effettuate in passato.
+
+BOZZA 3: Disclaimer
+
+Aiutodoc.it utilizza l'IA per aiutarti a trovare lo specialista più adatto alle tue esigenze basandosi su dati pubblici. I risultati non sono diagnosi mediche. L'uso della piattaforma implica l'accettazione dei Termini di Servizio. In caso di urgenza chiama il 118.
+
+Nota tecnica
+
+I testi possono essere inseriti in sottopagine dedicate o in modali informative collegate dal footer del sito.

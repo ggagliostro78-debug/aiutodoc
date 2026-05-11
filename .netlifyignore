@@ -1,0 +1,19 @@
+# Local/editor artifacts
+.git/
+.vscode/
+.idea/
+Thumbs.db
+thumbs.db
+**/Thumbs.db
+**/thumbs.db
+
+# Generated verification screenshots
+mobile-*.png
+*-check.png
+
+# Local notes, prompts and setup docs not meant for public static hosting
+*.md
+*.txt
+
+# Alternative hosting entrypoint; Netlify uses netlify/functions instead
+api/

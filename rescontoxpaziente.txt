@@ -1,0 +1,28 @@
+Ecco un esempio di come strutturare la sezione "Nota per l'Impegnativa" all'interno del riepilogo PDF di due pagine.
+Questa parte è fondamentale perché trasforma un consiglio generico dell'IA in un'azione pratica che il paziente può compiere davanti al suo Medico di Medicina Generale (MMG).
+Layout della Sezione: "Nota per il Medico Curante"
+Questa sezione deve essere visivamente distinta (magari in un box grigio chiaro o con un bordo azzurro) per facilitarne la lettura durante la visita.
+> 🩺 Promemoria per l'Impegnativa (SSN)
+> AiutoDoc.it ha analizzato i tuoi sintomi e suggerisce di discutere con il tuo medico la seguente richiesta:
+>  * Specialista consigliato: [Inserire Specializzazione, es: Ortopedico]
+>  * Sospetto Diagnostico / Quesito: [Inserire sintomo prevalente, es: Lombosciatalgia persistente]
+>  * Nota suggerita per il medico: >     > "Gentile Medico, a seguito di un orientamento informativo su AiutoDoc.it, si richiede valutazione specialistica per approfondire la natura del dolore riportato, valutando l'opportunità di una visita [Specialistica] ed eventuali esami strumentali correlati."
+> ⚠️ Nota per l'utente: Il tuo Medico di Base ha l'ultima parola sulla necessità clinica dell'esame e sulla sua urgenza (codici U, B, D, P).
+> 
+Struttura del File PDF (Massimo 2 Pagine)
+Per rispettare il limite delle due pagine e mantenere l'identità del brand, ecco lo schema che Antgravity dovrebbe seguire per il template di stampa:
+Pagina 1: Sintesi della Ricerca
+ * Header: Logo AiutoDoc.it (allineato a sinistra) + ID Ricerca: [AD-1234-XYZ] (allineato a destra).
+ * Titolo: "Riepilogo Orientamento Specialistico".
+ * Sezione Anamnesi (AI-Generated): Un paragrafo che riassume i sintomi dichiarati dall'utente (es: "Paziente di 45 anni riporta dolore acuto alla spalla destra da 10 giorni...").
+ * Inquadramento Specialistico: La spiegazione dell'IA sul perché ha scelto quel tipo di medico.
+Pagina 2: Soluzioni e Prossimi Passi
+ * Lista Specialisti: Tabella con Nome, Cognome, Specializzazione e Link/Contatti dei professionisti trovati in rete.
+ * Box "Nota per l'Impegnativa": (Quello descritto sopra).
+ * Consigli Comportamentali: (es. "Porta con te i raggi X precedenti", "Annota quando il dolore aumenta").
+ * Footer Legale: > Documento generato da AiutoDoc.it il [Data]. Questo certificato ha valore puramente informativo e non sostituisce in alcun modo una diagnosi o una prescrizione medica ufficiale.
+Istruzioni Tecniche Finali per Antgravity:
+ * ID Univoco: Chiedi loro di usare un algoritmo di generazione breve (6-8 caratteri) memorizzato in un database NoSQL. L'ID deve essere inserito nel footer di ogni pagina del PDF.
+ * Stampa: Assicurati che il pulsante "Scarica Riepilogo" sia ben visibile alla fine della chat con l'IA.
+ * Conversione: Se l'utente chiude il browser, deve poter inserire l'ID nella Home e vedere esattamente lo stesso layout pronto per la stampa.
+C'è qualche altra informazione specifica che vorresti apparisse nel PDF (magari un link ai centri convenzionati o una mappa)?

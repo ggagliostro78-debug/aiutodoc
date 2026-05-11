@@ -1,0 +1,18 @@
+{
+  "name": "AIutoDoc",
+  "short_name": "AIutoDoc",
+  "description": "Orientamento sanitario informativo per trovare lo specialista piu adatto.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f7f7",
+  "theme_color": "#1b9b9a",
+  "icons": [
+    {
+      "src": "./logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

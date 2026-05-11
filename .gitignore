@@ -1,0 +1,23 @@
+# Build output
+dist/
+
+# Local OS/editor artifacts
+Thumbs.db
+thumbs.db
+**/Thumbs.db
+**/thumbs.db
+.vscode/
+.idea/
+
+# Local verification screenshots
+mobile-*.png
+smoke-*.png
+*-check.png
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Dependency folders if ever installed locally
+node_modules/

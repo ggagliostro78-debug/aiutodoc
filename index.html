@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/jpeg" href="./logo.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1b9b9a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="application-name" content="AIutoDoc" />
+  <meta name="apple-mobile-web-app-title" content="AIutoDoc" />
+  <title>AIutoDoc.it | L'accesso giusto alla cura giusta</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./logo.jpg" />
+  <link rel="stylesheet" href="./src/style.css?v=3.3.0">
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Styles moved to src/style.css -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9C1TRG2K0X"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-9C1TRG2K0X', { 'anonymize_ip': true });
+  </script>
+</head>
+
+<body>
+  <div id="app-splash" class="app-splash">
+    <div class="app-splash-card">
+      <img src="./logo.jpg" alt="AIutoDoc" class="app-splash-logo">
+      <div class="app-splash-title">AIutoDoc</div>
+      <div class="app-splash-subtitle">L'accesso giusto alla cura giusta</div>
+    </div>
+  </div>
+
+  <!-- Privacy Disclaimer Modal -->
+  <div id="privacy-modal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Informativa e Condizioni d'Uso</h3>
+      <div class="modal-scroll">
+        <p>Benvenuto in AIutoDoc.it.</p>
+        <p>I dati inseriti in questa applicazione vengono utilizzati esclusivamente allo scopo di fornire un'indicazione
+          orientativa sullo specialista più adeguato. Nessun dato personale o sensibile viene salvato nei nostri server
+          o ceduto a terzi.</p>
+        <p><strong>ATTENZIONE:</strong> AIutoDoc.it è un assistente virtuale e <strong>non sostituisce in alcun modo il
+            parere del tuo Medico Curante</strong> o la diagnosi di uno specialista. Non utilizzare questo servizio in
+          situazioni di Emergenza (in tal caso contatta il 112).</p>
+        <p>Cliccando su "Accetto e Continuo", dichiari di aver letto, compreso e accettato le presenti condizioni e
+          acconsenti al trattamento temporaneo dei dati da te forniti.</p>
+      </div>
+      <button id="accept-privacy-btn" class="btn-primary-wide">Accetto e Voglio Continuare</button>
+    </div>
+  </div>
+
+  <!-- Legal Docs Modal -->
+  <div id="legal-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 id="legal-modal-title">Documento Legale</h3>
+      <div class="modal-scroll" id="legal-modal-text"></div>
+      <button id="close-legal-btn" class="btn-primary-wide">Chiudi</button>
+    </div>
+  </div>
+
+  <div id="app">
+    <header class="chat-header">
+      <div class="banner-wrapper">
+        <!-- BANNER FULL WIDTH -->
+        <img src="./logo.jpg" alt="AIutoDoc.it Banner" class="banner-img">
+
+        <!-- Hamburger Toggle for Mobile -->
+        <button id="menu-toggle" aria-label="Apri il menu di navigazione" aria-expanded="false">Menu</button>
+
+        <!-- MENU A 5 TASTI + ID RICERCA -->
+        <nav class="main-nav">
+          <button class="nav-btn active" data-target="chat-section">Triage Chat</button>
+          <button class="nav-btn" data-target="about-section">Chi Siamo</button>
+          <button class="nav-btn" data-target="glossary-section">Glossario</button>
+          <button class="nav-btn" data-target="practices-section">Branche Mediche</button>
+          <button id="reset-btn" class="nav-btn" title="Riavvia Sessione">Nuova Ricerca</button>
+          
+          <!-- RECOVERY ID -->
+          <div class="recovery-nav-group">
+            <input type="text" id="recovery-id-input" placeholder="ID ricerca">
+            <button id="recovery-btn" class="nav-btn recovery-btn-style">Recupera</button>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="content-container">
+
+      <!-- Section: Chat -->
+      <section id="chat-section" class="tab-content active-tab"
+        style="display:flex; flex-direction:column; height: 100%;">
+
+        <div id="chat-messages" class="messages-area">
+          <div class="welcome-message message system-msg">
+            <div class="msg-bubble">
+              <strong class="welcome-title" style="text-align: center; display: block; font-size: 1.25rem; margin-bottom: 4px; white-space: nowrap;">Benvenuto in AIutoDoc.it!</strong>
+              <div class="welcome-subtitle" style="text-align: center; font-style: italic; color: var(--text-muted); margin-bottom: 12px; font-size: 0.85rem;">L'accesso giusto alla cura giusta.</div>
+              
+              <p style="text-align: center; margin-bottom: 10px; font-size: 0.95rem;">Sono il tuo assistente virtuale, qui per aiutarti a capire qual è lo specialista medico più adatto ai tuoi disturbi, basandomi su criteri scientifici affidabili.</p>
+              
+              <div class="welcome-disclaimer" style="text-align: center; font-size: 0.8rem; color: var(--text-muted); font-style: italic; margin-bottom: 15px;">
+                (Ricorda: non sono un medico, quindi non posso farti diagnosi o darti farmaci, ma posso indicarti chi consultare!)
+              </div>
+              
+              <div style="text-align: center; font-weight: 500;">
+                Per cominciare nel modo giusto, ti va di dirmi <strong>il tuo sesso e la tua età (es. Uomo, 35)</strong>?
+              </div>
+            </div>
+            <div class="msg-time">Ora</div>
+          </div>
+        </div>
+        <div id="typing-indicator" class="typing-indicator hidden">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="chat-input-area">
+          <textarea id="user-input" placeholder="Età e Sesso (es. Uomo, 35)" rows="1" enterkeyhint="send" autocapitalize="sentences" autocomplete="on" spellcheck="true"></textarea>
+          <button id="send-btn" class="btn-primary" aria-label="Invia">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+              stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+        <div class="chat-footer-links">
+          Fare del bene ci fa stare bene: <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc">Collabora</a> o <a href="mailto:info@aiutodoc.it?subject=Interesse Investimento AIutoDoc">Investi in AiutoDoc.it</a>
+        </div>
+        
+        <!-- AI DISCLAIMER BOX -->
+        <div class="ai-disclaimer-box" style="margin-top: 20px; padding: 15px; background-color: #f0f7f7; border-left: 4px solid var(--primary); border-radius: 4px; font-size: 0.85rem; color: var(--text-main);">
+          <strong>Nota Informativa:</strong> Aiutodoc.it è un motore di ricerca che utilizza l'Intelligenza Artificiale per indicizzare e filtrare professionisti sanitari presenti in rete. Non fornisce diagnosi, non prescrive cure e non sostituisce il parere del medico. In caso di emergenza, contatta il 118.</div>
+      </section>
+
+      <!-- Section: Chi Siamo -->
+      <section id="about-section" class="tab-content hidden-section info-section">
+        <div class="info-body">
+          <div style="text-align: center;">
+            <img src="./assets/about.png" alt="Chi Siamo" class="section-image" loading="lazy" decoding="async" onerror="this.style.display='none'">
+          </div>
+          <h2>Perché AIutoDoc?</h2>
+          
+          <p><strong>AIutoDoc</strong> nasce con l'obiettivo di semplificare e velocizzare le scelte sanitarie per ogni paziente, aiutando a navigare il complesso mondo della medicina e indirizzando ogni sintomo al corretto specialista.</p>
+
+          <div class="brand-positioning">
+            <div class="problem-box">
+              <h3>Il Problema: Liste d'Attesa</h3>
+              <p>Le lunghe attese nel sistema sanitario regionale non dipendono solo dalla mancanza di offerta, ma in larga misura da una <strong>domanda non filtrata</strong> e clinicamente inappropriata. Molte visite vengono effettuate senza reale necessità clinica o in momenti non corretti, occupando slot preziosi.</p>
+            </div>
+            
+            <div class="solution-box">
+              <h3>Il Ruolo di AIutoDoc</h3>
+              <p>Interveniamo <strong>prima della prenotazione</strong>, qualificando la domanda tramite orientamento informativo ed educazione del cittadino. Trasformiamo la congestione e lo spreco in <strong>capacità sanitaria recuperata</strong> per chi ha maggiore priorità.</p>
+            </div>
+          </div>
+
+          <p>Le nostre intelligenze artificiali, addestrate su algoritmi scientifici, riducono i tempi di attesa proponendo direttamente le cliniche e gli ospedali (SSN, Convenzionati o Privati) del tuo territorio.</p>
+
+          <div class="impact-stats">
+            Su base annuale, AIutoDoc può liberare <strong>centinaia di migliaia di slot</strong> di visita, migliorando l'equità territoriale e l'efficienza di tutto il sistema.
+          </div>
+
+          <p style="text-align: center; font-style: italic; margin-top: 20px; color: var(--primary); font-weight: 500;">
+            Siamo l'anello di congiunzione tra le tue necessità di salute e la cura giusta, al momento giusto.
+          </p>
+
+          <p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 25px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 15px;">
+            AIutoDoc utilizza Intelligenza Artificiale <strong>non diagnostica</strong> e non sostituisce mai la decisione clinica del tuo medico curante.
+          </p>
+
+          <div class="cta-container">
+            <a href="mailto:info@aiutodoc.it" class="btn-secondary-wide">Scrivici: info@aiutodoc.it</a>
+            <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc" class="btn-secondary-wide">Collabora a far crescere AIutoDoc.it</a>
+            <button id="investor-btn" class="btn-premium-wide" onclick="window.location.href='mailto:info@aiutodoc.it?subject=Interesse Investimento AIutoDoc'"><span>Investi</span> nel Progetto AIutoDoc</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Glossario -->
+      <section id="glossary-section" class="tab-content hidden-section info-section">
+        <div class="info-body">
+          <div style="text-align: center;"><img src="./assets/glossary.png" alt="Glossario Medico Cartoon" loading="lazy" decoding="async"
+              class="section-image" onerror="this.style.display='none'"></div>
+          <h2>Breve Glossario Medico</h2>
+          <p>La medicina è piena di termini complessi. Qui traduciamo i più comuni per farti capire meglio i tuoi referti su tutti e 10 i maggiori rami ambulatoriali. <strong>Clicca</strong> su ogni termine per un rapido approfondimento Web.</p>
+
+          <div style="margin: 25px 0;">
+            <input type="text" id="glossary-search" placeholder="Cerca sintomo, vocabolo o malattia..."
+              style="width: 100%; padding: 14px 20px; border-radius: 24px; border: 1px solid var(--border-color); font-family: inherit; font-size: 1rem; color: var(--text-main); outline: none; transition: all 0.2s;"
+              onfocus="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 0 0 2px rgba(27, 155, 154, 0.15)';"
+              onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';">
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            🧠 Psicologia e Psichiatria</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Apatia:</strong> Mancanza di emozione, motivazione o interesse.</div>
+            <div class="g-card"><strong>Disfonia:</strong> Alterazione della voce legata a fattori emotivi.</div>
+            <div class="g-card"><strong>Anamnesi:</strong> Raccolta della storia personale e clinica.</div>
+            <div class="g-card"><strong>Somatizzazione:</strong> Manifestazione fisica di un disagio psicologico.</div>
+            <div class="g-card"><strong>Ideazione Ossessiva:</strong> Pensieri ricorrenti e intrusivi.</div>
+            <div class="g-card"><strong>Anedonia:</strong> Incapacità di provare piacere in attività normalmente
+              piacevoli.</div>
+            <div class="g-card"><strong>Disforia:</strong> Alterazione dell'umore con tendenza alla tristezza e
+              irritabilità.</div>
+            <div class="g-card"><strong>Doc:</strong> Disturbo Ossessivo Compulsivo (comportamenti ripetitivi).</div>
+            <div class="g-card"><strong>Fobia:</strong> Paura irrazionale e persistente per specifiche situazioni.</div>
+            <div class="g-card"><strong>Derealizzazione:</strong> Sensazione di irrealtà o distacco dal proprio
+              ambiente.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            🦴 Ortopedia e Traumatologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Artroscopia:</strong> Procedura chirurgica mininvasiva per ispezionare/operare
+              l'interno di un'articolazione (es. ginocchio, spalla).</div>
+            <div class="g-card"><strong>Artrosi:</strong> Malattia degenerativa delle cartilagini articolari.</div>
+            <div class="g-card"><strong>Lussazione:</strong> Spostamento permanente delle ossa di un'articolazione.
+            </div>
+            <div class="g-card"><strong>Osteoporosi:</strong> Condizione in cui le ossa diventano più fragili.</div>
+            <div class="g-card"><strong>Tendinite:</strong> Infiammazione acuta di un tendine.</div>
+            <div class="g-card"><strong>Meniscopatia:</strong> Alterazione o lesione a carico del menisco.</div>
+            <div class="g-card"><strong>Borsite:</strong> Infiammazione della borsa sierosa vicina alle articolazioni.
+            </div>
+            <div class="g-card"><strong>Scoliosi:</strong> Curvatura anomala e laterale della colonna vertebrale.</div>
+            <div class="g-card"><strong>Coxartrosi:</strong> Artrosi specifica dell'articolazione dell'anca.</div>
+            <div class="g-card"><strong>Protesi:</strong> Dispositivo artificiale usato per sostituire un'articolazione
+              danneggiata.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            🧠 Neurologia e Neurochirurgia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Amnesia:</strong> Perdita parziale o totale della memoria.</div>
+            <div class="g-card"><strong>Cefalea:</strong> Termine generico per indicare il mal di testa.</div>
+            <div class="g-card"><strong>Parestesia:</strong> Sensazione anomala tipo formicolio o intorpidimento.</div>
+            <div class="g-card"><strong>Sincope:</strong> Lo svenimento, ovvero perdita transitoria di coscienza.</div>
+            <div class="g-card"><strong>Vertigine:</strong> Sensazione illusoria di movimento dell'ambiente.</div>
+            <div class="g-card"><strong>Ictus:</strong> Danno cerebrale da interruzione del flusso sanguigno.</div>
+            <div class="g-card"><strong>Stenosi Lombare:</strong> Restringimento del canale vertebrale lombare.</div>
+            <div class="g-card"><strong>Ernia del disco:</strong> Fuoriuscita di materiale discale che comprime i nervi.
+            </div>
+            <div class="g-card"><strong>Afasia:</strong> Perdita della capacità di comporre o comprendere il linguaggio.
+            </div>
+            <div class="g-card"><strong>Atassia:</strong> Mancanza di coordinazione dei movimenti volontari.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            ❤️ Cardiologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Aritmia:</strong> Alterazione o ritmo irregolare dei battiti cardiaci.</div>
+            <div class="g-card"><strong>Bradicardia:</strong> Battito cardiaco eccessivamente lento.</div>
+            <div class="g-card"><strong>Tachicardia:</strong> Frequenza dei battiti cardiaci veloce.</div>
+            <div class="g-card"><strong>Ipertensione:</strong> Aumento della pressione arteriosa oltre la soglia comune.
+            </div>
+            <div class="g-card"><strong>Ischemia:</strong> Riduzione/blocco del flusso di sangue che arriva al cuore.
+            </div>
+            <div class="g-card"><strong>Angina Pectoris:</strong> Dolore al petto causato da ridotto afflusso di sangue
+              cardiologico.</div>
+            <div class="g-card"><strong>Edema Polmonare:</strong> Accumulo di liquido nei polmoni per insufficienza
+              cardiaca.</div>
+            <div class="g-card"><strong>Palpitazione:</strong> Percezione anomala e sgradevole del proprio battito
+              cardiaco.</div>
+            <div class="g-card"><strong>Trombosi:</strong> Formazione di coaguli di sangue nei vasi sanguigni.</div>
+            <div class="g-card"><strong>Elettrocardiogramma (ECG):</strong> Tracciato visivo dell'attività elettrica del
+              cuore.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            🍎 Gastroenterologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Disfagia:</strong> Difficoltà nella deglutizione del cibo o dei liquidi.</div>
+            <div class="g-card"><strong>Dispepsia:</strong> Difficolta digestiva, senso di pesantezza o dolore.</div>
+            <div class="g-card"><strong>Meteorismo:</strong> Eccesso di gas accumulato nel tratto gastrointestinale.
+            </div>
+            <div class="g-card"><strong>Pirosi:</strong> Sensazione di bruciore che sale dallo stomaco.</div>
+            <div class="g-card"><strong>Steatorrea:</strong> Presenza di un'eccessiva quantità di grasso nelle feci.
+            </div>
+            <div class="g-card"><strong>Ematemesi:</strong> Vomito contenente sangue.</div>
+            <div class="g-card"><strong>Melena:</strong> Feci scure e catramose contenenti sangue digerito.</div>
+            <div class="g-card"><strong>Reflusso GERD:</strong> Risalita patologica di acido gastrico nell'esofago.
+            </div>
+            <div class="g-card"><strong>Colelitiasi:</strong> Formazione di calcoli nella cistifellea.</div>
+            <div class="g-card"><strong>Polipo:</strong> Escrescenza tumorale (spesso benigna) sulle pareti intestinali.
+            </div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            🔬 Dermatologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Eritema:</strong> Arrossamento forte della cute da infiammazione.</div>
+            <div class="g-card"><strong>Prurito:</strong> Irritazione sensoriale che induce a grattarsi.</div>
+            <div class="g-card"><strong>Melanoma:</strong> Tumore maligno dei melanociti.</div>
+            <div class="g-card"><strong>Dermatite:</strong> Infiammazione generalizzata della pelle e spaccature.</div>
+            <div class="g-card"><strong>Orticaria:</strong> Eruzione cutanea pruriginosa in rilievo (pomfi).</div>
+            <div class="g-card"><strong>Psoriasi:</strong> Malattia infiammatoria con placche squamose sulla pelle.
+            </div>
+            <div class="g-card"><strong>Alopecia:</strong> Caduta/mancanza localizzata o totale di peli/capelli.</div>
+            <div class="g-card"><strong>Neoplasia:</strong> Formazione di nuovo tessuto abnorme (es. nei sospetti).
+            </div>
+            <div class="g-card"><strong>Petecchie:</strong> Minuscole macchie rosse dovute a microemorragie cutanee.
+            </div>
+            <div class="g-card"><strong>Vescicola:</strong> Piccola bolla cutanea piena di liquido chiaro.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            🚺 Ginecologia e Andrologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Amenorrea:</strong> Assenza del ciclo mestruale.</div>
+            <div class="g-card"><strong>Dismenorrea:</strong> Flusso mestruale dolorosamente alterato.</div>
+            <div class="g-card"><strong>Ematuria:</strong> Rilevamento di globuli rossi (sangue) nelle urine.</div>
+            <div class="g-card"><strong>Prostatite:</strong> Infiammazione della ghiandola prostatica.</div>
+            <div class="g-card"><strong>Cistite:</strong> Infezione del tratto urinario e infiammazione della vescica.
+            </div>
+            <div class="g-card"><strong>Menorragia:</strong> Mestruazione eccezionalmente abbondante o prolungata.</div>
+            <div class="g-card"><strong>Dispareunia:</strong> Dolore durante i rapporti sessuali.</div>
+            <div class="g-card"><strong>Fibroma:</strong> Tumore benigno del tessuto muscolare dell'utero.</div>
+            <div class="g-card"><strong>Varicocele:</strong> Dilatazione anomala delle vene del testicolo.</div>
+            <div class="g-card"><strong>Colposcopia:</strong> Esame visivo ingrandito della cervice uterina.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            👂 Otorinolaringoiatria</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Acufene:</strong> Percezione di rumori o ronzii acuti fissi nelle orecchie.
+            </div>
+            <div class="g-card"><strong>Otite:</strong> Infiammazione dolorosa a carico dell'orecchio.</div>
+            <div class="g-card"><strong>Rinite:</strong> Infiammazione della mucosa nasale.</div>
+            <div class="g-card"><strong>Ipoacusia:</strong> Calo percepibile (lieve o grave) o perdita dell'udito.</div>
+            <div class="g-card"><strong>Faringite:</strong> Forte infiammazione della gola.</div>
+            <div class="g-card"><strong>Epistassi:</strong> Fuoriuscita di sangue dal naso (sangue dal naso).</div>
+            <div class="g-card"><strong>Sinusite:</strong> Infiammazione delle cavità paranasali.</div>
+            <div class="g-card"><strong>Disfonia:</strong> Mancanza/alterazione della voce (raucedine cronica).</div>
+            <div class="g-card"><strong>Audiometria:</strong> Test per determinare la capacità uditiva.</div>
+            <div class="g-card"><strong>Laringite:</strong> Infiammazione delle corde vocali, che porta a raucedine.
+            </div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            👁️ Oculistica</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Miodesopsie:</strong> Corpi mobili o "mosche volanti" visive.</div>
+            <div class="g-card"><strong>Fosfeni:</strong> Bagliori e percezione visiva di lampi di luce.</div>
+            <div class="g-card"><strong>Glaucoma:</strong> Patologia legata alla pressione elevata dell'occhio.</div>
+            <div class="g-card"><strong>Cataratta:</strong> Opacizzazione della lente cristallina.</div>
+            <div class="g-card"><strong>Fotofobia:</strong> Fastidiosa intolleranza all'esposizione della luce.</div>
+            <div class="g-card"><strong>Congiuntivite:</strong> Infiammazione della mucosa trasparente che copre
+              l'occhio.</div>
+            <div class="g-card"><strong>Astigmatismo:</strong> Difetto visivo asimmetrico causato da cornea ovale.</div>
+            <div class="g-card"><strong>Miopia:</strong> Difficoltà a mettere a fuoco oggetti lontani.</div>
+            <div class="g-card"><strong>Presbiopia:</strong> Difficoltà fisiologica legata all'età nel vedere da vicino.
+            </div>
+            <div class="g-card"><strong>Maculopatia:</strong> Malattia della macula, area centrale della retina.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            ⚕️ Chirurgia Generale e Toracica</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Ernia:</strong> Protuberanza di un viscere oltre la parete corporea.</div>
+            <div class="g-card"><strong>Laparocele:</strong> Ernia formatasi su vecchie ferite incisionali/cicatrici.
+            </div>
+            <div class="g-card"><strong>Ascesso:</strong> Raccolta dolorosa di materiale purulento (pus).</div>
+            <div class="g-card"><strong>Biopsia:</strong> Rimozione e analisi di una lesione sospetta.</div>
+            <div class="g-card"><strong>Cisti:</strong> Formazione cava "a sacca" circondata da parete propria.</div>
+            <div class="g-card"><strong>Fistola:</strong> Canale anomalo che collega due organi interni fra loro.</div>
+            <div class="g-card"><strong>Aderenze:</strong> Fasce di tessuto cicatriziale che uniscono organi disgiunti.
+            </div>
+            <div class="g-card"><strong>Stomia:</strong> Apertura creata chirurgicamente nell'addome.</div>
+            <div class="g-card"><strong>Pneumotorace:</strong> Accumulo di aria nello spazio tra polmone e parete
+              toracica.</div>
+            <div class="g-card"><strong>Drenaggio:</strong> Tubo inserito per svuotare fluidi infetti o sangue in
+              eccesso.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            🦷 Odontoiatria</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Carie:</strong> Infezione cronica distruttiva dei tessuti duri del dente.</div>
+            <div class="g-card"><strong>Gengivite:</strong> Infiammazione non distruttiva dei tessuti gengivali.</div>
+            <div class="g-card"><strong>Parodontite:</strong> Infiammazione profonda (chiamata anche Piorrea) che mina
+              il dente.</div>
+            <div class="g-card"><strong>Endodonzia:</strong> Terapia canalare o "devitalizzazione" del dente.</div>
+            <div class="g-card"><strong>Ortodonzia:</strong> Branca che riallinea i malposizionamenti dentali.</div>
+            <div class="g-card"><strong>Ascesso Dentale:</strong> Raccolta purulenta infettiva localizzata nel cavo
+              orale.</div>
+            <div class="g-card"><strong>Implantologia:</strong> Sostituzione di denti mancanti con radici artificiali in
+              titanio.</div>
+            <div class="g-card"><strong>Bruxismo:</strong> Digrignamento involontario dei denti (spesso notturno).</div>
+            <div class="g-card"><strong>Afta:</strong> Ulcerazione bianca dolorosa sulle mucose orali.</div>
+            <div class="g-card"><strong>Tartaro:</strong> Placca batterica mineralizzata calcificata ostile sui denti.
+            </div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            💉 Diabetologia ed Endocrinologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Glicemia:</strong> Concentrazione di glucosio (zucchero) nel sangue.</div>
+            <div class="g-card"><strong>Insulinoresistenza:</strong> Ridotta capacità delle cellule di rispondere
+              all'insulina.</div>
+            <div class="g-card"><strong>Ipotiroidismo:</strong> Produzione insufficiente di ormoni tiroidei.</div>
+            <div class="g-card"><strong>Ipertiroidismo:</strong> Eccessiva iper-attività della ghiandola tiroidea.</div>
+            <div class="g-card"><strong>Polidipsia:</strong> Sete estrema e duratura, sintomo cardine del diabete.</div>
+            <div class="g-card"><strong>Poliuria:</strong> Necessità frequente e abbondante di urinare.</div>
+            <div class="g-card"><strong>Tiroidite:</strong> Processo infiammatorio acuto o autoimmune a carico della
+              tiroide.</div>
+            <div class="g-card"><strong>Emoglobina Glicata:</strong> Esame per valutare il dosaggio di zucchero medio di
+              tre mesi.</div>
+            <div class="g-card"><strong>Chetoacidosi:</strong> Pericolosa complicanza del diabete per carenza acuta di
+              insulina.</div>
+            <div class="g-card"><strong>Irsutismo:</strong> Crescita anomala di peluria in zone tipicamente maschili
+              nella donna.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            💨 Pneumologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Dispnea:</strong> Sensazione grave di fatica o difficoltà nel respirare
+              (affanno).</div>
+            <div class="g-card"><strong>Apnea Notturna:</strong> Interruzioni del respiro della durata di qualche
+              secondo durante il sonno.</div>
+            <div class="g-card"><strong>Emottisi:</strong> Emissione di sangue dalla bocca proveniente dall'apparato
+              respiratorio.</div>
+            <div class="g-card"><strong>Cianosi:</strong> Colorazione bluastra di cute e mucose per mancanza di
+              ossigeno.</div>
+            <div class="g-card"><strong>BPCO:</strong> Broncopneumopatia Cronica Ostruttiva (blocca i polmoni di un
+              fumatore).</div>
+            <div class="g-card"><strong>Spirometria:</strong> Test per valutare l'efficienza funzionale dei polmoni.
+            </div>
+            <div class="g-card"><strong>Saturimetria:</strong> Misurazione dell'ossigenazione del sangue.</div>
+            <div class="g-card"><strong>Asma:</strong> Patologia cronica infiammatoria delle vie respiratorie con
+              "fischio".</div>
+            <div class="g-card"><strong>Bronchite:</strong> Infiammazione (acuta/cronica) dell'albero bronchiale
+              polmonare.</div>
+            <div class="g-card"><strong>Versamento Pleurico:</strong> Accumulo di liquido nella cavità naturale dei
+              polmoni.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            🩸 Ematologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Anemia:</strong> Carenza o diminuzione drastica dei globuli rossi o emoglobina.
+            </div>
+            <div class="g-card"><strong>Leucocitosi:</strong> Aumento eccessivo del numero di globuli bianchi.</div>
+            <div class="g-card"><strong>Piastrinopenia:</strong> Pericolosa carenza di piastrine, responsabili per il
+              coagulo.</div>
+            <div class="g-card"><strong>Adenopatia:</strong> Ingrossamento anomalo (linfoadenopatia) dei linfonodi.
+            </div>
+            <div class="g-card"><strong>Emocromo:</strong> Esame base eseguitore che conta o analizza tutti i valori del
+              sangue.</div>
+            <div class="g-card"><strong>Talassemia:</strong> Malattie ereditaria del sangue detta "Anemia Mediterranea".
+            </div>
+            <div class="g-card"><strong>Leucemia:</strong> Tumore liquido del sangue localizzato nel midollo osseo.
+            </div>
+            <div class="g-card"><strong>Mieloma:</strong> Infiltrazione tumorale diffusa e maligna del midollo osseo
+              (plasmacellule).</div>
+            <div class="g-card"><strong>Emofilia:</strong> Malattia congenita del deficit nella coagulazione delle
+              emorragie.</div>
+            <div class="g-card"><strong>Splenomegalia:</strong> Ingrossamento anomalo e palpabile della milza
+              nell'addome.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            🛡️ Malattie Infettive e Immunologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Sepsi:</strong> Risposta estrema e vitale dell'organismo a un'estesa infezione
+              ematica (setticemia).</div>
+            <div class="g-card"><strong>Esantema:</strong> Qualsiasi eruzione cutanea causata tipicamente da
+              infezioni/virus.</div>
+            <div class="g-card"><strong>Mialgia:</strong> Sensazione di dolore o fatica muscolare generalizzata (tipica
+              dell'influenza).</div>
+            <div class="g-card"><strong>Antigene:</strong> Sostanza estranea (virus, batterio, tox, muffa) estranea e
+              nociva al corpo immunitario.</div>
+            <div class="g-card"><strong>Anticorpo:</strong> Proteina generata spontaneamente dal sistema immunitario per
+              la difesa.</div>
+            <div class="g-card"><strong>Autoimmunità:</strong> Quando il sistema immunitario attacca erroneamente se
+              stesso.</div>
+            <div class="g-card"><strong>Immunosoppressione:</strong> Disarmo grave o calo di forza del sistema difensivo
+              corporeo generale.</div>
+            <div class="g-card"><strong>Meningite:</strong> Infiammazione grave alle membrane avvolgenti perimetrali
+              dell'encefalo (meningi) e spina.</div>
+            <div class="g-card"><strong>Linfociti:</strong> Specifiche e aggressive tipologie microscopiche di "globulo
+              bianco".</div>
+            <div class="g-card"><strong>Anamnesi Epidemiologica:</strong> Ricerca o ricostruzione tracciata dei contatti
+              e dei viaggi recenti dell'infettato.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            🌿 Reumatologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Artrite:</strong> Spinta infiammatoria non meccanica a carico delle
+              articolazioni (reumatismi).</div>
+            <div class="g-card"><strong>Eritema a Farfalla:</strong> Tipico arrossamento al volto e alle gote frequente
+              in casi di "Lupus" grave.</div>
+            <div class="g-card"><strong>Sindrome di Raynaud:</strong> Le estremità o dita divengono transitoriamente
+              fredde o bianche allo stress termico.</div>
+            <div class="g-card"><strong>Rigidità Mattutina:</strong> Lentezza persistente del corpo, dopo il riposo di
+              notte (caratteristica della A.R.).</div>
+            <div class="g-card"><strong>Fibromialgia:</strong> Malattia neurologico/reumatica del dolore cronico su vari
+              "Punti Sensibili" e con insonnia.</div>
+            <div class="g-card"><strong>Sclerodermia:</strong> Complessa patologia dell'ispessimento / irrigidimento
+              generalizzato di pelle ed organi.</div>
+            <div class="g-card"><strong>Gotta:</strong> Particolare forma di artrite infiammatoria provocata dai
+              cristalli taglienti dell'iperuricemia asessuata.</div>
+            <div class="g-card"><strong>VES:</strong> Esame infiammatorio generico misurante la velocità sedimentaria
+              nei globuli globuli rossi nel siero.</div>
+            <div class="g-card"><strong>PCR:</strong> Acronimo di Proteina C Reattiva, un indicatore forte
+              dell'infiammazione circolante in fase molto acuta.</div>
+            <div class="g-card"><strong>Artropatia:</strong> Malattia o sofferenza aspecifica genericamente localizzata
+              e in via di diagnosi precisa, sulle articolazioni.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            💧 Nefrologia e Urologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Colica Renale:</strong> Un grave dolore lombo-costrittivo legato all'irruzione
+              di cristalli nelle delicate vie escretrici.</div>
+            <div class="g-card"><strong>Ematuria:</strong> Visiva o microscopica presenza del sangue disciolto
+              nell'orina giornaliera espulsa e non diluita.</div>
+            <div class="g-card"><strong>Oliguria:</strong> Sensibile e ridotta minzione, ovvero produzione di poca in
+              confronto ai volumi o pesi ingeriti liquidi dal soggetto.</div>
+            <div class="g-card"><strong>Calcolosi:</strong> Depositi di pietre (spesso per calcio) solido nei reni
+              (Nefrolitiasi) o che raggiungono la vescica asintomatica.</div>
+            <div class="g-card"><strong>Insufficienza Renale:</strong> Disfunzione cronica / acuta di filtraggio ed
+              eliminazione in un rene su scarti / urea.</div>
+            <div class="g-card"><strong>Dialisi:</strong> Fondamentale sostituzione temporanea o vita-nteraa che filtra
+              all'esterno il sangue della funzione e via al rene rotto.</div>
+            <div class="g-card"><strong>Creatininemia:</strong> Parametro valutato nel campione del muscolo che ne
+              indica la funzionalità renale (Rene di scarico in esami ematici classici).</div>
+            <div class="g-card"><strong>Proteinuria:</strong> Presenza innaturale o indice di insufficienza per molecole
+              proteiche espulse visibilmente in esame urina generale o schiuma.</div>
+            <div class="g-card"><strong>PSA:</strong> (Antigene Prostatico) Esame maschile sentinella del siero in caso
+              di patologia del cancro del sistema andrologico senile urologico .</div>
+            <div class="g-card"><strong>Disuria:</strong> Riconosciuta fatica (Spesso a sgocciolamenti per bruciore)
+              della minzione da un'urgenza/costante in spasmo da batteri (Infezioni) nel maschio.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            👴🏻 Geriatria</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Decadimento Cognitivo:</strong> Regressione del raziocinio geriatrico mentale
+              (Avvisaglia dell'Alzheimer iniziale comune o simili).</div>
+            <div class="g-card"><strong>Sarcopenia:</strong> Grave e graduale perdita di fisiologica massa trofica
+              muscolare generalizzata con carenza d'energia nell'anziano o debolezza in arti inferiori.</div>
+            <div class="g-card"><strong>Piaga da decubito:</strong> Una letale lesione/ulcera assettica generata dalla
+              immobilità della pelle against i letti. Spesso coccige.</div>
+            <div class="g-card"><strong>Politerapia:</strong> Assunzione critica e prolungata che interseca più di 5
+              principi uniti della medicina (Farmaci). L'equilibro deve non collidere in associazione tossica.</div>
+            <div class="g-card"><strong>Delirum:</strong> Condizione transitoria dis-orientata acuta e confusionale
+              derivata a sbalzo per la vecchiaia, da scompensi tossico o infezioni (Demenza Iniziale O acromegalia finta
+              mentale).</div>
+            <div class="g-card"><strong>Incontinenza:</strong> Cedimento patologico all'autonomia fisiologica e al suo
+              sfintere d'uscita (Tantissima o poche gocce persistenti) urologica naturale del paziente. Feci inclusi
+              talvolta.</div>
+            <div class="g-card"><strong>Malnutrizione:</strong> Assenza parziale nel decadente individuo dismesso di
+              appetito all'idratazione / cibi (Rischio vitale da anoressia tipico ospedalizzazione casalinga del demente
+              o allettato per cure vecchie)</div>
+            <div class="g-card"><strong>Ipotensione Ortostatica:</strong> Frequente il crollo pericoloso
+              all'innalzamento e diminuzione a svenimento (Sensazione transitoria a pressione della testa/sangue nel
+              porsi alzato in due step di verticalizzazione dai lettini o panchine basse).</div>
+            <div class="g-card"><strong>Parkinsonismi:</strong> Condizioni neurologiche di tremore somigliante ad
+              Parkinson o che simulano il ritardo lento di motori e il fermarsi bruscamente e involontaria marcia
+              geriatrico. Rischio di letale ruzzolo.</div>
+            <div class="g-card"><strong>Fragilità Ossa (Geriatrica):</strong> Il mix combinato grave d'incidente per
+              scivoloni a osteoporosi avanzata tipica delle donne. È la 1° prima grande sintomatologia di degenerazione
+              per rottura mortale testa del femore se atterrate.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            🥦 Nutrizione e Dietologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>BMI (Indice di Massa):</strong> Metro statistico di stima corporale sull'altezza
+              ponderato peso. Usato per i range della "obesità o l'anoressia con BMI". </div>
+            <div class="g-card"><strong>Disfagia:</strong> Sensazione patologica pericolosa se di ostruzione della
+              masticazione al canale e strozzamento nei fluidi alimentari. Spesso gestito da Logopedista specializzato.
+            </div>
+            <div class="g-card"><strong>Metabolismo Basale:</strong> Una serie di fabbisogni o "calorie vuote per
+              tenersi vivo a zero", ovvero un consumo del fisico dormiente non sotto digestione metabolica.</div>
+            <div class="g-card"><strong>Celiachia:</strong> Un blocco reattivo a grave infiammazione di tipo
+              immunitario/villale e al glutine delle feci e dimagrimento del celiaco con infiammazione malassorbimento.
+              Esiste una forma tollera o asintomatico non rintracciabili con semplici sintomi digestivi.</div>
+            <div class="g-card"><strong>Intolleranza Lattosio:</strong> Una condizione dove manca un enzima chiamato
+              "lattasi", senza il quale i zuccheri fermentano al ventre generando colon gonfio e diarrea crampo idrica
+              in seguito d'assunzione latticini non curati dal dietista in forma acuta.</div>
+            <div class="g-card"><strong>Anoressia:</strong> Sindrome o alterazione patologica persistente e ossessiva e
+              restrittiva dei nutrienti solidi, da rifiutarlo visibilmente con paura mortale con alterazione o vomiti
+              provocati ai fini peso corporeo dimagrendosi al decesso cardiaca da atrofizzazione miocardite fatale.
+            </div>
+            <div class="g-card"><strong>Bulimia:</strong> Desiderio di crisi insaziabili, incontrollati sfoghi
+              d'alimentazione. Spesso esita con induzione chimica vomiti in solitudine / uso scorretto massivi dei
+              lassativi drastici chimici non gestiti con vomiti e colpevolezza a danno renale per vomito, cuore per
+              scompensi da malnutrizioni cicliche per fame o scompensi.</div>
+            <div class="g-card"><strong>Colesterolemia:</strong> Depositi dannosi arteriosi o livelli di lipidi
+              viscerali alti pericoloso fegati / cuore misuranti l'assetto LDL/HDL esaminante le statistiche in
+              dietologia da referto o arteriore esposto o malnutrito aterosclerotico.</div>
+            <div class="g-card"><strong>Glicazione (Indice I.G):</strong> Termine scientifico clinico della "Velocità di
+              rialzo da zucchero". Alimenti molto forti sparati sul torrente rapido faranno rialzo drastico rapido
+              ormoni della stanchezza. (Indice insulinico Glicemico misurato dal Dietista Clinico su Diabetologia
+              curante nutrizione associato al piano). </div>
+            <div class="g-card"><strong>Dca (Disturbi Comportamentali):</strong> L'insieme medico e generale in
+              assorbimento mentale sulle dis-percezione del fisico di malattie e ansia del dismorfobico comportamentale
+              dei rifiuti per il peso (DCA= acronimo clinico al ricovero dell'anoressia nervosa grave con malnutrizioni
+              al limite es. dismorfismo corporeo o binge eating disordini cronici con abbuffato cronica curata o di
+              equipe psichiatrico nutrizionista. ).</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            👶🏼 Pediatria e Neo-Natologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Coliche Gaspanti:</strong> Una fase transiente infantile d'insorgenza serale del
+              gas / crampi (es. spasmo piagnucolio dopo la lattazione senza rimedi e feci normali del bebè piangente e
+              gonfio per spasmo non patologico neo-natologia classica nel pediatra al 3° mese a stomaco di spasmo
+              dolente o gonfiato aria colica o gassosi tipici dolori della pancia col pancino gonfio e i pianti tipiche
+              al pomeriggio neonato.</div>
+            <div class="g-card"><strong>Scarlattina:</strong> Tipica infezione eruttiva streptococcica batteriosa
+              esentema classica con placche e con eruzioni puntiformi simili fragole lingua rosacea nei bambini,
+              contagiosa a vie aeree. Antibioco come unica forma per Scarlattina. </div>
+            <div class="g-card"><strong>Enuresi:</strong> Malattia (Solitamente fisiologica ai minori dei 5) del pipì
+              letto transitoria. Spesso non diagnosticato di urologia d'infanzia al primo triennio per psicologico ansia
+              del bambino / controllo infantile sfinteri del sistema urologico primario, in fase dello sviluppo nervoso
+              immaturo pipì a letto in bambini). </div>
+            <div class="g-card"><strong>Bronchiolite:</strong> Infezione del sintomo acuto di polmone acuta virale (VRS
+              Tipico invernale), che occlude respiratorio polmone con rantoli fischietti che generano fame aria e
+              infiamma i polmoncini pediatrici (Neonati spesso in ospedale / Pronto Soccorsi se grave o bassa respiri
+              /cianosi bambini). </div>
+            <div class="g-card"><strong>Morbillo:</strong> Infezione virale o malattia mortale un tempo per polmonite
+              (Oggi debellata di vaccinazione/pediatrica primaria a maculo-papulare di eruzioni a progressione dal capo
+              macchiato con tosse a viso papulosa dal virus del morbillo ai pediatri macule esantemica diffusa). </div>
+            <div class="g-card"><strong>Crosta Latta:</strong> Problema visivo grassa estetica o esfoliazione sebacea
+              cutanea, ma del capelvenere infante molto oleoso o seborrea. Nessun fastidio non prurigine neo-pediatri /
+              Croste della testa o infantile cappuccio crostosa del sebo. </div>
+            <div class="g-card"><strong>Bocca-Mani-Piedi:</strong> Virale / Vescicolare d'origine pediatrica. Pruriti o
+              Vesciche ulcere solo alle 3 zone a lingua bocca bollicine, piedi palmo e mani virus tipico delle asilo /
+              nidi virale molto febbrile ad altissima diffusione o epidemia dei bimbi infettivi. </div>
+            <div class="g-card"><strong>Sesta Malattia:</strong> Un tipico andamento esantemico o sub-esantema
+              transitorio d'alta febbre di tre e successiva / esplosione di un maculato esantema rosato a defervescenza
+              / o diminuzione (Risolto subito dalla comparsità virale senza farmaci specifici maculato roseoloso
+              esantemi post - febbre nei bambini o pediatria febbre esantematica o roseola. </div>
+            <div class="g-card"><strong>SIDS (Morte in culla):</strong> Gravissima o Acronimo fatale letale al neonato
+              "Sudden Infant Death". Arresto nel dormire / soffocamento. Le cure pediatriche raccomandando profilassi
+              sulla schiena a dormire / e temperatura controllate al pediatra e del lettino svuotato e culla senza
+              para-colpi (Sindormi di neonato in culla a sonno). </div>
+            <div class="g-card"><strong>Apcar (Punteggio Clinico):</strong> Un valore numerico standard tra zero a Dieci
+              0-10 per indicare benessere valutato post-partum dal medico neonatologo in 5 punti o colorito pelle, o
+              respiro battito riflessivo, valutato sui minuti uno al cinque min per salvare a valutazioni il neonato o
+              nascituro indice d'affanno da Partorite </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Pratiche Mediche -->
+      <section id="practices-section" class="tab-content hidden-section info-section">
+        <div class="info-body">
+          <div style="text-align: center;"><img src="./assets/practices.png" alt="Pratiche Mediche Cartoon" loading="lazy" decoding="async"
+              class="section-image" onerror="this.style.display='none'"></div>
+          <h2>Branche Mediche Analizzate</h2>
+          <p>Il nostro Triage valuta i tuoi sintomi confrontandoli dinamicamente con i cluster di queste discipline:</p>
+          <div class="practices-list">
+            <ul>
+              <li><strong>Psicologia/Psichiatria:</strong> Ansia, depressione, supporto sistemico e percorsi di
+                psicoterapia.</li>
+              <li><strong>Ortopedia:</strong> Controllo e chirurgia (inclusa artroscopia ginocchio/spalla) di traumi,
+                ossa e articolazioni legamentose.</li>
+              <li><strong>Neurologia / Neurochirurgia:</strong> Danni midollari, ernie alla colonna, nervi ed encefalo.
+              </li>
+              <li><strong>Cardiologia:</strong> Prevenzione vascolare, ipertensione, scompensi e aritmie cardiache
+                critiche.</li>
+              <li><strong>Gastroenterologia:</strong> Malattie a carico del fegato, stomaco o tratto digestivo gastrico.
+              </li>
+              <li><strong>Dermatologia:</strong> Pruriti, orticarie infiammatorie, asportazione nei, melanomi maligni.
+              </li>
+              <li><strong>Ginecologia/Ostetricia:</strong> Cicli mestruali dolorosi, menopausa o controllo pre-parto
+                gravidico.</li>
+              <li><strong>Andrologia / Urologia:</strong> Controllo preventivo prostata, apparato riproduttivo e vescica
+                infiammata e disfunzionale e calcolosi nei reni.</li>
+              <li><strong>Otorinolaringoiatria:</strong> Disagi complessi a livello dell'orecchio uditivo (acufeni /
+                sordi), vie nasali tappate ed ispezioni faringee/laringi con raucedini e tonsille in età adulta o da
+                tosse.</li>
+              <li><strong>Oculistica:</strong> Prurito agli occhi rossi intensi , perdite della viste veloci o mosche
+                volanti nel fondo per patologie della refrazione retinica ed infiammazioni catarattosa viscerale
+                congiuntivale. </li>
+              <li><strong>Chirurgia Generale:</strong> Valutazioni per l'asportazioni di formazioni lipomatose o grumi
+                cistici infetti , ascessi e ferite doloranti d'ernie, appendice e masse tumefatte della parete
+                addominale e toraci in ascesso di sangue e infezioni.</li>
+              <li><strong>Odontoiatria:</strong> Mal di denti improvvisi del nervo ascessuale del dente con interventi
+                di asportazione in cariate placche dolenti del trisma d'ottavia (Molare) per gengive parodontosi a
+                sanguinamento e ascesso di placca e impianti di vite o osso mascellare. </li>
+              <li><strong>Endocrinologia/Diabetologia:</strong> Indennità nel metabolismo grave dei tiroide, ovaie
+                cistiche o valori del diabete alti del sangue del malato.</li>
+              <li><strong>Pneumologia:</strong> Insufficienze del l'albero asmatico respiratorio dei bronchi nei
+                fumatori tosse.</li>
+              <li><strong>Ematologia:</strong> Parametri pericolosi sregolati leucemici del siero, anemie pallide
+                svenimento o milza ed infezioni linfo-nodale o nel midollo.</li>
+              <li><strong>Malattie Infettive:</strong> Batteriologia febbrile, infezioni da vettori del plasma da
+                viaggio e batteri.</li>
+              <li><strong>Reumatologia:</strong> Indolenzimenti a malattie su base genetica immunitaria "autoimmuni"
+                infiammatoria croniche, ossessive del sangue (Lupus artriti reattiva del derma pelle ossa tendine
+                mieloide).</li>
+              <li><strong>Geriatria:</strong> Sindromi anziani con poli-terapia assunta multiplo, vuoti della mente
+                degenerativa da Alzheimer / Parkinson dell'anziano malnutrito e piaghe cronache non movibile allettati a
+                letto curativo base.</li>
+              <li><strong>Dietologia/Nutrizione Clinica:</strong> Sovrappesi BMI clinici dell'obesi con comorbidità
+                diabete renale, DCA.</li>
+              <li><strong>Pediatria/Neonatologia:</strong> Tutti i sintomi manifesti febbrile dell'ambito pediatrico, da
+                lattanti bimbi 0 a adolescenti dei 14 anni in coliche e infezioni gassosa morbillo, pediatrico sviluppo
+                ormone puberale ritardo. </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer App (Legal) -->
+    <footer class="legal-footer">
+      <button id="install-app-btn" class="install-app-btn hidden" type="button">Installa AIutoDoc</button>
+      <div class="footer-info" style="margin-bottom: 15px; font-size: 0.85rem; opacity: 0.85;">
+        <strong>Contatti:</strong> <a href="mailto:info@aiutodoc.it" style="color: inherit;">info@aiutodoc.it</a>
+      </div>
+      <div class="footer-links">
+        <a href="#" onclick="openLegalModal('privacy')">Privacy Policy</a> |
+        <a href="#" onclick="openLegalModal('terms')">Termini & Condizioni</a> |
+        <a href="#" onclick="openLegalModal('cookie')">Cookie Policy</a> |
+        <a href="#" onclick="openLegalModal('disclaimer')">Disclaimer Medico</a>
+      </div>
+      <div class="footer-copy" style="margin-top: 10px;">
+        &copy; 2026 AIutoDoc. Tutti i diritti riservati.<br>
+        <small>Progetto AI indipendente per il Triage in formato Assistenza Virtuale.</small>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Rescue UI Script (Standard Script for Max Availability)
+    (function() {
+      console.log("Rescue UI Script loading...");
+      const privacyModal = document.getElementById('privacy-modal');
+      const acceptBtn = document.getElementById('accept-privacy-btn');
+      const userInput = document.getElementById('user-input');
+      const sendBtn = document.getElementById('send-btn');
+
+      if (privacyModal && acceptBtn) {
+        if (userInput) userInput.disabled = true;
+        if (sendBtn) sendBtn.disabled = true;
+
+        acceptBtn.addEventListener('click', function() {
+          console.log("Privacy accepted.");
+          privacyModal.classList.add('hidden');
+          setTimeout(function() { privacyModal.style.display = 'none'; }, 500);
+          
+          // --- RIPOSIZIONA IN ALTO PER VEDERE IL BANNER ---
+          window.scrollTo({ top: 0, behavior: 'instant' });
+          
+          if (userInput) { userInput.disabled = false; }
+          if (sendBtn) sendBtn.disabled = false;
+        });
+      }
+
+      const navBtns = document.querySelectorAll('.nav-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+      navBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const targetId = btn.getAttribute('data-target');
+          if (!targetId) return;
+          console.log("Navigating to:", targetId);
+          navBtns.forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          tabContents.forEach(function(content) { content.classList.add('hidden-section'); });
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) targetEl.classList.remove('hidden-section');
+        });
+      });
+
+      window.openLegalModal = function(type) {
+        const legalModal = document.getElementById('legal-modal');
+        if (!legalModal) return;
+        legalModal.classList.remove('hidden');
+        let title = '', text = '';
+        switch (type) {
+          case 'privacy': 
+            title = 'Privacy Policy'; 
+            text = `
+              <h4>Informativa ai sensi del Regolamento UE 2016/679 (GDPR)</h4>
+              <ul>
+                <li><strong>Dati Trattati:</strong> La piattaforma è progettata per funzionare senza registrazione. Non vengono raccolti nomi, cognomi o dati identificativi dell'utente. Le informazioni inserite nella barra di ricerca, come sintomi o necessità, vengono elaborate in tempo reale.</li>
+                <li><strong>Finalità e Conservazione:</strong> Le query di ricerca vengono utilizzate esclusivamente per generare il risultato richiesto. Non vengono creati profili sanitari dell'utente. I dati di navigazione vengono anonimizzati o cancellati al termine della sessione.</li>
+                <li><strong>Comunicazione a Terzi:</strong> Per il funzionamento della ricerca, il testo della query, privo di dati identificativi, può essere elaborato tramite API di fornitori di Intelligenza Artificiale che operano secondo protocolli di sicurezza standard.</li>
+                <li><strong>Diritti dell'interessato:</strong> Non conservando dati identificativi, il Titolare potrebbe non essere in grado di risalire a specifiche ricerche passate per l'esercizio del diritto di accesso o cancellazione.</li>
+              </ul>
+            `; 
+            break;
+          case 'terms': 
+            title = 'Termini e Condizioni'; 
+            text = `
+              <h4>Regolamento per l'uso della piattaforma aiutodoc.it</h4>
+              <ul>
+                <li><strong>Natura del Servizio:</strong> Aiutodoc.it è un motore di ricerca assistito da Intelligenza Artificiale (IA) che aggrega e filtra informazioni pubbliche riguardanti professionisti sanitari. Il servizio ha scopo puramente informativo e di orientamento. Non è un servizio di telemedicina né una struttura sanitaria.</li>
+                <li><strong>Esclusione di parere medico:</strong> La piattaforma non fornisce diagnosi, non prescrive farmaci e non suggerisce terapie. L'IA analizza i termini inseriti dall'utente al solo fine di individuare la categoria specialistica più pertinente. L'utente è tenuto a consultare un medico prima di intraprendere qualsiasi decisione sanitaria.</li>
+                <li><strong>Limitazione di Responsabilità:</strong> Aiutodoc.it non garantisce l'aggiornamento costante dei dati dei professionisti estratti dalla rete né risponde della qualità della prestazione professionale fornita dai medici individuati. L'utente esonera Aiutodoc.it da ogni responsabilità derivante dal contatto o dalla visita con i professionisti elencati.</li>
+                <li><strong>Emergenze:</strong> In caso di emergenza medica o sintomi acuti, l'utente non deve utilizzare la piattaforma ma contattare immediatamente i servizi di soccorso (118/112).</li>
+                <li><strong>Contatti per richieste:</strong> Per richieste informative o di rimozione dall'indicizzazione è possibile scrivere a info@aiutodoc.it.</li>
+              </ul>
+            `; 
+            break;
+          case 'cookie': 
+            title = 'Cookie Policy'; 
+            text = `
+              <p>Questo sito utilizza solo cookie tecnici essenziali per il funzionamento della piattaforma e strumenti di analisi (Google Analytics 4) configurati con l'anonimizzazione dell'IP attiva e senza condivisione dati con terze parti.</p>
+              <p>Non vengono utilizzati cookie di profilazione o di terze parti per scopi pubblicitari.</p>
+            `; 
+            break;
+          case 'disclaimer': 
+            title = 'Disclaimer Medico'; 
+            text = '<p>Aiutodoc.it utilizza l\'IA per aiutarti a trovare lo specialista più adatto alle tue esigenze basandosi su dati pubblici. I risultati non sono diagnosi mediche. L\'uso della piattaforma implica l\'accettazione dei Termini di Servizio. In caso di urgenza chiama il 118.</p>'; 
+            break;
+        }
+        document.getElementById('legal-modal-title').innerHTML = title;
+        document.getElementById('legal-modal-text').innerHTML = text;
+      };
+
+      const closeLegalBtn = document.getElementById('close-legal-btn');
+      if (closeLegalBtn) { closeLegalBtn.addEventListener('click', function() { document.getElementById('legal-modal').classList.add('hidden'); }); }
+
+      const resetBtn = document.getElementById('reset-btn');
+      if(resetBtn) { resetBtn.addEventListener('click', function() { window.location.reload(); }); }
+
+      // Input Dispatcher (Rescue for stability)
+      if (userInput && sendBtn) {
+        window.handleUserSend = null; // To be populated by app_v3.js
+        const handleInternalSend = function() {
+          const val = userInput.value.trim();
+          if (!val) return;
+          if (typeof window.handleUserSend === 'function') {
+            window.handleUserSend(val);
+          } else {
+            console.warn("AI Engine not yet loaded.");
+          }
+        };
+
+        userInput.addEventListener('keydown', function(e) {
+          if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) {
+            e.preventDefault();
+            handleInternalSend();
+          }
+        });
+
+        sendBtn.addEventListener('click', function() {
+          handleInternalSend();
+        });
+      }
+
+      // Glossary Logic (Embedded in Rescue for stability)
+      const glossarySearchInput = document.getElementById('glossary-search');
+      const gCards = document.querySelectorAll('.g-card');
+      gCards.forEach(function(card) {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function() {
+          const strongTag = card.querySelector('strong');
+          if (strongTag) {
+            const term = strongTag.innerText.replace(':', '').trim();
+            window.open('https://www.google.com/search?q=' + encodeURIComponent(term + ' significato medico'), '_blank');
+          }
+        });
+      });
+      if (glossarySearchInput) {
+        glossarySearchInput.addEventListener('input', function(e) {
+          const val = e.target.value.toLowerCase().trim();
+          let visibleCount = 0;
+          gCards.forEach(function(card) {
+            if (card.innerText.toLowerCase().indexOf(val) > -1) {
+              card.style.display = 'block';
+              visibleCount++;
+            } else {
+              card.style.display = 'none';
+            }
+          });
+          const categories = document.querySelectorAll('#glossary-section h3');
+          categories.forEach(function(cat) {
+            const grid = cat.nextElementSibling;
+            if (grid && grid.classList.contains('grid-cards')) {
+              const hasVisible = Array.from(grid.querySelectorAll('.g-card')).some(function(c) { return c.style.display !== 'none'; });
+              cat.style.display = hasVisible ? 'block' : 'none';
+              grid.style.display = hasVisible ? 'grid' : 'none';
+            }
+          });
+        });
+      }
+    })();
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
+  <script src="./src/config.js?v=1.1.0"></script>
+  <script src="./src/app_shared.js?v=3.1.1"></script>
+  <script src="./src/app_v3_standalone.js?v=3.1.1"></script>
+  <script src="./src/chat_interface.js?v=3.1.1"></script>
+  <script src="./src/app_bootstrap.js?v=3.1.1"></script>
+</body>
+</html>

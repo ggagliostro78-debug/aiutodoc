@@ -1,0 +1,44 @@
+Specifiche di conformità legale e funzionale - Aiutodoc.it
+
+Progetto: piattaforma di orientamento medico basata su AI senza login.
+
+Obiettivo
+
+Garantire conformità a GDPR, AI Act e normative italiane sulla comunicazione sanitaria, mantenendo l'app focalizzata su orientamento informativo e non su diagnosi.
+
+1. Privacy e minimizzazione dei dati
+
+- La piattaforma non prevede login.
+- Le stringhe di testo inserite dagli utenti non devono essere salvate insieme a dati identificativi.
+- I log di sistema devono avere retention breve e controllata.
+- Eventuali strumenti di analisi devono usare anonimizzazione dell'IP e configurazioni senza finalità pubblicitarie.
+
+2. Interfaccia utente
+
+- Footer essenziale con soli contatti generici e link legali.
+- Nessun riferimento societario temporaneo finché i dati ufficiali non saranno definiti.
+- Box informativo ben visibile che chiarisca che il servizio non formula diagnosi, non prescrive cure e non sostituisce il parere medico.
+
+3. Termini e Condizioni
+
+La pagina o modale dedicata deve chiarire almeno:
+
+- natura puramente informativa del servizio
+- esclusione di telemedicina e diagnosi
+- limitazione di responsabilità sui dati pubblici dei professionisti
+- gestione dei casi di emergenza
+- canale di contatto per richieste di rimozione dall'indicizzazione
+
+4. Requisiti tecnici
+
+- HTTPS obbligatorio
+- prompt di sicurezza per evitare diagnosi certe o prescrizioni
+- riconoscimento di parole chiave di emergenza
+- trasparenza sul fatto che i risultati derivano da corrispondenza semantica e dati pubblici
+
+5. Checklist di revisione
+
+- verificare coerenza tra testi legali e comportamento reale dell'app
+- verificare assenza di placeholder temporanei o riferimenti societari non definitivi
+- testare le anamnesi per branca e sotto-branca
+- testare i messaggi di emergenza
