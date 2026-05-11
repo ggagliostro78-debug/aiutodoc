@@ -91,6 +91,9 @@ class TriageEngine {
     }
 
     async _saveToCloud(data) {
+        if (window.firebaseReady) {
+            await window.firebaseReady;
+        }
         if (!db) {
             console.log("Firebase non inizializzato, salvataggio cloud saltato.");
             return;
@@ -110,6 +113,9 @@ class TriageEngine {
             return;
         }
         const cleanID = id.trim().toUpperCase();
+        if (window.firebaseReady) {
+            await window.firebaseReady;
+        }
         if (!db) {
             alert("Sistema Cloud non disponibile al momento. Riprova più tardi.");
             return;

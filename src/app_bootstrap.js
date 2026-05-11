@@ -30,9 +30,6 @@ function setupInputAutoGrow() {
     input.addEventListener('input', resizeInput);
     input.addEventListener('focus', () => {
         resizeInput();
-        setTimeout(() => {
-            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 180);
     });
 }
 

@@ -45,12 +45,33 @@ function sanitizeHTML(html) {
 let GoogleGenerativeAI = true; // Placeholder per indicare che il motore è pronto (non usiamo più l'SDK esterno)
 
 let db = null;
-function initFirebase() {
-    if (typeof firebase !== 'undefined' && typeof CONFIG !== 'undefined' && CONFIG.FIREBASE_CONFIG && CONFIG.FIREBASE_CONFIG.apiKey !== "") {
+async function resolveFirebaseConfig() {
+    if (typeof CONFIG === 'undefined') return null;
+    if (CONFIG.FIREBASE_CONFIG && CONFIG.FIREBASE_CONFIG.apiKey) {
+        return CONFIG.FIREBASE_CONFIG;
+    }
+
+    if (!CONFIG.FIREBASE_CONFIG_URL || typeof fetch !== 'function') return null;
+
+    try {
+        const response = await fetch(CONFIG.FIREBASE_CONFIG_URL, { cache: 'no-store' });
+        if (!response.ok) return null;
+        const config = await response.json();
+        return config && config.apiKey ? config : null;
+    } catch (error) {
+        console.warn("Firebase config non disponibile:", error);
+        return null;
+    }
+}
+
+async function initFirebase() {
+    const firebaseConfig = await resolveFirebaseConfig();
+
+    if (typeof firebase !== 'undefined' && firebaseConfig && firebaseConfig.apiKey !== "") {
         try {
             if (!firebase.apps.length) {
-                firebase.initializeApp(CONFIG.FIREBASE_CONFIG);
-                if (CONFIG.FIREBASE_CONFIG.measurementId && typeof firebase.analytics === 'function') {
+                firebase.initializeApp(firebaseConfig);
+                if (firebaseConfig.measurementId && typeof firebase.analytics === 'function') {
                     firebase.analytics();
                 }
             }
@@ -63,7 +84,7 @@ function initFirebase() {
         console.log("Firebase non configurato o SDK non caricato: persistenza solo locale.");
     }
 }
-initFirebase();
+window.firebaseReady = initFirebase();
 
 async function loadSDK() {
     console.log("Standalone mode: Dynamic SDK loading disabled for file:// compatibility.");

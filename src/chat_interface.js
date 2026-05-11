@@ -5,6 +5,7 @@ class ChatInterface {
         this.userInput = document.getElementById('user-input');
         this.sendBtn = document.getElementById('send-btn');
         this.typingIndicator = document.getElementById('typing-indicator');
+        this.quickReplies = this._createQuickReplies();
 
         this.onSend = onSend;
         this.recoveryInput = document.getElementById('recovery-id-input');
@@ -25,6 +26,45 @@ class ChatInterface {
             this.recoveryInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') this.handleRecovery();
             });
+        }
+    }
+
+    _createQuickReplies() {
+        const inputArea = document.querySelector('.chat-input-area');
+        if (!inputArea || !inputArea.parentNode) return null;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'quick-replies hidden';
+        wrapper.setAttribute('aria-label', 'Risposte rapide');
+
+        ['A', 'B', 'C'].forEach((choice) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'quick-reply-btn';
+            button.textContent = choice;
+            button.addEventListener('click', () => {
+                this.userInput.blur();
+                this.handleSendViaDispatcher(choice);
+            });
+            wrapper.appendChild(button);
+        });
+
+        inputArea.parentNode.insertBefore(wrapper, inputArea);
+        return wrapper;
+    }
+
+    _shouldShowQuickReplies() {
+        const placeholder = this.userInput ? this.userInput.placeholder : '';
+        return /A,\s*B\s*o\s*C/i.test(placeholder);
+    }
+
+    _syncQuickReplies() {
+        if (!this.quickReplies) return;
+        const show = !this.userInput.disabled && this._shouldShowQuickReplies();
+        this.quickReplies.classList.toggle('hidden', !show);
+        if (show) {
+            this.userInput.blur();
+            setTimeout(() => this.scrollToBottom(), 50);
         }
     }
 
@@ -67,6 +107,9 @@ class ChatInterface {
     }
 
     async _loadFromCloud(id) {
+        if (window.firebaseReady) {
+            await window.firebaseReady;
+        }
         if (!db) return null;
 
         try {
@@ -136,6 +179,7 @@ class ChatInterface {
         this.addMessage(text, 'user-msg');
         this.userInput.value = '';
         this.userInput.style.height = 'auto';
+        if (this.quickReplies) this.quickReplies.classList.add('hidden');
         this.setLoading(true);
 
         if (this.onSend) {
@@ -194,7 +238,10 @@ class ChatInterface {
         } else {
             this.typingIndicator.classList.add('hidden');
             setTimeout(() => {
-                this.userInput.focus();
+                this._syncQuickReplies();
+                if (!this._shouldShowQuickReplies() && window.innerWidth > 950) {
+                    this.userInput.focus();
+                }
             }, 100);
         }
         this.scrollToBottom();
@@ -203,13 +250,13 @@ class ChatInterface {
     scrollToBottom() {
         if (this.messagesContainer.children.length <= 1) return;
 
-        const inputArea = document.querySelector('.chat-input-area');
-        if (inputArea && inputArea.style.display !== 'none') {
-            inputArea.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
+        window.requestAnimationFrame(() => {
+            const behavior = window.innerWidth <= 950 ? 'auto' : 'smooth';
+            this.messagesContainer.scrollTo({
+                top: this.messagesContainer.scrollHeight,
+                behavior
             });
-        }
+        });
     }
 }
 

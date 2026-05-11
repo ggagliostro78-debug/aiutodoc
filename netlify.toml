@@ -9,3 +9,8 @@
   from = "/api/gemini"
   to = "/.netlify/functions/gemini"
   status = 200
+
+[[redirects]]
+  from = "/api/firebase-config"
+  to = "/.netlify/functions/firebase-config"
+  status = 200
