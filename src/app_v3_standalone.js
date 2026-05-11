@@ -586,7 +586,8 @@ class TriageEngine {
             "spalla", "spalle", "caviglia", "caviglie", "tallone", "talloni",
             "mano", "mani", "polso", "polsi", "dito", "dita", "gomito",
             "anca", "bacino", "inguine", "coscia", "femore", "gamba", "gambe",
-            "cuore", "petto", "tosse", "asma", "stomaco", "pancia", "addome"
+            "cuore", "petto", "tosse", "asma", "stomaco", "pancia", "addome",
+            "ano", "retto", "pressione"
         ]);
         const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const hasTerm = (term) => {
@@ -599,7 +600,7 @@ class TriageEngine {
 
         // --- DEFINIZIONE MAPPATURA GLOBALE SEDI/SINTOMI ---
         const SEDE = {
-            OCCHI: ["occhi", "vista", "visione", "annebbia", "glaucoma", "cataratta", "miodepops", "fosfeni", "maculopat", "fotofobia"],
+            OCCHI: ["occhio", "occhi", "vista", "visione", "annebbia", "glaucoma", "cataratta", "miodepops", "fosfeni", "maculopat", "fotofobia"],
             ORL: ["orecch", "naso", "gola", "voce", "udito", "acufen", "faringite", "laringite", "sinusite", "otite", "ipoacusia", "raucedin", "deglutire"],
             DENTI: ["dent", "molar", "gengiv", "bocca", "mascella", "mandibola"],
             URO: ["urin", "minzion", "pipi", "vesci", "prostat", "ciclo", "mestruazion", "pene", "testicol", "vagina", "pelvi", "endometriosi"],
@@ -707,6 +708,20 @@ class TriageEngine {
                 "Il dolore a piede o caviglia compare soprattutto quando appoggi il peso o cammini?\n<br><i>A) Sì, nettamente<br>B) Solo dopo uso prolungato<br>C) No</i>",
                 "Hai gonfiore, instabilità o dolore dopo distorsione o trauma?\n<br><i>A) Sì, evidente<br>B) Solo lieve<br>C) No</i>",
                 "Il fastidio è localizzato sotto il tallone, sul tendine d'Achille o dentro l'articolazione?\n<br><i>A) Sì, ben localizzato<br>B) È diffuso ma nella stessa zona<br>C) Non saprei</i>"
+            ];
+        }
+        if (hasAny(["anzian", "nonn", "demenz", "alzheimer", "caduta"])) {
+            return [
+                "L'anziano subisce perdita improvvisa della stabilità o cadute immotivate?\n<br><i>A) Sì, cadute frequenti<br>B) Solo debolezza nel camminare<br>C) Autonomia completa</i>",
+                "Hai notato disorientamento, dimenticanza di volti o smarrimento in luoghi noti?\n<br><i>A) Sì, alterazioni cognitive evidenti<br>B) Piccole dimenticanze senili<br>C) Lucidità totale</i>",
+                "Manifesta tremori a riposo, rigidità nei movimenti o volto poco espressivo?\n<br><i>A) Sì, tremori e lentezza<br>B) Solo stanchezza muscolare<br>C) Movimenti fluidi</i>"
+            ];
+        }
+        if (hasAny(["tremore", "equilibrio", "paresi", "paralisi", "neuropatia", "sensibilit", "scossa"])) {
+            return [
+                "Hai notato formicolii, perdita di sensibilità o riduzione della forza in una parte del corpo?\n<br><i>A) Sì, in modo evidente<br>B) Solo lieve o intermittente<br>C) No</i>",
+                "Il sintomo si associa a disturbi dell'equilibrio, della parola, della vista o del controllo dei movimenti?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "L'esordio è stato improvviso oppure graduale e ricorrente?\n<br><i>A) Improvviso<br>B) Graduale o ricorrente<br>C) Non saprei</i>"
             ];
         }
         if (hasAny(["mano", "mani", "polso", "polsi", "dito", "dita", "gomito", "tunnel carpale"])) {
