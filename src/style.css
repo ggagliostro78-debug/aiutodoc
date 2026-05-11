@@ -607,6 +607,17 @@ body {
   background: rgba(27, 155, 154, 0.18);
 }
 
+@media (min-width: 951px) {
+  .chat-input-area.desktop-choice-mode {
+    display: none;
+  }
+
+  .quick-replies.desktop-choice-mode {
+    bottom: 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+}
+
 .typing-indicator span {
   width: 6px;
   height: 6px;

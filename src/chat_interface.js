@@ -5,6 +5,7 @@ class ChatInterface {
         this.userInput = document.getElementById('user-input');
         this.sendBtn = document.getElementById('send-btn');
         this.typingIndicator = document.getElementById('typing-indicator');
+        this.inputArea = document.querySelector('.chat-input-area');
         this.quickReplies = this._createQuickReplies();
 
         this.onSend = onSend;
@@ -152,6 +153,10 @@ class ChatInterface {
         const show = !this.userInput.disabled && this._shouldShowQuickReplies();
         if (show) this._updateQuickReplyLabels();
         this.quickReplies.classList.toggle('hidden', !show);
+        this.quickReplies.classList.toggle('desktop-choice-mode', show);
+        if (this.inputArea) {
+            this.inputArea.classList.toggle('desktop-choice-mode', show);
+        }
         if (show) {
             this.userInput.blur();
             setTimeout(() => this.scrollToBottom(), 50);
@@ -270,6 +275,8 @@ class ChatInterface {
         this.userInput.value = '';
         this.userInput.style.height = 'auto';
         if (this.quickReplies) this.quickReplies.classList.add('hidden');
+        if (this.quickReplies) this.quickReplies.classList.remove('desktop-choice-mode');
+        if (this.inputArea) this.inputArea.classList.remove('desktop-choice-mode');
         this.setLoading(true);
 
         if (this.onSend) {
