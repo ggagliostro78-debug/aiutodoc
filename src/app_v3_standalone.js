@@ -580,7 +580,22 @@ class TriageEngine {
 
     _generaDomandeAnamnestiche(disturbo) {
         const dLower = disturbo.toLowerCase();
-        const hasAny = (words) => words.some(w => dLower.includes(w));
+        const wholeWordTerms = new Set([
+            "occhi", "vista", "occhio", "naso", "gola", "voce", "denti", "bocca",
+            "pene", "testa", "osso", "ossa", "schiena", "ginocchio", "ginocchia",
+            "spalla", "spalle", "caviglia", "caviglie", "tallone", "talloni",
+            "mano", "mani", "polso", "polsi", "dito", "dita", "gomito",
+            "anca", "bacino", "inguine", "coscia", "femore", "gamba", "gambe",
+            "cuore", "petto", "tosse", "asma", "stomaco", "pancia", "addome"
+        ]);
+        const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const hasTerm = (term) => {
+            if (wholeWordTerms.has(term)) {
+                return new RegExp(`(^|[^a-zàèéìòù])${escapeRegExp(term)}([^a-zàèéìòù]|$)`, 'i').test(dLower);
+            }
+            return dLower.includes(term);
+        };
+        const hasAny = (words) => words.some(hasTerm);
 
         // --- DEFINIZIONE MAPPATURA GLOBALE SEDI/SINTOMI ---
         const SEDE = {
