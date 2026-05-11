@@ -518,6 +518,10 @@ body {
   padding: 10px 16px;
   background: white;
   border-top: 1px solid var(--border-color);
+  position: sticky;
+  bottom: calc(90px + var(--safe-bottom));
+  z-index: 19;
+  box-shadow: 0 -8px 18px rgba(0, 0, 0, 0.03);
 }
 
 .quick-replies.hidden {
@@ -1595,6 +1599,8 @@ body {
     flex-direction: column;
     padding: 8px 12px;
     gap: 7px;
+    bottom: calc(75px + var(--safe-bottom));
+    z-index: 19;
   }
 
   .quick-reply-btn {
