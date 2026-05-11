@@ -525,16 +525,77 @@ body {
 }
 
 .quick-reply-btn {
-  min-width: 68px;
-  min-height: 46px;
+  flex: 1;
+  max-width: 260px;
+  min-width: 0;
+  min-height: 52px;
   border: 1px solid rgba(27, 155, 154, 0.26);
-  border-radius: 999px;
+  border-radius: 12px;
   background: rgba(27, 155, 154, 0.1);
   color: var(--primary);
   font: inherit;
-  font-size: 1.1rem;
-  font-weight: 800;
+  font-size: 0.92rem;
+  font-weight: 700;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-align: left;
+  line-height: 1.25;
+  padding: 9px 12px;
+}
+
+.quick-choice-letter {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: white;
+  font-weight: 800;
+}
+
+.quick-choice-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.mcq-options {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.mcq-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid rgba(27, 155, 154, 0.14);
+  border-radius: 10px;
+  background: #f7fbfb;
+  line-height: 1.35;
+}
+
+.mcq-letter {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(27, 155, 154, 0.13);
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.mcq-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .quick-reply-btn:active {
@@ -1531,15 +1592,23 @@ body {
 
   .quick-replies {
     flex: 0 0 auto;
+    flex-direction: column;
     padding: 8px 12px;
+    gap: 7px;
   }
 
   .quick-reply-btn {
-    flex: 1;
-    max-width: 92px;
-    min-width: 0;
-    min-height: 42px;
-    font-size: 1rem;
+    width: 100%;
+    max-width: none;
+    min-height: 40px;
+    font-size: 0.88rem;
+    padding: 7px 10px;
+  }
+
+  .quick-choice-letter {
+    width: 24px;
+    height: 24px;
+    font-size: 0.82rem;
   }
 
   .result-card-main,

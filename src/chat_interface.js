@@ -41,10 +41,12 @@ class ChatInterface {
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'quick-reply-btn';
-            button.textContent = choice;
+            button.dataset.choice = choice;
+            button.dataset.reply = choice;
+            button.innerHTML = `<span class="quick-choice-letter">${choice}</span><span class="quick-choice-text">${choice}</span>`;
             button.addEventListener('click', () => {
                 this.userInput.blur();
-                this.handleSendViaDispatcher(choice);
+                this.handleSendViaDispatcher(button.dataset.reply || choice);
             });
             wrapper.appendChild(button);
         });
@@ -58,9 +60,97 @@ class ChatInterface {
         return /A,\s*B\s*o\s*C/i.test(placeholder);
     }
 
+    _extractLatestChoices() {
+        const messages = Array.from(this.messagesContainer.querySelectorAll('.message.system-msg .msg-bubble'));
+        const latest = messages[messages.length - 1];
+        if (!latest) return null;
+
+        const optionRows = Array.from(latest.querySelectorAll('.mcq-option[data-reply]'));
+        if (optionRows.length >= 3) {
+            const choices = {};
+            optionRows.forEach((row) => {
+                const reply = row.dataset.reply || '';
+                const match = reply.match(/^([ABC])\)\s*(.+)$/i);
+                if (match) choices[match[1].toUpperCase()] = reply;
+            });
+            if (['A', 'B', 'C'].every((letter) => choices[letter])) return choices;
+        }
+
+        const text = latest.innerText || latest.textContent || '';
+        const choices = {};
+        text.split(/\n+/).forEach((line) => {
+            const match = line.trim().match(/^([ABC])\)\s*(.+)$/i);
+            if (match) {
+                const letter = match[1].toUpperCase();
+                choices[letter] = `${letter}) ${match[2].trim()}`;
+            }
+        });
+
+        return ['A', 'B', 'C'].every((letter) => choices[letter]) ? choices : null;
+    }
+
+    _enhanceMultipleChoiceBubble(bubble) {
+        bubble.querySelectorAll('i').forEach((italicBlock) => {
+            const rawText = italicBlock.innerHTML
+                .replace(/<br\s*\/?>/gi, '\n')
+                .replace(/<[^>]+>/g, '');
+            const lines = rawText
+                .split(/\n+/)
+                .map((line) => line.trim())
+                .filter(Boolean);
+
+            const options = lines.map((line) => {
+                const match = line.match(/^([ABC])\)\s*(.+)$/i);
+                return match ? { letter: match[1].toUpperCase(), text: match[2].trim() } : null;
+            });
+
+            if (options.length < 2 || options.some((option) => !option)) return;
+
+            const list = document.createElement('div');
+            list.className = 'mcq-options';
+
+            options.forEach((option) => {
+                const row = document.createElement('div');
+                row.className = 'mcq-option';
+                row.dataset.reply = `${option.letter}) ${option.text}`;
+
+                const badge = document.createElement('span');
+                badge.className = 'mcq-letter';
+                badge.textContent = option.letter;
+
+                const text = document.createElement('span');
+                text.className = 'mcq-text';
+                text.textContent = option.text;
+
+                row.appendChild(badge);
+                row.appendChild(text);
+                list.appendChild(row);
+            });
+
+            italicBlock.replaceWith(list);
+        });
+    }
+
+    _updateQuickReplyLabels() {
+        if (!this.quickReplies) return;
+        const choices = this._extractLatestChoices();
+
+        this.quickReplies.querySelectorAll('.quick-reply-btn').forEach((button) => {
+            const letter = button.dataset.choice;
+            const reply = choices && choices[letter] ? choices[letter] : letter;
+            button.dataset.reply = reply;
+
+            const letterEl = button.querySelector('.quick-choice-letter');
+            const textEl = button.querySelector('.quick-choice-text');
+            if (letterEl) letterEl.textContent = letter;
+            if (textEl) textEl.textContent = reply.replace(/^[ABC]\)\s*/, '');
+        });
+    }
+
     _syncQuickReplies() {
         if (!this.quickReplies) return;
         const show = !this.userInput.disabled && this._shouldShowQuickReplies();
+        if (show) this._updateQuickReplyLabels();
         this.quickReplies.classList.toggle('hidden', !show);
         if (show) {
             this.userInput.blur();
@@ -202,6 +292,7 @@ class ChatInterface {
             bubble.textContent = content;
         } else {
             bubble.innerHTML = sanitizeHTML(content);
+            this._enhanceMultipleChoiceBubble(bubble);
         }
 
         bubble.querySelectorAll('.id-copy-box[data-triage-id]').forEach((el) => {
@@ -251,11 +342,19 @@ class ChatInterface {
         if (this.messagesContainer.children.length <= 1) return;
 
         window.requestAnimationFrame(() => {
-            const behavior = window.innerWidth <= 950 ? 'auto' : 'smooth';
-            this.messagesContainer.scrollTo({
-                top: this.messagesContainer.scrollHeight,
-                behavior
-            });
+            if (window.innerWidth <= 950) {
+                this.messagesContainer.scrollTo({
+                    top: this.messagesContainer.scrollHeight,
+                    behavior: 'auto'
+                });
+                return;
+            }
+
+            const quickVisible = this.quickReplies && !this.quickReplies.classList.contains('hidden');
+            const target = quickVisible ? this.quickReplies : this.messagesContainer.lastElementChild;
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: quickVisible ? 'end' : 'center' });
+            }
         });
     }
 }
