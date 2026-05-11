@@ -925,10 +925,10 @@ class TriageEngine {
             console.error("ERRORE API GEMINI:", err);
             if (this.researchTimeout) clearTimeout(this.researchTimeout);
             if (this.progressInterval) clearInterval(this.progressInterval);
-            // Mostra il dettaglio reale dell'errore nell'UI per facilitare la diagnostica
             const errDetail = err && err.message ? err.message : String(err);
-            this.onMessage(`⚠️ Errore API: <code style="font-size:0.8rem;word-break:break-all;">${escapeHTML(errDetail)}</code><br><small>Passo in modalità simulazione...</small>`, "system-msg danger");
-            setTimeout(() => this._eseguiSimulazioneFallback(), 3000);
+            console.warn("Dettaglio errore Gemini:", errDetail);
+            this.onMessage("⚠️ Il motore AI non è momentaneamente disponibile. Proseguo con una simulazione orientativa, senza mostrare dati tecnici.", "system-msg danger");
+            setTimeout(() => this._eseguiSimulazioneFallback(), 1200);
         }
     }
 
