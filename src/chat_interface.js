@@ -367,19 +367,25 @@ class ChatInterface {
 
             const target = lastMessage;
             if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: quickVisible ? 'end' : 'nearest' });
-                if (quickVisible) {
-                    setTimeout(() => {
-                        if (!lastMessage) return;
-                        const rect = this.quickReplies.getBoundingClientRect();
-                        const lastRect = lastMessage.getBoundingClientRect();
-                        const neededGap = 18;
-                        const overlap = lastRect.bottom - (rect.top - neededGap);
-                        if (overlap > 0) {
-                            window.scrollBy({ top: overlap, behavior: 'smooth' });
-                        }
-                    }, 120);
-                }
+                target.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                setTimeout(() => {
+                    if (!lastMessage) return;
+
+                    const bottomBar = quickVisible ? this.quickReplies : this.inputArea;
+                    if (!bottomBar) return;
+
+                    const barStyle = window.getComputedStyle(bottomBar);
+                    if (barStyle.display === 'none' || barStyle.visibility === 'hidden') return;
+
+                    const barRect = bottomBar.getBoundingClientRect();
+                    const lastRect = lastMessage.getBoundingClientRect();
+                    const neededGap = quickVisible ? 18 : 22;
+                    const overlap = lastRect.bottom - (barRect.top - neededGap);
+
+                    if (overlap > 0) {
+                        window.scrollBy({ top: overlap, behavior: 'smooth' });
+                    }
+                }, 120);
             }
         });
     }

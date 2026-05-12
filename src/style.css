@@ -212,7 +212,7 @@ body {
 
 .messages-area {
   flex: none; /* Growth as needed */
-  padding: 24px 24px 10px 24px;
+  padding: 24px 24px 96px 24px;
   overflow-y: visible; /* Prevent internal scrolling */
   display: flex;
   flex-direction: column;
