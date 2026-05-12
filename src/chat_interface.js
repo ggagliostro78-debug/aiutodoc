@@ -58,7 +58,7 @@ class ChatInterface {
 
     _shouldShowQuickReplies() {
         const placeholder = this.userInput ? this.userInput.placeholder : '';
-        return /A,\s*B\s*o\s*C/i.test(placeholder);
+        return /A,\s*B\s*o\s*C/i.test(placeholder) || Boolean(this._extractLatestChoices());
     }
 
     _extractLatestChoices() {
@@ -159,7 +159,8 @@ class ChatInterface {
         }
         if (show) {
             this.userInput.blur();
-            setTimeout(() => this.scrollToBottom(), 50);
+            setTimeout(() => this.scrollToBottom(), 80);
+            setTimeout(() => this.scrollToBottom(), 220);
         }
     }
 
@@ -349,18 +350,31 @@ class ChatInterface {
         if (this.messagesContainer.children.length <= 1) return;
 
         window.requestAnimationFrame(() => {
+            const quickVisible = this.quickReplies && !this.quickReplies.classList.contains('hidden');
+
             if (window.innerWidth <= 950) {
+                const targetTop = quickVisible
+                    ? this.messagesContainer.scrollHeight
+                    : this.messagesContainer.scrollHeight;
                 this.messagesContainer.scrollTo({
-                    top: this.messagesContainer.scrollHeight,
+                    top: targetTop,
                     behavior: 'auto'
                 });
                 return;
             }
 
-            const quickVisible = this.quickReplies && !this.quickReplies.classList.contains('hidden');
             const target = quickVisible ? this.quickReplies : this.messagesContainer.lastElementChild;
             if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: quickVisible ? 'end' : 'center' });
+                target.scrollIntoView({ behavior: 'smooth', block: quickVisible ? 'end' : 'nearest' });
+                if (quickVisible) {
+                    setTimeout(() => {
+                        const rect = this.quickReplies.getBoundingClientRect();
+                        const bottomGap = window.innerHeight - rect.bottom;
+                        if (bottomGap < 12) {
+                            window.scrollBy({ top: 12 - bottomGap, behavior: 'smooth' });
+                        }
+                    }, 120);
+                }
             }
         });
     }
