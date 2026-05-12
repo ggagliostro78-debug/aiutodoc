@@ -108,5 +108,5 @@ const DOMANDE_CONOSCITIVE = [
 const DOMANDE_ANAMNESTICHE = [
     "Il dolore o fastidio peggiora con il movimento o in determinate posizioni?\n<br><i>A) Sì<br>B) No<br>C) A volte</i>",
     "Il riposo notturno è disturbato da questo problema?\n<br><i>A) Sì, spesso mi sveglia<br>B) No, dormo bene<br>C) Difficoltà solo nell'addormentamento</i>",
-    "Senti che questo disturbo sta impattando significativamente la tua vita quotidiana e il tuo umore?\n<br><i>A) Moltissimo<br>B) Abbastanza<br>C) Poco o nulla</i>"
+    "Senti che questo disturbo sta impattando significativamente la tua vita quotidiana o il tuo benessere emotivo?\n<br><i>A) Moltissimo<br>B) Abbastanza<br>C) Poco o nulla</i>"
 ];
