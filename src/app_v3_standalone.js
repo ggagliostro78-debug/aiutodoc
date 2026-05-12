@@ -358,7 +358,7 @@ class TriageEngine {
                         'ernia', 'laparocele', 'ascesso', 'biopsia', 'cisti', 'fistola', 'aderenze', 'stomia', 'pneumotorace', 'drenaggio',
                         'carie', 'gengivite', 'parodontite', 'piorrea', 'endodonzia', 'ortodonzia', 'implantologia', 'bruxismo', 'afta', 'tartaro', 'pulpite', 'granuloma',
                         'glicemia', 'insulinoresistenza', 'ipotiroidismo', 'ipertiroidismo', 'polidipsia', 'poliuria', 'tiroidite', 'chetoacidosi', 'irsutismo', 'morbo di basedow', 'cushing', 'addison',
-                        'dispnea', 'affanno', 'apnea', 'emottisi', 'cianosi', 'bpco', 'spirometria', 'saturimetria', 'asma', 'bronchite', 'enfisema', 'bronchiectasia',
+                        'dispnea', 'affanno', 'apnea', 'apnee', 'russamento', 'sonno', 'insonnia', 'dormire', 'addorment', 'risvegli', 'sonnolenza', 'narcolessia', 'emottisi', 'cianosi', 'bpco', 'spirometria', 'saturimetria', 'asma', 'bronchite', 'enfisema', 'bronchiectasia',
                         'anemia', 'leucocitosi', 'piastrinopenia', 'adenopatia', 'linfoadenopatia', 'emocromo', 'talassemia', 'leucemia', 'mieloma', 'emofilia', 'splenomegalia', 'leucopenia', 'mielodisplasia',
                         'sepsi', 'setticemia', 'esantema', 'mialgia', 'gonalgia', 'lombalgia', 'cervicalgia', 'sciatalgia', 'brachialgia', 'algia', 'antigene', 'anticorpo', 'autoimmunit', 'immunosoppressione', 'meningite', 'linfociti',
                         'artrite', 'reumatismi', 'erite', 'lupus', 'raynaud', 'fibromialgia', 'sclerodermia', 'gotta', 'iperuricemia', 'ves', 'pcr', 'proteina c reattiva', 'artropatia', 'vasculite', 'sjogren', 'entesite',
@@ -664,6 +664,13 @@ class TriageEngine {
                 "Questo sintomo si manifesta o peggiora sotto sforzo fisico (es. salendo le scale)?\n<br><i>A) Sì, mi devo fermare<br>B) Solo a riposo o di notte<br>C) Indipendente dallo sforzo</i>",
                 "Senti irradiazione del fastidio verso braccio sinistro, collo, mandibola o schiena?\n<br><i>A) Sì, irradiazione chiara<br>B) No, è ben localizzato<br>C) Solo peso generalizzato</i>",
                 "Si associa a sudorazione fredda, forte nausea, senso di svenimento o dispnea marcata?\n<br><i>A) Sì, molto intensi<br>B) Solo respiro un po' corto<br>C) Nessun sintomo associato</i>"
+            ];
+        }
+        if (hasAny(["sonno", "insonnia", "dormire", "addorment", "risvegli", "risveglio", "russamento", "russare", "apnee", "apnea notturna", "sonnolenza", "narcolessia"])) {
+            return [
+                "Il problema principale è addormentarti, mantenere il sonno o svegliarti troppo presto?\n<br><i>A) Fatica ad addormentarmi<br>B) Risvegli frequenti o precoci<br>C) Sonno non riposante</i>",
+                "Chi dorme con te nota russamento forte, pause respiratorie o risvegli con senso di soffocamento?\n<br><i>A) Sì, russamento/apnee evidenti<br>B) Russamento leggero o dubbio<br>C) No, non risulta</i>",
+                "Durante il giorno hai sonnolenza marcata, cali di attenzione o colpi di sonno?\n<br><i>A) Sì, interferisce con le attività<br>B) A volte<br>C) No</i>"
             ];
         }
         if (hasAny(SEDE.PNEUMO) || (dLower.includes("respiro") && !hasAny(SEDE.CARDIO))) {
@@ -1056,6 +1063,9 @@ class TriageEngine {
 
         if (dLower.includes("dca") || dLower.includes("anoressia") || dLower.includes("bulimia") || dLower.includes("binge") || dLower.includes("abbuff") || dLower.includes("restrizion") || dLower.includes("dismorfismo")) {
             patologiaStr = "Disagio legato al rapporto con cibo, peso o immagine corporea"; specStr = "Psicologo/Psichiatra esperto in DCA";
+        }
+        else if (dLower.includes("sonno") || dLower.includes("insonnia") || dLower.includes("dormire") || dLower.includes("addorment") || dLower.includes("risvegli") || dLower.includes("russ") || dLower.includes("apne") || dLower.includes("sonnolenza")) {
+            patologiaStr = "Disturbo del sonno da inquadrare"; specStr = "Centro di Medicina del Sonno / Neurologo o Pneumologo";
         }
         else if (dLower.includes("ansia") || dLower.includes("stress") || dLower.includes("depressione") || dLower.includes("famiglia") || dLower.includes("panico") || dLower.includes("trauma") || dLower.includes("lutto")) {
             patologiaStr = "Necessità di supporto psicologico"; specStr = "Psicologa ad orientamento Sistemico-Relazionale";
