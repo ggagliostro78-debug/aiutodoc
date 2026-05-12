@@ -212,7 +212,7 @@ body {
 
 .messages-area {
   flex: none; /* Growth as needed */
-  padding: 24px 24px 10px 24px;
+  padding: 24px 24px 96px 24px;
   overflow-y: visible; /* Prevent internal scrolling */
   display: flex;
   flex-direction: column;
@@ -221,6 +221,10 @@ body {
   justify-content: flex-start;
   padding-top: 25px;
   scrollbar-width: none;
+}
+
+.messages-area.choice-mode {
+  padding-bottom: 112px;
 }
 
 /* Welcome Message Special Styling */
@@ -352,6 +356,14 @@ body {
 
 .message.system-msg .msg-time {
   align-self: flex-start;
+}
+
+.messages-area.choice-mode .message:last-child {
+  margin-bottom: 18px;
+}
+
+.result-start {
+  scroll-margin-top: 16px;
 }
 
 /* ID Copy Box Container */
@@ -1521,6 +1533,10 @@ body {
   .messages-area {
     padding: 14px !important;
     overflow-y: auto !important;
+  }
+
+  .messages-area.choice-mode {
+    padding-bottom: calc(188px + var(--safe-bottom)) !important;
   }
 
   .chat-input-area {

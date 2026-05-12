@@ -58,7 +58,7 @@ class ChatInterface {
 
     _shouldShowQuickReplies() {
         const placeholder = this.userInput ? this.userInput.placeholder : '';
-        return /A,\s*B\s*o\s*C/i.test(placeholder);
+        return /A,\s*B\s*o\s*C/i.test(placeholder) || Boolean(this._extractLatestChoices());
     }
 
     _extractLatestChoices() {
@@ -154,12 +154,16 @@ class ChatInterface {
         if (show) this._updateQuickReplyLabels();
         this.quickReplies.classList.toggle('hidden', !show);
         this.quickReplies.classList.toggle('desktop-choice-mode', show);
+        if (this.messagesContainer) {
+            this.messagesContainer.classList.toggle('choice-mode', show);
+        }
         if (this.inputArea) {
             this.inputArea.classList.toggle('desktop-choice-mode', show);
         }
         if (show) {
             this.userInput.blur();
-            setTimeout(() => this.scrollToBottom(), 50);
+            setTimeout(() => this.scrollToBottom(), 80);
+            setTimeout(() => this.scrollToBottom(), 220);
         }
     }
 
@@ -229,7 +233,7 @@ class ChatInterface {
 
         let out = `
         <div id="printable-area">
-        <div id="medical-disclaimer-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
+        <div id="medical-disclaimer-start" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
           ⚠️ ${escapeHTML(DISCLAIMER)}
         </div>
         ✅ <strong>Triage Recuperato (ID: ${escapeHTML(saved.id)})</strong>.<br>
@@ -276,6 +280,7 @@ class ChatInterface {
         this.userInput.style.height = 'auto';
         if (this.quickReplies) this.quickReplies.classList.add('hidden');
         if (this.quickReplies) this.quickReplies.classList.remove('desktop-choice-mode');
+        if (this.messagesContainer) this.messagesContainer.classList.remove('choice-mode');
         if (this.inputArea) this.inputArea.classList.remove('desktop-choice-mode');
         this.setLoading(true);
 
@@ -318,10 +323,10 @@ class ChatInterface {
 
         this.messagesContainer.appendChild(msgDiv);
 
-        const disclaimerEl = msgDiv.querySelector('#medical-disclaimer-start');
-        if (disclaimerEl) {
+        const resultStartEl = msgDiv.querySelector('.result-start, #medical-disclaimer-start');
+        if (resultStartEl) {
             setTimeout(() => {
-                disclaimerEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                resultStartEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
         } else {
             this.scrollToBottom();
@@ -349,6 +354,9 @@ class ChatInterface {
         if (this.messagesContainer.children.length <= 1) return;
 
         window.requestAnimationFrame(() => {
+            const quickVisible = this.quickReplies && !this.quickReplies.classList.contains('hidden');
+            const lastMessage = this.messagesContainer.lastElementChild;
+
             if (window.innerWidth <= 950) {
                 this.messagesContainer.scrollTo({
                     top: this.messagesContainer.scrollHeight,
@@ -357,10 +365,27 @@ class ChatInterface {
                 return;
             }
 
-            const quickVisible = this.quickReplies && !this.quickReplies.classList.contains('hidden');
-            const target = quickVisible ? this.quickReplies : this.messagesContainer.lastElementChild;
+            const target = lastMessage;
             if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: quickVisible ? 'end' : 'center' });
+                target.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                setTimeout(() => {
+                    if (!lastMessage) return;
+
+                    const bottomBar = quickVisible ? this.quickReplies : this.inputArea;
+                    if (!bottomBar) return;
+
+                    const barStyle = window.getComputedStyle(bottomBar);
+                    if (barStyle.display === 'none' || barStyle.visibility === 'hidden') return;
+
+                    const barRect = bottomBar.getBoundingClientRect();
+                    const lastRect = lastMessage.getBoundingClientRect();
+                    const neededGap = quickVisible ? 18 : 22;
+                    const overlap = lastRect.bottom - (barRect.top - neededGap);
+
+                    if (overlap > 0) {
+                        window.scrollBy({ top: overlap, behavior: 'smooth' });
+                    }
+                }, 120);
             }
         });
     }

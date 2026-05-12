@@ -884,7 +884,7 @@ class TriageEngine {
             // Mostriamo i risultati
             let outInitial = `
             <div id="printable-area">
-            <div id="medical-disclaimer-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
+            <div id="medical-disclaimer-start" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
               ⚠️ ${escapeHTML(DISCLAIMER)}
             </div>
             
@@ -1122,7 +1122,7 @@ class TriageEngine {
 
         let outInitialRes = `
         <div id="printable-area">
-        <div id="medical-disclaimer-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
+        <div id="medical-disclaimer-start" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
           ⚠️ ${escapeHTML(DISCLAIMER)}
         </div>
         <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">

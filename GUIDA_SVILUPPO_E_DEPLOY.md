@@ -11,33 +11,9 @@ Questa guida spiega come mantenere due versioni del progetto:
 cd Z:\ProgettiAI\GPTCodex\AIutoDoc_portatile
 ```
 
-## 2. Controllare su quale branch sei
+## 2. Controllare lo stato del progetto
 
-```powershell
-git branch --show-current
-```
-
-Risultato possibile:
-
-```text
-main
-```
-
-oppure:
-
-```text
-dev
-```
-
-Puoi anche usare:
-
-```powershell
-git branch
-```
-
-Il branch attivo ha un asterisco `*`.
-
-## 3. Controllare lo stato del progetto
+Prima di cambiare branch o pubblicare:
 
 ```powershell
 git status
@@ -49,7 +25,7 @@ Se tutto e' pulito, Git mostra:
 nothing to commit, working tree clean
 ```
 
-## 4. Creare il branch di sviluppo
+## 3. Creare il branch di sviluppo
 
 Da fare una sola volta:
 
@@ -63,7 +39,7 @@ Dopo questi comandi GitHub avra' due branch:
 - `main`
 - `dev`
 
-## 5. Lavorare sulla versione di sviluppo
+## 4. Lavorare sulla versione di sviluppo
 
 Quando vuoi fare modifiche sperimentali:
 
@@ -71,7 +47,7 @@ Quando vuoi fare modifiche sperimentali:
 git checkout dev
 ```
 
-Dopo aver modificato i file:
+Dopo aver modificato i file, salva su GitHub:
 
 ```powershell
 git add .
@@ -79,15 +55,17 @@ git commit -m "Descrizione breve della modifica"
 git push
 ```
 
-## 6. Tornare alla versione stabile
+## 5. Tornare alla versione stabile
+
+Per tornare alla versione pubblicata:
 
 ```powershell
 git checkout main
 ```
 
-## 7. Portare le modifiche da dev a main
+## 6. Portare le modifiche da dev a main
 
-Quando la versione `dev` e' testata e pronta:
+Quando la versione `dev` e' testata e pronta per andare online:
 
 ```powershell
 git checkout main
@@ -97,7 +75,9 @@ git push
 
 Netlify pubblichera' automaticamente il branch `main`, se il sito di produzione e' configurato su `main`.
 
-## 8. Configurazione Netlify produzione
+## 7. Configurazione Netlify produzione
+
+Sito pubblico:
 
 ```text
 Branch to deploy: main
@@ -106,13 +86,13 @@ Publish directory: dist
 Functions directory: netlify/functions
 ```
 
-Variabile ambiente minima:
+Variabili ambiente minime:
 
 ```text
 GEMINI_API_KEY
 ```
 
-Variabili Firebase opzionali:
+Variabili Firebase opzionali per salvataggio/recupero ID cloud:
 
 ```text
 FIREBASE_API_KEY
@@ -124,9 +104,11 @@ FIREBASE_APP_ID
 FIREBASE_MEASUREMENT_ID
 ```
 
-## 9. Sito Netlify di test
+## 8. Creare un sito Netlify di test
 
-Puoi creare un secondo sito Netlify collegato allo stesso repository GitHub, ma usando `dev`.
+Puoi creare un secondo sito Netlify collegato allo stesso repository GitHub, ma usando il branch `dev`.
+
+Impostazioni:
 
 ```text
 Branch to deploy: dev
@@ -140,7 +122,7 @@ In questo modo:
 - sito pubblico = branch `main`
 - sito test = branch `dev`
 
-## 10. Test locale prima di pubblicare
+## 9. Test locale prima di pubblicare
 
 Genera la build:
 
@@ -148,27 +130,63 @@ Genera la build:
 node scripts/build-netlify.js
 ```
 
-Testa la cartella pubblicabile:
+Se vuoi testare localmente la cartella pubblicabile:
 
 ```powershell
 cd dist
 python -m http.server 4174
 ```
 
-Apri:
+Poi apri:
 
 ```text
 http://127.0.0.1:4174
 ```
 
-Poi torna alla cartella progetto:
+Per tornare alla cartella progetto:
 
 ```powershell
 cd ..
 ```
 
-## 11. Regola pratica
+## 10. Regola pratica
 
-- Sperimenta su `dev`.
-- Pubblica da `main`.
-- Prima di unire `dev` in `main`, testa in locale o sul Netlify di test.
+- Sperimenta sempre su `dev`.
+- Pubblica solo da `main`.
+- Prima di fare merge in `main`, prova il sito in locale o sul Netlify di test.
+
+## 11. Come capire se sei in `dev` o in `main`
+
+Da PowerShell, dentro la cartella del progetto, esegui:
+
+```powershell
+git branch --show-current
+```
+
+Se risponde:
+
+```text
+dev
+```
+
+sei nella copia di sviluppo e puoi fare prove.
+
+Se risponde:
+
+```text
+main
+```
+
+sei nella versione principale collegata al sito pubblico.
+
+Per passare a sviluppo:
+
+```powershell
+git checkout dev
+```
+
+Per tornare alla versione principale:
+
+```powershell
+git checkout main
+```
