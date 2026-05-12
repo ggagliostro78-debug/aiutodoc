@@ -154,3 +154,39 @@ cd ..
 - Sperimenta sempre su `dev`.
 - Pubblica solo da `main`.
 - Prima di fare merge in `main`, prova il sito in locale o sul Netlify di test.
+
+## 11. Come capire se sei in `dev` o in `main`
+
+Da PowerShell, dentro la cartella del progetto, esegui:
+
+```powershell
+git branch --show-current
+```
+
+Se risponde:
+
+```text
+dev
+```
+
+sei nella copia di sviluppo e puoi fare prove.
+
+Se risponde:
+
+```text
+main
+```
+
+sei nella versione principale collegata al sito pubblico.
+
+Per passare a sviluppo:
+
+```powershell
+git checkout dev
+```
+
+Per tornare alla versione principale:
+
+```powershell
+git checkout main
+```
