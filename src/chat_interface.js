@@ -154,6 +154,9 @@ class ChatInterface {
         if (show) this._updateQuickReplyLabels();
         this.quickReplies.classList.toggle('hidden', !show);
         this.quickReplies.classList.toggle('desktop-choice-mode', show);
+        if (this.messagesContainer) {
+            this.messagesContainer.classList.toggle('choice-mode', show);
+        }
         if (this.inputArea) {
             this.inputArea.classList.toggle('desktop-choice-mode', show);
         }
@@ -277,6 +280,7 @@ class ChatInterface {
         this.userInput.style.height = 'auto';
         if (this.quickReplies) this.quickReplies.classList.add('hidden');
         if (this.quickReplies) this.quickReplies.classList.remove('desktop-choice-mode');
+        if (this.messagesContainer) this.messagesContainer.classList.remove('choice-mode');
         if (this.inputArea) this.inputArea.classList.remove('desktop-choice-mode');
         this.setLoading(true);
 
@@ -351,27 +355,28 @@ class ChatInterface {
 
         window.requestAnimationFrame(() => {
             const quickVisible = this.quickReplies && !this.quickReplies.classList.contains('hidden');
+            const lastMessage = this.messagesContainer.lastElementChild;
 
             if (window.innerWidth <= 950) {
-                const targetTop = quickVisible
-                    ? this.messagesContainer.scrollHeight
-                    : this.messagesContainer.scrollHeight;
                 this.messagesContainer.scrollTo({
-                    top: targetTop,
+                    top: this.messagesContainer.scrollHeight,
                     behavior: 'auto'
                 });
                 return;
             }
 
-            const target = quickVisible ? this.quickReplies : this.messagesContainer.lastElementChild;
+            const target = lastMessage;
             if (target) {
                 target.scrollIntoView({ behavior: 'smooth', block: quickVisible ? 'end' : 'nearest' });
                 if (quickVisible) {
                     setTimeout(() => {
+                        if (!lastMessage) return;
                         const rect = this.quickReplies.getBoundingClientRect();
-                        const bottomGap = window.innerHeight - rect.bottom;
-                        if (bottomGap < 12) {
-                            window.scrollBy({ top: 12 - bottomGap, behavior: 'smooth' });
+                        const lastRect = lastMessage.getBoundingClientRect();
+                        const neededGap = 18;
+                        const overlap = lastRect.bottom - (rect.top - neededGap);
+                        if (overlap > 0) {
+                            window.scrollBy({ top: overlap, behavior: 'smooth' });
                         }
                     }, 120);
                 }
