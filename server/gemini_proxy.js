@@ -26,6 +26,23 @@ function stripMarkdownFence(text) {
     return value;
 }
 
+function extractJsonObjectText(text) {
+    const cleanText = stripMarkdownFence(text);
+    if (!cleanText) return "";
+
+    try {
+        JSON.parse(cleanText);
+        return cleanText;
+    } catch (error) {
+        const start = cleanText.indexOf("{");
+        const end = cleanText.lastIndexOf("}");
+        if (start >= 0 && end > start) {
+            return cleanText.slice(start, end + 1);
+        }
+        return cleanText;
+    }
+}
+
 function extractText(payload) {
     const parts = payload?.candidates?.[0]?.content?.parts;
     if (!Array.isArray(parts)) return "";
@@ -78,7 +95,11 @@ async function callGemini(prompt, fetchImpl) {
                     {
                         parts: [{ text: prompt }]
                     }
-                ]
+                ],
+                generationConfig: {
+                    temperature: 0.2,
+                    responseMimeType: "application/json"
+                }
             }),
             signal: controller.signal
         });
@@ -90,7 +111,7 @@ async function callGemini(prompt, fetchImpl) {
 
         const payload = await response.json();
         const rawText = extractText(payload);
-        const cleanText = stripMarkdownFence(rawText);
+        const cleanText = extractJsonObjectText(rawText);
 
         if (!cleanText) {
             throw new Error("Gemini ha restituito una risposta vuota.");
