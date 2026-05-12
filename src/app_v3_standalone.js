@@ -366,7 +366,7 @@ class TriageEngine {
                         'angina', 'valvulopat', 'aneurisma', 'aterosclerosi', 'sincope', 'edema', 'pericardite', 'endocardite',
                         'paresi', 'paralisi', 'atassia', 'afasia', 'disartria', 'diplopia', 'scotoma', 'neuropatia', 'miastenia', 'tia', 'ictus', 'parkinson', 'alzheimer', 'epilessia',
                         'amenorrea', 'dismenorrea', 'dispareunia', 'vaginismo', 'endometriosi', 'vulvite', 'vaginite',
-                        'bmi', 'obesit', 'anoressia', 'disfagia', 'metabolismo', 'celiachia', 'glutine', 'lattosio', 'bulimia', 'lassativi', 'colesterolo', 'ldl', 'hdl', 'glicazione', 'dca', 'binge eating', 'dismorfismo',
+                        'bmi', 'obesit', 'anoressia', 'disfagia', 'metabolismo', 'celiachia', 'glutine', 'lattosio', 'bulimia', 'lassativi', 'colesterolo', 'ldl', 'hdl', 'glicazione', 'dca', 'binge eating', 'abbuff', 'restrizion', 'restrittiv', 'dismorfismo', 'vomito autoindotto',
                         'scarlattina', 'enuresi', 'bronchiolite', 'morbillo', 'crosta latta', 'bocca-mani-piedi', 'sesta malattia', 'roseola', 'sids', 'apcar', 'neonato', 'bebè'
                     ];
                     const isDirectValid = directValidationWhitelist.some(word => dtl.includes(word));
@@ -756,6 +756,13 @@ class TriageEngine {
         }
 
         // 7. Sistemici e Psico/Anziani
+        if (hasAny(["dca", "anoressia", "bulimia", "binge eating", "abbuff", "restrizion", "restrittiv", "dismorfismo", "lassativi", "vomito autoindotto", "rapporto con il cibo", "paura di ingrassare"])) {
+            return [
+                "Questo disagio riguarda soprattutto il rapporto con il cibo, il peso o l'immagine corporea?\n<br><i>A) Sì, è molto presente<br>B) A volte, in alcuni periodi<br>C) No, non è centrale</i>",
+                "Ti capita di alternare restrizioni, abbuffate o comportamenti di compenso come vomito autoindotto, digiuno, lassativi o esercizio eccessivo?\n<br><i>A) Sì, spesso o con fatica a controllarlo<br>B) Qualche episodio occasionale<br>C) No, non mi capita</i>",
+                "Questo tema ti causa vergogna, isolamento, ansia intensa o interferisce con studio, lavoro o relazioni?\n<br><i>A) Sì, molto<br>B) In parte<br>C) Poco o nulla</i>"
+            ];
+        }
         if (hasAny(["diabet", "zucchero", "tiroid", "ormon", "glicemia"]) || (dLower.includes("peso") && hasAny(["stanchezza", "sete", "fame"]))) {
             return [
                 "Avverti una sete forte e continua, associata al bisogno frequente di urinare (anche di notte)?\n<br><i>A) Bevo litri e non mi basta<br>B) Un po' più del solito<br>C) Regolare</i>",
@@ -1047,7 +1054,10 @@ class TriageEngine {
 
         const dLower = this.userData.disturbo.toLowerCase();
 
-        if (dLower.includes("ansia") || dLower.includes("stress") || dLower.includes("depressione") || dLower.includes("famiglia") || dLower.includes("panico") || dLower.includes("trauma") || dLower.includes("lutto")) {
+        if (dLower.includes("dca") || dLower.includes("anoressia") || dLower.includes("bulimia") || dLower.includes("binge") || dLower.includes("abbuff") || dLower.includes("restrizion") || dLower.includes("dismorfismo")) {
+            patologiaStr = "Disagio legato al rapporto con cibo, peso o immagine corporea"; specStr = "Psicologo/Psichiatra esperto in DCA";
+        }
+        else if (dLower.includes("ansia") || dLower.includes("stress") || dLower.includes("depressione") || dLower.includes("famiglia") || dLower.includes("panico") || dLower.includes("trauma") || dLower.includes("lutto")) {
             patologiaStr = "Necessità di supporto psicologico"; specStr = "Psicologa ad orientamento Sistemico-Relazionale";
         }
         else if (dLower.includes("osso") || dLower.includes("dolore") || dLower.includes("schiena") || dLower.includes("ginocchio") || dLower.includes("frattura")) {
