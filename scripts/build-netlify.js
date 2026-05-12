@@ -8,6 +8,8 @@ const entries = [
   "index.html",
   "logo.jpg",
   "manifest.webmanifest",
+  "robots.txt",
+  "sitemap.xml",
   "service-worker.js",
   "src",
   "assets"
