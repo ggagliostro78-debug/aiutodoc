@@ -362,6 +362,10 @@ body {
   margin-bottom: 18px;
 }
 
+.result-start {
+  scroll-margin-top: 16px;
+}
+
 /* ID Copy Box Container */
 .id-copy-box {
   background: var(--primary);

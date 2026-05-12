@@ -233,7 +233,7 @@ class ChatInterface {
 
         let out = `
         <div id="printable-area">
-        <div id="medical-disclaimer-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
+        <div id="medical-disclaimer-start" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
           ⚠️ ${escapeHTML(DISCLAIMER)}
         </div>
         ✅ <strong>Triage Recuperato (ID: ${escapeHTML(saved.id)})</strong>.<br>
@@ -323,10 +323,10 @@ class ChatInterface {
 
         this.messagesContainer.appendChild(msgDiv);
 
-        const disclaimerEl = msgDiv.querySelector('#medical-disclaimer-start');
-        if (disclaimerEl) {
+        const resultStartEl = msgDiv.querySelector('.result-start, #medical-disclaimer-start');
+        if (resultStartEl) {
             setTimeout(() => {
-                disclaimerEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                resultStartEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
         } else {
             this.scrollToBottom();
