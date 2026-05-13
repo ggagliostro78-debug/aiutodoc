@@ -65,32 +65,131 @@ class TriageEngine {
         return `${prefix}${numbers}`;
     }
 
-    _saveTriageResult(resultObj, source = 'api') {
+    _saveTriageResult(resultObj, source = 'api', options = {}) {
         const triageID = this._generateTriageID();
+        const registeredUser = getRegisteredUser();
         const dataToSave = {
             id: triageID,
             date: new Date().toISOString(),
             userData: JSON.parse(JSON.stringify(this.userData)),
             result: resultObj,
-            source: source
+            source: source,
+            userRegistration: registeredUser ? {
+                userId: registeredUser.userId,
+                emailHash: registeredUser.emailHash,
+                emailMasked: registeredUser.emailMasked,
+                consentVersion: registeredUser.consentVersion,
+                consents: registeredUser.consents
+            } : null
         };
 
-        // 1. Salvataggio Locale (immediato e sempre attivo come backup)
+        if (options.deferUntilRegistration) {
+            return dataToSave;
+        }
+
+        this._persistTriageResult(dataToSave);
+
+        return dataToSave;
+    }
+
+    _persistTriageResult(dataToSave) {
         try {
             let allResults = JSON.parse(localStorage.getItem('aiutodoc_triages') || '{}');
-            allResults[triageID] = dataToSave;
+            allResults[dataToSave.id] = dataToSave;
             localStorage.setItem('aiutodoc_triages', JSON.stringify(allResults));
         } catch (e) {
             console.error("Errore salvataggio localStorage:", e);
         }
 
-        // 2. Salvataggio Cloud (asincrono su Supabase per persistenza universale)
         this._saveToCloud(dataToSave);
+    }
 
-        return triageID;
+    _buildRegistrationGate(pendingData) {
+        window._pendingTriageSave = pendingData;
+        const registeredUser = getRegisteredUser();
+        if (registeredUser) {
+            return `
+            <div class="registration-gate" data-save-ready="true">
+                <p><strong>Codice disponibile per utente registrato.</strong></p>
+                <p>Profilo: ${escapeHTML(registeredUser.emailMasked)}. Conferma per salvare questa ricerca e generare il codice recuperabile.</p>
+                <button type="button" class="btn-primary-wide save-triage-after-registration">Genera codice ricerca</button>
+            </div>`;
+        }
+
+        return `
+        <div class="registration-gate">
+            <p><strong>Vuoi il codice per recuperare questa ricerca?</strong></p>
+            <p>Il codice viene creato solo previa registrazione e consenso esplicito. Senza registrazione il risultato resta disponibile solo in questa sessione.</p>
+            <label class="registration-field">
+                <span>Email per la registrazione</span>
+                <input type="email" class="registration-email" autocomplete="email" placeholder="nome@email.it">
+            </label>
+            <label class="consent-row">
+                <input type="checkbox" class="registration-consent" data-consent="terms">
+                <span>Accetto Termini e Condizioni d'uso.</span>
+            </label>
+            <label class="consent-row">
+                <input type="checkbox" class="registration-consent" data-consent="privacy">
+                <span>Dichiaro di aver letto l'Informativa Privacy.</span>
+            </label>
+            <label class="consent-row">
+                <input type="checkbox" class="registration-consent" data-consent="healthData">
+                <span>Presto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.</span>
+            </label>
+            <button type="button" class="btn-primary-wide register-and-save-triage">Registrati e genera codice</button>
+            <p class="registration-note">Per minimizzare i dati, l'app salva l'hash dell'email e i consensi associati al codice ricerca.</p>
+        </div>`;
+    }
+
+    async registerAndSavePendingTriage(formEl) {
+        const gate = formEl.closest('.registration-gate') || formEl;
+        const pendingData = window._pendingTriageSave;
+        if (!pendingData) {
+            alert("Nessun risultato in attesa di salvataggio.");
+            return;
+        }
+
+        let registeredUser = getRegisteredUser();
+        if (!registeredUser) {
+            const emailInput = gate.querySelector('.registration-email');
+            const consentFlags = {};
+            gate.querySelectorAll('.registration-consent').forEach((input) => {
+                consentFlags[input.dataset.consent] = input.checked;
+            });
+            registeredUser = await registerUserForRecovery(emailInput ? emailInput.value : "", consentFlags);
+        }
+
+        pendingData.userRegistration = {
+            userId: registeredUser.userId,
+            emailHash: registeredUser.emailHash,
+            emailMasked: registeredUser.emailMasked,
+            consentVersion: registeredUser.consentVersion,
+            consents: registeredUser.consents
+        };
+
+        this._persistTriageResult(pendingData);
+        window._currentTriageData = pendingData;
+        window._pendingTriageSave = null;
+
+        gate.outerHTML = `
+        <div class="id-copy-box" data-triage-id="${escapeHTML(pendingData.id)}" title="Clicca per copiare l'ID">
+            <p style="margin: 0 0 8px 0; font-size: 0.9rem; opacity: 0.9;">Ricerca salvata con <strong>codice univoco</strong>:</p>
+            <div class="id-number">${escapeHTML(pendingData.id)}</div>
+            <p class="copy-hint">Usa questo codice per tornare ai risultati senza rifare le domande.</p>
+        </div>`;
+
+        const newBox = document.querySelector(`.id-copy-box[data-triage-id="${pendingData.id}"]`);
+        if (newBox) {
+            newBox.addEventListener('click', () => copyTriageID(pendingData.id, newBox));
+            newBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     }
 
     async _saveToCloud(data) {
+        if (!data.userRegistration || !data.userRegistration.userId) {
+            console.log("Cloud Save: registrazione mancante, salvataggio persistente non eseguito.");
+            return;
+        }
         if (window.firebaseReady) {
             await window.firebaseReady;
         }
@@ -112,6 +211,11 @@ class TriageEngine {
             alert("Inserisci un codice ID valido.");
             return;
         }
+        const registeredUser = getRegisteredUser();
+        if (!registeredUser) {
+            alert("Per recuperare una ricerca devi prima registrarti da un risultato completato.");
+            return;
+        }
         const cleanID = id.trim().toUpperCase();
         if (window.firebaseReady) {
             await window.firebaseReady;
@@ -131,6 +235,10 @@ class TriageEngine {
             }
 
             const data = doc.data();
+            if (data.userRegistration && data.userRegistration.userId !== registeredUser.userId) {
+                this.onMessage("❌ Il codice esiste ma non è associato alla registrazione presente su questo dispositivo.", "system-msg danger");
+                return;
+            }
             this.onMessage("✅ Ricerca recuperata con successo!", "system-msg success");
             
             // Switch alla tab chat se necessario
@@ -912,25 +1020,20 @@ class TriageEngine {
             </div>
             `;
 
-            // Salvataggio Risultato Reale
-            const triageID = this._saveTriageResult(resultObj, 'api');
+            const pendingTriage = this._saveTriageResult(resultObj, 'api', { deferUntilRegistration: true });
             
             // Memorizza i dati correnti per riferimento sessione
             window._currentTriageData = { 
                 ...this.userData, 
-                id: triageID,
-                date: new Date().toISOString(),
+                id: null,
+                date: pendingTriage.date,
                 result: resultObj 
             };
 
             let out = outInitial + 
-            `<!-- ID BOX -->
-            <div class="id-copy-box" data-triage-id="${triageID}" title="Clicca per copiare l'ID">
-                <p style="margin: 0 0 8px 0; font-size: 0.9rem; opacity: 0.9;">Triage salvato con <strong>ID univoco</strong> (Clicca per copiare):</p>
-                <div class="id-number">${triageID || 'N.D.'}</div>
-                <p class="copy-hint">Usa questo numero per tornare ai risultati senza rifare le domande.</p>
-            </div>` +
-            `Ecco 16 specialisti di eccellenza individuati in rete:<br>`;
+            this._buildRegistrationGate(pendingTriage) +
+            `<p class="ai-final-notice">${escapeHTML(AI_FINAL_NOTICE)}</p>` +
+            `Ecco 16 specialisti individuati in rete:<br>`;
 
             let resultsHTML = "";
             const seenNames = new Set();
@@ -976,7 +1079,7 @@ class TriageEngine {
         }
 
         try {
-            const systemPrompt = `Sei un esperto di orientamento medico di Aiutodoc.it. Il tuo obiettivo è fornire una sintesi clinica accurata e una lista di 16 specialisti di eccellenza.
+            const systemPrompt = `Sei un sistema di intelligenza artificiale per orientamento sanitario informativo di Aiutodoc.it. Il tuo obiettivo e' fornire una sintesi informativa non diagnostica e una lista di 16 specialisti pertinenti.
             
             Dati utente:
             - Sesso/Età: ${this.userData.sessoEta}
@@ -989,7 +1092,7 @@ class TriageEngine {
             REGOLE DI OUTPUT:
             Restituisci ESCLUSIVAMENTE un oggetto JSON puro con questa struttura:
             {
-              "sintesi_anamnestica": "Sintesi clinica dei sintomi e dell'intervista in italiano.",
+              "sintesi_anamnestica": "Sintesi informativa dei sintomi dichiarati e delle risposte, senza formulare diagnosi.",
               "specialista_indicato": "Branca medica principale (es. Cardiologo, Neurochirurgo, ecc.)",
               "preparazione_visita": "Consigli pratici per la visita (es. 'porta con te esami del sangue recenti')",
               "impegnativa_medico": "Testo suggerito per il Medico di Medicina Generale (MMG) per facilitare la scrittura dell'impegnativa.",
@@ -1111,12 +1214,12 @@ class TriageEngine {
             currentCardIndex++;
         }
 
-        const triageID = this._saveTriageResult(resultObjFallback, 'fallback');
+        const pendingTriage = this._saveTriageResult(resultObjFallback, 'fallback', { deferUntilRegistration: true });
         
         window._currentTriageData = { 
             ...this.userData, 
-            id: triageID,
-            date: new Date().toISOString(),
+            id: null,
+            date: pendingTriage.date,
             result: resultObjFallback 
         };
 
@@ -1140,11 +1243,8 @@ class TriageEngine {
         `;
 
         let out = outInitialRes + 
-        `<!-- ID BOX -->
-        <div class="id-copy-box" data-triage-id="${triageID}" title="Clicca per copiare l'ID">
-            <p style="margin: 0 0 8px 0; font-size: 0.9rem; opacity: 0.9;">ID Triage Fallback:</p>
-            <div class="id-number">${triageID}</div>
-        </div>` +
+        this._buildRegistrationGate(pendingTriage) +
+        `<p class="ai-final-notice">${escapeHTML(AI_FINAL_NOTICE)}</p>` +
         `Ecco 16 risultati (simulati):<br>` + resultsHTML + `</div>`;
         
         // this._setupPDFDownload(); // Rimosso temporaneamente

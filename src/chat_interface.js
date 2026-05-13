@@ -6,7 +6,7 @@ class ChatInterface {
         this.sendBtn = document.getElementById('send-btn');
         this.typingIndicator = document.getElementById('typing-indicator');
         this.inputArea = document.querySelector('.chat-input-area');
-        this.quickReplies = this._createQuickReplies();
+        this.quickReplies = null;
 
         this.onSend = onSend;
         this.recoveryInput = document.getElementById('recovery-id-input');
@@ -28,32 +28,6 @@ class ChatInterface {
                 if (e.key === 'Enter') this.handleRecovery();
             });
         }
-    }
-
-    _createQuickReplies() {
-        const inputArea = document.querySelector('.chat-input-area');
-        if (!inputArea || !inputArea.parentNode) return null;
-
-        const wrapper = document.createElement('div');
-        wrapper.className = 'quick-replies hidden';
-        wrapper.setAttribute('aria-label', 'Risposte rapide');
-
-        ['A', 'B', 'C'].forEach((choice) => {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'quick-reply-btn';
-            button.dataset.choice = choice;
-            button.dataset.reply = choice;
-            button.innerHTML = `<span class="quick-choice-letter">${choice}</span><span class="quick-choice-text">${choice}</span>`;
-            button.addEventListener('click', () => {
-                this.userInput.blur();
-                this.handleSendViaDispatcher(button.dataset.reply || choice);
-            });
-            wrapper.appendChild(button);
-        });
-
-        inputArea.parentNode.insertBefore(wrapper, inputArea);
-        return wrapper;
     }
 
     _shouldShowQuickReplies() {
@@ -113,6 +87,8 @@ class ChatInterface {
             options.forEach((option) => {
                 const row = document.createElement('div');
                 row.className = 'mcq-option';
+                row.setAttribute('role', 'button');
+                row.setAttribute('tabindex', '0');
                 row.dataset.reply = `${option.letter}) ${option.text}`;
 
                 const badge = document.createElement('span');
@@ -125,6 +101,17 @@ class ChatInterface {
 
                 row.appendChild(badge);
                 row.appendChild(text);
+                row.addEventListener('click', () => {
+                    if (this.userInput.disabled) return;
+                    this.handleSendViaDispatcher(row.dataset.reply);
+                });
+                row.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        if (this.userInput.disabled) return;
+                        this.handleSendViaDispatcher(row.dataset.reply);
+                    }
+                });
                 list.appendChild(row);
             });
 
@@ -149,27 +136,26 @@ class ChatInterface {
     }
 
     _syncQuickReplies() {
-        if (!this.quickReplies) return;
-        const show = !this.userInput.disabled && this._shouldShowQuickReplies();
-        if (show) this._updateQuickReplyLabels();
-        this.quickReplies.classList.toggle('hidden', !show);
-        this.quickReplies.classList.toggle('desktop-choice-mode', show);
+        if (this.quickReplies) {
+            this.quickReplies.classList.add('hidden');
+            this.quickReplies.classList.remove('desktop-choice-mode');
+        }
         if (this.messagesContainer) {
-            this.messagesContainer.classList.toggle('choice-mode', show);
+            this.messagesContainer.classList.remove('choice-mode');
         }
         if (this.inputArea) {
-            this.inputArea.classList.toggle('desktop-choice-mode', show);
-        }
-        if (show) {
-            this.userInput.blur();
-            setTimeout(() => this.scrollToBottom(), 80);
-            setTimeout(() => this.scrollToBottom(), 220);
+            this.inputArea.classList.remove('desktop-choice-mode');
         }
     }
 
     async handleRecovery() {
         const id = this.recoveryInput.value.trim();
         if (!id) return;
+        const registeredUser = getRegisteredUser();
+        if (!registeredUser) {
+            alert("Il recupero tramite codice è disponibile solo dopo registrazione e consensi GDPR.");
+            return;
+        }
 
         console.log("Recovery: avviato recupero per ID", id);
 
@@ -186,12 +172,16 @@ class ChatInterface {
         }
 
         if (saved) {
+            if (saved.userRegistration && saved.userRegistration.userId !== registeredUser.userId) {
+                alert("Questo codice non risulta associato alla registrazione presente su questo dispositivo.");
+                return;
+            }
             const chatBtn = document.querySelector('.nav-btn[data-target="chat-section"]');
             if (chatBtn && !chatBtn.classList.contains('active')) {
                 chatBtn.click();
             }
 
-            this.addMessage(`Recupero triage ID: ${id}...`, 'user-msg');
+            this.addMessage(`Recupero ricerca ID: ${id}...`, 'user-msg');
 
             const inputArea = document.querySelector('.chat-input-area');
             if (inputArea) {
@@ -236,7 +226,7 @@ class ChatInterface {
         <div id="medical-disclaimer-start" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
           ⚠️ ${escapeHTML(DISCLAIMER)}
         </div>
-        ✅ <strong>Triage Recuperato (ID: ${escapeHTML(saved.id)})</strong>.<br>
+        ✅ <strong>Ricerca recuperata (ID: ${escapeHTML(saved.id)})</strong>.<br>
         Data: ${escapeHTML(new Date(saved.date).toLocaleDateString('it-IT'))}<br><br>
 
         <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">
@@ -310,6 +300,21 @@ class ChatInterface {
         bubble.querySelectorAll('.id-copy-box[data-triage-id]').forEach((el) => {
             el.addEventListener('click', () => {
                 copyTriageID(el.dataset.triageId, el);
+            });
+        });
+
+        bubble.querySelectorAll('.register-and-save-triage, .save-triage-after-registration').forEach((button) => {
+            button.addEventListener('click', async () => {
+                button.disabled = true;
+                const originalText = button.textContent;
+                button.textContent = "Salvataggio...";
+                try {
+                    await window.triageEngine.registerAndSavePendingTriage(button);
+                } catch (error) {
+                    alert(error.message || "Non è stato possibile completare la registrazione.");
+                    button.disabled = false;
+                    button.textContent = originalText;
+                }
             });
         });
 

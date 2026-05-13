@@ -94,19 +94,31 @@
   <!-- Privacy Disclaimer Modal -->
   <div id="privacy-modal" class="modal-overlay">
     <div class="modal-content">
-      <h3>Informativa e Condizioni d'Uso</h3>
+      <h3>Verifica età, informativa e consensi</h3>
       <div class="modal-scroll">
         <p>Benvenuto in AIutoDoc.it.</p>
-        <p>I dati inseriti in questa applicazione vengono utilizzati esclusivamente allo scopo di fornire un'indicazione
-          orientativa sullo specialista più adeguato. Nessun dato personale o sensibile viene salvato nei nostri server
-          o ceduto a terzi.</p>
-        <p><strong>ATTENZIONE:</strong> AIutoDoc.it è un assistente virtuale e <strong>non sostituisce in alcun modo il
-            parere del tuo Medico Curante</strong> o la diagnosi di uno specialista. Non utilizzare questo servizio in
-          situazioni di Emergenza (in tal caso contatta il 112).</p>
-        <p>Cliccando su "Accetto e Continuo", dichiari di aver letto, compreso e accettato le presenti condizioni e
-          acconsenti al trattamento temporaneo dei dati da te forniti.</p>
+        <p>I dati che inserisci vengono trattati esclusivamente per generare la risposta e non sono conservati oltre la durata della sessione, salvo tua registrazione per ottenere un codice di recupero. Per maggiori dettagli consulta l'Informativa Privacy.</p>
+        <p><strong>ATTENZIONE:</strong> Sono un sistema di intelligenza artificiale che fornisce informazioni di orientamento. Non sono un medico e non sostituisco il parere del tuo Medico Curante. Non utilizzare questo servizio in situazioni di emergenza: contatta il 112.</p>
+        <div class="age-gate" role="group" aria-label="Verifica età">
+          <p><strong>Hai compiuto 14 anni?</strong></p>
+          <label><input type="radio" name="age-confirmation" value="yes"> Sì</label>
+          <label><input type="radio" name="age-confirmation" value="no"> No</label>
+          <p id="minor-flow-message" class="minor-flow-message hidden">Per i minori di 14 anni l'uso del servizio richiede il coinvolgimento di un genitore o tutore. Chiudi questa finestra e chiedi a un adulto di assisterti.</p>
+        </div>
+        <label class="consent-row">
+          <input type="checkbox" id="consent-medical-disclaimer">
+          <span>Dichiaro di aver preso visione del disclaimer medico.</span>
+        </label>
+        <label class="consent-row">
+          <input type="checkbox" id="consent-terms">
+          <span>Accetto Termini e Condizioni d'uso.</span>
+        </label>
+        <label class="consent-row">
+          <input type="checkbox" id="consent-health-data">
+          <span>Presto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.</span>
+        </label>
       </div>
-      <button id="accept-privacy-btn" class="btn-primary-wide">Accetto e Voglio Continuare</button>
+      <button id="accept-privacy-btn" class="btn-primary-wide" disabled>Accetto e voglio continuare</button>
     </div>
   </div>
 
@@ -130,7 +142,7 @@
 
         <!-- MENU A 5 TASTI + ID RICERCA -->
         <nav class="main-nav">
-          <button class="nav-btn active" data-target="chat-section">Triage Chat</button>
+          <button class="nav-btn active" data-target="chat-section">Orientamento</button>
           <button class="nav-btn" data-target="about-section">Chi Siamo</button>
           <button class="nav-btn" data-target="glossary-section">Glossario</button>
           <button class="nav-btn" data-target="practices-section">Branche Mediche</button>
@@ -157,10 +169,10 @@
               <strong class="welcome-title" style="text-align: center; display: block; font-size: 1.25rem; margin-bottom: 4px; white-space: nowrap;">Benvenuto in AIutoDoc.it!</strong>
               <div class="welcome-subtitle" style="text-align: center; font-style: italic; color: var(--text-muted); margin-bottom: 12px; font-size: 0.85rem;">L'accesso giusto alla cura giusta.</div>
               
-              <p style="text-align: center; margin-bottom: 10px; font-size: 0.95rem;">Sono il tuo assistente virtuale, qui per aiutarti a capire qual è lo specialista medico più adatto ai tuoi disturbi, basandomi su criteri scientifici affidabili.</p>
+              <p style="text-align: center; margin-bottom: 10px; font-size: 0.95rem;">Sono un sistema di intelligenza artificiale che fornisce informazioni di orientamento. Non sono un medico.</p>
               
               <div class="welcome-disclaimer" style="text-align: center; font-size: 0.8rem; color: var(--text-muted); font-style: italic; margin-bottom: 15px;">
-                (Ricorda: non sono un medico, quindi non posso farti diagnosi o darti farmaci, ma posso indicarti chi consultare!)
+                (Non posso formulare diagnosi o indicare terapie, ma posso orientarti verso la branca specialistica più coerente con le informazioni fornite.)
               </div>
               
               <div style="text-align: center; font-weight: 500;">
@@ -184,12 +196,12 @@
           </button>
         </div>
         <div class="chat-footer-links">
-          Fare del bene ci fa stare bene: <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc">Collabora</a> o <a href="mailto:info@aiutodoc.it?subject=Interesse Investimento AIutoDoc">Investi in AiutoDoc.it</a>
+          Fare del bene ci fa stare bene: <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc">Collabora</a> o <a href="mailto:info@aiutodoc.it?subject=Opportunita istituzionali AIutoDoc">Opportunità istituzionali</a>
         </div>
         
         <!-- AI DISCLAIMER BOX -->
         <div class="ai-disclaimer-box" style="margin-top: 20px; padding: 15px; background-color: #f0f7f7; border-left: 4px solid var(--primary); border-radius: 4px; font-size: 0.85rem; color: var(--text-main);">
-          <strong>Nota Informativa:</strong> Aiutodoc.it è un motore di ricerca che utilizza l'Intelligenza Artificiale per indicizzare e filtrare professionisti sanitari presenti in rete. Non fornisce diagnosi, non prescrive cure e non sostituisce il parere del medico. In caso di emergenza, contatta il 118.</div>
+          <strong>Nota Informativa:</strong> Aiutodoc.it utilizza sistemi digitali di orientamento per aiutarti a individuare la branca specialistica più coerente con le informazioni fornite. Non fornisce diagnosi, non prescrive cure e non sostituisce il parere del medico. In caso di emergenza, contatta il 112.</div>
       </section>
 
       <!-- Section: Chi Siamo -->
@@ -200,29 +212,39 @@
           </div>
           <h2>Perché AIutoDoc?</h2>
           
-          <p><strong>AIutoDoc</strong> nasce con l'obiettivo di semplificare e velocizzare le scelte sanitarie per ogni paziente, aiutando a navigare il complesso mondo della medicina e indirizzando ogni sintomo al corretto specialista.</p>
+          <p><strong>AIutoDoc</strong> nasce con l'obiettivo di semplificare l'orientamento sanitario informativo, aiutando le persone a individuare la branca specialistica più coerente con le informazioni fornite.</p>
 
           <div class="brand-positioning">
             <div class="problem-box">
               <h3>Il Problema: Liste d'Attesa</h3>
-              <p>Le lunghe attese nel sistema sanitario regionale non dipendono solo dalla mancanza di offerta, ma in larga misura da una <strong>domanda non filtrata</strong> e clinicamente inappropriata. Molte visite vengono effettuate senza reale necessità clinica o in momenti non corretti, occupando slot preziosi.</p>
+              <p>Le lunghe attese nel sistema sanitario regionale possono essere influenzate anche da richieste non sempre indirizzate alla branca più coerente. Un migliore orientamento informativo può aiutare il cittadino a prepararsi meglio al confronto con il medico.</p>
             </div>
             
             <div class="solution-box">
               <h3>Il Ruolo di AIutoDoc</h3>
-              <p>Interveniamo <strong>prima della prenotazione</strong>, qualificando la domanda tramite orientamento informativo ed educazione del cittadino. Trasformiamo la congestione e lo spreco in <strong>capacità sanitaria recuperata</strong> per chi ha maggiore priorità.</p>
+              <p>AIutoDoc interviene <strong>prima della prenotazione</strong> con un percorso digitale di orientamento, senza sostituire valutazioni cliniche, diagnosi o decisioni del medico.</p>
             </div>
           </div>
 
-          <p>Le nostre intelligenze artificiali, addestrate su algoritmi scientifici, riducono i tempi di attesa proponendo direttamente le cliniche e gli ospedali (SSN, Convenzionati o Privati) del tuo territorio.</p>
+          <p>AIutoDoc utilizza sistemi digitali di orientamento per aiutarti a individuare la branca specialistica più coerente con le informazioni fornite e una selezione di professionisti o strutture presenti in rete.</p>
 
           <div class="impact-stats">
-            Su base annuale, AIutoDoc può liberare <strong>centinaia di migliaia di slot</strong> di visita, migliorando l'equità territoriale e l'efficienza di tutto il sistema.
+            Le stime di impatto saranno comunicate solo quando disponibili dati verificabili e metodologie documentate.
           </div>
 
           <p style="text-align: center; font-style: italic; margin-top: 20px; color: var(--primary); font-weight: 500;">
             Siamo l'anello di congiunzione tra le tue necessità di salute e la cura giusta, al momento giusto.
           </p>
+
+          <div class="team-structure">
+            <h3>Struttura team</h3>
+            <ul>
+              <li><strong>Founder:</strong> Nome da definire</li>
+              <li><strong>CTO:</strong> Nome da definire</li>
+              <li><strong>Responsabile Marketing:</strong> Nome da definire</li>
+              <li><strong>Consulente Legale:</strong> Nome da definire</li>
+            </ul>
+          </div>
 
           <p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 25px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 15px;">
             AIutoDoc utilizza Intelligenza Artificiale <strong>non diagnostica</strong> e non sostituisce mai la decisione clinica del tuo medico curante.
@@ -231,7 +253,7 @@
           <div class="cta-container">
             <a href="mailto:info@aiutodoc.it" class="btn-secondary-wide">Scrivici: info@aiutodoc.it</a>
             <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc" class="btn-secondary-wide">Collabora a far crescere AIutoDoc.it</a>
-            <button id="investor-btn" class="btn-premium-wide" onclick="window.location.href='mailto:info@aiutodoc.it?subject=Interesse Investimento AIutoDoc'"><span>Investi</span> nel Progetto AIutoDoc</button>
+            <button id="investor-btn" class="btn-premium-wide" onclick="window.location.href='mailto:info@aiutodoc.it?subject=Opportunita investimento istituzionale AIutoDoc'">Per opportunità di investimento istituzionali contattare info@aiutodoc.it</button>
           </div>
         </div>
       </section>
@@ -582,7 +604,7 @@
             <div class="g-card"><strong>PCR:</strong> Acronimo di Proteina C Reattiva, un indicatore forte
               dell'infiammazione circolante in fase molto acuta.</div>
             <div class="g-card"><strong>Artropatia:</strong> Malattia o sofferenza aspecifica genericamente localizzata
-              e in via di diagnosi precisa, sulle articolazioni.</div>
+              sulle articolazioni, da approfondire con il medico.</div>
           </div>
 
           <h3
@@ -733,7 +755,7 @@
           <div style="text-align: center;"><img src="./assets/practices.png" alt="Pratiche Mediche Cartoon" loading="lazy" decoding="async"
               class="section-image" onerror="this.style.display='none'"></div>
           <h2>Branche Mediche Analizzate</h2>
-          <p>Il nostro Triage valuta i tuoi sintomi confrontandoli dinamicamente con i cluster di queste discipline:</p>
+          <p>Il percorso di orientamento confronta le informazioni fornite con i cluster informativi di queste discipline:</p>
           <div class="practices-list">
             <ul>
               <li><strong>Psicologia/Psichiatria:</strong> Ansia, depressione, supporto sistemico e percorsi di
@@ -804,7 +826,7 @@
       </div>
       <div class="footer-copy" style="margin-top: 10px;">
         &copy; 2026 AIutoDoc. Tutti i diritti riservati.<br>
-        <small>Progetto AI indipendente per il Triage in formato Assistenza Virtuale.</small>
+        <small>Progetto AI indipendente per orientamento sanitario informativo.</small>
       </div>
     </footer>
   </div>
@@ -817,13 +839,39 @@
       const acceptBtn = document.getElementById('accept-privacy-btn');
       const userInput = document.getElementById('user-input');
       const sendBtn = document.getElementById('send-btn');
+      const ageRadios = document.querySelectorAll('input[name="age-confirmation"]');
+      const consentInputs = [
+        document.getElementById('consent-medical-disclaimer'),
+        document.getElementById('consent-terms'),
+        document.getElementById('consent-health-data')
+      ].filter(Boolean);
+      const minorMessage = document.getElementById('minor-flow-message');
 
       if (privacyModal && acceptBtn) {
         if (userInput) userInput.disabled = true;
         if (sendBtn) sendBtn.disabled = true;
 
+        const syncConsentButton = function() {
+          const ageValue = document.querySelector('input[name="age-confirmation"]:checked')?.value;
+          const isAdultEnough = ageValue === 'yes';
+          const allConsents = consentInputs.every(function(input) { return input.checked; });
+          acceptBtn.disabled = !(isAdultEnough && allConsents);
+          if (minorMessage) minorMessage.classList.toggle('hidden', ageValue !== 'no');
+        };
+
+        ageRadios.forEach(function(input) { input.addEventListener('change', syncConsentButton); });
+        consentInputs.forEach(function(input) { input.addEventListener('change', syncConsentButton); });
+
         acceptBtn.addEventListener('click', function() {
           console.log("Privacy accepted.");
+          localStorage.setItem('aiutodoc_entry_consents', JSON.stringify({
+            ageOver14: true,
+            medicalDisclaimer: true,
+            terms: true,
+            healthData: true,
+            consentVersion: '2026-05-gdpr-v1',
+            acceptedAt: new Date().toISOString()
+          }));
           privacyModal.classList.add('hidden');
           setTimeout(function() { privacyModal.style.display = 'none'; }, 500);
           
@@ -861,10 +909,11 @@
             text = `
               <h4>Informativa ai sensi del Regolamento UE 2016/679 (GDPR)</h4>
               <ul>
-                <li><strong>Dati Trattati:</strong> La piattaforma è progettata per funzionare senza registrazione. Non vengono raccolti nomi, cognomi o dati identificativi dell'utente. Le informazioni inserite nella barra di ricerca, come sintomi o necessità, vengono elaborate in tempo reale.</li>
-                <li><strong>Finalità e Conservazione:</strong> Le query di ricerca vengono utilizzate esclusivamente per generare il risultato richiesto. Non vengono creati profili sanitari dell'utente. I dati di navigazione vengono anonimizzati o cancellati al termine della sessione.</li>
-                <li><strong>Comunicazione a Terzi:</strong> Per il funzionamento della ricerca, il testo della query, privo di dati identificativi, può essere elaborato tramite API di fornitori di Intelligenza Artificiale che operano secondo protocolli di sicurezza standard.</li>
-                <li><strong>Diritti dell'interessato:</strong> Non conservando dati identificativi, il Titolare potrebbe non essere in grado di risalire a specifiche ricerche passate per l'esercizio del diritto di accesso o cancellazione.</li>
+                <li><strong>Dati trattati:</strong> Le informazioni inserite, incluse eventuali informazioni sanitarie, vengono trattate per generare la risposta di orientamento. Se richiedi il codice di recupero, viene registrato anche un identificativo utente pseudonimo associato ai consensi prestati.</li>
+                <li><strong>Base giuridica:</strong> Per l'uso del servizio sono richiesti consensi separati: presa visione del disclaimer medico, accettazione dei termini e consenso esplicito al trattamento dei dati sanitari ex art. 9(2)(a) GDPR.</li>
+                <li><strong>Finalità e conservazione:</strong> I dati inseriti vengono trattati esclusivamente per generare la risposta e non sono conservati oltre la durata della sessione, salvo registrazione volontaria per ottenere il codice di recupero.</li>
+                <li><strong>Comunicazione a terzi:</strong> Per il funzionamento della ricerca, il testo fornito può essere elaborato tramite API di fornitori di Intelligenza Artificiale che operano secondo protocolli di sicurezza standard.</li>
+                <li><strong>Diritti dell'interessato:</strong> Puoi scrivere a info@aiutodoc.it per richieste di accesso, rettifica, cancellazione o revoca del consenso.</li>
               </ul>
             `; 
             break;
@@ -873,10 +922,10 @@
             text = `
               <h4>Regolamento per l'uso della piattaforma aiutodoc.it</h4>
               <ul>
-                <li><strong>Natura del Servizio:</strong> Aiutodoc.it è un motore di ricerca assistito da Intelligenza Artificiale (IA) che aggrega e filtra informazioni pubbliche riguardanti professionisti sanitari. Il servizio ha scopo puramente informativo e di orientamento. Non è un servizio di telemedicina né una struttura sanitaria.</li>
+                <li><strong>Natura del Servizio:</strong> Aiutodoc.it utilizza sistemi digitali di orientamento per aiutarti a individuare la branca specialistica più coerente con le informazioni fornite. Il servizio ha scopo puramente informativo e di orientamento. Non è un servizio di telemedicina né una struttura sanitaria.</li>
                 <li><strong>Esclusione di parere medico:</strong> La piattaforma non fornisce diagnosi, non prescrive farmaci e non suggerisce terapie. L'IA analizza i termini inseriti dall'utente al solo fine di individuare la categoria specialistica più pertinente. L'utente è tenuto a consultare un medico prima di intraprendere qualsiasi decisione sanitaria.</li>
                 <li><strong>Limitazione di Responsabilità:</strong> Aiutodoc.it non garantisce l'aggiornamento costante dei dati dei professionisti estratti dalla rete né risponde della qualità della prestazione professionale fornita dai medici individuati. L'utente esonera Aiutodoc.it da ogni responsabilità derivante dal contatto o dalla visita con i professionisti elencati.</li>
-                <li><strong>Emergenze:</strong> In caso di emergenza medica o sintomi acuti, l'utente non deve utilizzare la piattaforma ma contattare immediatamente i servizi di soccorso (118/112).</li>
+                <li><strong>Emergenze:</strong> In caso di emergenza medica o sintomi acuti, l'utente non deve utilizzare la piattaforma ma contattare immediatamente il 112.</li>
                 <li><strong>Contatti per richieste:</strong> Per richieste informative o di rimozione dall'indicizzazione è possibile scrivere a info@aiutodoc.it.</li>
               </ul>
             `; 
@@ -890,7 +939,7 @@
             break;
           case 'disclaimer': 
             title = 'Disclaimer Medico'; 
-            text = '<p>Aiutodoc.it utilizza l\'IA per aiutarti a trovare lo specialista più adatto alle tue esigenze basandosi su dati pubblici. I risultati non sono diagnosi mediche. L\'uso della piattaforma implica l\'accettazione dei Termini di Servizio. In caso di urgenza chiama il 118.</p>'; 
+            text = '<p>Sono un sistema di intelligenza artificiale che fornisce informazioni di orientamento. Non sono un medico. I risultati non sono diagnosi mediche e devono essere confermati con il tuo medico curante. In caso di urgenza chiama il 112.</p>'; 
             break;
         }
         document.getElementById('legal-modal-title').innerHTML = title;

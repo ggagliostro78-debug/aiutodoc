@@ -63,7 +63,7 @@ Il sistema non deve mai:
 
 Se emergono sintomi potenzialmente urgenti, il sistema mostra immediatamente il messaggio di emergenza:
 
-> "In presenza di sintomi gravi o improvvisi contatta il 118 o recati immediatamente al Pronto Soccorso."
+> "In presenza di sintomi gravi o improvvisi contatta il 112 o recati immediatamente al Pronto Soccorso."
 
 ### Fase 5 - Analisi
 
@@ -91,7 +91,7 @@ I risultati possono includere:
 
 ### Fase 7 - Persistenza e Recupero
 
-Ogni triage completato genera un ID univoco che consente di recuperare la ricerca successivamente. I dati vengono salvati localmente e, quando disponibile, anche nel database cloud.
+Il codice univoco per recuperare la ricerca viene generato solo dopo registrazione e consenso esplicito. Senza registrazione il risultato resta disponibile nella sessione corrente e non viene salvato in modo persistente.
 
 ## Informazioni Mostrate per Ogni Risultato
 
