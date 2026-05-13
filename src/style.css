@@ -1821,21 +1821,6 @@ body {
   }
 }
 
-@media (max-width: 950px) {
-  .banner-wrapper {
-    height: auto;
-    min-height: 0;
-  }
-
-  .banner-img {
-    display: block;
-    width: 100% !important;
-    height: auto !important;
-    padding: 0 !important;
-    object-fit: initial !important;
-  }
-}
-
 /* Base style for Hamburger Toggle (hidden on desktop) */
 #menu-toggle {
   display: none;
