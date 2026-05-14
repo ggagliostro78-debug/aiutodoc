@@ -298,6 +298,20 @@ class TriageEngine {
         return true;
     }
 
+    async _fetchWithTimeout(url, options = {}, timeoutMs = 4500) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+        try {
+            return await fetch(url, {
+                ...options,
+                signal: controller.signal
+            });
+        } finally {
+            clearTimeout(timer);
+        }
+    }
+
     async processUserInput(text) {
         const input = text.trim();
         console.log("Engine: elaborazione input ->", input, "| Stato attuale:", this.state);
@@ -391,7 +405,11 @@ class TriageEngine {
                 }
 
                 try {
-                    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&countrycodes=it&q=${encodeURIComponent(cleanZona)}`);
+                    const response = await this._fetchWithTimeout(
+                        `https://nominatim.openstreetmap.org/search?format=json&countrycodes=it&q=${encodeURIComponent(cleanZona)}`,
+                        {},
+                        4500
+                    );
                     const data = await response.json();
 
                     if (data && data.length > 0) {
