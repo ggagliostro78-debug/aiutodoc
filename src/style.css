@@ -1726,6 +1726,10 @@ body {
     -webkit-backdrop-filter: blur(10px);
   }
 
+  .chat-input-area.choice-hidden {
+    display: none !important;
+  }
+
   #menu-toggle {
     bottom: 10px !important;
     right: calc(10px + var(--safe-right)) !important;
