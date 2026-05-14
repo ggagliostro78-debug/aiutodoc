@@ -664,6 +664,14 @@ body {
   overflow-wrap: anywhere;
 }
 
+#ai-loading-box {
+  scroll-margin-bottom: calc(96px + var(--safe-bottom));
+}
+
+#ai-loading-box p {
+  text-align: center;
+}
+
 .quick-reply-btn:active {
   transform: scale(0.96);
   background: rgba(27, 155, 154, 0.18);
