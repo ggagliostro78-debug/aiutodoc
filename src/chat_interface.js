@@ -363,10 +363,10 @@ class ChatInterface {
             const lastMessage = this.messagesContainer.lastElementChild;
 
             if (window.innerWidth <= 950) {
-                this.messagesContainer.scrollTo({
-                    top: this.messagesContainer.scrollHeight,
-                    behavior: 'auto'
-                });
+                const target = this.inputArea || lastMessage;
+                if (target) {
+                    target.scrollIntoView({ behavior: 'auto', block: 'end' });
+                }
                 return;
             }
 

@@ -134,7 +134,7 @@ function initApp() {
         setTimeout(() => {
             chatUI.addMessage(botMessage, msgType);
             chatUI.setLoading(false);
-        }, 600);
+        }, 120);
     });
     window.triageEngine = triageEngine;
 

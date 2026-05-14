@@ -1686,9 +1686,15 @@ body {
 
   .chat-input-area {
     flex: 0 0 auto;
-    position: relative;
-    bottom: auto;
+    position: sticky;
+    bottom: 0;
+    z-index: 40;
+    background: rgba(255, 255, 255, 0.96);
+    border-top: 1px solid rgba(209, 223, 223, 0.85);
     padding-top: 10px !important;
+    padding-bottom: calc(10px + var(--safe-bottom)) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   #menu-toggle {
