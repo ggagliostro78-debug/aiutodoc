@@ -1617,9 +1617,10 @@ body {
   html,
   body {
     width: 100%;
-    height: var(--app-height);
+    height: auto;
     min-height: var(--app-height);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   body {
@@ -1628,9 +1629,9 @@ body {
   }
 
   #app {
-    height: var(--app-height);
-    min-height: 0;
-    overflow: hidden;
+    height: auto;
+    min-height: var(--app-height);
+    overflow: visible;
     box-shadow: none;
   }
 
@@ -1665,16 +1666,18 @@ body {
     flex: 1 1 auto !important;
     height: auto !important;
     min-height: 0 !important;
-    overflow: hidden !important;
+    overflow: visible !important;
   }
 
   #chat-section {
     min-height: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   .messages-area {
     padding: 14px !important;
-    overflow-y: auto !important;
+    overflow-y: visible !important;
   }
 
   .messages-area.choice-mode {
@@ -1794,11 +1797,6 @@ body {
 }
 
 @media (max-width: 480px) {
-  .banner-wrapper {
-    height: calc(74px + var(--safe-top));
-    min-height: calc(74px + var(--safe-top));
-  }
-
   .banner-img {
     padding: 0 !important;
   }
