@@ -97,7 +97,7 @@
       <h3>Verifica età, informativa e consensi</h3>
       <div class="modal-scroll">
         <p>Benvenuto in AIutoDoc.it.</p>
-        <p>I dati che inserisci vengono trattati esclusivamente per generare la risposta e non sono conservati oltre la durata della sessione, salvo tua registrazione per ottenere un codice di recupero. Per maggiori dettagli consulta l'Informativa Privacy.</p>
+        <p>I dati che inserisci vengono trattati esclusivamente per generare la risposta e non sono conservati oltre la durata della sessione, salvo tua registrazione per ottenere un codice di recupero. Per maggiori dettagli consulta <a href="#" class="inline-legal-link" data-legal-type="privacy">l'Informativa Privacy</a>.</p>
         <p><strong>ATTENZIONE:</strong> Sono un sistema di intelligenza artificiale che fornisce informazioni di orientamento. Non sono un medico e non sostituisco il parere del tuo Medico Curante. Non utilizzare questo servizio in situazioni di emergenza: contatta il 112.</p>
         <div class="age-gate" role="group" aria-label="Verifica età">
           <p><strong>Hai compiuto 14 anni?</strong></p>
@@ -945,6 +945,13 @@
         document.getElementById('legal-modal-title').innerHTML = title;
         document.getElementById('legal-modal-text').innerHTML = text;
       };
+
+      document.querySelectorAll('.inline-legal-link[data-legal-type]').forEach(function(link) {
+        link.addEventListener('click', function(event) {
+          event.preventDefault();
+          window.openLegalModal(link.getAttribute('data-legal-type'));
+        });
+      });
 
       const closeLegalBtn = document.getElementById('close-legal-btn');
       if (closeLegalBtn) { closeLegalBtn.addEventListener('click', function() { document.getElementById('legal-modal').classList.add('hidden'); }); }

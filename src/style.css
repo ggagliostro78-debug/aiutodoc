@@ -770,6 +770,10 @@ body {
   transition: opacity 0.3s ease;
 }
 
+#legal-modal {
+  z-index: 10001;
+}
+
 .modal-overlay.hidden {
   opacity: 0;
   pointer-events: none;
@@ -821,6 +825,17 @@ body {
 
 .modal-scroll strong {
   color: var(--text-main);
+}
+
+.inline-legal-link {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.inline-legal-link:hover {
+  color: var(--primary-hover);
 }
 
 .age-gate {
