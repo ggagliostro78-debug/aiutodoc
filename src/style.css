@@ -477,6 +477,10 @@ body {
   padding-bottom: calc(16px + var(--safe-bottom));
 }
 
+.chat-input-area.choice-hidden {
+  display: none !important;
+}
+
 .chat-input-area textarea {
   flex: 1;
   resize: none;

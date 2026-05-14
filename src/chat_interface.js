@@ -136,6 +136,7 @@ class ChatInterface {
     }
 
     _syncQuickReplies() {
+        const shouldHideTextInput = !this.userInput.disabled && this._shouldShowQuickReplies();
         if (this.quickReplies) {
             this.quickReplies.classList.add('hidden');
             this.quickReplies.classList.remove('desktop-choice-mode');
@@ -145,6 +146,7 @@ class ChatInterface {
         }
         if (this.inputArea) {
             this.inputArea.classList.remove('desktop-choice-mode');
+            this.inputArea.classList.toggle('choice-hidden', shouldHideTextInput);
         }
     }
 
@@ -272,6 +274,7 @@ class ChatInterface {
         if (this.quickReplies) this.quickReplies.classList.remove('desktop-choice-mode');
         if (this.messagesContainer) this.messagesContainer.classList.remove('choice-mode');
         if (this.inputArea) this.inputArea.classList.remove('desktop-choice-mode');
+        if (this.inputArea) this.inputArea.classList.remove('choice-hidden');
         this.setLoading(true);
 
         if (this.onSend) {
