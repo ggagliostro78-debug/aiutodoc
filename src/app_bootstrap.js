@@ -74,7 +74,7 @@ function setupSplashScreen() {
     if (!splash) return;
 
     window.requestAnimationFrame(() => {
-        setTimeout(() => splash.classList.add('hidden'), 420);
+        setTimeout(() => splash.classList.add('hidden'), 160);
     });
 }
 
