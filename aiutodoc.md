@@ -2,11 +2,11 @@
 
 ## Descrizione della Piattaforma
 
-AiutoDoc è una piattaforma digitale basata su Intelligenza Artificiale progettata per guidare il paziente verso lo specialista sanitario più appropriato attraverso un percorso di orientamento sanitario informativo. Il sistema svolge un triage orientativo non diagnostico.
+AiutoDoc è una piattaforma digitale basata su Intelligenza Artificiale progettata per guidare il paziente verso lo specialista sanitario più appropriato attraverso un percorso di orientamento sanitario informativo.
 
 ## Obiettivo
 
-Aiutare il paziente a individuare lo specialista più idoneo in base ai sintomi riferiti, senza fornire diagnosi, cure o suggerimenti medici.
+Aiutare il paziente a individuare lo specialista più idoneo in base alle informazioni riferite, senza fornire pareri clinici, cure o suggerimenti medici.
 
 ## Flusso Operativo Attuale
 
@@ -56,7 +56,7 @@ Quando il sintomo non ricade in una sottocategoria specifica, il sistema usa un 
 
 Il sistema non deve mai:
 
-- formulare diagnosi
+- formulare pareri clinici
 - suggerire cure
 - prescrivere farmaci
 - sostituire il parere medico
@@ -69,7 +69,7 @@ Se emergono sintomi potenzialmente urgenti, il sistema mostra immediatamente il 
 
 Il sistema analizza le risposte del paziente e identifica l'area specialistica più compatibile, basandosi su conoscenze medico-scientifiche validate e su regole di classificazione interna.
 
-- non viene mai indicata una diagnosi
+- non viene mai indicata una risposta sanitaria conclusiva
 - viene individuato esclusivamente lo specialista più idoneo
 
 ### Fase 6 - Risultato

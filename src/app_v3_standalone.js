@@ -52,7 +52,7 @@ class TriageEngine {
                 placeholder = "Aggiungi dettagli o scrivi 'NO'";
                 break;
             case '7_FINE':
-                placeholder = "Triage completato.";
+                placeholder = "Orientamento completato.";
                 break;
         }
         inputEl.placeholder = placeholder;
@@ -528,7 +528,7 @@ class TriageEngine {
                         this.onMessage("✅ <strong>Sintomo convalidato dai database scientifici/letteratura.</strong><br><br>Ho preso nota del tuo disturbo. Per inquadrarlo meglio, ti porrò ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
                         this._updatePlaceholder();
                     } else {
-                        this.onMessage(`❌ Il sintomo "<strong>${cleanDisturbo}</strong>" non corrisponde a nessuna patologia o termine medico validato in rete. Per favore, inserisci un disturbo reale (es. "cefalea", "vertigini", "dolore alla schiena") e riprova.`, "system-msg danger");
+                        this.onMessage(`❌ Il testo "<strong>${cleanDisturbo}</strong>" non sembra descrivere un disturbo riconoscibile. Inserisci un problema reale o una necessità sanitaria concreta (es. "cefalea", "vertigini", "dolore alla schiena") e riprova.`, "system-msg danger");
                         return;
                     }
                 } catch (error) {
@@ -549,7 +549,7 @@ class TriageEngine {
                 const isValidMCQ = /^[A-C](?:\)|\.| -|:|\s|$)/.test(cleanConosc) || /\b(?:RISPOSTA|OPZIONE|LETTERA|SCELGO|LA)\s+[A-C]\b/.test(cleanConosc);
 
                 if (!isValidMCQ) {
-                    this.onMessage("❌ Risultato non valido. Per mantenere la precisione del Triage è fondamentale rispondere indicando la lettera corrispondente (es. <strong>A, B o C</strong>).", "system-msg danger");
+                    this.onMessage("❌ Risposta non valida. Per proseguire scegli una delle opzioni disponibili: <strong>A, B o C</strong>.", "system-msg danger");
                     return;
                 }
 
@@ -592,7 +592,7 @@ class TriageEngine {
                 }
 
                 this.state = '5_ANAMNESTICHE';
-                this.onMessage(`Molto bene. Ora passiamo alla seconda fase con <strong>${this.userData.domandeAnamnesticheDinamiche.length} domande anamnestiche</strong> più specifiche sul disturbo per inquadrare con esattezza il parere del triage (rispondi con <strong>A, B o C</strong>).<br><br>1. ` + this.userData.domandeAnamnesticheDinamiche[0]);
+                this.onMessage(`Molto bene. Ora passiamo alla seconda fase con <strong>${this.userData.domandeAnamnesticheDinamiche.length} domande anamnestiche</strong> più specifiche sul disturbo per migliorare l'orientamento (rispondi con <strong>A, B o C</strong>).<br><br>1. ` + this.userData.domandeAnamnesticheDinamiche[0]);
                 this._updatePlaceholder();
                 break;
 
@@ -1124,7 +1124,7 @@ class TriageEngine {
             REGOLE DI OUTPUT:
             Restituisci ESCLUSIVAMENTE un oggetto JSON puro con questa struttura:
             {
-              "sintesi_anamnestica": "Sintesi informativa dei sintomi dichiarati e delle risposte, senza formulare diagnosi.",
+              "sintesi_anamnestica": "Sintesi informativa dei sintomi dichiarati e delle risposte, senza formulare pareri clinici.",
               "specialista_indicato": "Branca medica principale (es. Cardiologo, Neurochirurgo, ecc.)",
               "preparazione_visita": "Consigli pratici per la visita (es. 'porta con te esami del sangue recenti')",
               "impegnativa_medico": "Testo suggerito per il Medico di Medicina Generale (MMG) per facilitare la scrittura dell'impegnativa.",
@@ -1177,36 +1177,36 @@ class TriageEngine {
         const boxLoadingDOM = document.getElementById('ai-loading-box');
         if (boxLoadingDOM) boxLoadingDOM.remove();
 
-        let patologiaStr = "Patologia generica (Base Fallback Senza API Key)";
+        let orientamentoStr = "Indicazione informativa generica (Base Fallback Senza API Key)";
         let specStr = "Medico Internista / Medico di Base";
 
         const dLower = this.userData.disturbo.toLowerCase();
 
         if (dLower.includes("dca") || dLower.includes("anoressia") || dLower.includes("bulimia") || dLower.includes("binge") || dLower.includes("abbuff") || dLower.includes("restrizion") || dLower.includes("dismorfismo")) {
-            patologiaStr = "Disagio legato al rapporto con cibo, peso o immagine corporea"; specStr = "Psicologo/Psichiatra esperto in DCA";
+            orientamentoStr = "Disagio legato al rapporto con cibo, peso o immagine corporea"; specStr = "Psicologo/Psichiatra esperto in DCA";
         }
         else if (dLower.includes("sonno") || dLower.includes("insonnia") || dLower.includes("dormire") || dLower.includes("addorment") || dLower.includes("risvegli") || dLower.includes("russ") || dLower.includes("apne") || dLower.includes("sonnolenza")) {
-            patologiaStr = "Disturbo del sonno da inquadrare"; specStr = "Centro di Medicina del Sonno / Neurologo o Pneumologo";
+            orientamentoStr = "Disturbo del sonno da approfondire"; specStr = "Centro di Medicina del Sonno / Neurologo o Pneumologo";
         }
         else if (dLower.includes("ansia") || dLower.includes("stress") || dLower.includes("depressione") || dLower.includes("famiglia") || dLower.includes("panico") || dLower.includes("trauma") || dLower.includes("lutto")) {
-            patologiaStr = "Necessità di supporto psicologico"; specStr = "Psicologa ad orientamento Sistemico-Relazionale";
+            orientamentoStr = "Necessità di supporto psicologico"; specStr = "Psicologa ad orientamento Sistemico-Relazionale";
         }
         else if (dLower.includes("osso") || dLower.includes("dolore") || dLower.includes("schiena") || dLower.includes("ginocchio") || dLower.includes("frattura")) {
-            patologiaStr = "Sospetta sindrome muscolo-scheletrica"; specStr = "Ortopedico";
+            orientamentoStr = "Area muscolo-scheletrica da approfondire"; specStr = "Ortopedico";
         }
         else if (dLower.includes("testa") || dLower.includes("cefalea") || dLower.includes("memoria")) {
-            patologiaStr = "Sospetta sindrome neurologica"; specStr = "Neurologo";
+            orientamentoStr = "Area neurologica da approfondire"; specStr = "Neurologo";
         }
 
         const resultObjFallback = {
-            sintesi_anamnestica: `Il paziente lamenta: ${this.userData.disturbo}.`,
+            sintesi_anamnestica: `L'utente riferisce: ${this.userData.disturbo}.`,
             specialista_indicato: specStr,
             preparazione_visita: "Portare eventuali esami precedenti e lista farmaci.",
             impegnativa_medico: "Si consiglia visita specialistica per " + specStr,
             risultati: [] // Verranno popolati sotto
         };
 
-        let outInitial = `✅ [MODALITA' PROTOTIPO - INSERISCI API KEY NEL CODICE PER RICERCA REALE]<br><br>Sulla base dei sintomi: <strong>${escapeHTML(patologiaStr)}</strong>. <br><br>Specialista indicato: <strong>${escapeHTML(specStr)}</strong>.<br><br>`;
+        let outInitial = `✅ [MODALITA' PROTOTIPO - INSERISCI API KEY NEL CODICE PER RICERCA REALE]<br><br>Sulla base delle informazioni fornite: <strong>${escapeHTML(orientamentoStr)}</strong>. <br><br>Branca/specialista indicato: <strong>${escapeHTML(specStr)}</strong>.<br><br>`;
         let resultsHTML = "";
         const seenNamesFallback = new Set();
 
@@ -1269,7 +1269,7 @@ class TriageEngine {
         <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">
             <p style="color:red; font-weight:bold;">✅ [MODALITA' PROTOTIPO - SIMULAZIONE]</p>
             <h3 style="color: var(--primary); margin-top: 5px;">🔍 Sintesi Anamnestica</h3>
-            <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(patologiaStr)} (Simulata per: ${escapeHTML(this.userData.disturbo)})</p>
+            <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(orientamentoStr)} (Simulata per: ${escapeHTML(this.userData.disturbo)})</p>
             <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div style="background: #f0f7f7; padding: 15px; border-radius: 10px;">

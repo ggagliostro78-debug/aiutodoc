@@ -45,7 +45,7 @@ function sanitizeHTML(html) {
 let GoogleGenerativeAI = true; // Placeholder per indicare che il motore è pronto (non usiamo più l'SDK esterno)
 
 let db = null;
-const AI_FINAL_NOTICE = "Questa e' un'indicazione informativa. Confermala sempre con il tuo medico curante.";
+const AI_FINAL_NOTICE = "Questa è un'indicazione informativa. Confermala sempre con il tuo medico curante.";
 const APP_CONSENT_VERSION = "2026-05-gdpr-v1";
 const REGISTERED_USER_KEY = "aiutodoc_registered_user";
 const ENTRY_CONSENT_KEY = "aiutodoc_entry_consents";
@@ -177,7 +177,7 @@ function trackEvent(eventName, params = {}) {
     }
 }
 
-const DISCLAIMER = "Questo servizio fornisce esclusivamente supporto informativo per l'orientamento sanitario e non costituisce diagnosi medica ne' sostituisce il parere di un professionista sanitario.";
+const DISCLAIMER = "Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.";
 const URGENCY_WARNING = "In presenza di sintomi gravi o improvvisi contatta il 112 o recati immediatamente al Pronto Soccorso.";
 
 const DOMANDE_CONOSCITIVE = [

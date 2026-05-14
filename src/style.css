@@ -1076,6 +1076,26 @@ body {
   line-height: 1.4;
 }
 
+.plus-showcase {
+  margin: 22px 0;
+  padding: 20px;
+  border: 1px solid rgba(27, 155, 154, 0.2);
+  border-left: 5px solid var(--primary);
+  border-radius: 12px;
+  background: #f8fbfb;
+  box-shadow: var(--shadow-sm);
+}
+
+.plus-showcase h3 {
+  color: var(--primary);
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.plus-showcase p {
+  margin-bottom: 0;
+}
+
 .cta-container {
   margin-top: 40px;
   display: flex;
