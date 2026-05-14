@@ -69,6 +69,24 @@ function setupMobileMenu() {
     });
 }
 
+function setupBannerReload() {
+    const banner = document.querySelector('.banner-img');
+    if (!banner) return;
+
+    banner.setAttribute('role', 'button');
+    banner.setAttribute('tabindex', '0');
+    banner.setAttribute('title', 'Riavvia AIutoDoc');
+
+    const reload = () => window.location.reload();
+    banner.addEventListener('click', reload);
+    banner.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            reload();
+        }
+    });
+}
+
 function setupSplashScreen() {
     const splash = document.getElementById('app-splash');
     if (!splash) return;
@@ -148,6 +166,7 @@ function initApp() {
     setupMobileViewport();
     setupInputAutoGrow();
     setupMobileMenu();
+    setupBannerReload();
     setupInstallPrompt();
     registerServiceWorker();
 
