@@ -363,12 +363,10 @@ class ChatInterface {
             const lastMessage = this.messagesContainer.lastElementChild;
 
             if (window.innerWidth <= 950) {
-                const inputStyle = this.inputArea ? window.getComputedStyle(this.inputArea) : null;
-                const inputVisible = inputStyle && inputStyle.display !== 'none' && inputStyle.visibility !== 'hidden';
-                const target = inputVisible ? this.inputArea : lastMessage;
-                if (target) {
-                    target.scrollIntoView({ behavior: 'auto', block: 'end' });
-                }
+                this.messagesContainer.scrollTo({
+                    top: this.messagesContainer.scrollHeight,
+                    behavior: 'auto'
+                });
                 return;
             }
 

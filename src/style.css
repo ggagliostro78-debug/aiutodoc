@@ -1625,10 +1625,9 @@ body {
   html,
   body {
     width: 100%;
-    height: auto;
+    height: var(--app-height);
     min-height: var(--app-height);
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
   }
 
   body {
@@ -1637,9 +1636,9 @@ body {
   }
 
   #app {
-    height: auto;
-    min-height: var(--app-height);
-    overflow: visible;
+    height: var(--app-height);
+    min-height: 0;
+    overflow: hidden;
     box-shadow: none;
   }
 
@@ -1674,18 +1673,21 @@ body {
     flex: 1 1 auto !important;
     height: auto !important;
     min-height: 0 !important;
-    overflow: visible !important;
+    overflow: hidden !important;
   }
 
   #chat-section {
     min-height: 0 !important;
-    height: auto !important;
-    overflow: visible !important;
+    height: 100% !important;
+    overflow: hidden !important;
   }
 
   .messages-area {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
     padding: 14px !important;
-    overflow-y: visible !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
   }
 
   .messages-area.choice-mode {
@@ -1694,8 +1696,8 @@ body {
 
   .chat-input-area {
     flex: 0 0 auto;
-    position: sticky;
-    bottom: 0;
+    position: relative;
+    bottom: auto;
     z-index: 40;
     background: rgba(255, 255, 255, 0.96);
     border-top: 1px solid rgba(209, 223, 223, 0.85);
