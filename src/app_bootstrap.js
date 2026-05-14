@@ -110,7 +110,33 @@ function registerServiceWorker() {
     if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') return;
 
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js').catch((error) => {
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (refreshing) return;
+            refreshing = true;
+            window.location.reload();
+        });
+
+        navigator.serviceWorker.register('./service-worker.js').then((registration) => {
+            const activateWaitingWorker = () => {
+                if (registration.waiting) {
+                    registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                }
+            };
+
+            activateWaitingWorker();
+            registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                if (!newWorker) return;
+
+                newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        newWorker.postMessage({ type: 'SKIP_WAITING' });
+                    }
+                });
+            });
+            registration.update().catch(() => {});
+        }).catch((error) => {
             console.warn('Service worker non registrato:', error);
         });
     });

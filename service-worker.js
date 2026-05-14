@@ -1,13 +1,7 @@
-const CACHE_NAME = 'aiutodoc-static-v2';
+const CACHE_NAME = 'aiutodoc-static-v20260514-1';
 const ASSETS = [
   './',
   './index.html',
-  './src/style.css',
-  './src/config.js',
-  './src/app_shared.js',
-  './src/app_v3_standalone.js',
-  './src/chat_interface.js',
-  './src/app_bootstrap.js',
   './logo.jpg',
   './assets/about.png',
   './assets/glossary.png',
@@ -29,23 +23,31 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
+async function networkFirst(request) {
+  const cache = await caches.open(CACHE_NAME);
+
+  try {
+    const response = await fetch(request);
+    if (response && response.status === 200) {
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch (error) {
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    throw error;
+  }
+}
+
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   if (event.request.url.includes('/api/')) return;
 
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-
-      return fetch(event.request).then((response) => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
-        }
-
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
-        return response;
-      });
-    })
-  );
+  event.respondWith(networkFirst(event.request));
 });

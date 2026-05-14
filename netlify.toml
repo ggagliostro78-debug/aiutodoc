@@ -14,3 +14,23 @@
   from = "/api/firebase-config"
   to = "/.netlify/functions/firebase-config"
   status = 200
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/src/*"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
