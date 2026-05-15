@@ -971,7 +971,7 @@ class TriageEngine {
             if (isPsychology) {
                 const isRoma = this.userData.zona.toLowerCase().includes("roma");
                 const gretaDevoli = {
-                    nome: "Greta Devoli",
+                    nome: "Dr.ssa Greta Devoli",
                     specializzazione: "Psicologa ad orientamento Sistemico-Relazionale",
                     tipo: isRoma ? "In presenza (Roma) / Online" : "Online (Tutta Italia)",
                     indirizzo_modalita: isRoma ? "Roma (Studio) e Online" : "Online in tutta Italia",
@@ -1213,7 +1213,7 @@ class TriageEngine {
         const isRoma = this.userData.zona.toLowerCase().includes("roma");
         if (specStr === "Psicologa ad orientamento Sistemico-Relazionale") {
             let mod = isRoma ? "In presenza a Roma e Online" : "Online in tutta Italia"; let addr = isRoma ? "Via Nazionale 100, Roma" : "Videoconsulto";
-            const card = { nome: "Dott.ssa Greta Devoli", tipo: "Privato", indirizzo_modalita: addr, contatti: "3479847838 | gretadevoli@gmail.com", info: "Terapia individuale/coppia. Sostegno per ansia, relazionali, traumi e genitorialità." };
+            const card = { nome: "Dr.ssa Greta Devoli", tipo: "Privato", indirizzo_modalita: addr, contatti: "3479847838 | gretadevoli@gmail.com", info: "Terapia individuale/coppia. Sostegno per ansia, relazionali, traumi e genitorialità." };
             resultObjFallback.risultati.push(card);
             seenNamesFallback.add(card.nome.toLowerCase());
             resultsHTML += this._buildCard(card.nome, specStr, card.tipo, card.indirizzo_modalita, card.contatti, mod, card.info);
