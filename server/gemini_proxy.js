@@ -78,7 +78,9 @@ function buildCorsHeaders() {
 async function callGemini(prompt, fetchImpl) {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-        throw new Error("Variabile d'ambiente GEMINI_API_KEY non configurata.");
+        const error = new Error("Variabile d'ambiente GEMINI_API_KEY non configurata.");
+        error.code = "GEMINI_API_KEY_MISSING";
+        throw error;
     }
 
     const controller = new AbortController();
@@ -152,8 +154,10 @@ async function handleGeminiProxy({ method, body, fetchImpl = fetch }) {
         const geminiResponse = await callGemini(prompt, fetchImpl);
         return buildResponse(200, geminiResponse, corsHeaders);
     } catch (error) {
+        const isMissingApiKey = error && error.code === "GEMINI_API_KEY_MISSING";
         return buildResponse(502, {
             error: "Errore del proxy Gemini.",
+            code: isMissingApiKey ? "GEMINI_API_KEY_MISSING" : "GEMINI_PROXY_ERROR",
             detail: error instanceof Error ? error.message : String(error)
         }, corsHeaders);
     }

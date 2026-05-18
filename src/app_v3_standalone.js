@@ -1092,7 +1092,11 @@ class TriageEngine {
             if (this.progressInterval) clearInterval(this.progressInterval);
             const errDetail = err && err.message ? err.message : String(err);
             console.warn("Dettaglio errore Gemini:", errDetail);
-            this.onMessage("⚠️ Il motore AI non è momentaneamente disponibile. Proseguo con una simulazione orientativa, senza mostrare dati tecnici.", "system-msg danger");
+            const isLocalConfigIssue = /GEMINI_API_KEY|Endpoint Gemini|proxy Gemini|404|Not found|Failed to fetch/i.test(errDetail);
+            const fallbackMessage = isLocalConfigIssue
+                ? "Modalità locale attiva: uso il motore dimostrativo di orientamento perché il proxy AI non è configurato in questo ambiente."
+                : "Il motore AI non è momentaneamente disponibile. Proseguo con un orientamento dimostrativo, senza mostrare dati tecnici.";
+            this.onMessage(fallbackMessage, isLocalConfigIssue ? "system-msg" : "system-msg danger");
             setTimeout(() => this._eseguiSimulazioneFallback(), 1200);
         }
     }
@@ -1177,7 +1181,7 @@ class TriageEngine {
         const boxLoadingDOM = document.getElementById('ai-loading-box');
         if (boxLoadingDOM) boxLoadingDOM.remove();
 
-        let orientamentoStr = "Indicazione informativa generica (Base Fallback Senza API Key)";
+        let orientamentoStr = "Orientamento dimostrativo locale";
         let specStr = "Medico Internista / Medico di Base";
 
         const dLower = this.userData.disturbo.toLowerCase();
@@ -1188,7 +1192,7 @@ class TriageEngine {
         else if (dLower.includes("sonno") || dLower.includes("insonnia") || dLower.includes("dormire") || dLower.includes("addorment") || dLower.includes("risvegli") || dLower.includes("russ") || dLower.includes("apne") || dLower.includes("sonnolenza")) {
             orientamentoStr = "Disturbo del sonno da approfondire"; specStr = "Centro di Medicina del Sonno / Neurologo o Pneumologo";
         }
-        else if (dLower.includes("ansia") || dLower.includes("stress") || dLower.includes("depressione") || dLower.includes("famiglia") || dLower.includes("panico") || dLower.includes("trauma") || dLower.includes("lutto")) {
+        else if (dLower.includes("ansia") || dLower.includes("stress") || dLower.includes("depressione") || dLower.includes("famiglia") || dLower.includes("panico") || dLower.includes("trauma") || dLower.includes("lutto") || dLower.includes("socializz") || dLower.includes("relazion") || dLower.includes("isolament") || dLower.includes("timidezz")) {
             orientamentoStr = "Necessità di supporto psicologico"; specStr = "Psicologa ad orientamento Sistemico-Relazionale";
         }
         else if (dLower.includes("osso") || dLower.includes("dolore") || dLower.includes("schiena") || dLower.includes("ginocchio") || dLower.includes("frattura")) {
@@ -1206,7 +1210,7 @@ class TriageEngine {
             risultati: [] // Verranno popolati sotto
         };
 
-        let outInitial = `✅ [MODALITA' PROTOTIPO - INSERISCI API KEY NEL CODICE PER RICERCA REALE]<br><br>Sulla base delle informazioni fornite: <strong>${escapeHTML(orientamentoStr)}</strong>. <br><br>Branca/specialista indicato: <strong>${escapeHTML(specStr)}</strong>.<br><br>`;
+        let outInitial = `✅ [MODALITA' LOCALE - ORIENTAMENTO DIMOSTRATIVO]<br><br>Sulla base delle informazioni fornite: <strong>${escapeHTML(orientamentoStr)}</strong>. <br><br>Branca/specialista indicato: <strong>${escapeHTML(specStr)}</strong>.<br><br>`;
         let resultsHTML = "";
         const seenNamesFallback = new Set();
 
@@ -1244,7 +1248,7 @@ class TriageEngine {
             if (currentCardIndex < 8) geoInfo = "Provinciale";
             else if (currentCardIndex < 13) geoInfo = "Regionale";
 
-            const card = { nome: cardName, tipo: "Privato", indirizzo_modalita: `${geoInfo} - Area ${this.userData.zona}`, contatti: "000-000000", info: "Aggiungi la chiave API per trovare cliniche vere." };
+            const card = { nome: cardName, tipo: "Privato", indirizzo_modalita: `${geoInfo} - Area ${this.userData.zona}`, contatti: "Da verificare", info: "Risultato dimostrativo locale: configura GEMINI_API_KEY per ricerca AI reale." };
             if (!seenNamesFallback.has(cardName.toLowerCase())) {
                 resultObjFallback.risultati.push(card);
                 resultsHTML += this._buildCard(card.nome, specStr, card.tipo, card.indirizzo_modalita, card.contatti, "CUP", card.info);
@@ -1267,7 +1271,7 @@ class TriageEngine {
           ⚠️ ${escapeHTML(DISCLAIMER)}
         </div>
         <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">
-            <p style="color:red; font-weight:bold;">✅ [MODALITA' PROTOTIPO - SIMULAZIONE]</p>
+            <p style="color: var(--primary); font-weight:bold;">✅ [MODALITA' LOCALE - ORIENTAMENTO DIMOSTRATIVO]</p>
             <h3 style="color: var(--primary); margin-top: 5px;">🔍 Sintesi Anamnestica</h3>
             <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(orientamentoStr)} (Simulata per: ${escapeHTML(this.userData.disturbo)})</p>
             <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
