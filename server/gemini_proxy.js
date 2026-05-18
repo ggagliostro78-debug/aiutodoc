@@ -1,5 +1,33 @@
 const GOOGLE_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 
+const TRIAGE_RESPONSE_SCHEMA = {
+    type: "OBJECT",
+    properties: {
+        sintesi_anamnestica: { type: "STRING" },
+        specialista_indicato: { type: "STRING" },
+        preparazione_visita: { type: "STRING" },
+        impegnativa_medico: { type: "STRING" },
+        risultati: {
+            type: "ARRAY",
+            minItems: 16,
+            maxItems: 16,
+            items: {
+                type: "OBJECT",
+                properties: {
+                    nome: { type: "STRING" },
+                    specializzazione: { type: "STRING" },
+                    tipo: { type: "STRING" },
+                    indirizzo_modalita: { type: "STRING" },
+                    contatti: { type: "STRING" },
+                    info: { type: "STRING" }
+                },
+                required: ["nome", "specializzazione", "tipo", "indirizzo_modalita", "contatti", "info"]
+            }
+        }
+    },
+    required: ["sintesi_anamnestica", "specialista_indicato", "preparazione_visita", "impegnativa_medico", "risultati"]
+};
+
 function parseBody(body) {
     if (!body) return {};
     if (typeof body === "string") {
@@ -100,7 +128,8 @@ async function callGemini(prompt, fetchImpl) {
                 ],
                 generationConfig: {
                     temperature: 0.2,
-                    responseMimeType: "application/json"
+                    responseMimeType: "application/json",
+                    responseSchema: TRIAGE_RESPONSE_SCHEMA
                 }
             }),
             signal: controller.signal

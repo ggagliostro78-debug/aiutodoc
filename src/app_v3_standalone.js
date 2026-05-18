@@ -937,7 +937,7 @@ class TriageEngine {
 
     async _eseguiRicercaAI() {
         try {
-            let resultObj = await this._getGeminiConsultation();
+            let resultObj = this._normalizeGeminiResult(await this._getGeminiConsultation());
             
             // PRIORITY LOGIC: Dott. Vincenzo Calafiore for Orthopedics in RC/Vibo
             const isRCOrVibo = this.userData.zona.toLowerCase().includes("reggio") || this.userData.zona.toLowerCase().includes("vibo");
@@ -1092,13 +1092,39 @@ class TriageEngine {
             if (this.progressInterval) clearInterval(this.progressInterval);
             const errDetail = err && err.message ? err.message : String(err);
             console.warn("Dettaglio errore Gemini:", errDetail);
-            const isLocalConfigIssue = /GEMINI_API_KEY|Endpoint Gemini|proxy Gemini|404|Not found|Failed to fetch/i.test(errDetail);
+            const isFileMode = window.location.protocol === 'file:';
+            const isLocalConfigIssue = isFileMode || /GEMINI_API_KEY_MISSING|Endpoint Gemini non configurato|richiede un server locale|404|Not found/i.test(errDetail);
             const fallbackMessage = isLocalConfigIssue
                 ? "Modalità locale attiva: uso il motore dimostrativo di orientamento perché il proxy AI non è configurato in questo ambiente."
-                : "Il motore AI non è momentaneamente disponibile. Proseguo con un orientamento dimostrativo, senza mostrare dati tecnici.";
+                : "Il motore AI non ha restituito una risposta utilizzabile in questo momento. Proseguo con un orientamento dimostrativo, senza mostrare dati tecnici.";
             this.onMessage(fallbackMessage, isLocalConfigIssue ? "system-msg" : "system-msg danger");
             setTimeout(() => this._eseguiSimulazioneFallback(), 1200);
         }
+    }
+
+    _normalizeGeminiResult(resultObj) {
+        if (!resultObj || typeof resultObj !== 'object') {
+            throw new Error("Risposta AI incompleta: oggetto risultato mancante.");
+        }
+
+        if (!Array.isArray(resultObj.risultati)) {
+            throw new Error("Risposta AI incompleta: elenco specialisti mancante.");
+        }
+
+        return {
+            sintesi_anamnestica: String(resultObj.sintesi_anamnestica || "Sintesi non disponibile."),
+            specialista_indicato: String(resultObj.specialista_indicato || "Medico specialista"),
+            preparazione_visita: String(resultObj.preparazione_visita || "Porta con te documenti sanitari, referti ed elenco dei sintomi."),
+            impegnativa_medico: String(resultObj.impegnativa_medico || "Valutazione specialistica in base ai sintomi riferiti."),
+            risultati: resultObj.risultati.map((item) => ({
+                nome: String(item?.nome || "Specialista da verificare"),
+                specializzazione: String(item?.specializzazione || resultObj.specialista_indicato || "Specialista"),
+                tipo: String(item?.tipo || "Da verificare"),
+                indirizzo_modalita: String(item?.indirizzo_modalita || "Da verificare"),
+                contatti: String(item?.contatti || "Da verificare"),
+                info: String(item?.info || "Informazioni da verificare prima della prenotazione.")
+            }))
+        };
     }
 
     async _getGeminiConsultation() {
