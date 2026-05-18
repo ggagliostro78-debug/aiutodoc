@@ -652,12 +652,12 @@ class TriageEngine {
 
                 const loadingHTML = `
                     <div id="ai-loading-box" style="display:flex; flex-direction:column; align-items:center; margin-top:10px; width: 100%;">
-                        <p>Dati raccolti con successo. <br><br>⏳ <em>Ricerca in corso tra studi scientifici validati e specialisti...</em></p>
+                        <p>Dati raccolti con successo. <br><br>⏳ <em>Elaborazione orientamento e preparazione percorsi verificabili...</em></p>
                         
                         <div style="width: 100%; max-width: 300px; background-color: #e0e9e9; border-radius: 10px; margin: 15px 0; overflow: hidden; height: 12px; position:relative;">
                             <div id="ai-progress-bar" style="width: 0%; height: 100%; background-color: var(--primary, #1b9b9a); transition: width 1s linear;"></div>
                         </div>
-                        <p id="ai-countdown-text" style="font-size: 0.85rem; color: #6f899e; margin-bottom: 10px;">Tempo stimato: 45 secondi</p>
+                        <p id="ai-countdown-text" style="font-size: 0.85rem; color: #6f899e; margin-bottom: 10px;">Tempo stimato: 60 secondi</p>
 
                         <h3 id="ai-loading-title" style="color:var(--primary, #1b9b9a); animation: blink 1.5s infinite;"><strong>ATTENDERE...</strong></h3>
                         <style>
@@ -679,18 +679,18 @@ class TriageEngine {
                         const bar = document.getElementById('ai-progress-bar');
                         const text = document.getElementById('ai-countdown-text');
                         if (bar && text) {
-                            const percentage = Math.min((progressSeconds / 45) * 100, 100);
+                            const percentage = Math.min((progressSeconds / 60) * 100, 100);
                             bar.style.width = percentage + '%';
-                            const tRimasti = Math.max(45 - progressSeconds, 0);
+                            const tRimasti = Math.max(60 - progressSeconds, 0);
                             text.innerText = `Tempo residuo stimato: ${tRimasti} secondi`;
                         }
                     }, 1000);
                 }, 100);
 
-                // Timeout di 45 secondi massimi, dopo i quali simuliamo un risultato forzato o mostriamo i dati
+                // Timeout di 60 secondi massimi: il proxy server abortisce prima, qui gestiamo solo blocchi lato browser.
                 this.researchTimeout = setTimeout(() => {
-                    this._simulateRicercaERisultati(true); // true = elaborazione forzata (timeout)
-                }, 45000);
+                    this._eseguiSimulazioneFallback();
+                }, 60000);
 
                 // Proviamo a chiamare subito l'API
                 this._eseguiRicercaAI();
@@ -938,81 +938,8 @@ class TriageEngine {
     async _eseguiRicercaAI() {
         try {
             let resultObj = this._normalizeGeminiResult(await this._getGeminiConsultation());
-            
-            // PRIORITY LOGIC: Dott. Vincenzo Calafiore for Orthopedics in RC/Vibo
-            const isRCOrVibo = this.userData.zona.toLowerCase().includes("reggio") || this.userData.zona.toLowerCase().includes("vibo");
-            const isOrthopedic = resultObj.specialista_indicato && resultObj.specialista_indicato.toLowerCase().includes("ortoped");
-            
-            if (isRCOrVibo && isOrthopedic) {
-                const calafiore = {
-                    nome: "Dott. Vincenzo Calafiore",
-                    specializzazione: "Ortopedico (Chirurgia Anca, Ginocchio, Spalla)",
-                    tipo: "Privato / Conv. SSN",
-                    indirizzo_modalita: "IOMI (RC) | Studio Torrione (RC) | Centro Gima (VV)",
-                    contatti: "3294255444 | Dottorecalafiore@libero.it",
-                    info: "Chirurgo specializzato in ricostruzione cuffia, Achille, crociato e lesioni meniscali."
-                };
-                
-                // Remove existing duplicates if any
-                resultObj.risultati = resultObj.risultati.filter(r => !r.nome.toLowerCase().includes("vincenzo calafiore"));
-                
-                // Inserisci in una posizione casuale tra i primi 4 (index 0-3)
-                const targetIndex = Math.min(resultObj.risultati.length, Math.floor(Math.random() * 4));
-                resultObj.risultati.splice(targetIndex, 0, calafiore);
-            }
-
-            // PRIORITY LOGIC: Greta Devoli for Psychology
-            const isPsychology = resultObj.specialista_indicato && (
-                resultObj.specialista_indicato.toLowerCase().includes("psicolog") || 
-                resultObj.specialista_indicato.toLowerCase().includes("psicotera") ||
-                resultObj.specialista_indicato.toLowerCase().includes("psichiatr")
-            );
-
-            if (isPsychology) {
-                const isRoma = this.userData.zona.toLowerCase().includes("roma");
-                const gretaDevoli = {
-                    nome: "Dr.ssa Greta Devoli",
-                    specializzazione: "Psicologa ad orientamento Sistemico-Relazionale",
-                    tipo: isRoma ? "In presenza (Roma) / Online" : "Online (Tutta Italia)",
-                    indirizzo_modalita: isRoma ? "Roma (Studio) e Online" : "Online in tutta Italia",
-                    contatti: "3479847838 | gretadevoli@gmail.it",
-                    info: "Specialista in terapia individuale, di coppia e della famiglia, ansia, lutto, traumi e dipendenze."
-                };
-
-                // Remove existing duplicates if any
-                resultObj.risultati = resultObj.risultati.filter(r => !r.nome.toLowerCase().includes("greta devoli"));
-
-                // Inserisci in una posizione casuale tra i primi 4 (index 0-3)
-                const targetIndex = Math.min(resultObj.risultati.length, Math.floor(Math.random() * 4));
-                resultObj.risultati.splice(targetIndex, 0, gretaDevoli);
-            }
-
-            // PRIORITY LOGIC: Dott. Carmelo Pecora for Neurosurgery in Messina/Milazzo/RC/Reggio
-            const isAreaPecora = this.userData.zona.toLowerCase().includes("messina") || this.userData.zona.toLowerCase().includes("milazzo") || this.userData.zona.toLowerCase().includes("reggio") || this.userData.zona.toLowerCase().includes("villa");
-            const isNeurosurgery = resultObj.specialista_indicato && (resultObj.specialista_indicato.toLowerCase().includes("neurochir") || resultObj.specialista_indicato.toLowerCase().includes("neurol"));
-
-            if (isAreaPecora && isNeurosurgery) {
-                const pecora = {
-                    nome: "Dott. Carmelo Pecora",
-                    specializzazione: "Neurochirurgo",
-                    tipo: "Privato",
-                    indirizzo_modalita: "Messina (New Delta) | Milazzo (Orice) | RC (AB Medical / De Blasi)",
-                    contatti: "3339690197 | carmelopecora77@gmail.com",
-                    info: "Specializzato in chirurgia mininvasiva della colonna vertebrale, ernie del disco, stenosi lombare e patologie vertebrali."
-                };
-
-                // Remove existing duplicates if any
-                resultObj.risultati = resultObj.risultati.filter(r => !r.nome.toLowerCase().includes("carmelo pecora"));
-
-                // Inserisci in una posizione casuale tra i primi 4 (index 0-3)
-                const targetIndex = Math.min(resultObj.risultati.length, Math.floor(Math.random() * 4));
-                resultObj.risultati.splice(targetIndex, 0, pecora);
-            }
-
-            // --- GARANTISCE ESATTAMENTE 16 RISULTATI FINALI ---
-            if (resultObj.risultati.length > 16) {
-                resultObj.risultati = resultObj.risultati.slice(0, 16);
-            }
+            if (this.state !== '6_RICERCA_SCIENTIFICA') return;
+            resultObj.risultati = this._buildVerifiedSearchResults(resultObj.specialista_indicato);
             
             if (this.researchTimeout) clearTimeout(this.researchTimeout);
             if (this.progressInterval) clearInterval(this.progressInterval);
@@ -1065,7 +992,7 @@ class TriageEngine {
             let out = outInitial + 
             this._buildRegistrationGate(pendingTriage) +
             `<p class="ai-final-notice">${escapeHTML(AI_FINAL_NOTICE)}</p>` +
-            `Ecco 16 specialisti individuati in rete:<br>`;
+            `<p class="ai-final-notice"><strong>Risultati verificabili:</strong> mostro solo professionisti curati o percorsi di ricerca esterna. Non genero nomi, telefoni o email non verificati.</p>`;
 
             let resultsHTML = "";
             const seenNames = new Set();
@@ -1073,7 +1000,7 @@ class TriageEngine {
                 const nameKey = String(r.nome || "").trim().toLowerCase();
                 if (!seenNames.has(nameKey)) {
                     seenNames.add(nameKey);
-                    resultsHTML += this._buildCard(r.nome, r.specializzazione || resultObj.specialista_indicato, r.tipo, r.indirizzo_modalita, r.contatti, "Dalla rete", r.info);
+                    resultsHTML += this._buildCard(r.nome, r.specializzazione || resultObj.specialista_indicato, r.tipo, r.indirizzo_modalita, r.contatti, r.fonte || "Verifica esterna", r.info, r.url);
                 }
             });
             out += resultsHTML + `</div>`;
@@ -1107,24 +1034,120 @@ class TriageEngine {
             throw new Error("Risposta AI incompleta: oggetto risultato mancante.");
         }
 
-        if (!Array.isArray(resultObj.risultati)) {
-            throw new Error("Risposta AI incompleta: elenco specialisti mancante.");
-        }
-
         return {
             sintesi_anamnestica: String(resultObj.sintesi_anamnestica || "Sintesi non disponibile."),
             specialista_indicato: String(resultObj.specialista_indicato || "Medico specialista"),
             preparazione_visita: String(resultObj.preparazione_visita || "Porta con te documenti sanitari, referti ed elenco dei sintomi."),
             impegnativa_medico: String(resultObj.impegnativa_medico || "Valutazione specialistica in base ai sintomi riferiti."),
-            risultati: resultObj.risultati.map((item) => ({
-                nome: String(item?.nome || "Specialista da verificare"),
-                specializzazione: String(item?.specializzazione || resultObj.specialista_indicato || "Specialista"),
-                tipo: String(item?.tipo || "Da verificare"),
-                indirizzo_modalita: String(item?.indirizzo_modalita || "Da verificare"),
-                contatti: String(item?.contatti || "Da verificare"),
-                info: String(item?.info || "Informazioni da verificare prima della prenotazione.")
-            }))
+            risultati: []
         };
+    }
+
+    _buildVerifiedSearchResults(specialista) {
+        const zona = String(this.userData.zona || "").trim();
+        const spec = String(specialista || "medico specialista").trim();
+        const specLower = spec.toLowerCase();
+        const zonaLower = zona.toLowerCase();
+        const results = [];
+
+        const add = (entry) => {
+            const key = `${entry.nome}|${entry.indirizzo_modalita}`.toLowerCase();
+            if (!results.some((item) => `${item.nome}|${item.indirizzo_modalita}`.toLowerCase() === key)) {
+                results.push(entry);
+            }
+        };
+
+        if (specLower.includes("psicolog") || specLower.includes("psicotera") || specLower.includes("psichiatr")) {
+            const isRoma = zonaLower.includes("roma");
+            add({
+                nome: "Dr.ssa Greta Devoli",
+                specializzazione: "Psicologa ad orientamento Sistemico-Relazionale",
+                tipo: "Professionista curato",
+                indirizzo_modalita: isRoma ? "Roma e online" : "Online in tutta Italia",
+                contatti: "3479847838 | gretadevoli@gmail.com",
+                fonte: "Scheda curata",
+                info: "Professionista presente nella banca dati curata AiutoDoc. Verificare sempre disponibilita, titolo e modalita prima della prenotazione."
+            });
+        }
+
+        if (specLower.includes("ortoped") && (zonaLower.includes("reggio") || zonaLower.includes("vibo"))) {
+            add({
+                nome: "Dott. Vincenzo Calafiore",
+                specializzazione: "Ortopedico / Chirurgo",
+                tipo: "Professionista curato",
+                indirizzo_modalita: "IOMI RC | Studio Torrione RC | Centro Gima VV",
+                contatti: "3294255444 | Dottorecalafiore@libero.it",
+                fonte: "Scheda curata",
+                info: "Professionista presente nella banca dati curata AiutoDoc. Verificare sempre disponibilita, titolo e modalita prima della prenotazione."
+            });
+        }
+
+        if ((specLower.includes("neurochir") || specLower.includes("neurol")) && (zonaLower.includes("messina") || zonaLower.includes("milazzo") || zonaLower.includes("reggio") || zonaLower.includes("villa"))) {
+            add({
+                nome: "Dott. Carmelo Pecora",
+                specializzazione: "Neurochirurgo",
+                tipo: "Professionista curato",
+                indirizzo_modalita: "Messina | Milazzo | Reggio Calabria",
+                contatti: "3339690197 | carmelopecora77@gmail.com",
+                fonte: "Scheda curata",
+                info: "Professionista presente nella banca dati curata AiutoDoc. Verificare sempre disponibilita, titolo e modalita prima della prenotazione."
+            });
+        }
+
+        const cleanSpec = spec
+            .replace(/\s*\/\s*/g, " ")
+            .replace(/\bmedico\b/gi, "")
+            .replace(/\s+/g, " ")
+            .trim() || "medico specialista";
+        const query = `${cleanSpec} ${zona}`.trim();
+        const encodedQuery = encodeURIComponent(query);
+        const nationalQuery = encodeURIComponent(`${cleanSpec} eccellenza Italia`);
+
+        add({
+            nome: "Ricerca verificabile su Google Maps",
+            specializzazione: cleanSpec,
+            tipo: "Link esterno",
+            indirizzo_modalita: query,
+            contatti: "Apri il link e verifica recapiti, indirizzo e recensioni sulla fonte esterna.",
+            fonte: "Google Maps",
+            info: "Usa questa ricerca per individuare studi e strutture presenti nella tua zona senza nomi generati dall'AI.",
+            url: `https://www.google.com/maps/search/${encodedQuery}`
+        });
+
+        add({
+            nome: "Ricerca verificabile sul web",
+            specializzazione: cleanSpec,
+            tipo: "Link esterno",
+            indirizzo_modalita: query,
+            contatti: "Apri il link e controlla sempre sito ufficiale, albo professionale e recapiti.",
+            fonte: "Google",
+            info: "Percorso di ricerca generale: i risultati vanno confermati sulle pagine ufficiali dei professionisti o delle strutture.",
+            url: `https://www.google.com/search?q=${encodedQuery}`
+        });
+
+        add({
+            nome: "Ricerca strutture e centri specialistici",
+            specializzazione: cleanSpec,
+            tipo: "Link esterno",
+            indirizzo_modalita: `${cleanSpec} centro medico ${zona}`.trim(),
+            contatti: "Verifica recapiti solo sulle pagine ufficiali della struttura.",
+            fonte: "Google",
+            info: "Utile quando serve una struttura organizzata, un ambulatorio o un centro diagnostico invece del singolo professionista.",
+            url: `https://www.google.com/search?q=${encodeURIComponent(`${cleanSpec} centro medico ${zona}`)}`
+        });
+
+        add({
+            nome: "Ricerca eccellenze nazionali",
+            specializzazione: cleanSpec,
+            tipo: "Link esterno",
+            indirizzo_modalita: `${cleanSpec} eccellenza Italia`,
+            contatti: "Verifica sempre canali ufficiali e tempi di accesso.",
+            fonte: "Google",
+            info: "Percorso utile quando nella zona non emergono risultati adeguati o serve un secondo livello di approfondimento.",
+            url: `https://www.google.com/search?q=${nationalQuery}`
+        });
+
+        return results;
     }
 
     async _getGeminiConsultation() {
@@ -1158,22 +1181,12 @@ class TriageEngine {
               "specialista_indicato": "Branca medica principale (es. Cardiologo, Neurochirurgo, ecc.)",
               "preparazione_visita": "Consigli pratici per la visita (es. 'porta con te esami del sangue recenti')",
               "impegnativa_medico": "Testo suggerito per il Medico di Medicina Generale (MMG) per facilitare la scrittura dell'impegnativa.",
-              "risultati": [
-                { "nome": "...", "specializzazione": "...", "tipo": "...", "indirizzo_modalita": "...", "contatti": "...", "info": "..." }
-              ]
             }
 
-            IMPORTANTE - REGOLA DEI 16 SPECIALISTI:
-            1. Restituisci esattamente 16 risultati univoci e REALI.
-            2. Distribuzione per Tipologia:
-               - Almeno 8 (50%) devono essere PROFESSIONISTI PRIVATI (es. "Dott. Nome Cognome").
-               - Gli altri 8 possono essere Centri Medici, Cliniche o Ospedali di eccellenza.
-            3. Distribuzione geografica:
-               - 8 risultati (50%) devono essere nella Zona/Provincia di "${this.userData.zona}".
-               - 5 risultati (30%) devono essere eccellenze Regionali (Calabria/Sicilia/Lazio ecc. a seconda della zona).
-               - 3 risultati (20%) devono essere eccellenze Nazionali (Milano, Roma, Bologna).
-            4. **SPECIALIZZAZIONI SPECIFICHE**: Ogni professionista o centro deve avere la propria specializzazione specifica (es. se la branca è "Ortopedico", alcuni saranno "Chirurgo della Mano", "Specialista del Piede", "Esperto in Protesi Anca", ecc.). Non usare un'unica etichetta per tutti i 16 risultati.
-            5. Se lo specialista è "Ortopedico" in Calabria o Sicilia, includi sempre "Dott. Vincenzo Calafiore" (IOMI RC).`;
+            IMPORTANTE:
+            1. Non generare nomi di medici, cliniche, telefoni, email o indirizzi.
+            2. Devi individuare solo la branca/specialista piu coerente e produrre una sintesi informativa.
+            3. La ricerca di professionisti viene gestita dall'app solo tramite dati curati o link esterni verificabili.`;
 
             const response = await fetch(API_URL, {
                 method: 'POST',
@@ -1233,54 +1246,13 @@ class TriageEngine {
             specialista_indicato: specStr,
             preparazione_visita: "Portare eventuali esami precedenti e lista farmaci.",
             impegnativa_medico: "Si consiglia visita specialistica per " + specStr,
-            risultati: [] // Verranno popolati sotto
+            risultati: []
         };
 
-        let outInitial = `✅ [MODALITA' LOCALE - ORIENTAMENTO DIMOSTRATIVO]<br><br>Sulla base delle informazioni fornite: <strong>${escapeHTML(orientamentoStr)}</strong>. <br><br>Branca/specialista indicato: <strong>${escapeHTML(specStr)}</strong>.<br><br>`;
-        let resultsHTML = "";
-        const seenNamesFallback = new Set();
-
-        const isRoma = this.userData.zona.toLowerCase().includes("roma");
-        if (specStr === "Psicologa ad orientamento Sistemico-Relazionale") {
-            let mod = isRoma ? "In presenza a Roma e Online" : "Online in tutta Italia"; let addr = isRoma ? "Via Nazionale 100, Roma" : "Videoconsulto";
-            const card = { nome: "Dr.ssa Greta Devoli", tipo: "Privato", indirizzo_modalita: addr, contatti: "3479847838 | gretadevoli@gmail.com", info: "Terapia individuale/coppia. Sostegno per ansia, relazionali, traumi e genitorialità." };
-            resultObjFallback.risultati.push(card);
-            seenNamesFallback.add(card.nome.toLowerCase());
-            resultsHTML += this._buildCard(card.nome, specStr, card.tipo, card.indirizzo_modalita, card.contatti, mod, card.info);
-        }
-
-        const isRC = this.userData.zona.toLowerCase().includes("reggio") || this.userData.zona.toLowerCase().includes("vibo");
-        if (specStr === "Ortopedico" && isRC) {
-            const card = { nome: "Dott. Vincenzo Calafiore", tipo: "Privato / Conv. SSN", indirizzo_modalita: "IOMI (RC) | Studio Torrione (RC) | Centro Gima (VV)", contatti: "3294255444 | Dottorecalafiore@libero.it", info: "Chirurgo dell’anca, del ginocchio e della spalla (ricostruzione cuffia, Achille, crociato e lesioni meniscali)." };
-            resultObjFallback.risultati.push(card);
-            seenNamesFallback.add(card.nome.toLowerCase());
-            resultsHTML += this._buildCard(card.nome, "Ortopedico / Chirurgo", card.tipo, card.indirizzo_modalita, card.contatti, "Visita / Chirurgia Protesica", card.info);
-        }
-
-        const isAreaPecora = this.userData.zona.toLowerCase().includes("messina") || this.userData.zona.toLowerCase().includes("milazzo") || this.userData.zona.toLowerCase().includes("reggio") || this.userData.zona.toLowerCase().includes("villa");
-        if (specStr === "Neurologo" && isAreaPecora) {
-            const card = { nome: "Dott. Carmelo Pecora", tipo: "Privato", indirizzo_modalita: "Messina (New Delta) | Milazzo (Orice) | RC (AB Medical / De Blasi)", contatti: "333 9690197 | carmelopecora77@gmail.com", info: "Specializzato in chirurgia mininvasiva della colonna vertebrale, ernie del disco, stenosi lombare e patologie vertebrali." };
-            resultObjFallback.risultati.push(card);
-            seenNamesFallback.add(card.nome.toLowerCase());
-            resultsHTML += this._buildCard(card.nome, "Neurochirurgo", card.tipo, card.indirizzo_modalita, card.contatti, "Visita (130€)", card.info);
-        }
-
-        let currentCardIndex = 0;
-        let overrideCounter = resultObjFallback.risultati.length;
-
-        while (overrideCounter + currentCardIndex < 16) {
-            const cardName = "Centro Medico " + (currentCardIndex + 1);
-            let geoInfo = "Eccl. Nazionale";
-            if (currentCardIndex < 8) geoInfo = "Provinciale";
-            else if (currentCardIndex < 13) geoInfo = "Regionale";
-
-            const card = { nome: cardName, tipo: "Privato", indirizzo_modalita: `${geoInfo} - Area ${this.userData.zona}`, contatti: "Da verificare", info: "Risultato dimostrativo locale: configura GEMINI_API_KEY per ricerca AI reale." };
-            if (!seenNamesFallback.has(cardName.toLowerCase())) {
-                resultObjFallback.risultati.push(card);
-                resultsHTML += this._buildCard(card.nome, specStr, card.tipo, card.indirizzo_modalita, card.contatti, "CUP", card.info);
-            }
-            currentCardIndex++;
-        }
+        resultObjFallback.risultati = this._buildVerifiedSearchResults(specStr);
+        let resultsHTML = resultObjFallback.risultati
+            .map((card) => this._buildCard(card.nome, card.specializzazione || specStr, card.tipo, card.indirizzo_modalita, card.contatti, card.fonte || "Verifica esterna", card.info, card.url))
+            .join("");
 
         const pendingTriage = this._saveTriageResult(resultObjFallback, 'fallback', { deferUntilRegistration: true });
         
@@ -1313,7 +1285,7 @@ class TriageEngine {
         let out = outInitialRes + 
         this._buildRegistrationGate(pendingTriage) +
         `<p class="ai-final-notice">${escapeHTML(AI_FINAL_NOTICE)}</p>` +
-        `Ecco 16 risultati (simulati):<br>` + resultsHTML + `</div>`;
+        `<p class="ai-final-notice"><strong>Risultati verificabili:</strong> mostro solo professionisti curati o percorsi di ricerca esterna. Non genero nomi, telefoni o email non verificati.</p>` + resultsHTML + `</div>`;
         
         // this._setupPDFDownload(); // Rimosso temporaneamente
 
@@ -1327,7 +1299,12 @@ class TriageEngine {
         this.onMessage(out);
     }
 
-    _buildCard(nome, spec, tipo, ind, contatti, prenotazione, det) {
+    _buildCard(nome, spec, tipo, ind, contatti, prenotazione, det, url = "") {
+        const cleanUrl = String(url || "").trim();
+        const hasSafeUrl = /^https:\/\/[^\s<>"']+$/i.test(cleanUrl);
+        const linkHTML = hasSafeUrl
+            ? `<p><a href="${escapeHTML(cleanUrl)}" target="_blank" rel="noopener noreferrer">Apri ricerca verificabile</a></p>`
+            : "";
         return `
     <div class="triage-result">
       <div class="triage-result-header">
@@ -1335,9 +1312,10 @@ class TriageEngine {
       </div>
       <div class="triage-result-body">
         <p><strong>Specializzazione:</strong> ${escapeHTML(spec)}</p>
-        <p><strong>Indirizzo/Modalità:</strong> ${ind} (${prenotazione})</p>
+        <p><strong>Indirizzo/Modalità:</strong> ${escapeHTML(ind)} (${escapeHTML(prenotazione)})</p>
         <p><strong>Contatti:</strong> ${escapeHTML(contatti)}</p>
         <p><strong>Info:</strong> ${escapeHTML(det)}</p>
+        ${linkHTML}
       </div>
     </div>`;
     }

@@ -258,7 +258,7 @@ class ChatInterface {
         let resultsHTML = "";
         const engine = new TriageEngine(() => {});
         saved.result.risultati.forEach(r => {
-            resultsHTML += engine._buildCard(r.nome, saved.result.specialista_indicato, r.tipo, r.indirizzo_modalita, r.contatti, "Archivio", r.info);
+            resultsHTML += engine._buildCard(r.nome, r.specializzazione || saved.result.specialista_indicato, r.tipo, r.indirizzo_modalita, r.contatti, r.fonte || "Archivio", r.info, r.url);
         });
         out += resultsHTML + `</div>`;
 
