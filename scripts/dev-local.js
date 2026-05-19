@@ -2,6 +2,7 @@ const fs = require("fs");
 const http = require("http");
 const path = require("path");
 const { handleGeminiProxy } = require("../server/gemini_proxy");
+const { handleSpecialistSearch } = require("../server/specialist_search");
 
 const root = path.resolve(__dirname, "..");
 const host = process.env.HOST || "127.0.0.1";
@@ -75,6 +76,15 @@ async function handleApi(req, res) {
         return true;
     }
 
+    if (req.url === "/api/specialist-search") {
+        const result = await handleSpecialistSearch({
+            method: req.method,
+            body
+        });
+        send(res, result.statusCode, result.headers, result.body);
+        return true;
+    }
+
     if (req.url === "/api/firebase-config") {
         send(res, 200, {
             "Content-Type": "application/json; charset=utf-8",
@@ -127,6 +137,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(port, host, () => {
-    const mode = process.env.GEMINI_API_KEY ? "con proxy Gemini" : "senza GEMINI_API_KEY: fallback locale attivo";
+    const hasSearch = process.env.GOOGLE_CSE_API_KEY && process.env.GOOGLE_CSE_ID;
+    const mode = `${process.env.GEMINI_API_KEY ? "con proxy Gemini" : "senza GEMINI_API_KEY"}; ${hasSearch ? "con ricerca Google" : "senza ricerca Google configurata"}`;
     console.log(`AIutoDoc locale: http://${host}:${port} (${mode})`);
 });

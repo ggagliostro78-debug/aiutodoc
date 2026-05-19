@@ -2,6 +2,7 @@ const CONFIG = {
     // Endpoint backend che custodisce la chiave AI lato server.
     // Su Netlify il redirect in netlify.toml inoltra /api/gemini alla funzione.
     GEMINI_API_URL: "/api/gemini",
+    SPECIALIST_SEARCH_API_URL: "/api/specialist-search",
     FIREBASE_CONFIG_URL: "/api/firebase-config",
 
     // Firebase e' opzionale. Lasciarlo vuoto evita che Netlify blocchi il deploy
