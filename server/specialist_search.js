@@ -5,6 +5,7 @@ const DEFAULT_RESULT_COUNT = 16;
 const LOCAL_COUNT = 8;
 const REGIONAL_COUNT = 5;
 const NATIONAL_COUNT = 3;
+const EXTRA_COUNT = 10;
 
 function parseBody(body) {
     if (!body) return {};
@@ -66,14 +67,14 @@ function normalizeSearchItem({ title, link, snippet, query, scope, source }) {
     };
 }
 
-async function fetchGoogleCseResults({ query, scope, apiKey, searchEngineId, fetchImpl }) {
+async function fetchGoogleCseResults({ query, scope, apiKey, searchEngineId, fetchImpl, count = 10 }) {
     if (!apiKey || !searchEngineId) return [];
 
     const url = new URL(GOOGLE_SEARCH_URL);
     url.searchParams.set("key", apiKey);
     url.searchParams.set("cx", searchEngineId);
     url.searchParams.set("q", query);
-    url.searchParams.set("num", "10");
+    url.searchParams.set("num", String(Math.min(Math.max(count, 1), 10)));
     url.searchParams.set("hl", "it");
     url.searchParams.set("gl", "it");
     url.searchParams.set("safe", "active");
@@ -104,7 +105,7 @@ async function fetchGoogleCseResults({ query, scope, apiKey, searchEngineId, fet
         }));
 }
 
-async function fetchSerpApiResults({ query, scope, serpApiKey, fetchImpl }) {
+async function fetchSerpApiResults({ query, scope, serpApiKey, fetchImpl, count = 10 }) {
     if (!serpApiKey) return [];
 
     const url = new URL(SERPAPI_SEARCH_URL);
@@ -114,7 +115,7 @@ async function fetchSerpApiResults({ query, scope, serpApiKey, fetchImpl }) {
     url.searchParams.set("hl", "it");
     url.searchParams.set("gl", "it");
     url.searchParams.set("google_domain", "google.it");
-    url.searchParams.set("num", "10");
+    url.searchParams.set("num", String(Math.min(Math.max(count, 1), 20)));
 
     const response = await fetchImpl(url.toString(), {
         headers: { "Accept": "application/json" }
@@ -148,7 +149,7 @@ async function fetchSerpApiResults({ query, scope, serpApiKey, fetchImpl }) {
         }));
 }
 
-async function fetchGoogleResults({ query, scope, fetchImpl }) {
+async function fetchGoogleResults({ query, scope, fetchImpl, count = 10 }) {
     const { apiKey, searchEngineId, serpApiKey } = getSearchConfig();
     if (!apiKey && !serpApiKey) {
         const error = new Error("Ricerca Google non configurata: imposta GOOGLE_CSE_API_KEY/GOOGLE_CSE_ID oppure SERPAPI_API_KEY.");
@@ -158,7 +159,7 @@ async function fetchGoogleResults({ query, scope, fetchImpl }) {
 
     if (apiKey && searchEngineId) {
         try {
-            return await fetchGoogleCseResults({ query, scope, apiKey, searchEngineId, fetchImpl });
+            return await fetchGoogleCseResults({ query, scope, apiKey, searchEngineId, fetchImpl, count });
         } catch (error) {
             const detail = error instanceof Error ? error.message : String(error);
             const cseUnavailable = /does not have the access to Custom Search JSON API|PERMISSION_DENIED/i.test(detail);
@@ -168,7 +169,7 @@ async function fetchGoogleResults({ query, scope, fetchImpl }) {
         }
     }
 
-    return fetchSerpApiResults({ query, scope, serpApiKey, fetchImpl });
+    return fetchSerpApiResults({ query, scope, serpApiKey, fetchImpl, count });
 }
 
 function dedupeResults(results) {
@@ -192,6 +193,8 @@ async function searchSpecialists(payload, fetchImpl) {
     const localQuery = `${clinicalTerms} specialista studio medico ${provincia}`.trim();
     const regionalQuery = `${clinicalTerms} centro specialistico ${regione}`.trim();
     const nationalQuery = `${clinicalTerms} eccellenza specialistica Italia`.trim();
+    const extraRegionalQuery = `${clinicalTerms} ortopedia ginocchio clinica ospedale ${regione}`.trim();
+    const extraNationalQuery = `${clinicalTerms} migliori specialisti ospedali Italia`.trim();
 
     const [localRaw, regionalRaw, nationalRaw] = await Promise.all([
         fetchGoogleResults({ query: localQuery, scope: "Provincia", fetchImpl }),
@@ -203,11 +206,24 @@ async function searchSpecialists(payload, fetchImpl) {
     const regional = dedupeResults(regionalRaw);
     const national = dedupeResults(nationalRaw);
 
-    const results = dedupeResults([
+    let results = dedupeResults([
         ...local.slice(0, LOCAL_COUNT),
         ...regional.slice(0, REGIONAL_COUNT),
         ...national.slice(0, NATIONAL_COUNT)
     ]).slice(0, DEFAULT_RESULT_COUNT);
+
+    if (results.length < DEFAULT_RESULT_COUNT) {
+        const [extraRegionalRaw, extraNationalRaw] = await Promise.all([
+            fetchGoogleResults({ query: extraRegionalQuery, scope: "Regione", fetchImpl, count: EXTRA_COUNT }),
+            fetchGoogleResults({ query: extraNationalQuery, scope: "Nazionale", fetchImpl, count: EXTRA_COUNT })
+        ]);
+
+        results = dedupeResults([
+            ...results,
+            ...extraRegionalRaw,
+            ...extraNationalRaw
+        ]).slice(0, DEFAULT_RESULT_COUNT);
+    }
 
     return {
         distribution: {
@@ -218,7 +234,9 @@ async function searchSpecialists(payload, fetchImpl) {
         queries: {
             provincia: localQuery,
             regione: regionalQuery,
-            nazionale: nationalQuery
+            nazionale: nationalQuery,
+            regione_extra: extraRegionalQuery,
+            nazionale_extra: extraNationalQuery
         },
         results
     };

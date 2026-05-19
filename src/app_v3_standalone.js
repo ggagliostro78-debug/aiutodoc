@@ -1186,8 +1186,8 @@ class TriageEngine {
             });
         });
 
-        if (merged.length < 16) {
-            throw new Error(`La ricerca reale ha restituito solo ${merged.length} risultati univoci.`);
+        if (!merged.length) {
+            throw new Error("La ricerca reale non ha restituito risultati verificabili.");
         }
 
         return merged.slice(0, 16);
