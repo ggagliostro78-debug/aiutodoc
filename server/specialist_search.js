@@ -143,7 +143,7 @@ function extractDisplayName(title, snippet) {
     if (facilityMatch) return cleanText(facilityMatch[0]);
 
     const cleanTitle = cleanText(title);
-    const genericTitle = /(?:^\d+\s+|migliori|prenota online|prenota la tua|reparti|servizi|visita specialistica|ortopedici\s+a|ortopedici\s+e|ginocchio\s+a|specialisti\s+a)/i.test(cleanTitle);
+    const genericTitle = /(?:^\d+\s+|migliori|prenota online|prenota la tua|reparti|servizi|visita specialistica|visita ortopedica|ortopedici\s+a|ortopedici\s+e|ginocchio\s+a|specialisti\s+a)/i.test(cleanTitle);
     return genericTitle ? "" : cleanTitle;
 }
 
@@ -305,11 +305,11 @@ async function searchSpecialists(payload, fetchImpl) {
     const regione = cleanText(payload.regione, zona);
 
     const clinicalTerms = [specialista, disturbo].filter(Boolean).join(" ");
-    const localQuery = `${clinicalTerms} specialista studio medico ${provincia}`.trim();
-    const regionalQuery = `${clinicalTerms} centro specialistico ${regione}`.trim();
-    const nationalQuery = `${clinicalTerms} eccellenza specialistica Italia`.trim();
-    const extraRegionalQuery = `${clinicalTerms} ortopedia ginocchio clinica ospedale ${regione}`.trim();
-    const extraNationalQuery = `${clinicalTerms} migliori specialisti ospedali Italia`.trim();
+    const localQuery = `${clinicalTerms} ${provincia} dottore clinica ospedale telefono indirizzo email`.trim();
+    const regionalQuery = `${clinicalTerms} ${regione} centro specialistico clinica ospedale telefono indirizzo`.trim();
+    const nationalQuery = `${clinicalTerms} eccellenza specialistica Italia clinica ospedale telefono indirizzo`.trim();
+    const extraRegionalQuery = `${clinicalTerms} ${regione} contatti prenotazioni studio medico`.trim();
+    const extraNationalQuery = `${clinicalTerms} Italia contatti prenotazioni ospedale specialista`.trim();
 
     const [localRaw, regionalRaw, nationalRaw] = await Promise.all([
         fetchGoogleResults({ query: localQuery, scope: "Provincia", fetchImpl }),
