@@ -70,13 +70,15 @@ function extractAddress(text) {
 
 function extractDisplayName(title, snippet) {
     const combined = `${cleanText(title)} ${cleanText(snippet)}`;
-    const doctorMatch = combined.match(/\b(?:Dott\.ssa|Dott\.|Dr\.ssa|Dr\.|Prof\.ssa|Prof\.)\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ'’-]+(?:\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ'’-]+){1,3}/);
+    const doctorMatch = combined.match(/\b(?:Dott\.ssa|Dott\.|Dr\.ssa|Dr\.|Prof\.ssa|Prof\.|Dottore|Dottoressa)\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ'’-]+(?:\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ'’-]+){0,3}/);
     if (doctorMatch) return cleanText(doctorMatch[0]);
 
     const facilityMatch = combined.match(/\b(?:Ospedale|Policlinico|Clinica|Casa di Cura|Centro Medico|Centro Specialistico|Istituto|Humanitas|Auxologico|GVM|San Raffaele|Gemelli|Niguarda)\s+[^.;|·]{2,70}/i);
     if (facilityMatch) return cleanText(facilityMatch[0]);
 
-    return cleanText(title, "Specialista o struttura sanitaria");
+    const cleanTitle = cleanText(title);
+    const genericTitle = /(?:^\d+\s+|migliori|prenota online|prenota la tua|reparti|servizi|visita specialistica|ortopedici\s+a|ortopedici\s+e|ginocchio\s+a|specialisti\s+a)/i.test(cleanTitle);
+    return genericTitle ? "" : cleanTitle;
 }
 
 function getSearchConfig() {
@@ -91,9 +93,12 @@ function normalizeSearchItem({ title, link, snippet, query, scope, source }) {
     const phone = extractPhone(fullText);
     const email = extractEmail(fullText);
     const address = extractAddress(fullText);
+    const displayName = extractDisplayName(title, snippet);
+
+    if (!displayName) return null;
 
     return {
-        nome: extractDisplayName(title, snippet),
+        nome: displayName,
         specializzazione: "",
         tipo: scope,
         indirizzo_modalita: address || `Area ${scope.toLowerCase()}`,
@@ -144,7 +149,8 @@ async function fetchGoogleCseResults({ query, scope, apiKey, searchEngineId, fet
             query,
             scope,
             source: "Google Custom Search"
-        }));
+        }))
+        .filter(Boolean);
 }
 
 async function fetchSerpApiResults({ query, scope, serpApiKey, fetchImpl, count = 10 }) {
@@ -188,7 +194,8 @@ async function fetchSerpApiResults({ query, scope, serpApiKey, fetchImpl, count 
             query,
             scope,
             source: "SerpApi Google"
-        }));
+        }))
+        .filter(Boolean);
 }
 
 async function fetchGoogleResults({ query, scope, fetchImpl, count = 10 }) {
