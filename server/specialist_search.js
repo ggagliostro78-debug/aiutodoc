@@ -47,6 +47,38 @@ function cleanText(value, fallback = "") {
     return String(value || fallback).replace(/\s+/g, " ").trim();
 }
 
+function extractEmail(text) {
+    const match = cleanText(text).match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+    return match ? match[0] : "";
+}
+
+function extractPhone(text) {
+    const value = cleanText(text);
+    const matches = value.match(/(?:\+39\s*)?(?:0\d{1,4}[\s./-]?\d{5,8}|3\d{2}[\s./-]?\d{6,7})/g) || [];
+    return matches
+        .map((match) => cleanText(match).replace(/\s{2,}/g, " "))
+        .filter((match) => match.replace(/\D/g, "").length >= 8)
+        .slice(0, 2)
+        .join(" | ");
+}
+
+function extractAddress(text) {
+    const value = cleanText(text);
+    const match = value.match(/\b(?:Via|Viale|Piazza|Piazzale|Corso|Largo|Strada|Contrada|Localita|Località)\s+[^.;|·]{3,80}/i);
+    return match ? cleanText(match[0]).replace(/\s*,?\s*(?:Dott\.|Dr\.|Prof\.).*$/i, "") : "";
+}
+
+function extractDisplayName(title, snippet) {
+    const combined = `${cleanText(title)} ${cleanText(snippet)}`;
+    const doctorMatch = combined.match(/\b(?:Dott\.ssa|Dott\.|Dr\.ssa|Dr\.|Prof\.ssa|Prof\.)\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ'’-]+(?:\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ'’-]+){1,3}/);
+    if (doctorMatch) return cleanText(doctorMatch[0]);
+
+    const facilityMatch = combined.match(/\b(?:Ospedale|Policlinico|Clinica|Casa di Cura|Centro Medico|Centro Specialistico|Istituto|Humanitas|Auxologico|GVM|San Raffaele|Gemelli|Niguarda)\s+[^.;|·]{2,70}/i);
+    if (facilityMatch) return cleanText(facilityMatch[0]);
+
+    return cleanText(title, "Specialista o struttura sanitaria");
+}
+
 function getSearchConfig() {
     const apiKey = process.env.GOOGLE_CSE_API_KEY || process.env.GOOGLE_SEARCH_API_KEY || "";
     const searchEngineId = process.env.GOOGLE_CSE_ID || process.env.GOOGLE_SEARCH_ENGINE_ID || "";
@@ -55,14 +87,24 @@ function getSearchConfig() {
 }
 
 function normalizeSearchItem({ title, link, snippet, query, scope, source }) {
+    const fullText = `${cleanText(title)} ${cleanText(snippet)}`;
+    const phone = extractPhone(fullText);
+    const email = extractEmail(fullText);
+    const address = extractAddress(fullText);
+
     return {
-        nome: cleanText(title, "Risultato Google verificabile"),
+        nome: extractDisplayName(title, snippet),
         specializzazione: "",
         tipo: scope,
-        indirizzo_modalita: cleanText(query),
-        contatti: "Verifica recapiti, sede e disponibilita sulla pagina ufficiale collegata.",
+        indirizzo_modalita: address || `Area ${scope.toLowerCase()}`,
+        telefono: phone,
+        email,
+        contatti: [
+            phone ? `Telefono: ${phone}` : "Telefono non disponibile nella scheda pubblica",
+            email ? `Email: ${email}` : "Email non disponibile nella scheda pubblica"
+        ].join(" | "),
         fonte: source,
-        info: cleanText(snippet, "Risultato individuato tramite ricerca Google."),
+        info: cleanText(snippet, "Scheda pubblica rilevata in rete."),
         url: link
     };
 }

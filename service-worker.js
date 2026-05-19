@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aiutodoc-static-v20260519-4';
+const CACHE_NAME = 'aiutodoc-static-v20260519-5';
 const ASSETS = [
   './',
   './index.html',

@@ -1001,7 +1001,7 @@ class TriageEngine {
             let out = outInitial + 
             this._buildRegistrationGate(pendingTriage) +
             `<p class="ai-final-notice">${escapeHTML(AI_FINAL_NOTICE)}</p>` +
-            `<p class="ai-final-notice"><strong>Risultati verificabili:</strong> mostro solo professionisti curati o percorsi di ricerca esterna. Non genero nomi, telefoni o email non verificati.</p>`;
+            `<p class="ai-final-notice"><strong>Specialisti e strutture individuati:</strong> i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.</p>`;
 
             let resultsHTML = "";
             const seenNames = new Set();
@@ -1009,7 +1009,7 @@ class TriageEngine {
                 const nameKey = String(r.nome || "").trim().toLowerCase();
                 if (!seenNames.has(nameKey)) {
                     seenNames.add(nameKey);
-                    resultsHTML += this._buildCard(r.nome, r.specializzazione || resultObj.specialista_indicato, r.tipo, r.indirizzo_modalita, r.contatti, r.fonte || "Verifica esterna", r.info, r.url);
+                    resultsHTML += this._buildCard(r);
                 }
             });
             out += resultsHTML + `</div>`;
@@ -1030,7 +1030,7 @@ class TriageEngine {
             const errDetail = err && err.message ? err.message : String(err);
             console.warn("Dettaglio errore Gemini:", errDetail);
             await this._waitForMinimumResearchTime(45000);
-            this._showResearchFailure("La ricerca reale non è disponibile in questo momento. Non mostro risultati simulati: verifica le chiavi server di Gemini e Google Search, poi avvia una nuova ricerca.");
+            this._showResearchFailure("La ricerca non è disponibile in questo momento. Riprova tra poco con una nuova ricerca.");
         }
     }
 
@@ -1179,6 +1179,8 @@ class TriageEngine {
                 specializzazione: entry.specializzazione || cleanSpec,
                 tipo: entry.tipo || "Google",
                 indirizzo_modalita: entry.indirizzo_modalita || this.userData.zona,
+                telefono: entry.telefono || "",
+                email: entry.email || "",
                 contatti: entry.contatti || "Verifica recapiti sulla fonte ufficiale.",
                 fonte: entry.fonte || "Google",
                 info: entry.info || "Risultato reale individuato in rete.",
@@ -1257,23 +1259,47 @@ class TriageEngine {
         }
     }
 
-    _buildCard(nome, spec, tipo, ind, contatti, prenotazione, det, url = "") {
-        const cleanUrl = String(url || "").trim();
-        const hasSafeUrl = /^https:\/\/[^\s<>"']+$/i.test(cleanUrl);
-        const linkHTML = hasSafeUrl
-            ? `<p><a href="${escapeHTML(cleanUrl)}" target="_blank" rel="noopener noreferrer">Apri ricerca verificabile</a></p>`
+    _buildCard(resultOrName, spec = "", tipo = "", ind = "", contatti = "", prenotazione = "", det = "") {
+        const result = typeof resultOrName === "object" && resultOrName !== null
+            ? resultOrName
+            : {
+                nome: resultOrName,
+                specializzazione: spec,
+                tipo,
+                indirizzo_modalita: ind,
+                contatti,
+                info: det
+            };
+        const resultName = String(result.nome || "Specialista o struttura sanitaria").trim();
+        const resultSpec = String(result.specializzazione || spec || "Specialista").trim();
+        const resultType = String(result.tipo || tipo || "Risultato").trim();
+        const resultAddress = String(result.indirizzo_modalita || "Indirizzo non disponibile nella scheda pubblica").trim();
+        const resultPhone = String(result.telefono || "").trim();
+        const resultEmail = String(result.email || "").trim();
+        const resultContacts = String(result.contatti || "").trim();
+        const resultInfo = String(result.info || "").trim();
+
+        const phoneLine = resultPhone
+            ? resultPhone
+            : (resultContacts.match(/Telefono:\s*([^|]+)/i)?.[1] || "Non disponibile nella scheda pubblica").trim();
+        const emailLine = resultEmail
+            ? resultEmail
+            : (resultContacts.match(/Email:\s*([^|]+)/i)?.[1] || "Non disponibile nella scheda pubblica").trim();
+        const detailsHTML = resultInfo && !/risultato individuato tramite ricerca|serpapi|google custom search/i.test(resultInfo)
+            ? `<p><strong>Dettagli:</strong> ${escapeHTML(resultInfo)}</p>`
             : "";
+
         return `
     <div class="triage-result">
       <div class="triage-result-header">
-        ${escapeHTML(nome)} <span class="tag-badge">${escapeHTML(tipo)}</span>
+        ${escapeHTML(resultName)} <span class="tag-badge">${escapeHTML(resultType)}</span>
       </div>
       <div class="triage-result-body">
-        <p><strong>Specializzazione:</strong> ${escapeHTML(spec)}</p>
-        <p><strong>Indirizzo/Modalità:</strong> ${escapeHTML(ind)} (${escapeHTML(prenotazione)})</p>
-        <p><strong>Contatti:</strong> ${escapeHTML(contatti)}</p>
-        <p><strong>Info:</strong> ${escapeHTML(det)}</p>
-        ${linkHTML}
+        <p><strong>Specializzazione:</strong> ${escapeHTML(resultSpec)}</p>
+        <p><strong>Indirizzo:</strong> ${escapeHTML(resultAddress)}</p>
+        <p><strong>Telefono:</strong> ${escapeHTML(phoneLine)}</p>
+        <p><strong>Email:</strong> ${escapeHTML(emailLine)}</p>
+        ${detailsHTML}
       </div>
     </div>`;
     }
