@@ -1,4 +1,5 @@
 const GOOGLE_SEARCH_URL = "https://www.googleapis.com/customsearch/v1";
+const SERPAPI_SEARCH_URL = "https://serpapi.com/search.json";
 
 const DEFAULT_RESULT_COUNT = 16;
 const LOCAL_COUNT = 8;
@@ -48,16 +49,25 @@ function cleanText(value, fallback = "") {
 function getSearchConfig() {
     const apiKey = process.env.GOOGLE_CSE_API_KEY || process.env.GOOGLE_SEARCH_API_KEY || "";
     const searchEngineId = process.env.GOOGLE_CSE_ID || process.env.GOOGLE_SEARCH_ENGINE_ID || "";
-    return { apiKey, searchEngineId };
+    const serpApiKey = process.env.SERPAPI_API_KEY || "";
+    return { apiKey, searchEngineId, serpApiKey };
 }
 
-async function fetchGoogleResults({ query, scope, fetchImpl }) {
-    const { apiKey, searchEngineId } = getSearchConfig();
-    if (!apiKey || !searchEngineId) {
-        const error = new Error("Ricerca Google non configurata: imposta GOOGLE_CSE_API_KEY e GOOGLE_CSE_ID.");
-        error.code = "GOOGLE_SEARCH_CONFIG_MISSING";
-        throw error;
-    }
+function normalizeSearchItem({ title, link, snippet, query, scope, source }) {
+    return {
+        nome: cleanText(title, "Risultato Google verificabile"),
+        specializzazione: "",
+        tipo: scope,
+        indirizzo_modalita: cleanText(query),
+        contatti: "Verifica recapiti, sede e disponibilita sulla pagina ufficiale collegata.",
+        fonte: source,
+        info: cleanText(snippet, "Risultato individuato tramite ricerca Google."),
+        url: link
+    };
+}
+
+async function fetchGoogleCseResults({ query, scope, apiKey, searchEngineId, fetchImpl }) {
+    if (!apiKey || !searchEngineId) return [];
 
     const url = new URL(GOOGLE_SEARCH_URL);
     url.searchParams.set("key", apiKey);
@@ -74,7 +84,9 @@ async function fetchGoogleResults({ query, scope, fetchImpl }) {
 
     if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`Google Search API error (${response.status}): ${errorText}`);
+        const error = new Error(`Google Search API error (${response.status}): ${errorText}`);
+        error.code = "GOOGLE_CSE_ERROR";
+        throw error;
     }
 
     const payload = await response.json();
@@ -82,16 +94,81 @@ async function fetchGoogleResults({ query, scope, fetchImpl }) {
 
     return items
         .filter((item) => /^https:\/\//i.test(item.link || ""))
-        .map((item) => ({
-            nome: cleanText(item.title, "Risultato Google verificabile"),
-            specializzazione: "",
-            tipo: scope,
-            indirizzo_modalita: cleanText(query),
-            contatti: "Verifica recapiti, sede e disponibilita sulla pagina ufficiale collegata.",
-            fonte: "Google Custom Search",
-            info: cleanText(item.snippet, "Risultato individuato tramite ricerca Google."),
-            url: item.link
+        .map((item) => normalizeSearchItem({
+            title: item.title,
+            link: item.link,
+            snippet: item.snippet,
+            query,
+            scope,
+            source: "Google Custom Search"
         }));
+}
+
+async function fetchSerpApiResults({ query, scope, serpApiKey, fetchImpl }) {
+    if (!serpApiKey) return [];
+
+    const url = new URL(SERPAPI_SEARCH_URL);
+    url.searchParams.set("engine", "google");
+    url.searchParams.set("api_key", serpApiKey);
+    url.searchParams.set("q", query);
+    url.searchParams.set("hl", "it");
+    url.searchParams.set("gl", "it");
+    url.searchParams.set("google_domain", "google.it");
+    url.searchParams.set("num", "10");
+
+    const response = await fetchImpl(url.toString(), {
+        headers: { "Accept": "application/json" }
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        const error = new Error(`SerpApi error (${response.status}): ${errorText}`);
+        error.code = "SERPAPI_ERROR";
+        throw error;
+    }
+
+    const payload = await response.json();
+    if (payload.error) {
+        const error = new Error(`SerpApi error: ${payload.error}`);
+        error.code = "SERPAPI_ERROR";
+        throw error;
+    }
+
+    const items = Array.isArray(payload.organic_results) ? payload.organic_results : [];
+
+    return items
+        .filter((item) => /^https:\/\//i.test(item.link || ""))
+        .map((item) => normalizeSearchItem({
+            title: item.title,
+            link: item.link,
+            snippet: item.snippet,
+            query,
+            scope,
+            source: "SerpApi Google"
+        }));
+}
+
+async function fetchGoogleResults({ query, scope, fetchImpl }) {
+    const { apiKey, searchEngineId, serpApiKey } = getSearchConfig();
+    if (!apiKey && !serpApiKey) {
+        const error = new Error("Ricerca Google non configurata: imposta GOOGLE_CSE_API_KEY/GOOGLE_CSE_ID oppure SERPAPI_API_KEY.");
+        error.code = "GOOGLE_SEARCH_CONFIG_MISSING";
+        throw error;
+    }
+
+    if (apiKey && searchEngineId) {
+        try {
+            return await fetchGoogleCseResults({ query, scope, apiKey, searchEngineId, fetchImpl });
+        } catch (error) {
+            const detail = error instanceof Error ? error.message : String(error);
+            const cseUnavailable = /does not have the access to Custom Search JSON API|PERMISSION_DENIED/i.test(detail);
+            if (!cseUnavailable || !serpApiKey) {
+                throw error;
+            }
+        }
+    }
+
+    return fetchSerpApiResults({ query, scope, serpApiKey, fetchImpl });
 }
 
 function dedupeResults(results) {
