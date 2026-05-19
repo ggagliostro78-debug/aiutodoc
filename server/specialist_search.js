@@ -68,6 +68,72 @@ function extractAddress(text) {
     return match ? cleanText(match[0]).replace(/\s*,?\s*(?:Dott\.|Dr\.|Prof\.).*$/i, "") : "";
 }
 
+function htmlToText(html) {
+    return cleanText(String(html || "")
+        .replace(/<script[\s\S]*?<\/script>/gi, " ")
+        .replace(/<style[\s\S]*?<\/style>/gi, " ")
+        .replace(/<[^>]+>/g, " ")
+        .replace(/&nbsp;/gi, " ")
+        .replace(/&amp;/gi, "&")
+        .replace(/&#39;/gi, "'")
+        .replace(/&quot;/gi, '"'));
+}
+
+async function fetchPublicPageText(url, fetchImpl) {
+    if (!/^https:\/\//i.test(url || "")) return "";
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 3500);
+
+    try {
+        const response = await fetchImpl(url, {
+            headers: {
+                "Accept": "text/html,application/xhtml+xml",
+                "User-Agent": "AIutoDocBot/1.0 (+https://aiutodoc.it)"
+            },
+            signal: controller.signal
+        });
+        if (!response.ok) return "";
+        const contentType = response.headers.get("content-type") || "";
+        if (!/text\/html|application\/xhtml\+xml/i.test(contentType)) return "";
+        return htmlToText(await response.text());
+    } catch (error) {
+        return "";
+    } finally {
+        clearTimeout(timer);
+    }
+}
+
+async function enrichResult(result, fetchImpl) {
+    if (result.telefono && result.email && !/^Area\s/i.test(result.indirizzo_modalita || "")) {
+        return result;
+    }
+
+    const pageText = await fetchPublicPageText(result.url, fetchImpl);
+    if (!pageText) return result;
+
+    const phone = result.telefono || extractPhone(pageText);
+    const email = result.email || extractEmail(pageText);
+    const address = /^Area\s/i.test(result.indirizzo_modalita || "")
+        ? extractAddress(pageText) || result.indirizzo_modalita
+        : result.indirizzo_modalita;
+
+    return {
+        ...result,
+        telefono: phone,
+        email,
+        indirizzo_modalita: address,
+        contatti: [
+            phone ? `Telefono: ${phone}` : "Telefono non disponibile nella scheda pubblica",
+            email ? `Email: ${email}` : "Email non disponibile nella scheda pubblica"
+        ].join(" | ")
+    };
+}
+
+async function enrichResults(results, fetchImpl) {
+    return Promise.all(results.map((result) => enrichResult(result, fetchImpl)));
+}
+
 function extractDisplayName(title, snippet) {
     const combined = `${cleanText(title)} ${cleanText(snippet)}`;
     const doctorMatch = combined.match(/\b(?:Dott\.ssa|Dott\.|Dr\.ssa|Dr\.|Prof\.ssa|Prof\.|Dottore|Dottoressa)\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ'’-]+(?:\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ'’-]+){0,3}/);
@@ -273,6 +339,8 @@ async function searchSpecialists(payload, fetchImpl) {
             ...extraNationalRaw
         ]).slice(0, DEFAULT_RESULT_COUNT);
     }
+
+    results = await enrichResults(results, fetchImpl);
 
     return {
         distribution: {
