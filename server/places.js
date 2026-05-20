@@ -92,7 +92,31 @@ function isValidPlace(p) {
     return true;
 }
 
-function formatPlace(p, typeLabel, infoLabel) {
+function classifyPlace(name, types = []) {
+    const nameLower = (name || "").toLowerCase();
+    
+    // SSN keywords (public hospitals, local health authorities, or accredited clinical institutes)
+    const ssnKeywords = [
+        "ospedale", "ospedaliero", "ospedaliera", "policlinico", "asl", "asp", "usl", "ssn", 
+        "presidio", "asst", "ats", "a.o.", "a.o.u.", "pubblic", "sanitaria locale", "sanitario locale",
+        "istituto", "iomi", "clinica", "casa di cura", "irccs", "fondazione", 
+        "don calabria", "humanitas", "auxologico", "galeazzi", "rizzoli", "sacco", "niguarda",
+        "fatebenefratelli", "gemelli", "umberto i", "san raffaele", "careggi", "spallanzani", 
+        "sant'orsola", "cardarelli", "monaldi", "cotugno"
+    ];
+    
+    if (ssnKeywords.some(kw => nameLower.includes(kw))) {
+        return "SSN";
+    }
+
+    if (types.includes("hospital")) {
+        return "SSN";
+    }
+    
+    return "Privato";
+}
+
+function formatPlace(p) {
     const name = p.displayName ? p.displayName.text : "Centro Medico / Specialista";
     const address = p.formattedAddress || "Indirizzo non disponibile";
     const phone = p.nationalPhoneNumber || "";
@@ -114,16 +138,22 @@ function formatPlace(p, typeLabel, infoLabel) {
     if (phone) contatti.push(`Telefono: ${phone}`);
     if (website) contatti.push(`Sito web: ${website}`);
 
+    const classifiedType = classifyPlace(name, p.types || []);
+    const infoLabel = classifiedType === "SSN"
+        ? "Struttura o specialista operante in regime SSN (pubblico o convenzionato)."
+        : "Specialista o struttura sanitaria privata in regime di libera professione.";
+
     return {
         nome: name,
         specializzazione: "", // Frontend will fill this
-        tipo: typeLabel,
+        tipo: classifiedType,
         indirizzo_modalita: address,
         contatti: contatti.join(" | ") || "Contatta la struttura per informazioni",
         info: infoLabel,
         telefono: phone
     };
 }
+
 
 async function handlePlacesSearch({ method, body, fetchImpl = fetch }) {
     const corsHeaders = buildCorsHeaders();
@@ -190,7 +220,7 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch }) {
             const nameKey = p.displayName?.text?.toLowerCase().trim();
             if (!nameKey || seenNames.has(nameKey)) continue;
             seenNames.add(nameKey);
-            localList.push(formatPlace(p, `Territoriale (${provinceLabel})`, "Struttura o specialista individuato sul territorio provinciale."));
+            localList.push(formatPlace(p));
         }
 
         // 2. Regional
@@ -199,7 +229,7 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch }) {
             const nameKey = p.displayName?.text?.toLowerCase().trim();
             if (!nameKey || seenNames.has(nameKey)) continue;
             seenNames.add(nameKey);
-            regionalList.push(formatPlace(p, `Regionale (${regionLabel})`, "Centro di eccellenza o specialista individuato a livello regionale."));
+            regionalList.push(formatPlace(p));
         }
 
         // 3. National
@@ -208,7 +238,7 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch }) {
             const nameKey = p.displayName?.text?.toLowerCase().trim();
             if (!nameKey || seenNames.has(nameKey)) continue;
             seenNames.add(nameKey);
-            nationalList.push(formatPlace(p, "Nazionale (Eccellenza)", "Centro o specialista di rilievo nazionale riconosciuto per l'eccellenza."));
+            nationalList.push(formatPlace(p));
         }
 
         // Assemble with 50% / 30% / 20% distribution

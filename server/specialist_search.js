@@ -164,11 +164,18 @@ function normalizeSearchItem({ title, link, snippet, query, scope, source }) {
     const isAggregator = /(miodottore|doctolib|idoctors|paginegialle|paginebianche|cup|qsalute|guidasalute|topdoctors|yelp|tripadvisor|facebook|instagram)\./i.test(link || "");
     if (!displayName || isAggregator) return null;
 
+    const nameLower = displayName.toLowerCase();
+    const isSSN = /ospedale|ospedaliero|ospedaliera|policlinico|asl|asp|usl|ssn|presidio|asst|ats|a.o.|a.o.u.|pubblic|sanitaria locale|sanitario locale|istituto|iomi|clinica|casa di cura|irccs|fondazione|don calabria|humanitas|auxologico|galeazzi|rizzoli|sacco|niguarda|fatebenefratelli|gemelli|umberto i|san raffaele|careggi|spallanzani|sant'orsola|cardarelli|monaldi|cotugno/i.test(nameLower);
+    const classifiedType = isSSN ? "SSN" : "Privato";
+    const infoLabel = classifiedType === "SSN"
+        ? "Struttura o specialista operante in regime SSN (pubblico o convenzionato)."
+        : "Specialista o struttura sanitaria privata in regime di libera professione.";
+
     return {
         nome: displayName,
         specializzazione: "",
-        tipo: scope,
-        indirizzo_modalita: address || `Area ${scope.toLowerCase()}`,
+        tipo: classifiedType,
+        indirizzo_modalita: address || "Indirizzo non disponibile",
         telefono: phone,
         email,
         contatti: [
@@ -176,7 +183,7 @@ function normalizeSearchItem({ title, link, snippet, query, scope, source }) {
             email ? `Email: ${email}` : "Email non disponibile nella scheda pubblica"
         ].join(" | "),
         fonte: source,
-        info: cleanText(snippet, "Scheda pubblica rilevata in rete.")
+        info: infoLabel
         // URL removed to ensure NO external references to other sites as per user request
     };
 }

@@ -1017,8 +1017,10 @@ class TriageEngine {
                     if (finalPlaces.length >= 16) break;
                     const isDup = finalPlaces.some(p => isSameDoctor(p.nome, c.nome));
                     if (!isDup) {
-                        c.tipo = c.tipo || "Nazionale (Eccellenza)";
-                        c.info = c.info || "Centro o specialista di rilievo nazionale riconosciuto per l'eccellenza.";
+                        const nameLower = (c.nome || "").toLowerCase();
+                        const isSSN = /ospedale|ospedaliero|ospedaliera|policlinico|asl|asp|usl|ssn|presidio|asst|ats|a.o.|a.o.u.|pubblic|sanitaria locale|sanitario locale|istituto|iomi|clinica|casa di cura|irccs|fondazione|don calabria|humanitas|auxologico|galeazzi|rizzoli|sacco|niguarda|fatebenefratelli|gemelli|umberto i|san raffaele|careggi|spallanzani|sant'orsola|cardarelli|monaldi|cotugno/i.test(nameLower);
+                        c.tipo = c.tipo || (isSSN ? "SSN" : "Privato");
+                        c.info = c.info || (isSSN ? "Struttura o specialista operante in regime SSN (pubblico o convenzionato)." : "Specialista o struttura sanitaria privata in regime di libera professione.");
                         finalPlaces.push(c);
                     }
                 }
@@ -1084,7 +1086,7 @@ class TriageEngine {
                 const calafiore = {
                     nome: "Dott. Vincenzo Calafiore",
                     specializzazione: "Ortopedico (Chirurgia Anca, Ginocchio, Spalla)",
-                    tipo: "Banca dati AiutoDoc",
+                    tipo: "Privato",
                     indirizzo_modalita: "IOMI (RC) | Studio Torrione (RC) | Centro Gima (VV)",
                     contatti: "3294255444 | Dottorecalafiore@libero.it",
                     info: "Chirurgo specializzato in ricostruzione cuffia, Achille, crociato e lesioni meniscali."
@@ -1241,11 +1243,11 @@ class TriageEngine {
             add({
                 nome: "Dr.ssa Greta Devoli",
                 specializzazione: "Psicologa ad orientamento Sistemico-Relazionale",
-                tipo: "Banca dati AiutoDoc",
+                tipo: "Privato",
                 indirizzo_modalita: isRoma ? "Roma e online" : "Online in tutta Italia",
                 contatti: "3479847838 | gretadevoli@gmail.com",
                 fonte: "Scheda curata",
-                info: "Professionista presente nella banca dati curata AiutoDoc. Verificare sempre disponibilita, titolo e modalita prima della prenotazione."
+                info: "Specialista in regime di libera professione."
             });
         }
 
@@ -1253,11 +1255,11 @@ class TriageEngine {
             add({
                 nome: "Dott. Vincenzo Calafiore",
                 specializzazione: "Ortopedico / Chirurgo",
-                tipo: "Banca dati AiutoDoc",
+                tipo: "Privato",
                 indirizzo_modalita: "IOMI RC | Studio Torrione RC | Centro Gima VV",
                 contatti: "3294255444 | Dottorecalafiore@libero.it",
                 fonte: "Scheda curata",
-                info: "Professionista presente nella banca dati curata AiutoDoc. Verificare sempre disponibilita, titolo e modalita prima della prenotazione."
+                info: "Specialista in regime di libera professione."
             });
         }
 
@@ -1265,11 +1267,11 @@ class TriageEngine {
             add({
                 nome: "Dott. Carmelo Pecora",
                 specializzazione: "Neurochirurgo",
-                tipo: "Banca dati AiutoDoc",
+                tipo: "Privato",
                 indirizzo_modalita: "Messina | Milazzo | Reggio Calabria",
                 contatti: "3339690197 | carmelopecora77@gmail.com",
                 fonte: "Scheda curata",
-                info: "Professionista presente nella banca dati curata AiutoDoc. Verificare sempre disponibilita, titolo e modalita prima della prenotazione."
+                info: "Specialista in regime di libera professione."
             });
         }
 
