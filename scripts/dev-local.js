@@ -85,6 +85,28 @@ async function handleApi(req, res) {
         return true;
     }
 
+    if (req.url === "/api/enrich") {
+        const { handleEnrichEntity } = require("../server/enrich");
+        const result = await handleEnrichEntity({
+            method: req.method,
+            body,
+            fetchImpl: fetch
+        });
+        send(res, result.statusCode, result.headers, result.body);
+        return true;
+    }
+
+    if (req.url === "/api/places") {
+        const { handlePlacesSearch } = require("../server/places");
+        const result = await handlePlacesSearch({
+            method: req.method,
+            body,
+            fetchImpl: fetch
+        });
+        send(res, result.statusCode, result.headers, result.body);
+        return true;
+    }
+
     if (req.url === "/api/firebase-config") {
         send(res, 200, {
             "Content-Type": "application/json; charset=utf-8",

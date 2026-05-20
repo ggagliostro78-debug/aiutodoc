@@ -1,4 +1,4 @@
-﻿// src/app_v3.js
+// src/app_v3.js
 console.log("Triage engine loading... (v3.1.0-STANDALONE)");
 
 
@@ -947,7 +947,7 @@ class TriageEngine {
         try {
             let resultObj = this._normalizeGeminiResult(await this._getGeminiConsultation());
             if (this.state !== '6_RICERCA_SCIENTIFICA') return;
-            resultObj.risultati = await this._getSpecialistSearchResults(resultObj.specialista_indicato);
+            
             await this._waitForMinimumResearchTime(45000);
             
             if (this.researchTimeout) clearTimeout(this.researchTimeout);
@@ -957,6 +957,144 @@ class TriageEngine {
             const boxLoadingDOM = document.getElementById('ai-loading-box');
             if (boxLoadingDOM) boxLoadingDOM.remove();
 
+            // --- GOOGLE PLACES RETRIEVAL ---
+            let places = [];
+            const userZonaStr = String(this.userData.zona || "").trim();
+            try {
+                const response = await fetch('/api/places', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        specialista: resultObj.specialista_indicato,
+                        comune: this.userData.zonaDettagli?.comune || userZonaStr,
+                        provincia: this.userData.zonaDettagli?.provincia || "",
+                        regione: this.userData.zonaDettagli?.regione || ""
+                    })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    places = data.risultati || [];
+                }
+            } catch (e) {
+                console.warn("Failed to fetch Google Places", e);
+            }
+
+            const isSameDoctor = (nameA, nameB) => {
+                const clean = (name) => {
+                    return String(name || "").toLowerCase()
+                        .replace(/^(dr\.ssa|dr\.|dr|dott\.ssa|dott\.|dott|dottoressa|prof\.|prof)\b/g, "")
+                        .replace(/[^a-z\s]/g, "")
+                        .split(/\s+/)
+                        .filter(w => w.length > 2);
+                };
+                const wordsA = clean(nameA);
+                const wordsB = clean(nameB);
+                if (wordsA.length === 0 || wordsB.length === 0) return false;
+                const matchesA = wordsA.every(w => wordsB.includes(w));
+                const matchesB = wordsB.every(w => wordsA.includes(w));
+                return matchesA || matchesB;
+            };
+
+            const curated = this._buildCuratedSearchResults(resultObj.specialista_indicato) || [];
+            const isRCOrVibo = userZonaStr.toLowerCase().includes("reggio") || userZonaStr.toLowerCase().includes("vibo");
+            const isOrthopedic = resultObj.specialista_indicato && resultObj.specialista_indicato.toLowerCase().includes("ortoped");
+
+            // Raccogli nomi dei medici indicizzati
+            const curatedNames = curated.map(c => c.nome);
+            if (isRCOrVibo && isOrthopedic) {
+                curatedNames.push("Dott. Vincenzo Calafiore");
+            }
+
+            // Filtra duplicati dei medici indicizzati dai risultati di Google Places
+            let filteredPlaces = places.filter(p => {
+                const isDup = curatedNames.some(cName => isSameDoctor(p.nome, cName));
+                return !isDup;
+            });
+
+            let finalPlaces = [...filteredPlaces];
+            if (finalPlaces.length < 16) {
+                for (const c of curated) {
+                    if (finalPlaces.length >= 16) break;
+                    const isDup = finalPlaces.some(p => isSameDoctor(p.nome, c.nome));
+                    if (!isDup) {
+                        c.tipo = c.tipo || "Nazionale (Eccellenza)";
+                        c.info = c.info || "Centro o specialista di rilievo nazionale riconosciuto per l'eccellenza.";
+                        finalPlaces.push(c);
+                    }
+                }
+            }
+            resultObj.risultati = finalPlaces;
+
+            // Pulisci i nomi dei medici specialisti e sposta la specializzazione estesa in "info"
+            const prefixRegex = /\b(dottoressa|professoressa|dott\.ssa|dr\.ssa|dottore|dott\.|dr\.|prof\.|dott\b|dr\b|prof\b)/i;
+            const stopWords = /^(ortopedico|ortopedica|ortopedia|specialista|specializzazione|chirurgo|chirurgia|oculista|oftalmologo|oftalmologia|cardiologo|cardiologia|ginecologo|ginecologia|ostetrico|ostetricia|pediatra|pediatria|neurologo|neurologia|neurochirurgo|neurochirurgia|psicologo|psicologa|psicoterapeuta|psicoterapia|psichiatra|psichiatria|medico|medicina|dermatologo|dermatologia|urologo|urologia|fisioterapista|fisioterapia|fisiatra|fisiatria|reumatologo|reumatologia|endocrinologo|endocrinologia|gastroenterologo|gastroenterologia|otorino|otorinolaringoiatra|otorinolaringoiatria|allergologo|allergologia|nutrizionista|dietista|dentista|odontoiatra|odontoiatria|senologo|senologia|oncologo|oncologia|pneumologo|pneumologia|angiologo|angiologia|logopedista|logopedia|podologo|podologia|terapista|terapia|dottore|dottoressa|studio|clinica|poliambulatorio|ambulatorio|centro|istituto|ospedale|in|per|della|dello|del|dei|degli|di|da|con|e|ed|a|colonna|protesi|robotica|mininvasiva|spalla|ginocchio|anca|mano|piede|schiena|articolazioni|cuore|vasi|pelle|cervello|nervi)\b/i;
+
+            resultObj.risultati.forEach(r => {
+                if (!r.specializzazione) {
+                    r.specializzazione = resultObj.specialista_indicato;
+                }
+
+                if (prefixRegex.test(r.nome)) {
+                    const matchPrefix = r.nome.match(prefixRegex);
+                    if (matchPrefix) {
+                        const prefix = matchPrefix[0];
+                        const idx = r.nome.indexOf(prefix);
+                        const before = r.nome.slice(0, idx).trim();
+                        const rest = r.nome.slice(idx + prefix.length).trim();
+                        
+                        const tokens = rest.split(/\s+/);
+                        const nameParts = [];
+                        let extraParts = [];
+                        
+                        for (let i = 0; i < tokens.length; i++) {
+                            const token = tokens[i];
+                            const cleanToken = token.replace(/[^a-zA-Z]/g, '');
+                            if (stopWords.test(cleanToken) || (!/^[A-Z]/.test(token) && !/^(di|de|da|del|della|d')$/i.test(token))) {
+                                extraParts = tokens.slice(i);
+                                break;
+                            }
+                            nameParts.push(token);
+                        }
+                        
+                        if (nameParts.length > 0) {
+                            const cleanName = `${prefix.trim()} ${nameParts.join(" ")}`.trim();
+                            const extraText = extraParts.join(" ").replace(/^[-,\s|]+/, "").trim();
+                            
+                            r.nome = cleanName;
+                            
+                            // Unisci testo prima (es. Studio Ortopedico) e dopo per le info
+                            const cleanBefore = before.replace(/^[-,\s|]+/, "").replace(/[-,\s|]+$/, "").trim();
+                            let combinedExtra = "";
+                            if (cleanBefore && extraText) {
+                                combinedExtra = `${cleanBefore} | ${extraText}`;
+                            } else {
+                                combinedExtra = cleanBefore || extraText;
+                            }
+                            
+                            if (combinedExtra) {
+                                r.info = r.info ? `${r.info} | ${combinedExtra}` : combinedExtra;
+                            }
+                        }
+                    }
+                }
+            });
+
+            // PRIORITY LOGIC: Dott. Vincenzo Calafiore per Ortopedia in RC/Vibo
+            if (isRCOrVibo && isOrthopedic) {
+                const calafiore = {
+                    nome: "Dott. Vincenzo Calafiore",
+                    specializzazione: "Ortopedico (Chirurgia Anca, Ginocchio, Spalla)",
+                    tipo: "Banca dati AiutoDoc",
+                    indirizzo_modalita: "IOMI (RC) | Studio Torrione (RC) | Centro Gima (VV)",
+                    contatti: "3294255444 | Dottorecalafiore@libero.it",
+                    info: "Chirurgo specializzato in ricostruzione cuffia, Achille, crociato e lesioni meniscali."
+                };
+                
+                resultObj.risultati = resultObj.risultati.filter(r => !isSameDoctor(r.nome, calafiore.nome));
+                const targetIndex = Math.min(resultObj.risultati.length, Math.floor(Math.random() * 4));
+                resultObj.risultati.splice(targetIndex, 0, calafiore);
+            }
+
             // Mostriamo i risultati
             let outInitial = `
             <div id="printable-area">
@@ -965,24 +1103,32 @@ class TriageEngine {
             </div>
             
             <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">
-                <h3 style="color: var(--primary); margin-top: 0;">🔍 Sintesi Anamnestica</h3>
+                <h3 style="color: var(--primary); margin-top: 0; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.2rem;">🔍</span> Sintesi Anamnestica
+                </h3>
                 <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(resultObj.sintesi_anamnestica)}</p>
                 
                 <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div style="background: #f0f7f7; padding: 15px; border-radius: 10px;">
-                        <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #1b9b9a; font-weight: bold; margin-bottom: 5px;">👨‍⚕️ Specialista Consigliato</span>
+                        <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #1b9b9a; font-weight: bold; margin-bottom: 5px;">
+                            👨‍⚕️ SPECIALISTA CONSIGLIATO
+                        </span>
                         <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(resultObj.specialista_indicato)}</strong>
                     </div>
                     <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
-                        <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">💡 Guida al Comportamento</span>
+                        <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">
+                            💡 GUIDA AL COMPORTAMENTO
+                        </span>
                         <p style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(resultObj.preparazione_visita)}</p>
                     </div>
                 </div>
                 
                 <div style="margin-top: 20px; background: #fef2f2; padding: 15px; border-radius: 10px; border: 1px dashed #f87171;">
-                    <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #b91c1c; font-weight: bold; margin-bottom: 5px;">📑 Nota per l'Impegnativa (MMG)</span>
+                    <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #b91c1c; font-weight: bold; margin-bottom: 5px;">
+                        📑 NOTA PER L'IMPEGNATIVA (MMG)
+                    </span>
                     <p style="margin: 0; font-style: italic; color: #374151;">"${escapeHTML(resultObj.impegnativa_medico)}"</p>
                 </div>
             </div>
@@ -1030,7 +1176,7 @@ class TriageEngine {
             const errDetail = err && err.message ? err.message : String(err);
             console.warn("Dettaglio errore Gemini:", errDetail);
             await this._waitForMinimumResearchTime(45000);
-            this._showResearchFailure("La ricerca non è disponibile in questo momento. Riprova tra poco con una nuova ricerca.");
+            this._showResearchFailure(`La ricerca non è disponibile in questo momento (Errore: ${errDetail}). Riprova tra poco.`);
         }
     }
 
@@ -1072,7 +1218,7 @@ class TriageEngine {
             specialista_indicato: String(resultObj.specialista_indicato || "Medico specialista"),
             preparazione_visita: String(resultObj.preparazione_visita || "Porta con te documenti sanitari, referti ed elenco dei sintomi."),
             impegnativa_medico: String(resultObj.impegnativa_medico || "Valutazione specialistica in base ai sintomi riferiti."),
-            risultati: []
+            risultati: Array.isArray(resultObj.risultati) ? resultObj.risultati : []
         };
     }
 
@@ -1209,29 +1355,25 @@ class TriageEngine {
         }
 
         try {
-            const systemPrompt = `Sei un sistema di intelligenza artificiale per orientamento sanitario informativo di Aiutodoc.it. Il tuo obiettivo e' individuare la branca specialistica piu appropriata riducendo l'inappropriatezza, con sintesi informativa non diagnostica basata su letteratura medica autorevole e conoscenze scientifiche validate.
+            const userZonaStr = String(this.userData.zona || "").trim();
+            const systemPrompt = `Sei un esperto di orientamento medico di Aiutodoc.it. Il tuo obiettivo è fornire una sintesi clinica accurata basata sull'intervista effettuata con l'utente e suggerire la specializzazione medica corretta.
             
             Dati utente:
             - Sesso/Età: ${this.userData.sessoEta}
-            - Zona: ${this.userData.zona}
+            - Zona: ${userZonaStr}
             - Disturbo: ${this.userData.disturbo}
             - Risposte Conoscitive: ${JSON.stringify(this.userData.conoscitiveResp)}
             - Risposte Anamnestiche: ${JSON.stringify(this.userData.anamnesticheResp)}
-            - Note Libere: ${this.userData.notaAnamnestica}
+            - Note Libere: ${this.userData.notaAnamnestica || "Nessuna nota aggiuntiva"}
 
             REGOLE DI OUTPUT:
             Restituisci ESCLUSIVAMENTE un oggetto JSON puro con questa struttura:
             {
-              "sintesi_anamnestica": "Sintesi informativa dei sintomi dichiarati e delle risposte, senza formulare pareri clinici.",
-              "specialista_indicato": "Branca medica principale (es. Cardiologo, Neurochirurgo, ecc.)",
-              "preparazione_visita": "Consigli pratici per la visita (es. 'porta con te esami del sangue recenti')",
-              "impegnativa_medico": "Testo suggerito per il Medico di Medicina Generale (MMG) per facilitare la scrittura dell'impegnativa.",
-            }
-
-            IMPORTANTE:
-            1. Non generare nomi di medici, cliniche, telefoni, email o indirizzi.
-            2. Devi individuare solo la branca/specialista piu coerente e produrre una sintesi informativa.
-            3. La ricerca dei 16 professionisti o strutture viene gestita dall'app tramite Google Search reale e banca dati AiutoDoc gia indicizzata.`;
+              "sintesi_anamnestica": "Una sintesi dettagliata e professionale dei sintomi e dell'intervista in italiano.",
+              "specialista_indicato": "La singola specializzazione medica più adatta (es. Cardiologo, Neurologo, Ortopedico, ecc. - usa solo il nome della branca, es. 'Cardiologo')",
+              "preparazione_visita": "Guida al comportamento e consigli pratici per l'utente in preparazione alla visita medica.",
+              "impegnativa_medico": "Una nota clinica chiara e sintetica da suggerire al Medico di Medicina Generale (MMG) per la compilazione della ricetta/impegnativa."
+            }`;
 
             const response = await fetch(API_URL, {
                 method: 'POST',
@@ -1296,10 +1438,9 @@ class TriageEngine {
       </div>
       <div class="triage-result-body">
         <p><strong>Specializzazione:</strong> ${escapeHTML(resultSpec)}</p>
-        <p><strong>Indirizzo:</strong> ${escapeHTML(resultAddress)}</p>
-        <p><strong>Telefono:</strong> ${escapeHTML(phoneLine)}</p>
-        <p><strong>Email:</strong> ${escapeHTML(emailLine)}</p>
-        ${detailsHTML}
+        <p><strong>Indirizzo/Modalità:</strong> ${escapeHTML(resultAddress)}</p>
+        <p><strong>Contatti:</strong> ${escapeHTML(resultContacts)}</p>
+        <p><strong>Info:</strong> ${escapeHTML(resultInfo)}</p>
       </div>
     </div>`;
     }

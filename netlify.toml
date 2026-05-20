@@ -20,6 +20,11 @@
   to = "/.netlify/functions/firebase-config"
   status = 200
 
+[[redirects]]
+  from = "/api/places"
+  to = "/.netlify/functions/places"
+  status = 200
+
 [[headers]]
   for = "/"
   [headers.values]

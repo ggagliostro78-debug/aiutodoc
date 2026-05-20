@@ -161,7 +161,8 @@ function normalizeSearchItem({ title, link, snippet, query, scope, source }) {
     const address = extractAddress(fullText);
     const displayName = extractDisplayName(title, snippet);
 
-    if (!displayName) return null;
+    const isAggregator = /(miodottore|doctolib|idoctors|paginegialle|paginebianche|cup|qsalute|guidasalute|topdoctors|yelp|tripadvisor|facebook|instagram)\./i.test(link || "");
+    if (!displayName || isAggregator) return null;
 
     return {
         nome: displayName,
@@ -175,8 +176,8 @@ function normalizeSearchItem({ title, link, snippet, query, scope, source }) {
             email ? `Email: ${email}` : "Email non disponibile nella scheda pubblica"
         ].join(" | "),
         fonte: source,
-        info: cleanText(snippet, "Scheda pubblica rilevata in rete."),
-        url: link
+        info: cleanText(snippet, "Scheda pubblica rilevata in rete.")
+        // URL removed to ensure NO external references to other sites as per user request
     };
 }
 
@@ -305,11 +306,12 @@ async function searchSpecialists(payload, fetchImpl) {
     const regione = cleanText(payload.regione, zona);
 
     const clinicalTerms = [specialista, disturbo].filter(Boolean).join(" ");
-    const localQuery = `${clinicalTerms} ${provincia} dottore clinica ospedale telefono indirizzo email`.trim();
-    const regionalQuery = `${clinicalTerms} ${regione} centro specialistico clinica ospedale telefono indirizzo`.trim();
-    const nationalQuery = `${clinicalTerms} eccellenza specialistica Italia clinica ospedale telefono indirizzo`.trim();
-    const extraRegionalQuery = `${clinicalTerms} ${regione} contatti prenotazioni studio medico`.trim();
-    const extraNationalQuery = `${clinicalTerms} Italia contatti prenotazioni ospedale specialista`.trim();
+    const negations = "-miodottore -doctolib -idoctors -paginegialle -paginebianche -cup -qsalute -guidasalute -topdoctors";
+    const localQuery = `${clinicalTerms} ${provincia} dottore clinica ospedale telefono indirizzo email ${negations}`.trim();
+    const regionalQuery = `${clinicalTerms} ${regione} centro specialistico clinica ospedale telefono indirizzo ${negations}`.trim();
+    const nationalQuery = `${clinicalTerms} eccellenza specialistica Italia clinica ospedale telefono indirizzo ${negations}`.trim();
+    const extraRegionalQuery = `${clinicalTerms} ${regione} contatti prenotazioni studio medico ${negations}`.trim();
+    const extraNationalQuery = `${clinicalTerms} Italia contatti prenotazioni ospedale specialista ${negations}`.trim();
 
     const [localRaw, regionalRaw, nationalRaw] = await Promise.all([
         fetchGoogleResults({ query: localQuery, scope: "Provincia", fetchImpl }),
