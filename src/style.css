@@ -641,6 +641,27 @@ body {
   transform: scale(0.99);
 }
 
+.mcq-options.is-locked .mcq-option {
+  cursor: default;
+  pointer-events: none;
+}
+
+.mcq-option.is-disabled {
+  opacity: 0.52;
+}
+
+.mcq-option.is-selected {
+  opacity: 1;
+  background: rgba(27, 155, 154, 0.14);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(27, 155, 154, 0.08);
+}
+
+.quick-reply-btn:disabled {
+  opacity: 0.52;
+  cursor: default;
+}
+
 .mcq-letter {
   flex: 0 0 auto;
   width: 26px;
@@ -833,6 +854,17 @@ body {
   color: var(--primary-hover);
 }
 
+.inline-page-link {
+  color: var(--primary);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.inline-page-link:hover {
+  color: var(--primary-hover);
+}
+
 .age-gate {
   background: white;
   border: 1px solid var(--border-color);
@@ -903,6 +935,119 @@ body {
 
 .btn-primary-wide:active {
   transform: scale(0.98);
+}
+
+.initial-intake-card {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid rgba(27, 155, 154, 0.22);
+  border-radius: 12px;
+  background: #f8fbfb;
+  text-align: left;
+}
+
+.initial-intake-card.completed {
+  opacity: 0.72;
+}
+
+.initial-intake-card h3 {
+  margin: 0 0 8px;
+  color: var(--text-main);
+  font-size: 1.05rem;
+}
+
+.initial-intake-card p {
+  margin: 0 0 14px;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.initial-field {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 8px;
+}
+
+.initial-field span,
+.initial-fieldset legend {
+  color: var(--text-main);
+  font-size: 0.94rem;
+  font-weight: 800;
+}
+
+.initial-field input[type="number"] {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: white;
+  color: var(--text-main);
+  font: inherit;
+}
+
+.initial-field input[type="number"]:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(27, 155, 154, 0.12);
+  outline: none;
+}
+
+.initial-fieldset {
+  margin: 14px 0 8px;
+  padding: 0;
+  border: 0;
+}
+
+.initial-fieldset p {
+  margin: 6px 0 10px;
+}
+
+.sex-at-birth-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.sex-at-birth-card {
+  min-height: 48px;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-main);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.sex-at-birth-card:has(input:checked) {
+  border-color: var(--primary);
+  background: #eefafa;
+  box-shadow: 0 0 0 2px rgba(27, 155, 154, 0.08);
+}
+
+.sex-at-birth-card input {
+  accent-color: var(--primary);
+  flex: 0 0 auto;
+}
+
+.initial-error {
+  min-height: 18px;
+  margin: 4px 0 0 !important;
+  color: var(--danger) !important;
+  font-size: 0.82rem !important;
+  font-weight: 700;
+}
+
+.initial-privacy-note {
+  margin-top: 10px !important;
+  color: var(--text-muted) !important;
+  font-size: 0.78rem !important;
 }
 
 /* --- Novità UI --- */
@@ -1013,6 +1158,12 @@ body {
   text-align: center;
 }
 
+.info-body > h3 {
+  color: var(--text-main);
+  margin: 24px 0 12px;
+  font-size: 1.12rem;
+}
+
 .info-body p {
   margin-bottom: 16px;
   color: var(--text-main);
@@ -1094,6 +1245,60 @@ body {
 
 .plus-showcase p {
   margin-bottom: 0;
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+  margin: 28px 0 8px;
+}
+
+.showcase-card {
+  min-height: 220px;
+  padding: 18px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: #f8fbfb;
+  box-shadow: var(--shadow-sm);
+}
+
+.showcase-card h3 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  color: var(--text-main);
+}
+
+.showcase-card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.showcase-card li {
+  margin-bottom: 8px;
+  color: var(--text-main);
+  line-height: 1.4;
+  font-size: 0.92rem;
+}
+
+.showcase-card li:last-child {
+  margin-bottom: 0;
+}
+
+.showcase-bronze {
+  border-top: 5px solid #a97142;
+}
+
+.showcase-silver {
+  border-top: 5px solid #8b9aaa;
+}
+
+.showcase-gold {
+  border-top: 5px solid #c69225;
+}
+
+.showcase-gold-plus {
+  border-top: 5px solid var(--primary);
 }
 
 .cta-container {
@@ -1183,29 +1388,126 @@ body {
 
 /* Practices List */
 .practices-list {
-  background: var(--bg-color);
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid var(--border-color);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
 }
 
-.practices-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.specialty-card {
+  min-height: 96px;
+  padding: 16px;
+  border: 1px solid rgba(27, 155, 154, 0.22);
+  border-radius: 8px;
+  background: #f8fbfb;
+  color: var(--text-main);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease, background-color 0.2s ease;
 }
 
-.practices-list li {
-  margin-bottom: 12px;
-  font-size: 0.95rem;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border-color);
+.specialty-card strong {
+  display: block;
+  color: var(--primary);
+  font-size: 0.98rem;
+  margin-bottom: 6px;
 }
 
-.practices-list li:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
+.specialty-card span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.specialty-card:hover,
+.specialty-card:focus-visible {
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 8px 18px rgba(27, 155, 154, 0.12);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.specialty-detail-section .info-body {
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+.specialty-detail-section p {
+  max-width: 78ch;
+  font-size: 1rem;
+  line-height: 1.68;
+}
+
+.specialty-subtitle {
+  color: var(--primary);
+  font-size: 1.08rem;
+  font-weight: 700;
+  margin-top: -4px;
+}
+
+.medical-orientation-note {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(27, 155, 154, 0.22);
+  border-radius: 8px;
+  background: #f8fbfb;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.anamnesis-start-bar {
+  margin-top: auto;
+  padding: 24px 28px;
+  border: 1px solid rgba(27, 155, 154, 0.24);
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 12px 30px rgba(16, 24, 40, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.anamnesis-start-bar span {
+  flex: 1;
+  color: var(--text-main);
+  font-size: 1.18rem;
+  font-weight: 800;
+  line-height: 1.32;
+}
+
+.start-anamnesis-btn {
+  width: 78px;
+  height: 78px;
+  min-width: 78px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 10px 24px rgba(27, 155, 154, 0.24);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease;
+}
+
+.start-anamnesis-btn:hover,
+.start-anamnesis-btn:focus-visible {
+  background: var(--primary-hover);
+  box-shadow: 0 14px 28px rgba(27, 155, 154, 0.3);
+  outline: none;
+  transform: translateY(-1px);
 }
 
 /* Legal Footer */
@@ -1513,12 +1815,33 @@ body {
     width: 100%;
   }
 
+  .sex-at-birth-options {
+    grid-template-columns: 1fr;
+  }
+
   .problem-box,
   .solution-box,
-  .impact-stats,
-  .practices-list {
+  .impact-stats {
     padding: 18px;
     border-radius: 16px;
+  }
+
+  .practices-list {
+    grid-template-columns: 1fr;
+  }
+
+  .anamnesis-start-bar {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .start-anamnesis-btn {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    align-self: flex-end;
+    font-size: 1.55rem;
   }
 
   .section-image {

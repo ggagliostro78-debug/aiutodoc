@@ -6,6 +6,9 @@ class TriageEngine {
     constructor(onMessage) {
         this.state = '1_SESSO_ETA';
         this.userData = {
+            age: null,
+            sex_at_birth: null,
+            initialMedicalData: null,
             sessoEta: null,
             zona: null,
             zonaDettagli: null,
@@ -27,6 +30,28 @@ class TriageEngine {
         if (recBtn && recInput) {
             recBtn.onclick = () => this.retrieveFromCloud(recInput.value);
         }
+
+        const initialForm = document.getElementById('initial-medical-form');
+        if (initialForm) {
+            initialForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const formData = new FormData(initialForm);
+                const ageRaw = formData.get('age');
+                const sexAtBirth = formData.get('sex_at_birth');
+                const validation = this._validateInitialMedicalSearch({
+                    age: ageRaw === null || String(ageRaw).trim() === "" ? null : Number(ageRaw),
+                    sex_at_birth: sexAtBirth ? String(sexAtBirth) : ""
+                });
+
+                this._renderInitialMedicalErrors(validation.errors);
+                if (!validation.valid) return;
+
+                this.acceptInitialMedicalData({
+                    age: Number(ageRaw),
+                    sex_at_birth: String(sexAtBirth)
+                }, { echoUserMessage: true });
+            });
+        }
     }
 
     _updatePlaceholder() {
@@ -36,7 +61,7 @@ class TriageEngine {
         let placeholder = "Scrivi qui...";
         switch (this.state) {
             case '1_SESSO_ETA':
-                placeholder = "Età e Sesso (es. Uomo, 35)";
+                placeholder = "Età e sesso biologico (es. 35, Femmina oppure Preferisco non specificare)";
                 break;
             case '2_ZONA':
                 placeholder = "Zona geografica (es. Milano, RM)";
@@ -57,6 +82,92 @@ class TriageEngine {
                 break;
         }
         inputEl.placeholder = placeholder;
+    }
+
+    _sexAtBirthLabel(value) {
+        const labels = {
+            female: "Femmina",
+            male: "Maschio",
+            not_specified: "Preferisco non specificare"
+        };
+        return labels[value] || labels.not_specified;
+    }
+
+    _validateInitialMedicalSearch(data) {
+        const errors = {};
+        const allowedSexAtBirth = ["female", "male", "not_specified"];
+
+        if (data.age === undefined || data.age === null || data.age === "") {
+            errors.age = "Inserisci la tua età per continuare.";
+        } else if (!Number.isInteger(data.age) || data.age < 0 || data.age > 120) {
+            errors.age = "Inserisci un'età valida.";
+        }
+
+        if (!data.sex_at_birth || !allowedSexAtBirth.includes(data.sex_at_birth)) {
+            errors.sex_at_birth = "Seleziona un'opzione oppure scegli 'Preferisco non specificare'.";
+        }
+
+        return {
+            valid: Object.keys(errors).length === 0,
+            errors
+        };
+    }
+
+    _renderInitialMedicalErrors(errors = {}) {
+        const ageError = document.getElementById('initial-age-error');
+        const sexError = document.getElementById('initial-sex-error');
+        if (ageError) ageError.textContent = errors.age || "";
+        if (sexError) sexError.textContent = errors.sex_at_birth || "";
+    }
+
+    acceptInitialMedicalData(data, options = {}) {
+        const validation = this._validateInitialMedicalSearch(data);
+        this._renderInitialMedicalErrors(validation.errors);
+        if (!validation.valid) return false;
+
+        const sexLabel = this._sexAtBirthLabel(data.sex_at_birth);
+        this.userData.age = data.age;
+        this.userData.sex_at_birth = data.sex_at_birth;
+        this.userData.initialMedicalData = {
+            age: data.age,
+            sex_at_birth: data.sex_at_birth,
+            created_at: new Date().toISOString()
+        };
+        this.userData.sessoEta = `${sexLabel}, ${data.age} anni`;
+
+        const initialForm = document.getElementById('initial-medical-form');
+        if (initialForm) {
+            initialForm.classList.add('completed');
+            initialForm.querySelectorAll('input, button').forEach((el) => {
+                el.disabled = true;
+            });
+        }
+
+        if (options.echoUserMessage && window.chatUI) {
+            window.chatUI.addMessage(`Età: ${data.age} anni. Sesso biologico: ${sexLabel}.`, 'user-msg');
+        }
+
+        this.state = '2_ZONA';
+        this.onMessage(`Perfetto, ho registrato le informazioni essenziali nel rispetto della minimizzazione dei dati.<br><br><strong>Qual è la tua zona geografica (Comune e Provincia)?</strong>`);
+        this._updatePlaceholder();
+        return true;
+    }
+
+    _parseInitialMedicalFreeText(input) {
+        const text = String(input || "").toLowerCase();
+        const ageMatch = text.match(/(-?\d+)/);
+        const age = ageMatch ? parseInt(ageMatch[0], 10) : null;
+
+        let sex_at_birth = "";
+        if (/\b(preferisco non specificare|non specifico|non voglio specificare|non specificare|n\/d|nd)\b/i.test(text)) {
+            sex_at_birth = "not_specified";
+        } else if (/\b(femmina|donna|ragazza|bambina|f)\b/i.test(text)) {
+            sex_at_birth = "female";
+        } else if (/\b(maschio|uomo|ragazzo|bambino|m)\b/i.test(text)) {
+            sex_at_birth = "male";
+        }
+
+        return { age, sex_at_birth };
     }
 
     _generateTriageID() {
@@ -138,7 +249,7 @@ class TriageEngine {
                 <span>Presto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.</span>
             </label>
             <button type="button" class="btn-primary-wide register-and-save-triage">Registrati e genera codice</button>
-            <p class="registration-note">Per minimizzare i dati, l'app salva l'hash dell'email e i consensi associati al codice ricerca.</p>
+            <p class="registration-note">Per tutelare la tua privacy, l'app non salva il tuo indirizzo email ma solo una versione criptata associata ai consensi e alla ricerca effettuata.</p>
         </div>`;
     }
 
@@ -326,6 +437,19 @@ class TriageEngine {
 
         switch (this.state) {
             case '1_SESSO_ETA':
+                {
+                    const initialData = this._parseInitialMedicalFreeText(input);
+                    const validation = this._validateInitialMedicalSearch(initialData);
+
+                    if (!validation.valid) {
+                        const message = validation.errors.age || validation.errors.sex_at_birth || "Controlla le informazioni inserite.";
+                        this.onMessage(`❌ ${escapeHTML(message)}`, "system-msg danger");
+                        return;
+                    }
+
+                    this.acceptInitialMedicalData(initialData);
+                    return;
+                }
                 const strSessoEta = input.toLowerCase();
                 console.log("Engine: fase SESSO_ETA ->", strSessoEta);
 
@@ -335,7 +459,7 @@ class TriageEngine {
 
                 // Se non troviamo nulla di utile
                 if (!sexMatch && !ageMatch) {
-                   this.onMessage("❌ Dati non chiari. Per favore inserisci Sesso ed Età (es: Maschio, 47).", "system-msg danger");
+                   this.onMessage("❌ Dati non chiari. Per favore inserisci età e sesso biologico, oppure scegli 'Preferisco non specificare'.", "system-msg danger");
                    return;
                 }
 
@@ -567,7 +691,7 @@ class TriageEngine {
                     this.onMessage(`${this.currentConoscitiva + 1}. ` + DOMANDE_CONOSCITIVE[this.currentConoscitiva]);
                 } else {
                     this.state = '4B_NOTA_CONOSCITIVA';
-                    this.onMessage("Perfetto. Hai altre <strong>informazioni o dettagli a parole tue</strong> che vorresti aggiungere riguardo a questi aspetti generali? Se non hai altro, digita semplicemente <strong>'NO'</strong>.");
+                    this.onMessage('Perfetto. Hai altre informazioni o dettagli che vorresti aggiungere riguardo a questi aspetti generali? Altrimenti, digita "No".');
                     this._updatePlaceholder();
                 }
                 break;
@@ -620,7 +744,7 @@ class TriageEngine {
                     this.onMessage(`${this.currentAnamnestica + 1}. ` + this.userData.domandeAnamnesticheDinamiche[this.currentAnamnestica]);
                 } else {
                     this.state = '5B_NOTA_ANAMNESTICA';
-                    this.onMessage("Ottimo. Vorresti aggiungere in chiusura qualche <strong>dettaglio descrittivo libero sui tuoi sintomi</strong> prima che io passi i dati all'intelligenza artificiale medica? <br><br><i>La barra \"scrivi qui\" sparirà subito dopo questo invio e inizierò a cercare lo specialista.</i><br><br>Se non hai altro, scrivi <strong>'NO'</strong>.");
+                    this.onMessage('Ottimo. Vorresti aggiungere qualche dettaglio sui tuoi sintomi prima che elabori i dati? Altrimenti, digita "No" ed inizierò a cercare la figura più indicata per te.');
                     this._updatePlaceholder();
                 }
                 break;
@@ -1361,7 +1485,8 @@ class TriageEngine {
             const systemPrompt = `Sei un esperto di orientamento medico di Aiutodoc.it. Il tuo obiettivo è fornire una sintesi clinica accurata basata sull'intervista effettuata con l'utente e suggerire la specializzazione medica corretta.
             
             Dati utente:
-            - Sesso/Età: ${this.userData.sessoEta}
+            - Età: ${this.userData.age}
+            - Sesso biologico: ${this._sexAtBirthLabel(this.userData.sex_at_birth)} (${this.userData.sex_at_birth || "not_specified"})
             - Zona: ${userZonaStr}
             - Disturbo: ${this.userData.disturbo}
             - Risposte Conoscitive: ${JSON.stringify(this.userData.conoscitiveResp)}

@@ -102,13 +102,15 @@ class ChatInterface {
                 row.appendChild(badge);
                 row.appendChild(text);
                 row.addEventListener('click', () => {
-                    if (this.userInput.disabled) return;
+                    if (this.userInput.disabled || row.classList.contains('is-disabled')) return;
+                    this._lockMultipleChoiceGroup(row);
                     this.handleSendViaDispatcher(row.dataset.reply);
                 });
                 row.addEventListener('keydown', (event) => {
                     if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault();
-                        if (this.userInput.disabled) return;
+                        if (this.userInput.disabled || row.classList.contains('is-disabled')) return;
+                        this._lockMultipleChoiceGroup(row);
                         this.handleSendViaDispatcher(row.dataset.reply);
                     }
                 });
@@ -116,6 +118,28 @@ class ChatInterface {
             });
 
             italicBlock.replaceWith(list);
+        });
+    }
+
+    _lockMultipleChoiceGroup(selectedRow) {
+        const group = selectedRow.closest('.mcq-options');
+        if (!group || group.classList.contains('is-locked')) return;
+
+        group.classList.add('is-locked');
+        group.querySelectorAll('.mcq-option').forEach((row) => {
+            const isSelected = row === selectedRow;
+            row.classList.toggle('is-selected', isSelected);
+            row.classList.add('is-disabled');
+            row.setAttribute('aria-disabled', 'true');
+            row.setAttribute('tabindex', '-1');
+        });
+    }
+
+    _lockQuickReplies() {
+        if (!this.quickReplies) return;
+        this.quickReplies.querySelectorAll('.quick-reply-btn').forEach((button) => {
+            button.disabled = true;
+            button.setAttribute('aria-disabled', 'true');
         });
     }
 
@@ -267,6 +291,7 @@ class ChatInterface {
 
     handleSendViaDispatcher(text) {
         if (!text) return;
+        this._lockQuickReplies();
         this.addMessage(text, 'user-msg');
         this.userInput.value = '';
         this.userInput.style.height = 'auto';
