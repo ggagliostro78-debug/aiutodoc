@@ -1175,6 +1175,11 @@ class TriageEngine {
                         for (let i = 0; i < tokens.length; i++) {
                             const token = tokens[i];
                             const cleanToken = token.replace(/[^a-zA-Z]/g, '');
+                            const nextToken = tokens[i + 1] || "";
+                            const cleanNextToken = nextToken.replace(/[^a-zA-Z]/g, '');
+                            if (!cleanToken && /^[-–—|,]+$/.test(token) && /^[A-Z]/.test(cleanNextToken)) {
+                                continue;
+                            }
                             if (stopWords.test(cleanToken) || (!/^[A-Z]/.test(token) && !/^(di|de|da|del|della|d')$/i.test(token))) {
                                 extraParts = tokens.slice(i);
                                 break;
