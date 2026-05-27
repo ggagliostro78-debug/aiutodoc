@@ -2227,6 +2227,56 @@ body {
   transform: scale(0.95);
 }
 
+@media (max-width: 950px) and (hover: hover) and (pointer: fine) {
+  .main-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 10px !important;
+    position: absolute !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    background: rgba(255, 255, 255, 0.7) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
+  }
+
+  .nav-btn {
+    width: auto !important;
+    padding: 5px 6px !important;
+    font-size: clamp(0.58rem, 2vw, 0.9rem) !important;
+    border-radius: 20px !important;
+  }
+
+  .recovery-nav-group {
+    width: auto !important;
+    flex-direction: row !important;
+    margin-left: 8px !important;
+    padding-left: 12px !important;
+    padding-top: 0 !important;
+    border-top: none !important;
+    border-left: 1px solid var(--border-color) !important;
+  }
+
+  #recovery-id-input {
+    width: 75px !important;
+    max-width: none !important;
+    height: auto !important;
+    font-size: 0.75rem !important;
+    border-radius: 20px !important;
+  }
+
+  #menu-toggle {
+    display: none !important;
+  }
+}
+
 /* --- PDF PRINT OPTIMIZATION --- */
 #printable-area {
   display: block !important;
