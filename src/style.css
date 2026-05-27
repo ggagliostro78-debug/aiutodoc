@@ -735,25 +735,48 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   overflow: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 .triage-result-header {
   background: var(--bg-color);
-  padding: 8px 12px;
-  font-weight: 600;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.triage-result-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--text-main);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.28;
+  overflow: hidden;
+  word-break: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.triage-result-name-compact {
+  display: none;
 }
 
 .triage-result-body {
   padding: 12px;
   font-size: 0.85rem;
+  min-width: 0;
 }
 
 .triage-result-body p {
   margin-bottom: 4px;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .triage-result-body strong {
@@ -761,11 +784,14 @@ body {
 }
 
 .tag-badge {
+  flex: 0 0 auto;
   font-size: 0.7rem;
   padding: 2px 6px;
   border-radius: 4px;
   background: var(--primary);
   color: white;
+  line-height: 1.35;
+  white-space: nowrap;
 }
 
 /* Privacy Modal */
@@ -2143,6 +2169,40 @@ body {
   #printable-area div[style*="grid-template-columns"] {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
+  }
+
+  .triage-result {
+    border-radius: 10px;
+  }
+
+  .triage-result-header {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .triage-result-name {
+    font-size: clamp(0.78rem, 3.5vw, 0.95rem);
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: normal;
+  }
+
+  .triage-result-name-full {
+    display: none;
+  }
+
+  .triage-result-name-compact {
+    display: inline;
+  }
+
+  .tag-badge {
+    align-self: center;
+    white-space: nowrap;
+    font-size: 0.62rem;
   }
 }
 

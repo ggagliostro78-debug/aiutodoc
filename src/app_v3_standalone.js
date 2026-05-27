@@ -1175,6 +1175,11 @@ class TriageEngine {
                         for (let i = 0; i < tokens.length; i++) {
                             const token = tokens[i];
                             const cleanToken = token.replace(/[^a-zA-Z]/g, '');
+                            const nextToken = tokens[i + 1] || "";
+                            const cleanNextToken = nextToken.replace(/[^a-zA-Z]/g, '');
+                            if (!cleanToken && /^[-–—|,]+$/.test(token) && /^[A-Z]/.test(cleanNextToken)) {
+                                continue;
+                            }
                             if (stopWords.test(cleanToken) || (!/^[A-Z]/.test(token) && !/^(di|de|da|del|della|d')$/i.test(token))) {
                                 extraParts = tokens.slice(i);
                                 break;
@@ -1540,6 +1545,7 @@ class TriageEngine {
                 info: det
             };
         const resultName = String(result.nome || "Specialista o struttura sanitaria").trim();
+        const compactResultName = this._compactSpecialistName(resultName);
         const resultSpec = String(result.specializzazione || spec || "Specialista").trim();
         const resultType = String(result.tipo || tipo || "Risultato").trim();
         const resultAddress = String(result.indirizzo_modalita || "Indirizzo non disponibile nella scheda pubblica").trim();
@@ -1561,7 +1567,11 @@ class TriageEngine {
         return `
     <div class="triage-result">
       <div class="triage-result-header">
-        ${escapeHTML(resultName)} <span class="tag-badge">${escapeHTML(resultType)}</span>
+        <span class="triage-result-name" title="${escapeHTML(resultName)}">
+          <span class="triage-result-name-full">${escapeHTML(resultName)}</span>
+          <span class="triage-result-name-compact">${escapeHTML(compactResultName)}</span>
+        </span>
+        <span class="tag-badge">${escapeHTML(resultType)}</span>
       </div>
       <div class="triage-result-body">
         <p><strong>Specializzazione:</strong> ${escapeHTML(resultSpec)}</p>
@@ -1570,5 +1580,24 @@ class TriageEngine {
         <p><strong>Info:</strong> ${escapeHTML(resultInfo)}</p>
       </div>
     </div>`;
+    }
+
+    _compactSpecialistName(name) {
+        const cleanName = String(name || "").replace(/\s+/g, " ").trim();
+        const match = cleanName.match(/^(Dott\.ssa|Dr\.ssa|Prof\.ssa|Dott\.|Dr\.|Prof\.|Dottoressa|Dottore|Professoressa|Professore)\s+(.+)$/i);
+        const title = match ? match[1] : "";
+        const rest = match ? match[2] : cleanName;
+        const parts = rest.split(/\s+/).filter(Boolean);
+
+        if (parts.length < 2) return cleanName;
+
+        const surname = parts[parts.length - 1];
+        const givenInitials = parts
+            .slice(0, -1)
+            .filter((part) => !/^(di|de|da|del|della|d')$/i.test(part))
+            .map((part) => `${part.charAt(0).toUpperCase()}.`)
+            .join(" ");
+
+        return [title, givenInitials, surname].filter(Boolean).join(" ");
     }
 }
