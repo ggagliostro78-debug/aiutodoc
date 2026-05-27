@@ -1044,12 +1044,6 @@ body {
   font-weight: 700;
 }
 
-.initial-privacy-note {
-  margin-top: 10px !important;
-  color: var(--text-muted) !important;
-  font-size: 0.78rem !important;
-}
-
 /* --- Novità UI --- */
 .main-nav {
   display: flex;
