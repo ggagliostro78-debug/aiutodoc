@@ -519,6 +519,42 @@ class TriageEngine {
                     normalizedZona === normalizeProvinceText(`${code} ${name}`)
                 );
 
+                const regionsIt = [
+                    "Abruzzo", "Basilicata", "Calabria", "Campania", "Emilia-Romagna",
+                    "Friuli Venezia Giulia", "Lazio", "Liguria", "Lombardia", "Marche",
+                    "Molise", "Piemonte", "Puglia", "Sardegna", "Sicilia", "Toscana",
+                    "Trentino-Alto Adige", "Umbria", "Valle d'Aosta", "Veneto"
+                ];
+                const regionAliases = {
+                    "EMILIA ROMAGNA": "Emilia-Romagna",
+                    "FRIULI": "Friuli Venezia Giulia",
+                    "FRIULI VENEZIA GIULIA": "Friuli Venezia Giulia",
+                    "TRENTINO": "Trentino-Alto Adige",
+                    "TRENTINO ALTO ADIGE": "Trentino-Alto Adige",
+                    "ALTO ADIGE": "Trentino-Alto Adige",
+                    "SUDTIROL": "Trentino-Alto Adige",
+                    "SUD TIROL": "Trentino-Alto Adige",
+                    "VALLE AOSTA": "Valle d'Aosta",
+                    "VAL D AOSTA": "Valle d'Aosta"
+                };
+                const matchedRegion = regionsIt.find((regionName) =>
+                    normalizedZona === normalizeProvinceText(regionName) ||
+                    normalizedZona === normalizeProvinceText(`regione ${regionName}`)
+                ) || regionAliases[normalizedZona];
+
+                const acceptRegion = (regionName) => {
+                    this.userData.zona = regionName;
+                    this.userData.zonaDettagli = {
+                        comune: regionName,
+                        provincia: regionName,
+                        regione: regionName,
+                        scope: "regione"
+                    };
+                    this.state = '3_DISTURBO';
+                    this.onMessage(`✅ Regione impostata: <strong>${escapeHTML(regionName)}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
+                    this._updatePlaceholder();
+                };
+
                 // Identifica se l'utente sta descrivendo un sintomo (es. "dolore", "problemi", "comunicazione", "socio")
                 const symptomKeywords = ['dolore', 'problema', 'disturbo', 'comunicazione', 'socio', 'paura', 'ansia', 'stress', 'sintomo', 'male'];
                 const seemsLikeSymptom = symptomKeywords.some(w => input.toLowerCase().includes(w));
@@ -536,6 +572,11 @@ class TriageEngine {
 
                 if (matchedProvince) {
                     acceptProvince(matchedProvince[0], matchedProvince[1]);
+                    return;
+                }
+
+                if (matchedRegion) {
+                    acceptRegion(matchedRegion);
                     return;
                 }
                 
