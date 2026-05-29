@@ -1,11 +1,17 @@
 const GOOGLE_SEARCH_URL = "https://www.googleapis.com/customsearch/v1";
 const SERPAPI_SEARCH_URL = "https://serpapi.com/search.json";
+const {
+    enforceRateLimit,
+    truncateText,
+    validateBodySize
+} = require("./request_guard");
 
 const DEFAULT_RESULT_COUNT = 16;
 const LOCAL_COUNT = 8;
 const REGIONAL_COUNT = 5;
 const NATIONAL_COUNT = 3;
 const EXTRA_COUNT = 10;
+const MAX_QUERY_FIELD_LENGTH = 160;
 
 function parseBody(body) {
     if (!body) return {};
@@ -43,8 +49,16 @@ function buildCorsHeaders() {
     };
 }
 
+function buildGuardResponse(guardResult, corsHeaders) {
+    if (!guardResult) return null;
+    return buildResponse(guardResult.statusCode, guardResult.payload, {
+        ...corsHeaders,
+        ...(guardResult.headers || {})
+    });
+}
+
 function cleanText(value, fallback = "") {
-    return String(value || fallback).replace(/\s+/g, " ").trim();
+    return truncateText(value || fallback, MAX_QUERY_FIELD_LENGTH);
 }
 
 function extractEmail(text) {
@@ -368,7 +382,7 @@ async function searchSpecialists(payload, fetchImpl) {
     };
 }
 
-async function handleSpecialistSearch({ method, body, fetchImpl = fetch }) {
+async function handleSpecialistSearch({ method, body, fetchImpl = fetch, context = {} }) {
     const corsHeaders = buildCorsHeaders();
 
     if (method === "OPTIONS") {
@@ -382,6 +396,17 @@ async function handleSpecialistSearch({ method, body, fetchImpl = fetch }) {
     if (method !== "POST") {
         return buildResponse(405, { error: "Metodo non consentito." }, corsHeaders);
     }
+
+    const rateLimit = enforceRateLimit(context.ip || "anonymous", {
+        scope: "specialist-search",
+        limit: Number(process.env.SEARCH_RATE_LIMIT_PER_MINUTE || 30)
+    });
+    const rateLimitResponse = buildGuardResponse(rateLimit, corsHeaders);
+    if (rateLimitResponse) return rateLimitResponse;
+
+    const bodySize = validateBodySize(body);
+    const bodySizeResponse = buildGuardResponse(bodySize, corsHeaders);
+    if (bodySizeResponse) return bodySizeResponse;
 
     const payload = parseBody(body);
     if (!cleanText(payload.specialista)) {

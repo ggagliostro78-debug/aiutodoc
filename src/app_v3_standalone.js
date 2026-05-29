@@ -171,28 +171,29 @@ class TriageEngine {
     }
 
     _generateTriageID() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const prefix = chars.charAt(Math.floor(Math.random() * chars.length));
-        const numbers = Math.floor(100000 + Math.random() * 900000); // 6 cifre
-        return `${prefix}${numbers}`;
+        const bytes = new Uint8Array(10);
+        if (window.crypto && window.crypto.getRandomValues) {
+            window.crypto.getRandomValues(bytes);
+        } else {
+            for (let i = 0; i < bytes.length; i++) {
+                bytes[i] = Math.floor(Math.random() * 256);
+            }
+        }
+        return Array.from(bytes)
+            .map((byte) => byte.toString(36).padStart(2, "0").toUpperCase())
+            .join("")
+            .slice(0, 16);
     }
 
     _saveTriageResult(resultObj, source = 'api', options = {}) {
         const triageID = this._generateTriageID();
-        const registeredUser = getRegisteredUser();
         const dataToSave = {
             id: triageID,
             date: new Date().toISOString(),
             userData: JSON.parse(JSON.stringify(this.userData)),
             result: resultObj,
             source: source,
-            userRegistration: registeredUser ? {
-                userId: registeredUser.userId,
-                emailHash: registeredUser.emailHash,
-                emailMasked: registeredUser.emailMasked,
-                consentVersion: registeredUser.consentVersion,
-                consents: registeredUser.consents
-            } : null
+            userRegistration: null
         };
 
         if (options.deferUntilRegistration) {
@@ -206,36 +207,24 @@ class TriageEngine {
 
     _persistTriageResult(dataToSave) {
         try {
-            let allResults = JSON.parse(localStorage.getItem('aiutodoc_triages') || '{}');
-            allResults[dataToSave.id] = dataToSave;
-            localStorage.setItem('aiutodoc_triages', JSON.stringify(allResults));
+            saveStoredTriage(dataToSave);
         } catch (e) {
             console.error("Errore salvataggio localStorage:", e);
         }
 
-        this._saveToCloud(dataToSave);
+        if (dataToSave.saveToCloud === true) {
+            this._saveToCloud(dataToSave).catch((error) => {
+                console.error("Cloud Save FALLITO:", error);
+            });
+        }
     }
 
     _buildRegistrationGate(pendingData) {
         window._pendingTriageSave = pendingData;
-        const registeredUser = getRegisteredUser();
-        if (registeredUser) {
-            return `
-            <div class="registration-gate" data-save-ready="true">
-                <p><strong>Codice disponibile per utente registrato.</strong></p>
-                <p>Profilo: ${escapeHTML(registeredUser.emailMasked)}. Conferma per salvare questa ricerca e generare il codice recuperabile.</p>
-                <button type="button" class="btn-primary-wide save-triage-after-registration">Genera codice ricerca</button>
-            </div>`;
-        }
-
         return `
         <div class="registration-gate">
             <p><strong>Vuoi il codice per recuperare questa ricerca?</strong></p>
-            <p>Il codice viene creato solo previa registrazione e consenso esplicito. Senza registrazione il risultato resta disponibile solo in questa sessione.</p>
-            <label class="registration-field">
-                <span>Email per la registrazione</span>
-                <input type="email" class="registration-email" autocomplete="email" placeholder="nome@email.it">
-            </label>
+            <p>Il recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.</p>
             <label class="consent-row">
                 <input type="checkbox" class="registration-consent" data-consent="terms">
                 <span>Accetto Termini e Condizioni d'uso.</span>
@@ -248,8 +237,8 @@ class TriageEngine {
                 <input type="checkbox" class="registration-consent" data-consent="healthData">
                 <span>Presto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.</span>
             </label>
-            <button type="button" class="btn-primary-wide register-and-save-triage">Registrati e genera codice</button>
-            <p class="registration-note">Per tutelare la tua privacy, l'app non salva il tuo indirizzo email ma solo una versione criptata associata ai consensi e alla ricerca effettuata.</p>
+            <button type="button" class="btn-primary-wide register-and-save-triage">Genera codice anonimo</button>
+            <p class="registration-note">Per tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.</p>
         </div>`;
     }
 
@@ -261,25 +250,30 @@ class TriageEngine {
             return;
         }
 
-        let registeredUser = getRegisteredUser();
-        if (!registeredUser) {
-            const emailInput = gate.querySelector('.registration-email');
-            const consentFlags = {};
-            gate.querySelectorAll('.registration-consent').forEach((input) => {
-                consentFlags[input.dataset.consent] = input.checked;
-            });
-            registeredUser = await registerUserForRecovery(emailInput ? emailInput.value : "", consentFlags);
+        const consentFlags = {};
+        gate.querySelectorAll('.registration-consent').forEach((input) => {
+            consentFlags[input.dataset.consent] = input.checked;
+        });
+        if (!["terms", "privacy", "healthData"].every((key) => consentFlags[key] === true)) {
+            throw new Error("Per generare il codice devi confermare tutti i consensi richiesti.");
         }
 
-        pendingData.userRegistration = {
-            userId: registeredUser.userId,
-            emailHash: registeredUser.emailHash,
-            emailMasked: registeredUser.emailMasked,
-            consentVersion: registeredUser.consentVersion,
-            consents: registeredUser.consents
+        pendingData.userRegistration = null;
+        pendingData.consents = {
+            terms: true,
+            privacy: true,
+            healthData: true,
+            consentVersion: APP_CONSENT_VERSION,
+            consentedAt: new Date().toISOString()
         };
 
-        this._persistTriageResult(pendingData);
+        const saved = await this._saveToCloud(pendingData);
+        if (saved && saved.id) {
+            pendingData.id = saved.id;
+            pendingData.expiresAt = saved.expiresAt;
+        }
+
+        saveStoredTriage(pendingData);
         window._currentTriageData = pendingData;
         window._pendingTriageSave = null;
 
@@ -287,7 +281,7 @@ class TriageEngine {
         <div class="id-copy-box" data-triage-id="${escapeHTML(pendingData.id)}" title="Clicca per copiare l'ID">
             <p style="margin: 0 0 8px 0; font-size: 0.9rem; opacity: 0.9;">Ricerca salvata con <strong>codice univoco</strong>:</p>
             <div class="id-number">${escapeHTML(pendingData.id)}</div>
-            <p class="copy-hint">Usa questo codice per tornare ai risultati senza rifare le domande.</p>
+            <p class="copy-hint">Usa questo codice per tornare ai risultati senza rifare le domande. Non condividerlo.</p>
         </div>`;
 
         const newBox = document.querySelector(`.id-copy-box[data-triage-id="${pendingData.id}"]`);
@@ -298,24 +292,26 @@ class TriageEngine {
     }
 
     async _saveToCloud(data) {
-        if (!data.userRegistration || !data.userRegistration.userId) {
-            console.log("Cloud Save: registrazione mancante, salvataggio persistente non eseguito.");
-            return;
+        const API_URL = (typeof CONFIG !== 'undefined' && CONFIG.TRIAGE_SAVE_API_URL)
+            ? CONFIG.TRIAGE_SAVE_API_URL
+            : "/api/triage-save";
+
+        if (window.location.protocol === 'file:' && API_URL.startsWith('/')) {
+            throw new Error("Il salvataggio del codice richiede un server locale o un deploy serverless.");
         }
-        if (window.firebaseReady) {
-            await window.firebaseReady;
+
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ triage: data })
+        });
+
+        if (!response.ok) {
+            const detail = await response.text();
+            throw new Error(`Salvataggio codice non riuscito (${response.status}): ${detail}`);
         }
-        if (!db) {
-            console.log("Firebase non inizializzato, salvataggio cloud saltato.");
-            return;
-        }
-        try {
-            console.log("Cloud Save (Firebase): invio dati per ID", data.id);
-            await db.collection("triages").doc(data.id).set(data);
-            console.log("Cloud Save (Firebase): completato!");
-        } catch (err) {
-            console.error("Cloud Save (Firebase) FALLITO:", err);
-        }
+
+        return response.json();
     }
 
     async retrieveFromCloud(id) {
@@ -323,34 +319,30 @@ class TriageEngine {
             alert("Inserisci un codice ID valido.");
             return;
         }
-        const registeredUser = getRegisteredUser();
-        if (!registeredUser) {
-            alert("Per recuperare una ricerca devi prima registrarti da un risultato completato.");
-            return;
-        }
-        const cleanID = id.trim().toUpperCase();
-        if (window.firebaseReady) {
-            await window.firebaseReady;
-        }
-        if (!db) {
-            alert("Sistema Cloud non disponibile al momento. Riprova più tardi.");
-            return;
-        }
+        const cleanID = normalizeTriageID(id);
 
         this.onMessage("🔍 Recupero ricerca in corso per ID: " + cleanID + "...", "system-msg");
 
         try {
-            const doc = await db.collection("triages").doc(cleanID).get();
-            if (!doc.exists) {
-                this.onMessage("❌ Nessuna ricerca trovata con l'ID richiesto. Verifica il codice e riprova.", "system-msg danger");
+            const response = await fetch((typeof CONFIG !== 'undefined' && CONFIG.TRIAGE_RECOVER_API_URL) ? CONFIG.TRIAGE_RECOVER_API_URL : "/api/triage-recover", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
+            });
+
+            if (response.status === 404 || response.status === 410) {
+                this.onMessage("Codice non trovato o scaduto. Verifica il codice e riprova.", "system-msg danger");
                 return;
             }
 
-            const data = doc.data();
-            if (data.userRegistration && data.userRegistration.userId !== registeredUser.userId) {
-                this.onMessage("❌ Il codice esiste ma non è associato alla registrazione presente su questo dispositivo.", "system-msg danger");
-                return;
+            if (!response.ok) {
+                const detail = await response.text();
+                throw new Error(`Recupero codice non riuscito (${response.status}): ${detail}`);
             }
+
+            const payload = await response.json();
+            const data = payload.triage;
+            saveStoredTriage(data);
             this.onMessage("✅ Ricerca recuperata con successo!", "system-msg success");
             
             // Switch alla tab chat se necessario

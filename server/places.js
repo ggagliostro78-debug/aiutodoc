@@ -1,4 +1,11 @@
 const PLACES_API_URL = "https://places.googleapis.com/v1/places:searchText";
+const {
+    enforceRateLimit,
+    truncateText,
+    validateBodySize
+} = require("./request_guard");
+
+const MAX_QUERY_FIELD_LENGTH = 120;
 
 function buildCorsHeaders() {
     const allowedOrigin = process.env.GEMINI_ALLOWED_ORIGIN || process.env.SEARCH_ALLOWED_ORIGIN;
@@ -30,6 +37,18 @@ function parseBody(body) {
         try { return JSON.parse(body); } catch (e) { return {}; }
     }
     return body;
+}
+
+function buildGuardResponse(guardResult, corsHeaders) {
+    if (!guardResult) return null;
+    return buildResponse(guardResult.statusCode, guardResult.payload, {
+        ...corsHeaders,
+        ...(guardResult.headers || {})
+    });
+}
+
+function cleanField(value) {
+    return truncateText(value, MAX_QUERY_FIELD_LENGTH);
 }
 
 async function fetchPlaces(query, apiKey, fetchImpl) {
@@ -155,7 +174,7 @@ function formatPlace(p) {
 }
 
 
-async function handlePlacesSearch({ method, body, fetchImpl = fetch }) {
+async function handlePlacesSearch({ method, body, fetchImpl = fetch, context = {} }) {
     const corsHeaders = buildCorsHeaders();
 
     if (method === "OPTIONS") {
@@ -166,8 +185,23 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch }) {
         return buildResponse(405, { error: "Metodo non consentito." }, corsHeaders);
     }
 
+    const rateLimit = enforceRateLimit(context.ip || "anonymous", {
+        scope: "places",
+        limit: Number(process.env.SEARCH_RATE_LIMIT_PER_MINUTE || 30)
+    });
+    const rateLimitResponse = buildGuardResponse(rateLimit, corsHeaders);
+    if (rateLimitResponse) return rateLimitResponse;
+
+    const bodySize = validateBodySize(body);
+    const bodySizeResponse = buildGuardResponse(bodySize, corsHeaders);
+    if (bodySizeResponse) return bodySizeResponse;
+
     const payload = parseBody(body);
-    const { specialista, comune, provincia, regione, query: fallbackQuery } = payload;
+    const specialista = cleanField(payload.specialista);
+    const comune = cleanField(payload.comune);
+    const provincia = cleanField(payload.provincia);
+    const regione = cleanField(payload.regione);
+    const fallbackQuery = cleanField(payload.query);
 
     // Fallback to simple query if structured params not provided
     if (!specialista && !fallbackQuery) {

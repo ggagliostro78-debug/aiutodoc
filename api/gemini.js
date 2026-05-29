@@ -1,9 +1,11 @@
 const { handleGeminiProxy } = require("../server/gemini_proxy");
+const { createRequestContext } = require("../server/request_guard");
 
 module.exports = async function handler(req, res) {
     const result = await handleGeminiProxy({
         method: req.method,
-        body: req.body
+        body: req.body,
+        context: createRequestContext(req)
     });
 
     Object.entries(result.headers || {}).forEach(([key, value]) => {

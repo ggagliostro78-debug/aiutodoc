@@ -177,37 +177,27 @@ class ChatInterface {
     async handleRecovery() {
         const id = this.recoveryInput.value.trim();
         if (!id) return;
-        const registeredUser = getRegisteredUser();
-        if (!registeredUser) {
-            alert("Il recupero tramite codice è disponibile solo dopo registrazione e consensi GDPR.");
-            return;
-        }
-
         console.log("Recovery: avviato recupero per ID", id);
 
-        const allResults = JSON.parse(localStorage.getItem('aiutodoc_triages') || '{}');
-        let saved = allResults[id];
+        const cleanID = normalizeTriageID(id);
+        const allResults = getStoredTriages();
+        let saved = allResults[cleanID];
 
         if (!saved) {
             console.log("Recovery: ID non presente in locale, cerco nel Cloud...");
-            saved = await this._loadFromCloud(id);
+            saved = await this._loadFromCloud(cleanID);
             if (saved) {
-                allResults[id] = saved;
-                localStorage.setItem('aiutodoc_triages', JSON.stringify(allResults));
+                saveStoredTriage(saved);
             }
         }
 
         if (saved) {
-            if (saved.userRegistration && saved.userRegistration.userId !== registeredUser.userId) {
-                alert("Questo codice non risulta associato alla registrazione presente su questo dispositivo.");
-                return;
-            }
             const chatBtn = document.querySelector('.nav-btn[data-target="chat-section"]');
             if (chatBtn && !chatBtn.classList.contains('active')) {
                 chatBtn.click();
             }
 
-            this.addMessage(`Recupero ricerca ID: ${id}...`, 'user-msg');
+            this.addMessage(`Recupero ricerca ID: ${cleanID}...`, 'user-msg');
 
             const inputArea = document.querySelector('.chat-input-area');
             if (inputArea) {
@@ -222,21 +212,19 @@ class ChatInterface {
     }
 
     async _loadFromCloud(id) {
-        if (window.firebaseReady) {
-            await window.firebaseReady;
-        }
-        if (!db) return null;
-
         try {
-            const docRef = db.collection("triages").doc(id);
-            const doc = await docRef.get();
+            const response = await fetch((typeof CONFIG !== 'undefined' && CONFIG.TRIAGE_RECOVER_API_URL) ? CONFIG.TRIAGE_RECOVER_API_URL : "/api/triage-recover", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
+            });
 
-            if (doc.exists) {
+            if (response.ok) {
                 console.log("Cloud Recovery (Firebase): Triage trovato!");
-                return doc.data();
-            } else {
-                console.log("Cloud Recovery (Firebase): Triage non trovato.");
+                const payload = await response.json();
+                return payload.triage || null;
             }
+            console.log("Cloud Recovery: codice non trovato o non disponibile.", response.status);
         } catch (err) {
             console.error("Cloud Recovery (Firebase) ERRORE:", err);
         }

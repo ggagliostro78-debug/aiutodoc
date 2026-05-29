@@ -3,6 +3,7 @@ const http = require("http");
 const path = require("path");
 const { handleGeminiProxy } = require("../server/gemini_proxy");
 const { handleSpecialistSearch } = require("../server/specialist_search");
+const { createRequestContext } = require("../server/request_guard");
 
 const root = path.resolve(__dirname, "..");
 const host = process.env.HOST || "127.0.0.1";
@@ -70,7 +71,8 @@ async function handleApi(req, res) {
     if (req.url === "/api/gemini") {
         const result = await handleGeminiProxy({
             method: req.method,
-            body
+            body,
+            context: createRequestContext(req)
         });
         send(res, result.statusCode, result.headers, result.body);
         return true;
@@ -79,7 +81,8 @@ async function handleApi(req, res) {
     if (req.url === "/api/specialist-search") {
         const result = await handleSpecialistSearch({
             method: req.method,
-            body
+            body,
+            context: createRequestContext(req)
         });
         send(res, result.statusCode, result.headers, result.body);
         return true;
@@ -90,7 +93,8 @@ async function handleApi(req, res) {
         const result = await handleEnrichEntity({
             method: req.method,
             body,
-            fetchImpl: fetch
+            fetchImpl: fetch,
+            context: createRequestContext(req)
         });
         send(res, result.statusCode, result.headers, result.body);
         return true;
@@ -101,7 +105,30 @@ async function handleApi(req, res) {
         const result = await handlePlacesSearch({
             method: req.method,
             body,
-            fetchImpl: fetch
+            fetchImpl: fetch,
+            context: createRequestContext(req)
+        });
+        send(res, result.statusCode, result.headers, result.body);
+        return true;
+    }
+
+    if (req.url === "/api/triage-save") {
+        const { handleTriageSave } = require("../server/triage_store");
+        const result = await handleTriageSave({
+            method: req.method,
+            body,
+            context: createRequestContext(req)
+        });
+        send(res, result.statusCode, result.headers, result.body);
+        return true;
+    }
+
+    if (req.url === "/api/triage-recover") {
+        const { handleTriageRecover } = require("../server/triage_store");
+        const result = await handleTriageRecover({
+            method: req.method,
+            body,
+            context: createRequestContext(req)
         });
         send(res, result.statusCode, result.headers, result.body);
         return true;

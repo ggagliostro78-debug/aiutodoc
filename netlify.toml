@@ -25,6 +25,31 @@
   to = "/.netlify/functions/places"
   status = 200
 
+[[redirects]]
+  from = "/api/enrich"
+  to = "/.netlify/functions/enrich"
+  status = 200
+
+[[redirects]]
+  from = "/api/triage-save"
+  to = "/.netlify/functions/triage-save"
+  status = 200
+
+[[redirects]]
+  from = "/api/triage-recover"
+  to = "/.netlify/functions/triage-recover"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://firestore.googleapis.com https://*.googleapis.com https://*.firebaseio.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' mailto:; object-src 'none'"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
 [[headers]]
   for = "/"
   [headers.values]

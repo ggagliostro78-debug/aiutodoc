@@ -1,4 +1,11 @@
 const GOOGLE_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+const {
+    enforceRateLimit,
+    truncateText,
+    validateBodySize
+} = require("./request_guard");
+
+const MAX_PROMPT_LENGTH = 12000;
 
 const TRIAGE_RESPONSE_SCHEMA = {
     type: "OBJECT",
@@ -84,6 +91,14 @@ function buildCorsHeaders() {
         "Access-Control-Allow-Methods": "POST, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type"
     };
+}
+
+function buildGuardResponse(guardResult, corsHeaders) {
+    if (!guardResult) return null;
+    return buildResponse(guardResult.statusCode, guardResult.payload, {
+        ...corsHeaders,
+        ...(guardResult.headers || {})
+    });
 }
 
 async function callGemini(prompt, fetchImpl) {
@@ -222,9 +237,8 @@ function generateMockTriageResponse(prompt) {
     const resObj = {
         specialista_indicato: specialista,
         sintesi_anamnestica: sintesi,
-        esami_consigliati: esami,
-        impegnativa_consigliata: impegnativa,
-        consigli_preparazione: preparazione
+        preparazione_visita: `${preparazione} Esami orientativi da discutere con il medico: ${esami}`,
+        impegnativa_medico: impegnativa
     };
 
     return {
@@ -234,7 +248,7 @@ function generateMockTriageResponse(prompt) {
     };
 }
 
-async function handleGeminiProxy({ method, body, fetchImpl = fetch }) {
+async function handleGeminiProxy({ method, body, fetchImpl = fetch, context = {} }) {
     const corsHeaders = buildCorsHeaders();
 
     if (method === "OPTIONS") {
@@ -249,8 +263,19 @@ async function handleGeminiProxy({ method, body, fetchImpl = fetch }) {
         return buildResponse(405, { error: "Metodo non consentito." }, corsHeaders);
     }
 
+    const rateLimit = enforceRateLimit(context.ip || "anonymous", {
+        scope: "gemini",
+        limit: Number(process.env.GEMINI_RATE_LIMIT_PER_MINUTE || 20)
+    });
+    const rateLimitResponse = buildGuardResponse(rateLimit, corsHeaders);
+    if (rateLimitResponse) return rateLimitResponse;
+
+    const bodySize = validateBodySize(body);
+    const bodySizeResponse = buildGuardResponse(bodySize, corsHeaders);
+    if (bodySizeResponse) return bodySizeResponse;
+
     const payload = parseBody(body);
-    const prompt = typeof payload.prompt === "string" ? payload.prompt.trim() : "";
+    const prompt = typeof payload.prompt === "string" ? truncateText(payload.prompt, MAX_PROMPT_LENGTH) : "";
 
     if (!prompt) {
         return buildResponse(400, { error: "Prompt mancante." }, corsHeaders);
@@ -261,7 +286,14 @@ async function handleGeminiProxy({ method, body, fetchImpl = fetch }) {
         return buildResponse(200, geminiResponse, corsHeaders);
     } catch (error) {
         console.warn("Gemini API call failed:", error.message || error);
-        console.warn("Falling back to local clinical rule engine...");
+        if (process.env.ALLOW_LOCAL_TRIAGE_FALLBACK !== "true") {
+            return buildResponse(503, {
+                error: "Servizio AI temporaneamente non disponibile.",
+                code: error && error.code ? error.code : "GEMINI_UNAVAILABLE"
+            }, corsHeaders);
+        }
+
+        console.warn("Falling back to local clinical rule engine because ALLOW_LOCAL_TRIAGE_FALLBACK=true...");
         const mockResponse = generateMockTriageResponse(prompt);
         return buildResponse(200, mockResponse, corsHeaders);
     }

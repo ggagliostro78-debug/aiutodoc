@@ -3,7 +3,8 @@ const CONFIG = {
     // Su Netlify il redirect in netlify.toml inoltra /api/gemini alla funzione.
     GEMINI_API_URL: "/api/gemini",
     SPECIALIST_SEARCH_API_URL: "/api/specialist-search",
-    FIREBASE_CONFIG_URL: "/api/firebase-config",
+    TRIAGE_SAVE_API_URL: "/api/triage-save",
+    TRIAGE_RECOVER_API_URL: "/api/triage-recover",
 
     // Firebase e' opzionale. Lasciarlo vuoto evita che Netlify blocchi il deploy
     // con il secrets scanner. Il recupero locale degli ID continua a funzionare.
