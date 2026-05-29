@@ -485,19 +485,59 @@ class TriageEngine {
                     "AG": "Agrigento", "AL": "Alessandria", "AN": "Ancona", "AO": "Aosta", "AR": "Arezzo", "AP": "Ascoli Piceno", "AT": "Asti", "AV": "Avellino", "BA": "Bari", "BT": "Barletta-Andria-Trani", "BL": "Belluno", "BN": "Benevento", "BG": "Bergamo", "BI": "Biella", "BO": "Bologna", "BZ": "Bolzano", "BS": "Brescia", "BR": "Brindisi", "CA": "Cagliari", "CL": "Caltanissetta", "CB": "Campobasso", "SU": "Sud Sardegna", "CE": "Caserta", "CT": "Catania", "CZ": "Catanzaro", "CH": "Chieti", "CO": "Como", "CS": "Cosenza", "CR": "Cremona", "KR": "Crotone", "CN": "Cuneo", "EN": "Enna", "FM": "Fermo", "FE": "Ferrara", "FI": "Firenze", "FG": "Foggia", "FC": "Forlì-Cesena", "FR": "Frosinone", "GE": "Genova", "GO": "Gorizia", "GR": "Grosseto", "IM": "Imperia", "IS": "Isernia", "SP": "La Spezia", "AQ": "L'Aquila", "LT": "Latina", "LE": "Lecce", "LC": "Lecco", "LI": "Livorno", "LO": "Lodi", "LU": "Lucca", "MC": "Macerata", "MN": "Mantova", "MS": "Massa-Carrara", "MT": "Matera", "ME": "Messina", "MI": "Milano", "MO": "Modena", "MB": "Monza e della Brianza", "NA": "Napoli", "NO": "Novara", "NU": "Nuoro", "OR": "Oristano", "PD": "Padova", "PA": "Palermo", "PR": "Parma", "PV": "Pavia", "PG": "Perugia", "PU": "Pesaro e Urbino", "PE": "Pescara", "PC": "Piacenza", "PI": "Pisa", "PT": "Pistoia", "PN": "Pordenone", "PZ": "Potenza", "PO": "Prato", "RG": "Ragusa", "RA": "Ravenna", "RC": "Reggio Calabria", "RE": "Reggio Emilia", "RI": "Rieti", "RN": "Rimini", "RM": "Roma", "RO": "Rovigo", "SA": "Salerno", "SS": "Sassari", "SV": "Savona", "SI": "Siena", "SR": "Siracusa", "SO": "Sondrio", "TA": "Taranto", "TE": "Teramo", "TR": "Terni", "TO": "Torino", "TP": "Trapani", "TN": "Trento", "TV": "Treviso", "TS": "Trieste", "UD": "Udine", "VA": "Varese", "VE": "Venezia", "VB": "Verbano-Cusio-Ossola", "VC": "Vercelli", "VR": "Verona", "VV": "Vibo Valentia", "VI": "Vicenza", "VT": "Viterbo"
                 };
 
+                const normalizeProvinceText = (value) => String(value || "")
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/\b(provincia|prov\.?|citta metropolitana|metropolitana|di|del|della)\b/gi, " ")
+                    .replace(/[^a-z0-9]+/gi, " ")
+                    .replace(/\s+/g, " ")
+                    .trim()
+                    .toUpperCase();
+
+                const acceptProvince = (sigla, provinceName) => {
+                    this.userData.zona = provinceName;
+                    this.userData.zonaDettagli = {
+                        comune: provinceName,
+                        provincia: provinceName,
+                        provinciaSigla: sigla,
+                        regione: provinceName
+                    };
+                    this.state = '3_DISTURBO';
+                    this.onMessage(`✅ Provincia impostata: <strong>${escapeHTML(provinceName)} (${escapeHTML(sigla)})</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
+                    this._updatePlaceholder();
+                };
+
+                const rawZona = input.trim();
+                const provinceCodeFromInput = rawZona.toUpperCase().match(/(?:^|[\s,()/-])([A-Z]{2})(?:$|[\s,()/-])/);
+                const directProvinceCode = cleanZona.length === 2 && /^[A-Z]{2}$/.test(cleanZona)
+                    ? cleanZona
+                    : (provinceCodeFromInput ? provinceCodeFromInput[1] : "");
+                const normalizedZona = normalizeProvinceText(rawZona);
+                const matchedProvince = Object.entries(provinceIt).find(([code, name]) =>
+                    normalizedZona === normalizeProvinceText(name) ||
+                    normalizedZona === normalizeProvinceText(`${name} ${code}`) ||
+                    normalizedZona === normalizeProvinceText(`${code} ${name}`)
+                );
+
                 // Identifica se l'utente sta descrivendo un sintomo (es. "dolore", "problemi", "comunicazione", "socio")
                 const symptomKeywords = ['dolore', 'problema', 'disturbo', 'comunicazione', 'socio', 'paura', 'ansia', 'stress', 'sintomo', 'male'];
                 const seemsLikeSymptom = symptomKeywords.some(w => input.toLowerCase().includes(w));
 
                 // Se l'utente digita solo 2 lettere (es. 'RM' o 'rm'), cerchiamo di tradurlo in nome esteso
-                if (cleanZona.length === 2 && /^[A-Z]{2}$/.test(cleanZona)) {
-                    if (provinceIt[cleanZona]) {
-                        cleanZona = provinceIt[cleanZona]; 
+                if (directProvinceCode) {
+                    if (provinceIt[directProvinceCode]) {
+                        acceptProvince(directProvinceCode, provinceIt[directProvinceCode]);
+                        return;
                     } else if (!seemsLikeSymptom) {
-                        this.onMessage(`❌ La sigla "<strong>${cleanZona}</strong>" non corrisponde a nessuna provincia italiana valida.`, "system-msg danger");
+                        this.onMessage(`❌ La sigla "<strong>${escapeHTML(directProvinceCode)}</strong>" non corrisponde a nessuna provincia italiana valida.`, "system-msg danger");
                         return;
                     }
-                } 
+                }
+
+                if (matchedProvince) {
+                    acceptProvince(matchedProvince[0], matchedProvince[1]);
+                    return;
+                }
                 
                 // Se la stringa è molto lunga e contiene parole legate ai sintomi, o se è "salta" o "non so"
                 const skipKeywords = ['salta', 'skip', 'niente', 'non so', 'nessuna', 'generale', 'tutta italia', 'italia'];
