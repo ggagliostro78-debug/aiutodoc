@@ -3004,6 +3004,18 @@ body {
   }
 }
 
+/* Section navigation guard: hidden sections must beat mobile id-based flex overrides. */
+.tab-content.hidden-section,
+#chat-section.hidden-section,
+#about-section.hidden-section,
+#specialists-section.hidden-section,
+#glossary-section.hidden-section,
+#practices-section.hidden-section,
+.specialty-detail-section.hidden-section {
+  display: none !important;
+  visibility: hidden !important;
+}
+
 /* --- PDF PRINT OPTIMIZATION --- */
 #printable-area {
   display: block !important;

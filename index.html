@@ -28,7 +28,7 @@
   <meta name="twitter:image" content="https://aiutodoc.it/assets/header-sito.png" />
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./assets/favicon-192.png" />
-  <link rel="stylesheet" href="./src/style.css?v=4.0.6">
+  <link rel="stylesheet" href="./src/style.css?v=4.0.7">
   <link rel="privacy-policy" href="https://aiutodoc.it/privacy-policy/">
   <link rel="terms-of-service" href="https://aiutodoc.it/termini-condizioni/">
   <link rel="help" href="https://aiutodoc.it/cookie-policy/" title="Cookie Policy">
@@ -1316,6 +1316,10 @@
         console.log("Navigating to:", targetId);
         tabContents.forEach(function(content) { content.classList.add('hidden-section'); });
         targetEl.classList.remove('hidden-section');
+        document.querySelector('.main-nav')?.classList.remove('open');
+        document.body.classList.remove('menu-open');
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
 
         const activeTarget = targetId.indexOf('specialty-') === 0 ? 'practices-section' : targetId;
         navBtns.forEach(function(b) {
