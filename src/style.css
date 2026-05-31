@@ -2676,6 +2676,202 @@ body {
   }
 }
 
+/* Header/footer responsive refinement for the official horizontal header image. */
+.banner-wrapper {
+  background: var(--bg-color) !important;
+  overflow: hidden !important;
+}
+
+.banner-img {
+  display: block;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+
+.legal-footer {
+  height: auto !important;
+  min-height: unset !important;
+  max-height: none !important;
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+@media (min-width: 951px), (max-width: 950px) and (hover: hover) and (pointer: fine) {
+  .banner-wrapper {
+    max-width: 1080px !important;
+    margin: 0 auto !important;
+    overflow: visible !important;
+  }
+
+  .banner-img {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 950px) and (hover: none), (max-width: 950px) and (pointer: coarse) {
+  html,
+  body {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  #app {
+    height: auto !important;
+    min-height: var(--app-height) !important;
+    overflow: visible !important;
+  }
+
+  .banner-wrapper {
+    overflow: hidden !important;
+  }
+
+  .banner-img {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 0 0 !important;
+    object-fit: contain !important;
+    object-position: left center !important;
+  }
+
+  .chat-footer-links {
+    overflow: visible !important;
+    white-space: normal !important;
+  }
+
+  .content-container,
+  #chat-section,
+  .messages-area {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .content-container {
+    flex: 0 0 auto !important;
+  }
+
+  .messages-area {
+    flex: 0 0 auto !important;
+    padding-bottom: 24px !important;
+  }
+
+  .legal-footer {
+    flex: 0 0 auto !important;
+    padding: 16px 16px calc(84px + var(--safe-bottom)) !important;
+    font-size: 0.78rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .footer-col p,
+  .footer-links a,
+  .footer-link-button {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 380px) and (hover: none), (max-width: 380px) and (pointer: coarse) {
+  .banner-img {
+    width: 600px !important;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  html,
+  body {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  #app {
+    height: auto !important;
+    min-height: var(--app-height) !important;
+    overflow: visible !important;
+  }
+
+  .banner-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .banner-img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    object-position: left center !important;
+  }
+
+  .main-nav {
+    display: none !important;
+    flex-direction: column !important;
+    width: 100vw !important;
+    min-height: var(--app-height) !important;
+    padding: calc(68px + var(--safe-top)) calc(20px + var(--safe-right)) calc(24px + var(--safe-bottom)) calc(20px + var(--safe-left)) !important;
+    gap: 12px !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2000 !important;
+    background: white !important;
+    border: none !important;
+    overflow-y: auto !important;
+  }
+
+  .main-nav.open {
+    display: flex !important;
+  }
+
+  #menu-toggle {
+    display: block !important;
+    right: calc(10px + var(--safe-right)) !important;
+    bottom: 10px !important;
+  }
+
+  .content-container,
+  #chat-section,
+  .messages-area {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .content-container {
+    flex: 0 0 auto !important;
+  }
+
+  #chat-section {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .messages-area {
+    flex: 0 0 auto !important;
+    padding-bottom: 24px !important;
+  }
+
+  .legal-footer {
+    flex: 0 0 auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .banner-img {
+    width: 100% !important;
+  }
+}
+
 /* --- PDF PRINT OPTIMIZATION --- */
 #printable-area {
   display: block !important;

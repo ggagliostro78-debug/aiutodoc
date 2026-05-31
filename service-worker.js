@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'aiutodoc-static-v20260531-header-left-2';
+﻿const CACHE_NAME = 'aiutodoc-static-v20260531-header-image-1';
 const ASSETS = [
   './',
   './index.html',
