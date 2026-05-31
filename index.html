@@ -3,51 +3,42 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/jpeg" href="./logo.jpg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#1b9b9a" />
+  <meta name="theme-color" content="#0F5464" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="application-name" content="AIutoDoc" />
   <meta name="apple-mobile-web-app-title" content="AIutoDoc" />
-  <title>AIutoDoc.it | L'accesso giusto alla cura giusta</title>
+  <title>AIutoDoc.it | Prenderti cura di te non è mai stato così semplice</title>
   <meta name="description" content="AIutoDoc offre orientamento sanitario informativo e supporto alla ricerca dello specialista più coerente con le informazioni fornite. Non sostituisce il medico." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://aiutodoc.it/" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="it_IT" />
   <meta property="og:site_name" content="AIutoDoc" />
-  <meta property="og:title" content="AIutoDoc.it | L'accesso giusto alla cura giusta" />
+  <meta property="og:title" content="AIutoDoc.it | Prenderti cura di te non è mai stato così semplice" />
   <meta property="og:description" content="Orientamento sanitario informativo e supporto alla ricerca dello specialista più coerente con le informazioni fornite." />
   <meta property="og:url" content="https://aiutodoc.it/" />
-  <meta property="og:image" content="https://aiutodoc.it/logo.jpg" />
+  <meta property="og:image" content="https://aiutodoc.it/assets/header-sito.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="AIutoDoc.it | L'accesso giusto alla cura giusta" />
+  <meta name="twitter:title" content="AIutoDoc.it | Prenderti cura di te non è mai stato così semplice" />
   <meta name="twitter:description" content="Orientamento sanitario informativo e supporto alla ricerca dello specialista più coerente con le informazioni fornite." />
-  <meta name="twitter:image" content="https://aiutodoc.it/logo.jpg" />
+  <meta name="twitter:image" content="https://aiutodoc.it/assets/header-sito.png" />
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="apple-touch-icon" href="./logo.jpg" />
-  <link rel="stylesheet" href="./src/style.css?v=3.4.0">
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Styles moved to src/style.css -->
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9C1TRG2K0X"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  <link rel="apple-touch-icon" href="./assets/favicon-192.png" />
+  <link rel="stylesheet" href="./src/style.css?v=4.1.0">
+  <link rel="privacy-policy" href="https://aiutodoc.it/privacy-policy/">
+  <link rel="terms-of-service" href="https://aiutodoc.it/termini-condizioni/">
+  <link rel="help" href="https://aiutodoc.it/cookie-policy/" title="Cookie Policy">
+  <link rel="help" href="https://aiutodoc.it/disclaimer-medico/" title="Disclaimer Medico">
 
-    gtag('config', 'G-9C1TRG2K0X', { 'anonymize_ip': true });
-  </script>
+  <!-- Styles moved to src/style.css -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebSite",
+    "@type": "MedicalWebPage",
     "name": "AIutoDoc",
     "url": "https://aiutodoc.it/",
     "description": "Piattaforma di orientamento sanitario informativo per aiutare il cittadino a individuare la branca specialistica più coerente con le informazioni fornite.",
@@ -60,13 +51,17 @@
       "email": "info@aiutodoc.it",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://aiutodoc.it/logo.jpg"
+        "url": "https://aiutodoc.it/assets/logo-aiutodoc.png"
       }
+    },
+    "medicalAudience": {
+      "@type": "MedicalAudience",
+      "audienceType": "Patient"
     },
     "mainEntity": {
       "@type": "SoftwareApplication",
       "name": "AIutoDoc",
-      "applicationCategory": "LifestyleApplication",
+      "applicationCategory": "HealthApplication",
       "operatingSystem": "Web",
       "offers": {
         "@type": "Offer",
@@ -82,7 +77,7 @@
   <div id="app-splash" class="app-splash">
     <div class="app-splash-card">
       <div class="app-splash-title">AIutoDoc</div>
-      <div class="app-splash-subtitle">L'accesso giusto alla cura giusta</div>
+      <div class="app-splash-subtitle">Prenderti cura di te non è mai stato così semplice</div>
     </div>
   </div>
 
@@ -92,7 +87,7 @@
       <h3>Verifica età, informativa e consensi</h3>
       <div class="modal-scroll">
         <p>Benvenuto in AIutoDoc.it.</p>
-        <p>I dati inseriti vengono trattati esclusivamente per fornire il servizio richiesto e gestiti secondo quanto indicato nell'<a href="#" class="inline-legal-link" data-legal-type="privacy">Informativa Privacy</a>.</p>
+        <p>I dati inseriti vengono trattati esclusivamente per fornire il servizio richiesto e gestiti secondo quanto indicato nell'<a href="/privacy-policy/" target="_blank" rel="noopener">Informativa Privacy</a>.</p>
         <p><strong>ATTENZIONE:</strong> Sono un sistema di intelligenza artificiale che fornisce informazioni di orientamento sanitario. Non sostituisco un medico. Non utilizzare questo servizio in situazioni di emergenza: contatta il 112.</p>
         <div class="age-gate" role="group" aria-label="Verifica età">
           <p><strong>Hai compiuto 14 anni?</strong></p>
@@ -102,20 +97,50 @@
         </div>
         <label class="consent-row">
           <input type="checkbox" id="consent-medical-disclaimer">
-          <span>Ho preso visione del Disclaimer Medico.</span>
+          <span>Dichiaro di aver preso visione del <a href="/disclaimer-medico/" target="_blank" rel="noopener">disclaimer medico</a>.</span>
         </label>
         <label class="consent-row">
           <input type="checkbox" id="consent-terms">
-          <span>Accetto Termini e Condizioni d'uso.</span>
+          <span>Accetto i <a href="/termini-condizioni/" target="_blank" rel="noopener">Termini e Condizioni d'uso</a>.</span>
         </label>
         <label class="consent-row">
           <input type="checkbox" id="consent-health-data">
-          <span>Acconsento al trattamento dei dati sanitari ai sensi dell'art. 9 GDPR.</span>
+          <span>Presto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.</span>
         </label>
       </div>
       <button id="accept-privacy-btn" class="btn-primary-wide" disabled>Accetto e voglio continuare</button>
     </div>
   </div>
+
+  <section id="cookie-consent" class="cookie-consent hidden" aria-labelledby="cookie-consent-title" role="dialog" aria-modal="false">
+    <div class="cookie-consent-panel">
+      <div class="cookie-consent-copy">
+        <h2 id="cookie-consent-title">Preferenze cookie</h2>
+        <p>Usiamo cookie tecnici necessari al funzionamento del sito. I cookie analytics vengono caricati solo con il tuo consenso.</p>
+        <a href="/cookie-policy/" target="_blank" rel="noopener">Maggiori informazioni</a>
+      </div>
+      <div id="cookie-customize-panel" class="cookie-customize-panel hidden">
+        <label class="cookie-toggle">
+          <input type="checkbox" checked disabled>
+          <span>Cookie tecnici necessari, sempre attivi</span>
+        </label>
+        <label class="cookie-toggle">
+          <input type="checkbox" id="cookie-analytics">
+          <span>Cookie analytics per statistiche aggregate</span>
+        </label>
+        <label class="cookie-toggle">
+          <input type="checkbox" id="cookie-marketing" disabled>
+          <span>Cookie marketing/profilazione non utilizzati</span>
+        </label>
+      </div>
+      <div class="cookie-actions">
+        <button type="button" id="cookie-accept-all">Accetta tutti</button>
+        <button type="button" id="cookie-reject-all">Rifiuta tutti</button>
+        <button type="button" id="cookie-customize">Personalizza</button>
+        <button type="button" id="cookie-save-custom" class="hidden">Salva preferenze</button>
+      </div>
+    </div>
+  </section>
 
   <!-- Legal Docs Modal -->
   <div id="legal-modal" class="modal-overlay hidden">
@@ -129,8 +154,7 @@
   <div id="app">
     <header class="chat-header">
       <div class="banner-wrapper">
-        <!-- BANNER FULL WIDTH -->
-        <img src="./logo.jpg" alt="AIutoDoc.it Banner" class="banner-img">
+        <img src="./assets/header-sito.png" alt="AIutoDoc.it - Prenderti cura di te non è mai stato così semplice" class="banner-img">
 
         <!-- Hamburger Toggle for Mobile -->
         <button id="menu-toggle" aria-label="Apri il menu di navigazione" aria-expanded="false">Menu</button>
@@ -139,8 +163,9 @@
         <nav class="main-nav">
           <button class="nav-btn active" data-target="chat-section">Orientamento</button>
           <button class="nav-btn" data-target="about-section">Chi Siamo</button>
+          <button class="nav-btn" data-target="specialists-section">Specialisti</button>
           <button class="nav-btn" data-target="glossary-section">Glossario</button>
-          <button class="nav-btn" data-target="practices-section">Branche Mediche</button>
+          <button class="nav-btn" data-target="practices-section">Specializzazioni</button>
           <button class="nav-btn" data-target="specialist-area-section">Area Specialista</button>
           <button class="nav-btn" data-target="admin-agenda-section">Admin Agenda</button>
           <button id="reset-btn" class="nav-btn" title="Riavvia Sessione">Nuova Ricerca</button>
@@ -163,18 +188,52 @@
         <div id="chat-messages" class="messages-area">
           <div class="welcome-message message system-msg">
             <div class="msg-bubble">
-              <strong class="welcome-title" style="text-align: center; display: block; font-size: 1.25rem; margin-bottom: 4px; white-space: nowrap;">Benvenuto in AIutoDoc.it</strong>
-              <div class="welcome-subtitle" style="text-align: center; font-style: italic; color: var(--text-muted); margin-bottom: 12px; font-size: 0.85rem;">L'accesso giusto alla cura giusta.</div>
+              <div class="welcome-title">Trova più facilmente lo specialista adatto alle tue esigenze.</div>
+              <div class="welcome-subtitle">Un supporto semplice per orientarti tra sintomi, specialisti e percorsi sanitari.</div>
               
-              <p style="text-align: center; margin-bottom: 10px; font-size: 0.95rem;">Piattaforma digitale di orientamento sanitario: ti aiuta a capire quale branca specialistica puo' essere piu' coerente con le informazioni fornite.</p>
+              <p style="text-align: center; margin-bottom: 10px; font-size: 0.95rem;">AIutoDoc è un sistema di supporto che si basa sull'utilizzo dell'intelligenza artificiale per lo scopo più umano che ci sia: <strong>la cura</strong>.</p>
               
               <div class="welcome-disclaimer" style="text-align: center; font-size: 0.8rem; color: var(--text-muted); font-style: italic; margin-bottom: 15px;">
-                Sistema informativo, non clinico. In caso di emergenza chiama il 112.
+                Attraverso poche domande ti aiuto ad <strong>accedere alle figure specialistiche più adatte a te</strong>, sulla base dei sintomi e delle informazioni che condividi.
               </div>
               
-              <div style="text-align: center; font-weight: 500;">
-                Rispondi a poche domande. Inizia da <strong>sesso ed eta' (es. Uomo, 35)</strong>.
+              <div class="medical-disclaimer-card" role="note" aria-label="Avviso medico importante">
+                <strong>Importante</strong>
+                <p>AiutoDoc non fornisce diagnosi, prescrizioni o pareri medici e non sostituisce una visita sanitaria.</p>
+                <p>In caso di urgenza, sintomi gravi o peggioramento improvviso, chiama il 112/118 o rivolgiti al Pronto Soccorso.</p>
               </div>
+
+              <form id="initial-medical-form" class="initial-intake-card" novalidate>
+                <h3>Prima di iniziare</h3>
+                <p>Per orientarti meglio verso lo specialista più appropriato, inserisci prima età e sesso biologico. Il dato sul sesso biologico viene usato solo quando clinicamente rilevante. Puoi scegliere di non specificarlo.</p>
+
+                <label class="initial-field" for="initial-age">
+                  <span>Quanti anni hai?</span>
+                  <input id="initial-age" name="age" type="number" min="0" max="120" inputmode="numeric" autocomplete="off" placeholder="Es. 35" aria-describedby="initial-age-error" required>
+                </label>
+                <p class="initial-error" id="initial-age-error" aria-live="polite" role="alert"></p>
+
+                <fieldset class="initial-fieldset" aria-describedby="initial-sex-help initial-sex-error">
+                  <legend>Sesso biologico</legend>
+                  <p id="initial-sex-help">Alcuni sintomi o percorsi sanitari possono dipendere anche dal sesso biologico. Puoi scegliere di non specificarlo.</p>
+                  <div class="sex-at-birth-options">
+                    <label class="sex-at-birth-card">
+                      <input type="radio" name="sex_at_birth" value="female">
+                      <span>Femmina</span>
+                    </label>
+                    <label class="sex-at-birth-card">
+                      <input type="radio" name="sex_at_birth" value="male">
+                      <span>Maschio</span>
+                    </label>
+                    <label class="sex-at-birth-card">
+                      <input type="radio" name="sex_at_birth" value="not_specified">
+                      <span>Preferisco non specificare</span>
+                    </label>
+                  </div>
+                </fieldset>
+                <p class="initial-error" id="initial-sex-error" aria-live="polite" role="alert"></p>
+                <button type="submit" class="btn-primary-wide">Continua per iniziare</button>
+              </form>
             </div>
             <div class="msg-time">Ora</div>
           </div>
@@ -182,8 +241,8 @@
         <div id="typing-indicator" class="typing-indicator hidden">
           <span></span><span></span><span></span>
         </div>
-        <div class="chat-input-area">
-          <textarea id="user-input" placeholder="Età e Sesso (es. Uomo, 35)" rows="1" enterkeyhint="send" autocapitalize="sentences" autocomplete="on" spellcheck="true"></textarea>
+        <div class="chat-input-area onboarding-hidden" aria-hidden="true">
+          <textarea id="user-input" placeholder="Inserisci Comune o Provincia. Es. Milano, Roma, RC oppure Italia" rows="1" enterkeyhint="send" autocapitalize="sentences" autocomplete="on" spellcheck="true"></textarea>
           <button id="send-btn" class="btn-primary" aria-label="Invia">
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
               stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
@@ -209,54 +268,108 @@
           </div>
           <h2>Perché AIutoDoc?</h2>
           
-          <p><strong>AIutoDoc</strong> nasce per rendere piu' semplice l'orientamento sanitario: raccoglie poche informazioni, propone una branca specialistica coerente e supporta la ricerca di professionisti e strutture.</p>
+          <p><strong>AIutoDoc</strong> nasce per rendere più semplice l'orientamento sanitario. Raccoglie poche informazioni per restituire una risposta coerente con le tue necessità, <strong>supportandoti nella ricerca</strong> di professionisti e strutture sanitarie.</p>
+
+          <p>Le informazioni che fornisci vengono sempre trattate in modo sicuro e <strong>al solo fine di individuare la categoria specialistica più pertinente</strong>. Per maggiori dettagli consulta la nostra <a href="/privacy-policy/" target="_blank" rel="noopener"><strong>Privacy Policy</strong></a>.</p>
 
           <div class="brand-positioning">
             <div class="problem-box">
-              <h3>Il Problema: Liste d'Attesa</h3>
-              <p>Quando non e' chiaro da dove iniziare, il cittadino puo' arrivare alla prenotazione con dubbi, tentativi e informazioni frammentate. Un orientamento informativo aiuta a preparare meglio il confronto con il medico.</p>
+              <h3>Il problema delle liste d'attesa</h3>
+              <p>Molte delle lunghe attese nel Servizio Sanitario Regionale (SSR) dipendono da richieste indirizzate verso la specializzazione sbagliata. Un <strong>orientamento informativo</strong> ti può aiutare a prepararti meglio al confronto con il medico ma, soprattutto, a <strong>trovare lo specialista più adatto alle tue esigenze</strong>, riducendo il rischio di attese prolungate e sprechi di denaro.</p>
             </div>
             
             <div class="solution-box">
               <h3>Il Ruolo di AIutoDoc</h3>
-              <p>AIutoDoc interviene <strong>prima della prenotazione</strong> con un percorso digitale di orientamento, senza sostituire il medico o le sue decisioni.</p>
+              <p>AIutoDoc interviene preventivamente con un percorso digitale di orientamento che precede la fase di prenotazione, senza sostituire il medico o le sue decisioni.</p>
+              <p>Ti aiuta ad individuare <strong>la branca specialistica più coerente con le informazioni fornite</strong> e ti propone una selezione di professionisti o strutture, basandosi sui dati presenti in rete.</p>
             </div>
           </div>
 
-          <p>AIutoDoc utilizza sistemi digitali di orientamento per aiutarti a individuare la branca specialistica piu' coerente con le informazioni fornite e una selezione di professionisti o strutture presenti in rete.</p>
-
+          <h3>Il risultato?</h3>
           <div class="impact-stats">
-            Meno confusione iniziale, più chiarezza sul professionista da cercare e un percorso più ordinato verso la visita.
+            Meno confusione iniziale sul professionista a cui rivolgerti. <strong>Il tuo percorso sarà più chiaro</strong> e arriverai alla visita con tutte le informazioni necessarie. Siamo l’anello di congiunzione tra le tue esigenze e la possibilità di <strong>accedere più facilmente alla figura giusta per te</strong>.
           </div>
-
-          <div class="plus-showcase">
-            <h3>Vetrine specialistiche PLUS</h3>
-            <p>Le vetrine PLUS sono spazi editoriali premium per specialisti e centri: branding professionale, podcast, contenuti multimediali, agenda prenotazioni e materiali divulgativi curati. Non una directory generica, ma una presenza digitale pensata per comunicare autorevolezza, fiducia e continuita'.</p>
-          </div>
-
-          <div class="team-preview">
-            <h3>Team e governance</h3>
-            <div class="team-grid">
-              <div><strong>Founder</strong><span>In aggiornamento</span></div>
-              <div><strong>CTO</strong><span>In aggiornamento</span></div>
-              <div><strong>Marketing</strong><span>In aggiornamento</span></div>
-              <div><strong>Consulenza legale</strong><span>In aggiornamento</span></div>
-            </div>
-          </div>
-
-          <p style="text-align: center; font-style: italic; margin-top: 20px; color: var(--primary); font-weight: 500;">
-            Un ecosistema digitale per orientarsi meglio prima della scelta dello specialista.
-          </p>
 
           <p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 25px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 15px;">
-            AIutoDoc utilizza Intelligenza Artificiale per finalità informative di orientamento e non sostituisce mai il medico curante.
+            <strong>AIutoDoc utilizza strumenti di intelligenza artificiale per finalità informative di orientamento e non sostituisce in alcun modo il medico curante.</strong>
           </p>
 
+          <p><a href="#" class="inline-page-link internal-nav" data-target="specialists-section">Sei uno specialista o hai una struttura privata e vuoi saperne di più?</a> Clicca qui per scoprire i servizi dedicati a te.</p>
+
           <div class="cta-container">
-            <a href="mailto:info@aiutodoc.it" class="btn-secondary-wide">Scrivici: info@aiutodoc.it</a>
-            <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc" class="btn-secondary-wide">Collabora a far crescere AIutoDoc.it</a>
-            <button id="investor-btn" class="btn-premium-wide" onclick="window.location.href='mailto:info@aiutodoc.it?subject=Opportunita investimento istituzionale AIutoDoc'">Per opportunita' di investimento istituzionali contattare info@aiutodoc.it</button>
+            <a href="mailto:info@aiutodoc.it" class="btn-secondary-wide">Contattaci: info@aiutodoc.it</a>
+            <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc" class="btn-secondary-wide">Collabora per far crescere AIutoDoc.it</a>
+            <button id="investor-btn" class="btn-premium-wide" onclick="window.location.href='mailto:info@aiutodoc.it?subject=Opportunita investimento istituzionale AIutoDoc'">Per opportunità di investimento istituzionali scrivere a info@aiutodoc.it</button>
           </div>
+        </div>
+      </section>
+
+      <!-- Section: Per gli Specialisti -->
+      <section id="specialists-section" class="tab-content hidden-section info-section">
+        <div class="info-body">
+          <h2>Per gli specialisti</h2>
+          <p><strong>AIutoDoc.it</strong> permette agli specialisti e alle strutture private di migliorare la propria visibilità digitale ed entrare in contatto con nuovi pazienti.</p>
+          <p>Grazie alla piattaforma, puoi ottenere un pacchetto comprensivo di <strong>contenuti digitali e materiali editoriali personalizzati</strong> e pensati per trasmettere <strong>autorevolezza, professionalità e fiducia</strong>.</p>
+
+          <div class="showcase-grid" aria-label="Vetrine proposte per specialisti e strutture private">
+            <div class="showcase-card showcase-bronze">
+              <h3>Vetrina Bronzo</h3>
+              <ul>
+                <li>Nome e cognome</li>
+                <li>Contatti</li>
+                <li>Specialistiche per cui si vuole indicizzare il profilo</li>
+              </ul>
+            </div>
+
+            <div class="showcase-card showcase-silver">
+              <h3>Vetrina Argento</h3>
+              <ul>
+                <li>Nome e cognome</li>
+                <li>Contatti</li>
+                <li>Specialità e specialistiche per cui si vuole indicizzare il profilo</li>
+                <li>Gestione agenda</li>
+              </ul>
+            </div>
+
+            <div class="showcase-card showcase-gold">
+              <h3>Vetrina Oro</h3>
+              <ul>
+                <li>Nome e cognome</li>
+                <li>Contatti</li>
+                <li>Specialistiche per cui si vuole indicizzare il profilo</li>
+                <li>Gestione agenda</li>
+                <li>Creazione profili social e minima gestione</li>
+              </ul>
+            </div>
+
+            <div class="showcase-card showcase-gold-plus">
+              <h3>Vetrina Oro Plus</h3>
+              <ul>
+                <li>Nome e cognome</li>
+                <li>Contatti</li>
+                <li>Specialistiche per cui si vuole indicizzare il profilo</li>
+                <li>Gestione agenda</li>
+                <li>Creazione e gestione profili social</li>
+                <li>Creazione di contenuti e servizi editoriali aggiuntivi</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cta-container">
+            <a href="mailto:info@aiutodoc.it?subject=Informazioni servizi specialisti AIutoDoc" class="btn-premium-wide">Contattaci per i servizi dedicati</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="specialist-area-section" class="tab-content hidden-section info-section">
+        <div class="info-body admin-info-body">
+          <div id="specialist-area-root"></div>
+        </div>
+      </section>
+
+      <section id="admin-agenda-section" class="tab-content hidden-section info-section">
+        <div class="info-body admin-info-body">
+          <div id="admin-agenda-root"></div>
         </div>
       </section>
 
@@ -266,18 +379,20 @@
           <div style="text-align: center;"><img src="./assets/glossary.png" alt="Glossario Medico Cartoon" loading="lazy" decoding="async"
               class="section-image" onerror="this.style.display='none'"></div>
           <h2>Breve Glossario Medico</h2>
-          <p>La medicina è piena di termini complessi. Qui traduciamo i più comuni per farti capire meglio i tuoi referti su tutti e 10 i maggiori rami ambulatoriali. <strong>Clicca</strong> su ogni termine per un rapido approfondimento Web.</p>
+          <p>La medicina è piena di termini complessi? Ti aiutiamo noi!</p>
+          <p>Questo glossario raccoglie i termini più comuni utilizzati nei 10 principali rami ambulatoriali per aiutarti a <strong>capire meglio i tuoi referti</strong>.</p>
+          <p>Clicca su ciascun termine per approfondire.</p>
 
           <div style="margin: 25px 0;">
             <input type="text" id="glossary-search" placeholder="Cerca sintomo, vocabolo o malattia..."
               style="width: 100%; padding: 14px 20px; border-radius: 24px; border: 1px solid var(--border-color); font-family: inherit; font-size: 1rem; color: var(--text-main); outline: none; transition: all 0.2s;"
-              onfocus="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 0 0 2px rgba(27, 155, 154, 0.15)';"
+              onfocus="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 0 0 2px rgba(92, 201, 204, 0.15)';"
               onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';">
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🧠 Psicologia e Psichiatria</h3>
+            Psicologia e Psichiatria</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Apatia:</strong> Mancanza di emozione, motivazione o interesse.</div>
             <div class="g-card"><strong>Disfonia:</strong> Alterazione della voce legata a fattori emotivi.</div>
@@ -296,7 +411,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🦴 Ortopedia e Traumatologia</h3>
+            Ortopedia e Traumatologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Artroscopia:</strong> Procedura chirurgica mininvasiva per ispezionare/operare
               l'interno di un'articolazione (es. ginocchio, spalla).</div>
@@ -316,7 +431,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🧠 Neurologia e Neurochirurgia</h3>
+            Neurologia e Neurochirurgia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Amnesia:</strong> Perdita parziale o totale della memoria.</div>
             <div class="g-card"><strong>Cefalea:</strong> Termine generico per indicare il mal di testa.</div>
@@ -334,7 +449,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            ❤️ Cardiologia</h3>
+            Cardiologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Aritmia:</strong> Alterazione o ritmo irregolare dei battiti cardiaci.</div>
             <div class="g-card"><strong>Bradicardia:</strong> Battito cardiaco eccessivamente lento.</div>
@@ -356,7 +471,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🍎 Gastroenterologia</h3>
+            Gastroenterologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Disfagia:</strong> Difficoltà nella deglutizione del cibo o dei liquidi.</div>
             <div class="g-card"><strong>Dispepsia:</strong> Difficolta digestiva, senso di pesantezza o dolore.</div>
@@ -376,7 +491,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🔬 Dermatologia</h3>
+            Dermatologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Eritema:</strong> Arrossamento forte della cute da infiammazione.</div>
             <div class="g-card"><strong>Prurito:</strong> Irritazione sensoriale che induce a grattarsi.</div>
@@ -395,7 +510,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🚺 Ginecologia e Andrologia</h3>
+            Ginecologia e Andrologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Amenorrea:</strong> Assenza del ciclo mestruale.</div>
             <div class="g-card"><strong>Dismenorrea:</strong> Flusso mestruale dolorosamente alterato.</div>
@@ -412,7 +527,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            👂 Otorinolaringoiatria</h3>
+            Otorinolaringoiatria</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Acufene:</strong> Percezione di rumori o ronzii acuti fissi nelle orecchie.
             </div>
@@ -430,7 +545,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            👁️ Oculistica</h3>
+            Oculistica</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Miodesopsie:</strong> Corpi mobili o "mosche volanti" visive.</div>
             <div class="g-card"><strong>Fosfeni:</strong> Bagliori e percezione visiva di lampi di luce.</div>
@@ -448,7 +563,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            ⚕️ Chirurgia Generale e Toracica</h3>
+            Chirurgia Generale e Toracica</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Ernia:</strong> Protuberanza di un viscere oltre la parete corporea.</div>
             <div class="g-card"><strong>Laparocele:</strong> Ernia formatasi su vecchie ferite incisionali/cicatrici.
@@ -468,7 +583,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🦷 Odontoiatria</h3>
+            Odontoiatria</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Carie:</strong> Infezione cronica distruttiva dei tessuti duri del dente.</div>
             <div class="g-card"><strong>Gengivite:</strong> Infiammazione non distruttiva dei tessuti gengivali.</div>
@@ -488,7 +603,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            💉 Diabetologia ed Endocrinologia</h3>
+            Diabetologia ed Endocrinologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Glicemia:</strong> Concentrazione di glucosio (zucchero) nel sangue.</div>
             <div class="g-card"><strong>Insulinoresistenza:</strong> Ridotta capacità delle cellule di rispondere
@@ -509,7 +624,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            💨 Pneumologia</h3>
+            Pneumologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Dispnea:</strong> Sensazione grave di fatica o difficoltà nel respirare
               (affanno).</div>
@@ -534,7 +649,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🩸 Ematologia</h3>
+            Ematologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Anemia:</strong> Carenza o diminuzione drastica dei globuli rossi o emoglobina.
             </div>
@@ -559,7 +674,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🛡️ Malattie Infettive e Immunologia</h3>
+            Malattie Infettive e Immunologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Sepsi:</strong> Risposta estrema e vitale dell'organismo a un'estesa infezione
               ematica (setticemia).</div>
@@ -585,7 +700,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🌿 Reumatologia</h3>
+            Reumatologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Artrite:</strong> Spinta infiammatoria non meccanica a carico delle
               articolazioni (reumatismi).</div>
@@ -611,7 +726,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            💧 Nefrologia e Urologia</h3>
+            Nefrologia e Urologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Colica Renale:</strong> Un grave dolore lombo-costrittivo legato all'irruzione
               di cristalli nelle delicate vie escretrici.</div>
@@ -637,7 +752,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            👴🏻 Geriatria</h3>
+            Geriatria</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Decadimento Cognitivo:</strong> Regressione del raziocinio geriatrico mentale
               (Avvisaglia dell'Alzheimer iniziale comune o simili).</div>
@@ -663,13 +778,13 @@
               Parkinson o che simulano il ritardo lento di motori e il fermarsi bruscamente e involontaria marcia
               geriatrico. Rischio di letale ruzzolo.</div>
             <div class="g-card"><strong>Fragilità Ossa (Geriatrica):</strong> Il mix combinato grave d'incidente per
-              scivoloni a osteoporosi avanzata tipica delle donne. È la 1° prima grande sintomatologia di degenerazione
+              scivoloni a osteoporosi avanzata tipica delle donne. Ãˆ la 1Â° prima grande sintomatologia di degenerazione
               per rottura mortale testa del femore se atterrate.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🥦 Nutrizione e Dietologia</h3>
+            Nutrizione e Dietologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>BMI (Indice di Massa):</strong> Metro statistico di stima corporale sull'altezza
               ponderato peso. Usato per i range della "obesità o l'anoressia con BMI". </div>
@@ -708,11 +823,11 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            👶🏼 Pediatria e Neo-Natologia</h3>
+            Pediatria e Neo-Natologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Coliche Gaspanti:</strong> Una fase transiente infantile d'insorgenza serale del
               gas / crampi (es. spasmo piagnucolio dopo la lattazione senza rimedi e feci normali del bebè piangente e
-              gonfio per spasmo non patologico neo-natologia classica nel pediatra al 3° mese a stomaco di spasmo
+              gonfio per spasmo non patologico neo-natologia classica nel pediatra al 3Â° mese a stomaco di spasmo
               dolente o gonfiato aria colica o gassosi tipici dolori della pancia col pancino gonfio e i pianti tipiche
               al pomeriggio neonato.</div>
             <div class="g-card"><strong>Scarlattina:</strong> Tipica infezione eruttiva streptococcica batteriosa
@@ -751,78 +866,219 @@
         </div>
       </section>
 
-      <!-- Section: Pratiche Mediche -->
+      <!-- Section: Specializzazioni -->
       <section id="practices-section" class="tab-content hidden-section info-section">
         <div class="info-body">
-          <div style="text-align: center;"><img src="./assets/practices.png" alt="Pratiche Mediche Cartoon" loading="lazy" decoding="async"
+          <div style="text-align: center;"><img src="./assets/practices.png" alt="Specializzazioni" loading="lazy" decoding="async"
               class="section-image" onerror="this.style.display='none'"></div>
-          <h2>Branche Mediche Analizzate</h2>
-          <p>Il percorso di orientamento confronta le informazioni fornite con i cluster informativi di queste discipline:</p>
+          <h2>Specializzazioni</h2>
+          <p>Non sai da dove iniziare? Puoi esplorare le singole specializzazioni per capire quale fa al caso tuo, oppure puoi rispondere a qualche semplice domanda e <strong>ti aiutiamo ad orientarti</strong>.</p>
           <div class="practices-list">
-            <ul>
-              <li><strong>Psicologia/Psichiatria:</strong> Ansia, depressione, supporto sistemico e percorsi di
-                psicoterapia.</li>
-              <li><strong>Ortopedia:</strong> Controllo e chirurgia (inclusa artroscopia ginocchio/spalla) di traumi,
-                ossa e articolazioni legamentose.</li>
-              <li><strong>Neurologia / Neurochirurgia:</strong> Danni midollari, ernie alla colonna, nervi ed encefalo.
-              </li>
-              <li><strong>Cardiologia:</strong> Prevenzione vascolare, ipertensione, scompensi e aritmie cardiache
-                critiche.</li>
-              <li><strong>Gastroenterologia:</strong> Malattie a carico del fegato, stomaco o tratto digestivo gastrico.
-              </li>
-              <li><strong>Dermatologia:</strong> Pruriti, orticarie infiammatorie, asportazione nei, melanomi maligni.
-              </li>
-              <li><strong>Ginecologia/Ostetricia:</strong> Cicli mestruali dolorosi, menopausa o controllo pre-parto
-                gravidico.</li>
-              <li><strong>Andrologia / Urologia:</strong> Controllo preventivo prostata, apparato riproduttivo e vescica
-                infiammata e disfunzionale e calcolosi nei reni.</li>
-              <li><strong>Otorinolaringoiatria:</strong> Disagi complessi a livello dell'orecchio uditivo (acufeni /
-                sordi), vie nasali tappate ed ispezioni faringee/laringi con raucedini e tonsille in età adulta o da
-                tosse.</li>
-              <li><strong>Oculistica:</strong> Prurito agli occhi rossi intensi , perdite della viste veloci o mosche
-                volanti nel fondo per patologie della refrazione retinica ed infiammazioni catarattosa viscerale
-                congiuntivale. </li>
-              <li><strong>Chirurgia Generale:</strong> Valutazioni per l'asportazioni di formazioni lipomatose o grumi
-                cistici infetti , ascessi e ferite doloranti d'ernie, appendice e masse tumefatte della parete
-                addominale e toraci in ascesso di sangue e infezioni.</li>
-              <li><strong>Odontoiatria:</strong> Mal di denti improvvisi del nervo ascessuale del dente con interventi
-                di asportazione in cariate placche dolenti del trisma d'ottavia (Molare) per gengive parodontosi a
-                sanguinamento e ascesso di placca e impianti di vite o osso mascellare. </li>
-              <li><strong>Endocrinologia/Diabetologia:</strong> Indennità nel metabolismo grave dei tiroide, ovaie
-                cistiche o valori del diabete alti del sangue del malato.</li>
-              <li><strong>Pneumologia:</strong> Insufficienze del l'albero asmatico respiratorio dei bronchi nei
-                fumatori tosse.</li>
-              <li><strong>Ematologia:</strong> Parametri pericolosi sregolati leucemici del siero, anemie pallide
-                svenimento o milza ed infezioni linfo-nodale o nel midollo.</li>
-              <li><strong>Malattie Infettive:</strong> Batteriologia febbrile, infezioni da vettori del plasma da
-                viaggio e batteri.</li>
-              <li><strong>Reumatologia:</strong> Indolenzimenti a malattie su base genetica immunitaria "autoimmuni"
-                infiammatoria croniche, ossessive del sangue (Lupus artriti reattiva del derma pelle ossa tendine
-                mieloide).</li>
-              <li><strong>Geriatria:</strong> Sindromi anziani con poli-terapia assunta multiplo, vuoti della mente
-                degenerativa da Alzheimer / Parkinson dell'anziano malnutrito e piaghe cronache non movibile allettati a
-                letto curativo base.</li>
-              <li><strong>Dietologia/Nutrizione Clinica:</strong> Sovrappesi BMI clinici dell'obesi con comorbidità
-                diabete renale, DCA.</li>
-              <li><strong>Pediatria/Neonatologia:</strong> Tutti i sintomi manifesti febbrile dell'ambito pediatrico, da
-                lattanti bimbi 0 a adolescenti dei 14 anni in coliche e infezioni gassosa morbillo, pediatrico sviluppo
-                ormone puberale ritardo. </li>
-            </ul>
+            <button class="specialty-card internal-nav" data-target="specialty-psicologia-section"><strong>Psicologia/Psichiatria</strong><span>Benessere mentale, emozioni, comportamento.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-ortopedia-section"><strong>Ortopedia</strong><span>Ossa, articolazioni, traumi e movimento.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-neurologia-section"><strong>Neurologia / Neurochirurgia</strong><span>Sistema nervoso, encefalo, colonna e nervi.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-cardiologia-section"><strong>Cardiologia</strong><span>Cuore, pressione, ritmo cardiaco e circolazione.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-gastroenterologia-section"><strong>Gastroenterologia</strong><span>Stomaco, intestino, fegato e digestione.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-dermatologia-section"><strong>Dermatologia</strong><span>Pelle, nei, pruriti, lesioni e capelli.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-ginecologia-section"><strong>Ginecologia/Ostetricia</strong><span>Salute femminile, ciclo, gravidanza e menopausa.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-urologia-section"><strong>Andrologia / Urologia</strong><span>Vie urinarie, prostata, rene e salute maschile.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-otorino-section"><strong>Otorinolaringoiatria</strong><span>Orecchio, naso, gola, voce e udito.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-oculistica-section"><strong>Oculistica</strong><span>Occhi, vista, retina e infiammazioni oculari.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-chirurgia-section"><strong>Chirurgia Generale</strong><span>Ernie, cisti, ascessi e valutazioni chirurgiche.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-odontoiatria-section"><strong>Odontoiatria</strong><span>Denti, gengive, dolore orale e impianti.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-endocrinologia-section"><strong>Endocrinologia/Diabetologia</strong><span>Ormoni, tiroide, metabolismo e diabete.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-pneumologia-section"><strong>Pneumologia</strong><span>Bronchi, polmoni, respiro e tosse persistente.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-ematologia-section"><strong>Ematologia</strong><span>Sangue, anemia, coagulazione e linfonodi.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-infettive-section"><strong>Malattie Infettive</strong><span>Infezioni, febbri complesse e medicina dei viaggi.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-reumatologia-section"><strong>Reumatologia</strong><span>Autoimmunità, dolori articolari e infiammazione.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-geriatria-section"><strong>Geriatria</strong><span>Salute dell'anziano, fragilità e politerapia.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-nutrizione-section"><strong>Dietologia/Nutrizione Clinica</strong><span>Peso, alimentazione, metabolismo e DCA.</span></button>
+            <button class="specialty-card internal-nav" data-target="specialty-pediatria-section"><strong>Pediatria/Neonatologia</strong><span>Salute di neonati, bambini e adolescenti.</span></button>
           </div>
+          <p class="medical-orientation-note"><strong>Nota:</strong> AIutoDoc offre un servizio di orientamento informativo e non sostituisce il medico, una visita specialistica o il servizio di emergenza. In caso di sintomi gravi o improvvisi contatta il 112 o rivolgiti al Pronto Soccorso.</p>
         </div>
       </section>
 
-      <!-- Section: Admin Agenda Mock -->
-      <section id="admin-agenda-section" class="tab-content hidden-section info-section">
-        <div class="info-body admin-info-body">
-          <div id="admin-agenda-root"></div>
+      <section id="specialty-psicologia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Psicologia e Psichiatria</h2>
+          <p class="specialty-subtitle">Capire le differenze, trovare il professionista giusto per te.</p>
+          <p><strong>Lo</strong> <strong>Psicologo</strong> lavora con colloqui e psicoterapia, <strong>lo</strong> <strong>Psichiatra</strong> può affiancare anche una terapia farmacologica, a volte lavorano insieme. Il punto di partenza è sempre il <strong>benessere mentale</strong>: ansia, depressione, attacchi di panico, disturbi del sonno, difficoltà relazionali o momenti di forte stress emotivo.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
         </div>
       </section>
-
-      <!-- Section: Area Specialista Mock -->
-      <section id="specialist-area-section" class="tab-content hidden-section info-section">
-        <div class="info-body admin-info-body">
-          <div id="specialist-area-root"></div>
+      <section id="specialty-ortopedia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Ortopedia e Traumatologia</h2>
+          <p class="specialty-subtitle">Dolori alle ossa, alle articolazioni o ai muscoli? Capiamo insieme da dove iniziare.</p>
+          <p><strong>L'Ortopedico</strong> si occupa dell'apparato muscolo-scheletrico: ossa, articolazioni, tendini, legamenti e muscoli. Interviene sia su <strong>problemi cronici</strong> - come artrosi, ernie, scoliosi o osteoporosi - sia su <strong>traumi acuti</strong> come fratture, distorsioni e lesioni sportive. In alcuni casi collabora con il fisiatra o il fisioterapista per il percorso riabilitativo.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-neurologia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Neurologia e Neurochirurgia</h2>
+          <p class="specialty-subtitle">Mal di testa frequenti, formicolii, problemi di memoria? Scopri quando è il momento di parlarne con uno specialista.</p>
+          <p><strong>Il Neurologo</strong> si occupa della diagnosi e della cura delle malattie che riguardano il sistema nervoso: cervello, midollo spinale e nervi periferici. Lavora con terapie mediche e farmacologiche. Il <strong>Neurochirurgo</strong> interviene quando la situazione richiede un approccio chirurgico, come nel caso di ernie del disco severe, tumori cerebrali o malformazioni vascolari. Spesso i due specialisti collaborano per individuare il percorso più appropriato.</p>
+          <p><strong>I segnali da non sottovalutare</strong> sono molti: mal di testa ricorrenti, emicrania, vertigini, formicolii agli arti, difficoltà di memoria, tremore, problemi di equilibrio o episodi di perdita di coscienza. <strong>Riconoscere per tempo questi sintomi può fare la differenza.</strong></p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-cardiologia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Cardiologia</h2>
+          <p class="specialty-subtitle">Cuore, pressione, palpitazioni o affanno? Capire il sintomo giusto può aiutarti a partire dal professionista corretto.</p>
+          <p>Il Cardiologo si occupa della salute del cuore e della circolazione. Valuta sintomi come palpitazioni, pressione alta, battito irregolare, affanno, dolore toracico non urgente, svenimenti, familiarità per malattie cardiovascolari o necessità di controlli preventivi.</p>
+          <p>Può indicare esami come elettrocardiogramma, ecocardiogramma, Holter, test da sforzo o monitoraggio pressorio, in base al quadro clinico. In alcuni casi collabora con altri specialisti, ad esempio internista, pneumologo, diabetologo o nefrologo, quando il problema coinvolge più apparati.</p>
+          <p>Attenzione: dolore toracico intenso, improvviso, associato a sudorazione, mancanza di respiro, nausea o dolore irradiato a braccio, schiena o mandibola richiede valutazione urgente e non un percorso online.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br>Hai dubbi sulla figura più adatta a te? Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-gastroenterologia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Gastroenterologia</h2>
+          <p class="specialty-subtitle">Bruciore di stomaco, gonfiore, difficoltà digestive? Scopri quando è il momento di parlarne con uno specialista.</p>
+          <p><strong>Il Gastroenterologo</strong> si occupa delle <strong>malattie dell'apparato digerente</strong>: esofago, stomaco, intestino, fegato, pancreas e vie biliari. Diagnostica e tratta condizioni come reflusso gastroesofageo, gastrite, colon irritabile, colite, celiachia, epatite e calcoli alla colecisti. Per alcune situazioni, come polipi intestinali, tumori del colon-retto o patologie del fegato avanzate, può essere necessario l'intervento del chirurgo specializzato.</p>
+          <p><strong>I segnali da non trascurare</strong>: bruciore di stomaco frequente, dolori addominali ricorrenti, gonfiore, diarrea o stitichezza persistente, sangue nelle feci, nausea, calo di peso inspiegabile o difficoltà a deglutire.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-dermatologia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Dermatologia</h2>
+          <p class="specialty-subtitle">Macchie, eruzioni cutanee, nei che cambiano aspetto? Il primo passo è capire cosa tenere sotto controllo.</p>
+          <p><strong>Il Dermatologo</strong> si occupa della salute della pelle, dei capelli e delle unghie. Diagnostica e tratta condizioni come psoriasi, eczema, acne, rosacea, dermatiti, micosi e infezioni cutanee. Ha un ruolo fondamentale anche <strong>nella prevenzione e nella diagnosi precoce dei tumori della pelle</strong>, tra cui il melanoma. In alcuni casi può intervenire con piccole procedure in ambulatorio, come la <strong>rimozione di nei</strong> o lesioni sospette.</p>
+          <p><strong>I segnali da non trascurare</strong>: nei che cambiano forma, colore o dimensione, macchie persistenti, prurito diffuso, eruzioni cutanee ricorrenti, perdita anomala di capelli o unghie che si deteriorano senza motivo apparente.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-ginecologia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Ginecologia e Ostetricia</h2>
+          <p class="specialty-subtitle">Salute femminile, ciclo irregolare, gravidanza? Trova il percorso più adatto alla tua fase di vita.</p>
+          <p><strong>Il Ginecologo</strong> si occupa della <strong>salute dell'apparato riproduttivo femminile</strong> in tutte le fasi della vita: dall'adolescenza alla menopausa. Segue prevenzione, diagnosi e trattamento di condizioni come endometriosi, fibromi, infezioni, disturbi ormonali e tumori ginecologici.</p>
+          <p><strong>L'Ostetrico-ginecologo</strong> accompagna invece la donna durante la gravidanza, il parto e il periodo successivo, garantendo il <strong>benessere di madre e bambino</strong>.</p>
+          <p><strong>I segnali da non trascurare</strong>: ciclo irregolare o molto doloroso, sanguinamenti anomali, dolori pelvici, secrezioni insolite, difficoltà a concepire o qualsiasi dubbio durante la gravidanza.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-urologia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Andrologia e Urologia</h2>
+          <p class="specialty-subtitle">Problemi alla prostata, difficoltà urinarie o problemi alla sfera sessuale maschile? Capire le differenze ti aiuta ad orientarti meglio.</p>
+          <p><strong>L'Urologo</strong> si occupa delle malattie dell'apparato urinario in entrambi i sessi e <strong>dell'apparato genitale maschile</strong>. Tratta condizioni come calcoli renali, infezioni delle vie urinarie, incontinenza e tumori di reni, vescica e prostata.</p>
+          <p><strong>L'Andrologo</strong> è invece lo <strong>specialista della salute sessuale e riproduttiva dell'uomo</strong>: si occupa di disfunzione erettile, calo del desiderio, infertilità maschile e alterazioni ormonali.</p>
+          <p><strong>I segnali da non trascurare</strong>: difficoltà o dolore nella minzione, bisogno frequente di urinare, sangue nelle urine, dolori lombari o ai testicoli, problemi di erezione o calo del desiderio sessuale.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-otorino-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Otorinolaringoiatria</h2>
+          <p class="specialty-subtitle">Mal di gola ricorrente, problemi all'udito, ronzii alle orecchie? Scopri se l’Otorino è il giusto punto di partenza.</p>
+          <p><strong>L'Otorinolaringoiatra</strong>, spesso chiamato semplicemente Otoiatra o specialista ORL, si occupa delle <strong>malattie di orecchio, naso e gola</strong>. Diagnostica e tratta sinusite, otite, tonsillite, rinite allergica, disturbi della voce, ronzii (acufeni), calo dell'udito e apnee notturne. In alcuni casi interviene chirurgicamente, ad esempio per la rimozione delle tonsille, la correzione del setto nasale o il posizionamento di protesi acustiche.</p>
+          <p><strong>I segnali da non trascurare</strong>: mal di gola o raffreddori frequenti, difficoltà a sentire, ronzii persistenti, voce rauca che non passa, naso sempre chiuso, vertigini o sensazione di orecchio tappato.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-oculistica-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Oculistica</h2>
+          <p class="specialty-subtitle">Vista che si annebbia, occhi stanchi, difficoltà a leggere? Orientarsi rapidamente può fare la differenza.</p>
+          <p><strong>Oculista</strong> è il termine comune per indicare il medico specialista in <strong>oftalmologia</strong>, è colui che si occupa della <strong>salute degli occhi e della vista</strong>. Diagnostica e tratta miopia, presbiopia, glaucoma, cataratta, degenerazione maculare, retinopatia diabetica e infezioni oculari. Può prescrivere occhiali e lenti a contatto, e in molti casi esegue interventi chirurgici come la correzione laser della vista o l'operazione della cataratta.</p>
+          <p><strong>I segnali da non trascurare</strong>: calo improvviso della vista, visione offuscata o sdoppiata, difficoltà a leggere da vicino o da lontano, occhi rossi o dolenti, sensazione di corpo estraneo, macchie o lampi luminosi nel campo visivo.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-chirurgia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Chirurgia Generale</h2>
+          <p class="specialty-subtitle">Ernie, ascessi, cisti o noduli? Capire quando serve una valutazione chirurgica è il primo passo.</p>
+          <p><strong>Il Chirurgo generale</strong> si occupa di diagnosi e trattamento chirurgico di un'ampia gamma di condizioni che riguardano <strong>addome, apparato digerente, ghiandola tiroidea, seno e tessuti molli</strong>. Interviene su ernie, appendicite, calcoli alla colecisti, tumori del colon e dello stomaco, e molte altre patologie. Spesso collabora con altri specialisti per definire il percorso di cura più appropriato.</p>
+          <p><strong>I segnali che possono richiedere una valutazione chirurgica</strong>: dolori addominali acuti o ricorrenti, gonfiori o masse palpabili, diagnosi già ricevuta da un altro specialista che suggerisce un intervento, ernie visibili o dolorose.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-odontoiatria-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Odontoiatria</h2>
+          <p class="specialty-subtitle">Dolore ai denti, gengive che sanguinano, protesi o apparecchi? Scopri qual è il professionista corretto a cui rivolgerti.</p>
+          <p><strong>L'Odontoiatra</strong> si occupa della salute di denti, gengive e cavità orale. Previene e tratta carie, gengiviti, parodontiti, ascessi e malocclusioni. Si occupa anche di estrazioni, impianti dentali, protesi fisse e mobili, ortodonzia e sbiancamento. In alcuni casi collabora con il <strong>chirurgo maxillo-facciale</strong> per interventi più complessi che riguardano la mandibola, il palato o le ossa del viso.</p>
+          <p><strong>I segnali da non trascurare</strong>: dolore ai denti o alle gengive, sensibilità al caldo e al freddo, gengive che sanguinano durante lo spazzolamento, alito persistente, denti che si muovono, difficoltà a masticare o a chiudere la bocca correttamente.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-endocrinologia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Endocrinologia e Diabetologia</h2>
+          <p class="specialty-subtitle">Stanchezza cronica, variazioni di peso, problemi alla tiroide o glicemia alta? Una buona base di partenza ti aiuta a non perdere tempo.</p>
+          <p><strong>L'Endocrinologo</strong> si occupa <strong>delle ghiandole e degli ormoni</strong> che regolano le funzioni vitali del nostro organismo: tiroide, surreni, ipofisi, pancreas e gonadi. Diagnostica e tratta ipotiroidismo, ipertiroidismo, noduli tiroidei, diabete mellito, obesità di origine ormonale, osteoporosi e disturbi della fertilità legati agli ormoni.</p>
+          <p>Il <strong>Diabetologo</strong> è lo specialista dedicato alla gestione del diabete di tipo 1 e di tipo 2, spesso in team con il Nutrizionista e il Medico di base.</p>
+          <p><strong>I segnali da non trascurare</strong>: stanchezza persistente, aumento o calo di peso non spiegati, sensazione di freddo o caldo eccessivo, sete intensa, minzione frequente, nervosismo, capelli fragili o caduta anomala.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-pneumologia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Pneumologia</h2>
+          <p class="specialty-subtitle">Tosse persistente, fiato corto, respiro affannoso? Scopri quando è il momento di parlarne con uno specialista.</p>
+          <p><strong>Lo Pneumologo</strong> si occupa delle <strong>malattie dell'apparato respiratorio</strong>: polmoni, bronchi, trachea e pleura. Diagnostica e tratta asma, bronchite cronica, BPCO (broncopneumopatia cronica ostruttiva), polmoniti, apnee notturne, fibrosi polmonare e tumori del polmone. Utilizza esami come la <strong>spirometria</strong> per valutare la capacità respiratoria e collabora spesso con il Cardiologo quando i problemi respiratori hanno una componente cardiovascolare.</p>
+          <p><strong>I segnali da non trascurare</strong>: tosse che dura più di tre settimane, respiro affannoso anche a riposo o sotto sforzo lieve, produzione abbondante di catarro, sensazione di oppressione al petto, russamento intenso con pause nel respiro durante il sonno.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-ematologia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Ematologia</h2>
+          <p class="specialty-subtitle">Anemia, stanchezza intensa, lividi frequenti o valori del sangue alterati? Il giusto inquadramento ti aiuta a non avere dubbi.</p>
+          <p><strong>L'Ematologo</strong> si occupa delle <strong>malattie del sangue e degli organi che lo producono</strong>, come midollo osseo e linfonodi. Diagnosa e tratta anemia, leucemia, linfoma, mieloma multiplo, trombosi, disturbi della coagulazione e piastrine basse. Spesso è il primo specialista a cui si viene indirizzati dopo <strong>esami del sangue con valori anomali</strong>, e lavora in stretto contatto con l'Oncologo quando la patologia ha natura tumorale.</p>
+          <p><strong>I segnali da non trascurare</strong>: stanchezza intensa e persistente, pallore, lividi che compaiono senza motivo, sanguinamenti difficili da fermare, linfonodi ingrossati, febbre ricorrente o sudorazioni notturne abbondanti. Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-infettive-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Malattie Infettive</h2>
+          <p class="specialty-subtitle">Febbre persistente, infezioni ricorrenti o dubbi dopo un viaggio? Scopri se questa è la figura giusta per le tue necessità.</p>
+          <p><strong>L’Infettivologo</strong> si occupa della diagnosi e del trattamento di <strong>infezioni causate da batteri, virus, funghi e parassiti</strong>. Segue condizioni come HIV, epatiti virali, tubercolosi, infezioni sessualmente trasmissibili, sepsi e patologie tropicali o importate da viaggi. Ãˆ anche il riferimento per <strong>infezioni complesse</strong> che non rispondono alle terapie abituali o per pazienti con difese immunitarie ridotte.</p>
+          <p><strong>I segnali da non trascurare</strong>: febbre persistente senza causa apparente, infezioni frequenti o difficili da trattare, sintomi comparsi dopo un viaggio all'estero, esposizione a rischio per malattie sessualmente trasmissibili, stanchezza cronica associata a sudorazioni e calo di peso.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-reumatologia-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Reumatologia</h2>
+          <p class="specialty-subtitle">Dolori articolari, rigidità mattutina, gonfiore alle mani o alle ginocchia? Tutto parte dal primo orientamento.</p>
+          <p><strong>Il Reumatologo</strong> si occupa delle malattie che colpiscono articolazioni, ossa, muscoli e tessuto connettivo, molte delle quali hanno natura autoimmune. Diagnostica e tratta artrite reumatoide, lupus, fibromialgia, gotta, spondilite anchilosante, artrosi e osteoporosi. Ãˆ una figura spesso sottovalutata, ma <strong>fondamentale per intercettare precocemente malattie</strong> che, se non trattate, possono diventare invalidanti.</p>
+          <p><strong>I segnali da non trascurare</strong>: dolori articolari diffusi, rigidità al mattino che dura più di mezz'ora, gonfiore e arrossamento delle articolazioni, stanchezza cronica associata a dolori muscolari, secchezza degli occhi e della bocca, eruzioni cutanee in concomitanza con dolori articolari.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-geriatria-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Geriatria</h2>
+          <p class="specialty-subtitle">Salute e qualità della vita dopo i 65 anni? Una specializzazione che guarda alla persona nel suo insieme.</p>
+          <p><strong>Il Geriatra</strong> è il medico specializzato nella <strong>cura della persona anziana,</strong> con un approccio globale che tiene conto di tutte le condizioni presenti contemporaneamente. Si occupa della <strong>gestione di patologie multiple</strong>, come ipertensione, diabete, artrosi, demenza e osteoporosi (spesso compresenti nello stesso paziente) e valuta anche aspetti come l'autonomia, il rischio di cadute, l'uso corretto dei farmaci e il benessere psicologico. <strong>Ãˆ un riferimento prezioso per i familiari che si prendono cura di un anziano</strong>.</p>
+          <p><strong>I segnali che rendono utile una valutazione geriatrica</strong>: calo della memoria, difficoltà a svolgere le attività quotidiane, perdita di peso, frequenti cadute, confusione, uso di molti farmaci contemporaneamente o necessità di una valutazione complessiva dello stato di salute.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-nutrizione-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Dietologia e Nutrizione Clinica</h2>
+          <p class="specialty-subtitle">Sovrappeso, carenze nutritive, DCA, dieta dopo una diagnosi? Serve un percorso su misura per te.</p>
+          <p><strong>Il Dietologo</strong> è un medico <strong>specializzato nell'alimentazione e nel suo impatto sulla salute</strong>. Si occupa di sovrappeso e obesità, disturbi del comportamento alimentare, carenze nutrizionali, alimentazione in presenza di patologie come diabete, malattie cardiovascolari, disturbi intestinali o renali, e supporto nutrizionale prima e dopo interventi chirurgici. Lavora spesso in team con il <strong>Dietista</strong>, figura professionale che traduce le indicazioni mediche in piani alimentari pratici e personalizzati.</p>
+          <p><strong>I segnali che rendono utile una consulenza</strong>: difficoltà a perdere peso nonostante i tentativi, carenze di ferro, vitamina D o B12, gonfiore e disturbi digestivi legati all'alimentazione, necessità di una dieta su misura per una patologia già diagnosticata.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
+        </div>
+      </section>
+      <section id="specialty-pediatria-section" class="tab-content hidden-section info-section specialty-detail-section">
+        <div class="info-body">
+          <h2>Pediatria e Neonatologia</h2>
+          <p class="specialty-subtitle">La salute dei bambini dalla nascita all'adolescenza? Scopri quando è il momento di parlarne con uno specialista.</p>
+          <p><strong>Il Pediatra</strong> è il medico di riferimento per la <strong>salute dei bambini</strong> dalla nascita fino ai 16 anni. Segue la crescita, lo sviluppo, le vaccinazioni e la gestione delle malattie più comuni dell'infanzia. <strong>Il Neonatologo</strong> si occupa invece del neonato nei primi giorni e settimane di vita, in particolare nei casi di nascita prematura o con necessità di cure intensive. Entrambi lavorano a stretto contatto con i genitori, che sono parte attiva del percorso di cura.</p>
+          <p><strong>I segnali che richiedono una valutazione pediatrica</strong>: febbre alta o persistente, difficoltà nell'alimentazione, ritardi nello sviluppo motorio o del linguaggio, comportamenti insoliti, frequenti infezioni respiratorie, dolori addominali ricorrenti o qualsiasi preoccupazione legata alla crescita del bambino.</p>
+          <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
         </div>
       </section>
 
@@ -831,18 +1087,29 @@
     <!-- Footer App (Legal) -->
     <footer class="legal-footer">
       <button id="install-app-btn" class="install-app-btn hidden" type="button">Installa AIutoDoc</button>
-      <div class="footer-info" style="margin-bottom: 15px; font-size: 0.85rem; opacity: 0.85;">
-        <strong>Contatti:</strong> <a href="mailto:info@aiutodoc.it" style="color: inherit;">info@aiutodoc.it</a>
-      </div>
-      <div class="footer-links">
-        <a href="#" onclick="openLegalModal('privacy')">Privacy Policy</a> |
-        <a href="#" onclick="openLegalModal('terms')">Termini & Condizioni</a> |
-        <a href="#" onclick="openLegalModal('cookie')">Cookie Policy</a> |
-        <a href="#" onclick="openLegalModal('disclaimer')">Disclaimer Medico</a>
-      </div>
-      <div class="footer-copy" style="margin-top: 10px;">
-        &copy; 2026 AIutoDoc. Tutti i diritti riservati.<br>
-        <small>Progetto AI indipendente per orientamento sanitario informativo.</small>
+      <div class="legal-footer-grid">
+        <div class="footer-col">
+          <strong>AiutoDoc - progetto in fase di costituzione</strong>
+          <p>AIutoDoc.it e' attualmente in fase di MVP e operato come progetto personale. Le informazioni societarie saranno aggiornate al momento della costituzione.</p>
+        </div>
+        <div class="footer-col">
+          <strong>Contatti</strong>
+          <p>Email: <a href="mailto:info@aiutodoc.it">info@aiutodoc.it</a><br>Referente privacy: <a href="mailto:privacy@aiutodoc.it">privacy@aiutodoc.it</a><br>PEC: in fase di attivazione</p>
+        </div>
+        <div class="footer-col">
+          <strong>Informazioni legali</strong>
+          <div class="footer-links">
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <a href="/termini-condizioni/">Termini e Condizioni</a>
+            <a href="/cookie-policy/">Cookie Policy</a>
+            <a href="/disclaimer-medico/">Disclaimer Medico</a>
+            <button type="button" id="manage-cookie-preferences" class="footer-link-button">Gestisci preferenze cookie</button>
+          </div>
+        </div>
+        <div class="footer-col">
+          <strong>Copyright</strong>
+          <p>&copy; 2026 AiutoDoc - Tutti i diritti riservati.</p>
+        </div>
       </div>
     </footer>
   </div>
@@ -851,10 +1118,21 @@
     // Rescue UI Script (Standard Script for Max Availability)
     (function() {
       console.log("Rescue UI Script loading...");
+      const APP_CONSENT_VERSION = '2026-05-gdpr-v1';
+      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
+      const GA_MEASUREMENT_ID = 'G-9C1TRG2K0X';
       const privacyModal = document.getElementById('privacy-modal');
       const acceptBtn = document.getElementById('accept-privacy-btn');
       const userInput = document.getElementById('user-input');
       const sendBtn = document.getElementById('send-btn');
+      const cookieConsent = document.getElementById('cookie-consent');
+      const cookieCustomizePanel = document.getElementById('cookie-customize-panel');
+      const cookieAnalytics = document.getElementById('cookie-analytics');
+      const cookieAcceptAll = document.getElementById('cookie-accept-all');
+      const cookieRejectAll = document.getElementById('cookie-reject-all');
+      const cookieCustomize = document.getElementById('cookie-customize');
+      const cookieSaveCustom = document.getElementById('cookie-save-custom');
+      const manageCookiePreferences = document.getElementById('manage-cookie-preferences');
       const ageRadios = document.querySelectorAll('input[name="age-confirmation"]');
       const consentInputs = [
         document.getElementById('consent-medical-disclaimer'),
@@ -862,6 +1140,140 @@
         document.getElementById('consent-health-data')
       ].filter(Boolean);
       const minorMessage = document.getElementById('minor-flow-message');
+
+      function readJsonStorage(key) {
+        try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch (error) { return null; }
+      }
+
+      function writeJsonStorage(key, value) {
+        try { localStorage.setItem(key, JSON.stringify(value)); } catch (error) { console.warn('Storage non disponibile:', key, error); }
+      }
+
+      function readStorageValue(key) {
+        try { return localStorage.getItem(key); } catch (error) { return null; }
+      }
+
+      function removeStorageValue(key) {
+        try { localStorage.removeItem(key); } catch (error) {}
+      }
+
+      function logConsent(scope, consents, extra) {
+        const payload = {
+          scope: scope,
+          consentVersion: APP_CONSENT_VERSION,
+          documentVersions: {
+            privacy: '2026-05-29-v1',
+            cookie: '2026-05-29-v1',
+            disclaimer: '2026-05-29-v1',
+            terms: '2026-05-29-v1'
+          },
+          consents: consents,
+          textSnapshot: extra && extra.textSnapshot ? extra.textSnapshot : '',
+          source: extra && extra.source ? extra.source : 'web'
+        };
+
+        fetch('/api/consent-logs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          keepalive: true
+        }).catch(function(error) {
+          console.warn('Log consenso non inviato:', error);
+        });
+      }
+
+      function loadGoogleAnalytics() {
+        if (window.__aiutodocGaLoaded) return;
+        window.__aiutodocGaLoaded = true;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){ window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', GA_MEASUREMENT_ID, { anonymize_ip: true });
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_MEASUREMENT_ID);
+        document.head.appendChild(script);
+      }
+
+      function applyCookiePreferences(preferences) {
+        if (preferences && preferences.analytics === true) {
+          loadGoogleAnalytics();
+        }
+      }
+
+      function hideCookieBanner() {
+        if (cookieConsent) cookieConsent.classList.add('hidden');
+      }
+
+      function showCookieBanner(customizeFirst) {
+        if (!cookieConsent) return;
+        cookieConsent.classList.remove('hidden');
+        const saved = readJsonStorage(COOKIE_CONSENT_KEY);
+        if (cookieAnalytics) cookieAnalytics.checked = !!(saved && saved.analytics);
+        if (customizeFirst && cookieCustomizePanel && cookieSaveCustom) {
+          cookieCustomizePanel.classList.remove('hidden');
+          cookieSaveCustom.classList.remove('hidden');
+        }
+      }
+
+      function saveCookiePreferences(preferences, action) {
+        const record = {
+          necessary: true,
+          analytics: preferences.analytics === true,
+          marketing: false,
+          action: action,
+          consentVersion: APP_CONSENT_VERSION,
+          savedAt: new Date().toISOString(),
+          expiresAt: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString()
+        };
+        writeJsonStorage(COOKIE_CONSENT_KEY, record);
+        applyCookiePreferences(record);
+        logConsent('cookie_banner', record, {
+          source: action,
+          textSnapshot: 'Cookie tecnici necessari; cookie analytics solo previo consenso; marketing non utilizzato.'
+        });
+        hideCookieBanner();
+      }
+
+      if (cookieAcceptAll) {
+        cookieAcceptAll.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: true }, 'accept_all');
+        });
+      }
+      if (cookieRejectAll) {
+        cookieRejectAll.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: false }, 'reject_all');
+        });
+      }
+      if (cookieCustomize) {
+        cookieCustomize.addEventListener('click', function() {
+          if (cookieCustomizePanel) cookieCustomizePanel.classList.remove('hidden');
+          if (cookieSaveCustom) cookieSaveCustom.classList.remove('hidden');
+        });
+      }
+      if (cookieSaveCustom) {
+        cookieSaveCustom.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: cookieAnalytics && cookieAnalytics.checked }, 'customize');
+        });
+      }
+      if (manageCookiePreferences) {
+        manageCookiePreferences.addEventListener('click', function() {
+          showCookieBanner(true);
+        });
+      }
+
+      const storedCookiePreferences = readJsonStorage(COOKIE_CONSENT_KEY);
+      const storedCookieExpired = storedCookiePreferences && Date.parse(storedCookiePreferences.expiresAt || '') <= Date.now();
+      const forceCookiePreferences = readStorageValue('aiutodoc_open_cookie_preferences') === '1';
+      if (forceCookiePreferences) {
+        removeStorageValue('aiutodoc_open_cookie_preferences');
+        showCookieBanner(true);
+      } else if (storedCookiePreferences && !storedCookieExpired) {
+        applyCookiePreferences(storedCookiePreferences);
+      } else {
+        showCookieBanner(false);
+      }
 
       if (privacyModal && acceptBtn) {
         if (userInput) userInput.disabled = true;
@@ -879,21 +1291,24 @@
         consentInputs.forEach(function(input) { input.addEventListener('change', syncConsentButton); });
 
         acceptBtn.addEventListener('click', function() {
-          const ageValue = document.querySelector('input[name="age-confirmation"]:checked')?.value;
-          if (ageValue !== 'yes') {
-            if (minorMessage) minorMessage.classList.remove('hidden');
-            return;
-          }
           console.log("Privacy accepted.");
           localStorage.setItem('aiutodoc_entry_consents', JSON.stringify({
             ageOver14: true,
-            ageGate: 'over14',
-            medicalDisclaimer: document.getElementById('consent-medical-disclaimer')?.checked === true,
-            terms: document.getElementById('consent-terms')?.checked === true,
-            healthData: document.getElementById('consent-health-data')?.checked === true,
-            consentVersion: '2026-05-gdpr-v1',
+            medicalDisclaimer: true,
+            terms: true,
+            healthData: true,
+            consentVersion: APP_CONSENT_VERSION,
             acceptedAt: new Date().toISOString()
           }));
+          logConsent('entry_gate', {
+            ageOver14: true,
+            medicalDisclaimer: true,
+            terms: true,
+            healthData: true
+          }, {
+            source: 'entry_gate',
+            textSnapshot: 'Verifica eta; presa visione disclaimer medico; accettazione termini; consenso esplicito al trattamento dati sanitari art. 9(2)(a) GDPR.'
+          });
           privacyModal.classList.add('hidden');
           setTimeout(function() { privacyModal.style.display = 'none'; }, 500);
           
@@ -907,16 +1322,42 @@
 
       const navBtns = document.querySelectorAll('.nav-btn');
       const tabContents = document.querySelectorAll('.tab-content');
-      navBtns.forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          const targetId = btn.getAttribute('data-target');
+
+      function navigateToSection(targetId) {
+        if (!targetId) return;
+        const targetEl = document.getElementById(targetId);
+        if (!targetEl) return;
+        console.log("Navigating to:", targetId);
+        tabContents.forEach(function(content) { content.classList.add('hidden-section'); });
+        targetEl.classList.remove('hidden-section');
+        document.querySelector('.main-nav')?.classList.remove('open');
+        document.body.classList.remove('menu-open');
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+
+        const activeTarget = targetId.indexOf('specialty-') === 0 ? 'practices-section' : targetId;
+        navBtns.forEach(function(b) {
+          b.classList.toggle('active', b.getAttribute('data-target') === activeTarget);
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (targetId === 'chat-section') {
+          setTimeout(function() {
+            const input = document.getElementById('user-input');
+            if (input && !input.disabled) input.focus();
+          }, 250);
+        }
+      }
+
+      document.querySelectorAll('[data-target]').forEach(function(el) {
+        el.addEventListener('click', function(event) {
+          const targetId = el.getAttribute('data-target');
           if (!targetId) return;
-          console.log("Navigating to:", targetId);
-          navBtns.forEach(function(b) { b.classList.remove('active'); });
-          btn.classList.add('active');
-          tabContents.forEach(function(content) { content.classList.add('hidden-section'); });
-          const targetEl = document.getElementById(targetId);
-          if (targetEl) targetEl.classList.remove('hidden-section');
+          if (el.tagName === 'A' || el.tagName === 'BUTTON') {
+            event.preventDefault();
+          }
+          navigateToSection(targetId);
         });
       });
 
@@ -945,7 +1386,7 @@
               <h4>Regolamento per l'uso della piattaforma aiutodoc.it</h4>
               <ul>
                 <li><strong>Natura del Servizio:</strong> Aiutodoc.it utilizza sistemi digitali di orientamento per aiutarti a individuare la branca specialistica più coerente con le informazioni fornite. Il servizio ha scopo puramente informativo e di orientamento. Non è un servizio di telemedicina né una struttura sanitaria.</li>
-                <li><strong>Esclusione di parere medico:</strong> La piattaforma non fornisce pareri clinici, non prescrive farmaci e non suggerisce terapie. Il sistema elabora le informazioni fornite dall'utente al solo fine di indicare una branca specialistica potenzialmente coerente. L'utente e' tenuto a consultare un medico prima di intraprendere qualsiasi decisione sanitaria.</li>
+                <li><strong>Esclusione di parere medico:</strong> La piattaforma non fornisce pareri clinici, non prescrive farmaci e non suggerisce terapie. L'IA analizza i termini inseriti dall'utente al solo fine di individuare la categoria specialistica più pertinente. L'utente è tenuto a consultare un medico prima di intraprendere qualsiasi decisione sanitaria.</li>
                 <li><strong>Limitazione di Responsabilità:</strong> Aiutodoc.it non garantisce l'aggiornamento costante dei dati dei professionisti estratti dalla rete né risponde della qualità della prestazione professionale fornita dai medici individuati. L'utente esonera Aiutodoc.it da ogni responsabilità derivante dal contatto o dalla visita con i professionisti elencati.</li>
                 <li><strong>Emergenze:</strong> In caso di emergenza medica o sintomi acuti, l'utente non deve utilizzare la piattaforma ma contattare immediatamente il 112.</li>
                 <li><strong>Contatti per richieste:</strong> Per richieste informative o di rimozione dall'indicizzazione è possibile scrivere a info@aiutodoc.it.</li>
@@ -1044,14 +1485,12 @@
       }
     })();
   </script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
-  <script src="./src/config.js?v=1.1.1"></script>
-  <script src="./src/app_shared.js?v=3.4.0"></script>
+  <script src="./src/config.js?v=1.1.3"></script>
+  <script src="./src/app_shared.js?v=3.4.6"></script>
   <script src="./src/agenda_mock.js?v=1.0.0"></script>
-  <script src="./src/app_v3_standalone.js?v=3.4.0"></script>
-  <script src="./src/chat_interface.js?v=3.4.0"></script>
-  <script src="./src/app_bootstrap.js?v=3.4.0"></script>
+  <script src="./src/app_v3_standalone.js?v=3.4.6"></script>
+  <script src="./src/chat_interface.js?v=3.4.6"></script>
+  <script src="./src/app_bootstrap.js?v=3.4.6"></script>
 </body>
 </html>
+

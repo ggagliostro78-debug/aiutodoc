@@ -1,8 +1,8 @@
-const { handleGeminiProxy } = require("../../server/gemini_proxy");
+const { handleTriageRecover } = require("../../server/triage_store");
 const { createRequestContext } = require("../../server/request_guard");
 
 exports.handler = async function handler(event) {
-    return handleGeminiProxy({
+    return handleTriageRecover({
         method: event.httpMethod,
         body: event.body,
         context: createRequestContext(event)

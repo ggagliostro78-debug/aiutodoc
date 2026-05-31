@@ -1,4 +1,4 @@
-﻿// src/app_v3.js
+// src/app_v3.js
 console.log("Triage engine loading... (v3.1.0-STANDALONE)");
 
 
@@ -6,8 +6,12 @@ class TriageEngine {
     constructor(onMessage) {
         this.state = '1_SESSO_ETA';
         this.userData = {
+            age: null,
+            sex_at_birth: null,
+            initialMedicalData: null,
             sessoEta: null,
             zona: null,
+            zonaDettagli: null,
             disturbo: null,
             conoscitiveResp: [],
             anamnesticheResp: []
@@ -26,6 +30,28 @@ class TriageEngine {
         if (recBtn && recInput) {
             recBtn.onclick = () => this.retrieveFromCloud(recInput.value);
         }
+
+        const initialForm = document.getElementById('initial-medical-form');
+        if (initialForm) {
+            initialForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const formData = new FormData(initialForm);
+                const ageRaw = formData.get('age');
+                const sexAtBirth = formData.get('sex_at_birth');
+                const validation = this._validateInitialMedicalSearch({
+                    age: ageRaw === null || String(ageRaw).trim() === "" ? null : Number(ageRaw),
+                    sex_at_birth: sexAtBirth ? String(sexAtBirth) : ""
+                });
+
+                this._renderInitialMedicalErrors(validation.errors);
+                if (!validation.valid) return;
+
+                this.acceptInitialMedicalData({
+                    age: Number(ageRaw),
+                    sex_at_birth: String(sexAtBirth)
+                }, { echoUserMessage: true });
+            });
+        }
     }
 
     _updatePlaceholder() {
@@ -35,13 +61,13 @@ class TriageEngine {
         let placeholder = "Scrivi qui...";
         switch (this.state) {
             case '1_SESSO_ETA':
-                placeholder = "Età e Sesso (es. Uomo, 35)";
+                placeholder = "Completa prima la card iniziale";
                 break;
             case '2_ZONA':
-                placeholder = "Zona geografica (es. Milano, RM)";
+                placeholder = "Inserisci Comune o Provincia. Es. Milano, Roma, RC oppure Italia";
                 break;
             case '3_DISTURBO':
-                placeholder = "Descrivi il motivo della ricerca...";
+                placeholder = "Descrivi in parole semplici il motivo della ricerca. Es. dolore al ginocchio, mal di testa frequente, difficoltà a dormire...";
                 break;
             case '4_CONOSCITIVE':
             case '5_ANAMNESTICHE':
@@ -58,29 +84,125 @@ class TriageEngine {
         inputEl.placeholder = placeholder;
     }
 
+    _sexAtBirthLabel(value) {
+        const labels = {
+            female: "Femmina",
+            male: "Maschio",
+            not_specified: "Preferisco non specificare"
+        };
+        return labels[value] || labels.not_specified;
+    }
+
+    _validateInitialMedicalSearch(data) {
+        const errors = {};
+        const allowedSexAtBirth = ["female", "male", "not_specified"];
+
+        if (data.age === undefined || data.age === null || data.age === "") {
+            errors.age = "Inserisci la tua età per continuare.";
+        } else if (!Number.isInteger(data.age) || data.age < 0 || data.age > 120) {
+            errors.age = "Inserisci un'età valida.";
+        }
+
+        if (!data.sex_at_birth || !allowedSexAtBirth.includes(data.sex_at_birth)) {
+            errors.sex_at_birth = "Seleziona un'opzione oppure scegli 'Preferisco non specificare'.";
+        }
+
+        return {
+            valid: Object.keys(errors).length === 0,
+            errors
+        };
+    }
+
+    _renderInitialMedicalErrors(errors = {}) {
+        const ageError = document.getElementById('initial-age-error');
+        const sexError = document.getElementById('initial-sex-error');
+        if (ageError) ageError.textContent = errors.age || "";
+        if (sexError) sexError.textContent = errors.sex_at_birth || "";
+    }
+
+    acceptInitialMedicalData(data, options = {}) {
+        const validation = this._validateInitialMedicalSearch(data);
+        this._renderInitialMedicalErrors(validation.errors);
+        if (!validation.valid) return false;
+
+        const sexLabel = this._sexAtBirthLabel(data.sex_at_birth);
+        this.userData.age = data.age;
+        this.userData.sex_at_birth = data.sex_at_birth;
+        this.userData.initialMedicalData = {
+            age: data.age,
+            sex_at_birth: data.sex_at_birth,
+            created_at: new Date().toISOString()
+        };
+        this.userData.sessoEta = `${sexLabel}, ${data.age} anni`;
+
+        const initialForm = document.getElementById('initial-medical-form');
+        if (initialForm) {
+            initialForm.classList.add('completed');
+            initialForm.querySelectorAll('input, button').forEach((el) => {
+                el.disabled = true;
+            });
+        }
+
+        const chatInputBar = document.querySelector('.chat-input-area');
+        const inputEl = document.getElementById('user-input');
+        if (chatInputBar) {
+            chatInputBar.classList.remove('onboarding-hidden');
+            chatInputBar.removeAttribute('aria-hidden');
+        }
+
+        if (options.echoUserMessage && window.chatUI) {
+            window.chatUI.addMessage(`Età: ${data.age} anni. Sesso biologico: ${sexLabel}.`, 'user-msg');
+        }
+
+        this.state = '2_ZONA';
+        this.onMessage(`Perfetto, ho registrato le informazioni essenziali nel rispetto della minimizzazione dei dati.<br><br><strong>Qual è la tua zona geografica?</strong><br>Puoi indicare Comune, Provincia o scrivere <strong>Italia</strong> per una ricerca nazionale.`);
+        this._updatePlaceholder();
+        if (inputEl) {
+            inputEl.focus();
+        }
+        return true;
+    }
+
+    _parseInitialMedicalFreeText(input) {
+        const text = String(input || "").toLowerCase();
+        const ageMatch = text.match(/(-?\d+)/);
+        const age = ageMatch ? parseInt(ageMatch[0], 10) : null;
+
+        let sex_at_birth = "";
+        if (/\b(preferisco non specificare|non specifico|non voglio specificare|non specificare|n\/d|nd)\b/i.test(text)) {
+            sex_at_birth = "not_specified";
+        } else if (/\b(femmina|donna|ragazza|bambina|f)\b/i.test(text)) {
+            sex_at_birth = "female";
+        } else if (/\b(maschio|uomo|ragazzo|bambino|m)\b/i.test(text)) {
+            sex_at_birth = "male";
+        }
+
+        return { age, sex_at_birth };
+    }
+
     _generateTriageID() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const prefix = chars.charAt(Math.floor(Math.random() * chars.length));
-        const numbers = Math.floor(100000 + Math.random() * 900000); // 6 cifre
-        return `${prefix}${numbers}`;
+        const bytes = new Uint8Array(4);
+        if (window.crypto && window.crypto.getRandomValues) {
+            window.crypto.getRandomValues(bytes);
+        } else {
+            for (let i = 0; i < bytes.length; i++) {
+                bytes[i] = Math.floor(Math.random() * 256);
+            }
+        }
+        const letters = String.fromCharCode(65 + (bytes[0] % 26)) + String.fromCharCode(65 + (bytes[1] % 26));
+        const numbers = String(((bytes[2] << 8) + bytes[3]) % 10000).padStart(4, "0");
+        return letters + numbers;
     }
 
     _saveTriageResult(resultObj, source = 'api', options = {}) {
         const triageID = this._generateTriageID();
-        const registeredUser = getRegisteredUser();
         const dataToSave = {
             id: triageID,
             date: new Date().toISOString(),
             userData: JSON.parse(JSON.stringify(this.userData)),
             result: resultObj,
             source: source,
-            userRegistration: registeredUser ? {
-                userId: registeredUser.userId,
-                emailHash: registeredUser.emailHash,
-                emailMasked: registeredUser.emailMasked,
-                consentVersion: registeredUser.consentVersion,
-                consents: registeredUser.consents
-            } : null
+            userRegistration: null
         };
 
         if (options.deferUntilRegistration) {
@@ -94,54 +216,38 @@ class TriageEngine {
 
     _persistTriageResult(dataToSave) {
         try {
-            let allResults = JSON.parse(localStorage.getItem('aiutodoc_triages') || '{}');
-            allResults[dataToSave.id] = dataToSave;
-            localStorage.setItem('aiutodoc_triages', JSON.stringify(allResults));
+            saveStoredTriage(dataToSave);
         } catch (e) {
             console.error("Errore salvataggio localStorage:", e);
         }
 
-        this._saveToCloud(dataToSave);
+        if (dataToSave.saveToCloud === true) {
+            this._saveToCloud(dataToSave).catch((error) => {
+                console.error("Cloud Save FALLITO:", error);
+            });
+        }
     }
 
     _buildRegistrationGate(pendingData) {
         window._pendingTriageSave = pendingData;
-        const registeredUser = getRegisteredUser();
-        if (registeredUser) {
-            return `
-            <div class="registration-gate" data-save-ready="true">
-                <p><strong>Codice disponibile per utente registrato.</strong></p>
-                <p>Profilo: ${escapeHTML(registeredUser.emailMasked)}. Conferma per salvare questa ricerca e generare il codice recuperabile.</p>
-                <button type="button" class="btn-primary-wide save-triage-after-registration">Genera codice ricerca</button>
-            </div>`;
-        }
-
         return `
         <div class="registration-gate">
             <p><strong>Vuoi il codice per recuperare questa ricerca?</strong></p>
-            <p>Il codice viene creato solo previa registrazione e consenso esplicito. Senza registrazione il risultato resta disponibile solo in questa sessione.</p>
-            <label class="registration-field">
-                <span>Email per la registrazione</span>
-                <input type="email" class="registration-email" autocomplete="email" placeholder="nome@email.it">
-            </label>
-            <label class="consent-row">
-                <input type="checkbox" class="registration-consent" data-consent="medicalDisclaimer">
-                <span>Ho preso visione del Disclaimer Medico.</span>
-            </label>
+            <p>Il recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.</p>
             <label class="consent-row">
                 <input type="checkbox" class="registration-consent" data-consent="terms">
-                <span>Accetto Termini e Condizioni d'uso.</span>
+                <span>Accetto i <a href="/termini-condizioni/" target="_blank" rel="noopener">Termini e Condizioni d'uso</a>.</span>
             </label>
             <label class="consent-row">
                 <input type="checkbox" class="registration-consent" data-consent="privacy">
-                <span>Dichiaro di aver letto l'Informativa Privacy.</span>
+                <span>Dichiaro di aver letto l'<a href="/privacy-policy/" target="_blank" rel="noopener">Informativa Privacy</a>.</span>
             </label>
             <label class="consent-row">
                 <input type="checkbox" class="registration-consent" data-consent="healthData">
-                <span>Acconsento al trattamento dei dati sanitari ai sensi dell'art. 9 GDPR.</span>
+                <span>Presto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.</span>
             </label>
-            <button type="button" class="btn-primary-wide register-and-save-triage">Registrati e genera codice</button>
-            <p class="registration-note">Per minimizzare i dati, l'app salva l'hash dell'email e i consensi separati associati al codice ricerca.</p>
+            <button type="button" class="btn-primary-wide register-and-save-triage">Genera codice anonimo</button>
+            <p class="registration-note">Per tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.</p>
         </div>`;
     }
 
@@ -153,33 +259,56 @@ class TriageEngine {
             return;
         }
 
-        let registeredUser = getRegisteredUser();
-        if (!registeredUser) {
-            const emailInput = gate.querySelector('.registration-email');
-            const consentFlags = {};
-            gate.querySelectorAll('.registration-consent').forEach((input) => {
-                consentFlags[input.dataset.consent] = input.checked;
-            });
-            registeredUser = await registerUserForRecovery(emailInput ? emailInput.value : "", consentFlags);
+        const consentFlags = {};
+        gate.querySelectorAll('.registration-consent').forEach((input) => {
+            consentFlags[input.dataset.consent] = input.checked;
+        });
+        if (!["terms", "privacy", "healthData"].every((key) => consentFlags[key] === true)) {
+            throw new Error("Per generare il codice devi confermare tutti i consensi richiesti.");
         }
 
-        pendingData.userRegistration = {
-            userId: registeredUser.userId,
-            emailHash: registeredUser.emailHash,
-            emailMasked: registeredUser.emailMasked,
-            consentVersion: registeredUser.consentVersion,
-            consents: registeredUser.consents
+        pendingData.userRegistration = null;
+        pendingData.consents = {
+            terms: true,
+            privacy: true,
+            healthData: true,
+            consentVersion: APP_CONSENT_VERSION,
+            consentedAt: new Date().toISOString()
         };
 
-        this._persistTriageResult(pendingData);
+        let storageMode = "cloud";
+        try {
+            const saved = await this._saveToCloud(pendingData);
+            if (saved && saved.id) {
+                pendingData.id = saved.id;
+                pendingData.expiresAt = saved.expiresAt;
+            }
+        } catch (error) {
+            if (!this._canFallbackToLocalArchive(error)) {
+                throw error;
+            }
+
+            storageMode = "local";
+            pendingData.expiresAt = null;
+            console.warn("Archivio cloud non disponibile, salvataggio mantenuto solo in locale:", error);
+        }
+
+        saveStoredTriage(pendingData);
         window._currentTriageData = pendingData;
         window._pendingTriageSave = null;
 
+        const copyHint = storageMode === "cloud"
+            ? "Usa questo codice per tornare ai risultati senza rifare le domande. Non condividerlo."
+            : "Usa questo codice su questo dispositivo per tornare ai risultati senza rifare le domande. Il recupero da altri dispositivi sara disponibile quando l'archivio cloud verra configurato.";
+        const saveNote = storageMode === "cloud"
+            ? "Ricerca salvata con <strong>codice univoco</strong>:"
+            : "Ricerca salvata <strong>su questo dispositivo</strong> con codice univoco:";
+
         gate.outerHTML = `
         <div class="id-copy-box" data-triage-id="${escapeHTML(pendingData.id)}" title="Clicca per copiare l'ID">
-            <p style="margin: 0 0 8px 0; font-size: 0.9rem; opacity: 0.9;">Ricerca salvata con <strong>codice univoco</strong>:</p>
+            <p style="margin: 0 0 8px 0; font-size: 0.9rem; opacity: 0.9;">${saveNote}</p>
             <div class="id-number">${escapeHTML(pendingData.id)}</div>
-            <p class="copy-hint">Usa questo codice per tornare ai risultati senza rifare le domande.</p>
+            <p class="copy-hint">${copyHint}</p>
         </div>`;
 
         const newBox = document.querySelector(`.id-copy-box[data-triage-id="${pendingData.id}"]`);
@@ -189,25 +318,37 @@ class TriageEngine {
         }
     }
 
+    _canFallbackToLocalArchive(error) {
+        const message = String(error?.message || error || "");
+        return [
+            "FIREBASE_ADMIN_CONFIG_MISSING",
+            "Archivio anonimo temporaneamente non disponibile",
+            "Salvataggio codice non riuscito (503)",
+            "server locale o un deploy serverless"
+        ].some((fragment) => message.includes(fragment));
+    }
+
     async _saveToCloud(data) {
-        if (!data.userRegistration || !data.userRegistration.userId) {
-            console.log("Cloud Save: registrazione mancante, salvataggio persistente non eseguito.");
-            return;
+        const API_URL = (typeof CONFIG !== 'undefined' && CONFIG.TRIAGE_SAVE_API_URL)
+            ? CONFIG.TRIAGE_SAVE_API_URL
+            : "/api/triage-save";
+
+        if (window.location.protocol === 'file:' && API_URL.startsWith('/')) {
+            throw new Error("Il salvataggio del codice richiede un server locale o un deploy serverless.");
         }
-        if (window.firebaseReady) {
-            await window.firebaseReady;
+
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ triage: data })
+        });
+
+        if (!response.ok) {
+            const detail = await response.text();
+            throw new Error(`Salvataggio codice non riuscito (${response.status}): ${detail}`);
         }
-        if (!db) {
-            console.log("Firebase non inizializzato, salvataggio cloud saltato.");
-            return;
-        }
-        try {
-            console.log("Cloud Save (Firebase): invio dati per ID", data.id);
-            await db.collection("triages").doc(data.id).set(data);
-            console.log("Cloud Save (Firebase): completato!");
-        } catch (err) {
-            console.error("Cloud Save (Firebase) FALLITO:", err);
-        }
+
+        return response.json();
     }
 
     async retrieveFromCloud(id) {
@@ -215,35 +356,31 @@ class TriageEngine {
             alert("Inserisci un codice ID valido.");
             return;
         }
-        const registeredUser = getRegisteredUser();
-        if (!registeredUser) {
-            alert("Per recuperare una ricerca devi prima registrarti da un risultato completato.");
-            return;
-        }
-        const cleanID = id.trim().toUpperCase();
-        if (window.firebaseReady) {
-            await window.firebaseReady;
-        }
-        if (!db) {
-            alert("Sistema Cloud non disponibile al momento. Riprova più tardi.");
-            return;
-        }
+        const cleanID = normalizeTriageID(id);
 
-        this.onMessage("🔍 Recupero ricerca in corso per ID: " + cleanID + "...", "system-msg");
+        this.onMessage("Recupero: Recupero ricerca in corso per ID: " + cleanID + "...", "system-msg");
 
         try {
-            const doc = await db.collection("triages").doc(cleanID).get();
-            if (!doc.exists) {
-                this.onMessage("❌ Nessuna ricerca trovata con l'ID richiesto. Verifica il codice e riprova.", "system-msg danger");
+            const response = await fetch((typeof CONFIG !== 'undefined' && CONFIG.TRIAGE_RECOVER_API_URL) ? CONFIG.TRIAGE_RECOVER_API_URL : "/api/triage-recover", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
+            });
+
+            if (response.status === 404 || response.status === 410) {
+                this.onMessage("Codice non trovato o scaduto. Verifica il codice e riprova.", "system-msg danger");
                 return;
             }
 
-            const data = doc.data();
-            if (data.userRegistration && data.userRegistration.userId !== registeredUser.userId) {
-                this.onMessage("❌ Il codice esiste ma non è associato alla registrazione presente su questo dispositivo.", "system-msg danger");
-                return;
+            if (!response.ok) {
+                const detail = await response.text();
+                throw new Error(`Recupero codice non riuscito (${response.status}): ${detail}`);
             }
-            this.onMessage("✅ Ricerca recuperata con successo!", "system-msg success");
+
+            const payload = await response.json();
+            const data = payload.triage;
+            saveStoredTriage(data);
+            this.onMessage("OK: Ricerca recuperata con successo!", "system-msg success");
             
             // Switch alla tab chat se necessario
             const chatBtn = document.querySelector('[data-target="chat-section"]');
@@ -256,7 +393,7 @@ class TriageEngine {
 
         } catch (err) {
             console.error("Errore recupero cloud:", err);
-            this.onMessage("⚠️ Errore durante il recupero. Riprova.", "system-msg danger");
+            this.onMessage("Attenzione: Errore durante il recupero. Riprova.", "system-msg danger");
         }
     }
 
@@ -276,7 +413,7 @@ class TriageEngine {
     _detectUrgency(text) {
         const dangerWords = [
             'petto', 'cuore', 'respir', 'infarto', 'coscienza', 'svvenut', 'sangue', 'emorragia', 
-            'suicid', 'uccider', 'mazzar', 'farla finita', 'emergenza', '112', 'soccorso'
+            'suicid', 'uccider', 'mazzar', 'farla finita', 'emergenza', '118', '112', 'soccorso'
         ];
         return dangerWords.some(w => text.toLowerCase().includes(w));
     }
@@ -329,6 +466,19 @@ class TriageEngine {
 
         switch (this.state) {
             case '1_SESSO_ETA':
+                {
+                    const initialData = this._parseInitialMedicalFreeText(input);
+                    const validation = this._validateInitialMedicalSearch(initialData);
+
+                    if (!validation.valid) {
+                        const message = validation.errors.age || validation.errors.sex_at_birth || "Controlla le informazioni inserite.";
+                        this.onMessage(`Errore: ${escapeHTML(message)}`, "system-msg danger");
+                        return;
+                    }
+
+                    this.acceptInitialMedicalData(initialData);
+                    return;
+                }
                 const strSessoEta = input.toLowerCase();
                 console.log("Engine: fase SESSO_ETA ->", strSessoEta);
 
@@ -338,7 +488,7 @@ class TriageEngine {
 
                 // Se non troviamo nulla di utile
                 if (!sexMatch && !ageMatch) {
-                   this.onMessage("❌ Dati non chiari. Per favore inserisci Sesso ed Età (es: Maschio, 47).", "system-msg danger");
+                   this.onMessage("Errore: Dati non chiari. Per favore inserisci età e sesso biologico, oppure scegli 'Preferisco non specificare'.", "system-msg danger");
                    return;
                 }
 
@@ -353,7 +503,7 @@ class TriageEngine {
                 const ageNum = ageMatch ? parseInt(ageMatch[0], 10) : null;
 
                 if (ageNum === null || ageNum < 0 || ageNum > 120) {
-                    this.onMessage("❌ L'età inserita non è valida. Per procedere è necessario inserire un'età reale compresa tra 0 e 120 anni (es: Maschio, 47).", "system-msg danger");
+                    this.onMessage("Errore: inserita non è valida. Per procedere è necessario inserire un'età reale compresa tra 0 e 120 anni (es: Maschio, 47).", "system-msg danger");
                     return;
                 }
                 
@@ -372,19 +522,100 @@ class TriageEngine {
                     "AG": "Agrigento", "AL": "Alessandria", "AN": "Ancona", "AO": "Aosta", "AR": "Arezzo", "AP": "Ascoli Piceno", "AT": "Asti", "AV": "Avellino", "BA": "Bari", "BT": "Barletta-Andria-Trani", "BL": "Belluno", "BN": "Benevento", "BG": "Bergamo", "BI": "Biella", "BO": "Bologna", "BZ": "Bolzano", "BS": "Brescia", "BR": "Brindisi", "CA": "Cagliari", "CL": "Caltanissetta", "CB": "Campobasso", "SU": "Sud Sardegna", "CE": "Caserta", "CT": "Catania", "CZ": "Catanzaro", "CH": "Chieti", "CO": "Como", "CS": "Cosenza", "CR": "Cremona", "KR": "Crotone", "CN": "Cuneo", "EN": "Enna", "FM": "Fermo", "FE": "Ferrara", "FI": "Firenze", "FG": "Foggia", "FC": "Forlì-Cesena", "FR": "Frosinone", "GE": "Genova", "GO": "Gorizia", "GR": "Grosseto", "IM": "Imperia", "IS": "Isernia", "SP": "La Spezia", "AQ": "L'Aquila", "LT": "Latina", "LE": "Lecce", "LC": "Lecco", "LI": "Livorno", "LO": "Lodi", "LU": "Lucca", "MC": "Macerata", "MN": "Mantova", "MS": "Massa-Carrara", "MT": "Matera", "ME": "Messina", "MI": "Milano", "MO": "Modena", "MB": "Monza e della Brianza", "NA": "Napoli", "NO": "Novara", "NU": "Nuoro", "OR": "Oristano", "PD": "Padova", "PA": "Palermo", "PR": "Parma", "PV": "Pavia", "PG": "Perugia", "PU": "Pesaro e Urbino", "PE": "Pescara", "PC": "Piacenza", "PI": "Pisa", "PT": "Pistoia", "PN": "Pordenone", "PZ": "Potenza", "PO": "Prato", "RG": "Ragusa", "RA": "Ravenna", "RC": "Reggio Calabria", "RE": "Reggio Emilia", "RI": "Rieti", "RN": "Rimini", "RM": "Roma", "RO": "Rovigo", "SA": "Salerno", "SS": "Sassari", "SV": "Savona", "SI": "Siena", "SR": "Siracusa", "SO": "Sondrio", "TA": "Taranto", "TE": "Teramo", "TR": "Terni", "TO": "Torino", "TP": "Trapani", "TN": "Trento", "TV": "Treviso", "TS": "Trieste", "UD": "Udine", "VA": "Varese", "VE": "Venezia", "VB": "Verbano-Cusio-Ossola", "VC": "Vercelli", "VR": "Verona", "VV": "Vibo Valentia", "VI": "Vicenza", "VT": "Viterbo"
                 };
 
+                const normalizeProvinceText = (value) => String(value || "")
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/\b(provincia|prov\.?|citta metropolitana|metropolitana|di|del|della)\b/gi, " ")
+                    .replace(/[^a-z0-9]+/gi, " ")
+                    .replace(/\s+/g, " ")
+                    .trim()
+                    .toUpperCase();
+
+                const acceptProvince = (sigla, provinceName) => {
+                    this.userData.zona = provinceName;
+                    this.userData.zonaDettagli = {
+                        comune: provinceName,
+                        provincia: provinceName,
+                        provinciaSigla: sigla,
+                        regione: provinceName
+                    };
+                    this.state = '3_DISTURBO';
+                    this.onMessage(`OK: impostata: <strong>${escapeHTML(provinceName)} (${escapeHTML(sigla)})</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
+                    this._updatePlaceholder();
+                };
+
+                const rawZona = input.trim();
+                const provinceCodeFromInput = rawZona.toUpperCase().match(/(?:^|[\s,()/-])([A-Z]{2})(?:$|[\s,()/-])/);
+                const directProvinceCode = cleanZona.length === 2 && /^[A-Z]{2}$/.test(cleanZona)
+                    ? cleanZona
+                    : (provinceCodeFromInput ? provinceCodeFromInput[1] : "");
+                const normalizedZona = normalizeProvinceText(rawZona);
+                const matchedProvince = Object.entries(provinceIt).find(([code, name]) =>
+                    normalizedZona === normalizeProvinceText(name) ||
+                    normalizedZona === normalizeProvinceText(`${name} ${code}`) ||
+                    normalizedZona === normalizeProvinceText(`${code} ${name}`)
+                );
+
+                const regionsIt = [
+                    "Abruzzo", "Basilicata", "Calabria", "Campania", "Emilia-Romagna",
+                    "Friuli Venezia Giulia", "Lazio", "Liguria", "Lombardia", "Marche",
+                    "Molise", "Piemonte", "Puglia", "Sardegna", "Sicilia", "Toscana",
+                    "Trentino-Alto Adige", "Umbria", "Valle d'Aosta", "Veneto"
+                ];
+                const regionAliases = {
+                    "EMILIA ROMAGNA": "Emilia-Romagna",
+                    "FRIULI": "Friuli Venezia Giulia",
+                    "FRIULI VENEZIA GIULIA": "Friuli Venezia Giulia",
+                    "TRENTINO": "Trentino-Alto Adige",
+                    "TRENTINO ALTO ADIGE": "Trentino-Alto Adige",
+                    "ALTO ADIGE": "Trentino-Alto Adige",
+                    "SUDTIROL": "Trentino-Alto Adige",
+                    "SUD TIROL": "Trentino-Alto Adige",
+                    "VALLE AOSTA": "Valle d'Aosta",
+                    "VAL D AOSTA": "Valle d'Aosta"
+                };
+                const matchedRegion = regionsIt.find((regionName) =>
+                    normalizedZona === normalizeProvinceText(regionName) ||
+                    normalizedZona === normalizeProvinceText(`regione ${regionName}`)
+                ) || regionAliases[normalizedZona];
+
+                const acceptRegion = (regionName) => {
+                    this.userData.zona = regionName;
+                    this.userData.zonaDettagli = {
+                        comune: regionName,
+                        provincia: regionName,
+                        regione: regionName,
+                        scope: "regione"
+                    };
+                    this.state = '3_DISTURBO';
+                    this.onMessage(`OK: impostata: <strong>${escapeHTML(regionName)}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
+                    this._updatePlaceholder();
+                };
+
                 // Identifica se l'utente sta descrivendo un sintomo (es. "dolore", "problemi", "comunicazione", "socio")
                 const symptomKeywords = ['dolore', 'problema', 'disturbo', 'comunicazione', 'socio', 'paura', 'ansia', 'stress', 'sintomo', 'male'];
                 const seemsLikeSymptom = symptomKeywords.some(w => input.toLowerCase().includes(w));
 
                 // Se l'utente digita solo 2 lettere (es. 'RM' o 'rm'), cerchiamo di tradurlo in nome esteso
-                if (cleanZona.length === 2 && /^[A-Z]{2}$/.test(cleanZona)) {
-                    if (provinceIt[cleanZona]) {
-                        cleanZona = provinceIt[cleanZona]; 
+                if (directProvinceCode) {
+                    if (provinceIt[directProvinceCode]) {
+                        acceptProvince(directProvinceCode, provinceIt[directProvinceCode]);
+                        return;
                     } else if (!seemsLikeSymptom) {
-                        this.onMessage(`❌ La sigla "<strong>${cleanZona}</strong>" non corrisponde a nessuna provincia italiana valida.`, "system-msg danger");
+                        this.onMessage(`Errore: La sigla "<strong>${escapeHTML(directProvinceCode)}</strong>" non corrisponde a nessuna provincia italiana valida.`, "system-msg danger");
                         return;
                     }
-                } 
+                }
+
+                if (matchedProvince) {
+                    acceptProvince(matchedProvince[0], matchedProvince[1]);
+                    return;
+                }
+
+                if (matchedRegion) {
+                    acceptRegion(matchedRegion);
+                    return;
+                }
                 
                 // Se la stringa è molto lunga e contiene parole legate ai sintomi, o se è "salta" o "non so"
                 const skipKeywords = ['salta', 'skip', 'niente', 'non so', 'nessuna', 'generale', 'tutta italia', 'italia'];
@@ -392,47 +623,57 @@ class TriageEngine {
                 
                 if (isSkip) {
                     this.userData.zona = "Italia (Generale)";
+                    this.userData.zonaDettagli = {
+                        comune: "Italia",
+                        provincia: "Italia",
+                        regione: "Italia"
+                    };
                     this.state = '3_DISTURBO';
-                    this.onMessage(`✅ Località impostata: <strong>Italia (Generale)</strong>.<br><br>Ora descrivimi il tuo disturbo o problema principale.`);
+                    this.onMessage(`OK: impostata: <strong>Italia (Generale)</strong>.<br><br>Ora descrivimi il tuo disturbo o problema principale.`);
                     this._updatePlaceholder();
                     return;
                 }
 
                 if (seemsLikeSymptom && cleanZona.length > 10) {
-                    this.onMessage(`⚠️ Sembra che tu stia descrivendo il tuo disturbo. Per aiutarti a trovare lo specialista più vicino, ho bisogno di conoscere prima il tuo <strong>Comune o Provincia</strong> attuale. <br><br>Se preferisci non specificarlo, rispondi semplicemente con <strong>'ITALIA'</strong>.`, "system-msg danger");
+                    this.onMessage(`Attenzione: Sembra che tu stia descrivendo il tuo disturbo. Per aiutarti a trovare lo specialista più vicino, ho bisogno di conoscere prima il tuo <strong>Comune o Provincia</strong> attuale. <br><br>Se preferisci non specificarlo, rispondi semplicemente con <strong>'ITALIA'</strong>.`, "system-msg danger");
                     return;
                 }
 
                 if (!seemsLikeSymptom && (cleanZona.length < 3 || /^\d+$/.test(cleanZona) || /^(.)\1+$/.test(cleanZona))) {
-                    this.onMessage("❌ L'area inserita non sembra valida. Per procedere è necessario inserire una provincia o comune (es. Roma, MI) o scrivi <strong>'Italia'</strong>.", "system-msg danger");
+                    this.onMessage("Errore: L'area inserita non sembra valida. Per procedere è necessario inserire una provincia o comune (es. Roma, MI) o scrivi <strong>'Italia'</strong>.", "system-msg danger");
                     return;
                 }
 
                 try {
                     const response = await this._fetchWithTimeout(
-                        `https://nominatim.openstreetmap.org/search?format=json&countrycodes=it&q=${encodeURIComponent(cleanZona)}`,
+                        `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&countrycodes=it&q=${encodeURIComponent(cleanZona)}`,
                         {},
                         4500
                     );
                     const data = await response.json();
 
                     if (data && data.length > 0) {
-                        const validatedCity = data[0].display_name.split(',')[0];
+                        const address = data[0].address || {};
+                        const validatedCity = address.city || address.town || address.village || address.municipality || data[0].display_name.split(',')[0];
+                        const province = address.county || address.province || address.state_district || validatedCity;
+                        const region = address.state || address.region || province;
                         this.userData.zona = validatedCity;
+                        this.userData.zonaDettagli = {
+                            comune: validatedCity,
+                            provincia: province,
+                            regione: region
+                        };
                         this.state = '3_DISTURBO';
-                    this.onMessage(`✅ Località verificata sul territorio: <strong>${validatedCity}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il motivo della tua ricerca sanitaria?</strong>`);
+                        this.onMessage(`OK: verificata sul territorio: <strong>${validatedCity}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
                         this._updatePlaceholder();
                     } else {
-                        this.onMessage(`❌ Non siamo riusciti a trovare "<strong>${cleanZona}</strong>" sul territorio italiano. Riprova inserendo un Comune o una Provincia in modo più preciso.`, "system-msg danger");
+                        this.onMessage(`Errore: Non siamo riusciti a trovare "<strong>${cleanZona}</strong>" sul territorio italiano. Riprova inserendo un Comune o una Provincia in modo più preciso.`, "system-msg danger");
                         return;
                     }
                 } catch (error) {
                     console.error("Errore validazione geografica:", error);
-                    // Fallback silenzioso se l'API Geo è down, proseguiamo fiduciosi
-                    this.userData.zona = cleanZona;
-                    this.state = '3_DISTURBO';
-                    this.onMessage("Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il motivo della tua ricerca sanitaria?</strong>");
-                    this._updatePlaceholder();
+                    this.onMessage("Attenzione: Non riesco a verificare la località sul territorio italiano in questo momento. Riprova tra poco o scrivi <strong>Italia</strong> per una ricerca nazionale.", "system-msg danger");
+                    return;
                 }
                 break;
 
@@ -469,7 +710,7 @@ class TriageEngine {
                     hasBadWords ||
                     hasGibberishWord) {
 
-                    this.onMessage("❌ La descrizione inserita non è valida, troppo breve o sembra digitata casualmente. Ti prego di descrivere un sintomo reale con parole di senso compiuto.", "system-msg danger");
+                    this.onMessage("Errore: La descrizione inserita non è valida, troppo breve o sembra digitata casualmente. Ti prego di descrivere un sintomo reale con parole di senso compiuto.", "system-msg danger");
                     return;
                 }
 
@@ -529,20 +770,16 @@ class TriageEngine {
                         this.userData.disturbo = cleanDisturbo;
                         this.userData.domandeAnamnesticheDinamiche = this._generaDomandeAnamnestiche(cleanDisturbo);
                         this.state = '4_CONOSCITIVE';
-                        this.onMessage("✅ <strong>Sintomo convalidato dai database scientifici/letteratura.</strong><br><br>Ho preso nota del tuo disturbo. Per inquadrarlo meglio, ti porrò ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
+                        this.onMessage("<strong>OK: Sintomo convalidato dai database scientifici/letteratura.</strong><br><br>Ho preso nota del tuo disturbo. Per inquadrarlo meglio, ti porr? ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
                         this._updatePlaceholder();
                     } else {
-                        this.onMessage(`❌ Il testo "<strong>${cleanDisturbo}</strong>" non sembra descrivere un disturbo riconoscibile. Inserisci un problema reale o una necessità sanitaria concreta (es. "cefalea", "vertigini", "dolore alla schiena") e riprova.`, "system-msg danger");
+                        this.onMessage(`Errore: Il testo "<strong>${cleanDisturbo}</strong>" non sembra descrivere un disturbo riconoscibile. Inserisci un problema reale o una necessità sanitaria concreta (es. "cefalea", "vertigini", "dolore alla schiena") e riprova.`, "system-msg danger");
                         return;
                     }
                 } catch (error) {
                     console.error("Errore validazione sintomo:", error);
-                    // Fallback se le internet api sono down (fallback permissivo locale)
-                    this.userData.disturbo = cleanDisturbo;
-                    this.userData.domandeAnamnesticheDinamiche = this._generaDomandeAnamnestiche(cleanDisturbo);
-                    this.state = '4_CONOSCITIVE';
-                    this.onMessage("Ho preso nota del tuo sintomo. Per comprendere meglio, ti porrò ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
-                    this._updatePlaceholder();
+                    this.onMessage("Attenzione: Non riesco a convalidare il sintomo tramite le fonti online in questo momento. Riprova tra poco o descrivi il disturbo con termini più comuni.", "system-msg danger");
+                    return;
                 }
                 break;
 
@@ -553,7 +790,7 @@ class TriageEngine {
                 const isValidMCQ = /^[A-C](?:\)|\.| -|:|\s|$)/.test(cleanConosc) || /\b(?:RISPOSTA|OPZIONE|LETTERA|SCELGO|LA)\s+[A-C]\b/.test(cleanConosc);
 
                 if (!isValidMCQ) {
-                    this.onMessage("❌ Risposta non valida. Per proseguire scegli una delle opzioni disponibili: <strong>A, B o C</strong>.", "system-msg danger");
+                    this.onMessage("Errore: Risposta non valida. Per proseguire scegli una delle opzioni disponibili: <strong>A, B o C</strong>.", "system-msg danger");
                     return;
                 }
 
@@ -564,7 +801,7 @@ class TriageEngine {
                     this.onMessage(`${this.currentConoscitiva + 1}. ` + DOMANDE_CONOSCITIVE[this.currentConoscitiva]);
                 } else {
                     this.state = '4B_NOTA_CONOSCITIVA';
-                    this.onMessage("Perfetto. Hai altre <strong>informazioni o dettagli a parole tue</strong> che vorresti aggiungere riguardo a questi aspetti generali? Se non hai altro, digita semplicemente <strong>'NO'</strong>.");
+                    this.onMessage('Perfetto. Hai altre informazioni o dettagli che vorresti aggiungere riguardo a questi aspetti generali? Altrimenti, digita "No".');
                     this._updatePlaceholder();
                 }
                 break;
@@ -587,7 +824,7 @@ class TriageEngine {
                     }
 
                     if (hasBadWord || hasGibberish || /^(.)\1+$/.test(ncLower) || !this._isValidFreeText(notaConosc)) {
-                        this.onMessage("❌ Il testo inserito non è valido, troppo breve o contiene termini inappropriati. Inserisci informazioni valide o scrivi 'NO'.", "system-msg danger");
+                        this.onMessage("Errore: Il testo inserito non è valido, troppo breve o contiene termini inappropriati. Inserisci informazioni valide o scrivi 'NO'.", "system-msg danger");
                         return;
                     }
                     this.userData.notaConoscitiva = notaConosc;
@@ -607,7 +844,7 @@ class TriageEngine {
                 const isValidChoiceAnam = /^[A-C](?:\)|\.| -|:|\s|$)/.test(cleanAnamn) || /\b(?:RISPOSTA|OPZIONE|LETTERA|SCELGO|LA)\s+[A-C]\b/.test(cleanAnamn);
 
                 if (!isValidChoiceAnam) {
-                    this.onMessage("❌ Formato risposta non riconosciuto. Per essere precisi è necessario rispondere in modo netto con una delle lettere indicate (es. <strong>A, B o C</strong>).", "system-msg danger");
+                    this.onMessage("Errore: Formato risposta non riconosciuto. Per essere precisi è necessario rispondere in modo netto con una delle lettere indicate (es. <strong>A, B o C</strong>).", "system-msg danger");
                     return;
                 }
 
@@ -617,7 +854,7 @@ class TriageEngine {
                     this.onMessage(`${this.currentAnamnestica + 1}. ` + this.userData.domandeAnamnesticheDinamiche[this.currentAnamnestica]);
                 } else {
                     this.state = '5B_NOTA_ANAMNESTICA';
-                    this.onMessage("Ottimo. Vorresti aggiungere in chiusura qualche <strong>dettaglio descrittivo libero</strong> prima che il sistema elabori l'orientamento informativo? <br><br><i>La barra \"scrivi qui\" sparirà subito dopo questo invio e inizierò a cercare la branca più coerente.</i><br><br>Se non hai altro, scrivi <strong>'NO'</strong>.");
+                    this.onMessage('Ottimo. Vorresti aggiungere qualche dettaglio sui tuoi sintomi prima che elabori i dati? Altrimenti, digita "No" ed inizierò a cercare la figura più indicata per te.');
                     this._updatePlaceholder();
                 }
                 break;
@@ -640,7 +877,7 @@ class TriageEngine {
                     }
 
                     if (hasBadWord || hasGibberish || /^(.)\1+$/.test(naLower) || !this._isValidFreeText(notaAnam)) {
-                        this.onMessage("❌ Il testo inserito non è valido, troppo breve o contiene termini inappropriati. Inserisci informazioni valide o scrivi 'NO'.", "system-msg danger");
+                        this.onMessage("Errore: Il testo inserito non è valido, troppo breve o contiene termini inappropriati. Inserisci informazioni valide o scrivi 'NO'.", "system-msg danger");
                         return;
                     }
                     this.userData.notaAnamnestica = notaAnam;
@@ -656,14 +893,14 @@ class TriageEngine {
 
                 const loadingHTML = `
                     <div id="ai-loading-box" style="display:flex; flex-direction:column; align-items:center; margin-top:10px; width: 100%;">
-                        <p>Dati raccolti con successo. <br><br>⏳ <em>Elaborazione dell'orientamento informativo e ricerca di professionisti coerenti...</em></p>
+                        <p>Dati raccolti con successo. <br><br><em>Elaborazione orientamento e preparazione percorsi verificabili...</em></p>
                         
                         <div style="width: 100%; max-width: 300px; background-color: #e0e9e9; border-radius: 10px; margin: 15px 0; overflow: hidden; height: 12px; position:relative;">
-                            <div id="ai-progress-bar" style="width: 0%; height: 100%; background-color: var(--primary, #1b9b9a); transition: width 1s linear;"></div>
+                            <div id="ai-progress-bar" style="width: 0%; height: 100%; background-color: var(--primary, #0F5464); transition: width 1s linear;"></div>
                         </div>
                         <p id="ai-countdown-text" style="font-size: 0.85rem; color: #6f899e; margin-bottom: 10px;">Tempo stimato: 45 secondi</p>
 
-                        <h3 id="ai-loading-title" style="color:var(--primary, #1b9b9a); animation: blink 1.5s infinite;"><strong>ATTENDERE...</strong></h3>
+                        <h3 id="ai-loading-title" style="color:var(--primary, #0F5464); animation: blink 1.5s infinite;"><strong>ATTENDERE...</strong></h3>
                         <style>
                             @keyframes blink { 0% {opacity:1;} 50% {opacity:0.4;} 100% {opacity:1;} }
                         </style>
@@ -675,6 +912,7 @@ class TriageEngine {
             case '6_RICERCA_SCIENTIFICA':
                 // Avvia la barra di progresso di 45 secondi
                 let progressSeconds = 0;
+                this.searchStartedAt = Date.now();
 
                 // Assicuriamoci che il DOM abbia renderizzato il caricamento chiamando setTimeout
                 setTimeout(() => {
@@ -691,10 +929,10 @@ class TriageEngine {
                     }, 1000);
                 }, 100);
 
-                // Timeout di 45 secondi massimi, dopo i quali simuliamo un risultato forzato o mostriamo i dati
+                // Timeout tecnico: la ricerca resta visibile per 45 secondi, poi mostriamo risultati reali o errore esplicito.
                 this.researchTimeout = setTimeout(() => {
-                    this._simulateRicercaERisultati(true); // true = elaborazione forzata (timeout)
-                }, 45000);
+                    this._showResearchFailure("La ricerca reale non ha risposto entro il tempo previsto. Riprova tra poco: nessun risultato simulato viene mostrato.");
+                }, 55000);
 
                 // Proviamo a chiamare subito l'API
                 this._eseguiRicercaAI();
@@ -704,7 +942,7 @@ class TriageEngine {
                 break;
             default:
                 console.warn("Engine: Stato non gestito ->", this.state);
-                this.onMessage("⚠️ Si è verificato un imprevisto nel flusso. Per favore, clicca su 'Nuova Ricerca' per ricominciare.");
+                this.onMessage("Attenzione: Si è verificato un imprevisto nel flusso. Per favore, clicca su 'Nuova Ricerca' per ricominciare.");
         }
     }
 
@@ -793,7 +1031,7 @@ class TriageEngine {
             return [
                 "Questo sintomo si manifesta o peggiora sotto sforzo fisico (es. salendo le scale)?\n<br><i>A) Sì, mi devo fermare<br>B) Solo a riposo o di notte<br>C) Indipendente dallo sforzo</i>",
                 "Senti irradiazione del fastidio verso braccio sinistro, collo, mandibola o schiena?\n<br><i>A) Sì, irradiazione chiara<br>B) No, è ben localizzato<br>C) Solo peso generalizzato</i>",
-                "Si associa a sudorazione fredda, forte nausea, senso di svenimento o dispnea marcata?\n<br><i>A) Sì, molto intensi<br>B) Solo respiro un po' corto<br>C) Nessun sintomo associato</i>"
+                "Attenzione: Si associa a sudorazione fredda, forte nausea, senso di svenimento o dispnea marcata?\n<br><i>A) Sì, molto intensi<br>B) Solo respiro un po' corto<br>C) Nessun sintomo associato</i>"
             ];
         }
         if (hasAny(["sonno", "insonnia", "dormire", "addorment", "risvegli", "risveglio", "russamento", "russare", "apnee", "apnea notturna", "sonnolenza", "narcolessia"])) {
@@ -941,82 +1179,10 @@ class TriageEngine {
 
     async _eseguiRicercaAI() {
         try {
-            let resultObj = await this._getGeminiConsultation();
+            let resultObj = this._normalizeGeminiResult(await this._getGeminiConsultation());
+            if (this.state !== '6_RICERCA_SCIENTIFICA') return;
             
-            // PRIORITY LOGIC: Dott. Vincenzo Calafiore for Orthopedics in RC/Vibo
-            const isRCOrVibo = this.userData.zona.toLowerCase().includes("reggio") || this.userData.zona.toLowerCase().includes("vibo");
-            const isOrthopedic = resultObj.specialista_indicato && resultObj.specialista_indicato.toLowerCase().includes("ortoped");
-            
-            if (isRCOrVibo && isOrthopedic) {
-                const calafiore = {
-                    nome: "Dott. Vincenzo Calafiore",
-                    specializzazione: "Ortopedico (Chirurgia Anca, Ginocchio, Spalla)",
-                    tipo: "Privato / Conv. SSN",
-                    indirizzo_modalita: "IOMI (RC) | Studio Torrione (RC) | Centro Gima (VV)",
-                    contatti: "3294255444 | Dottorecalafiore@libero.it",
-                    info: "Chirurgo specializzato in ricostruzione cuffia, Achille, crociato e lesioni meniscali."
-                };
-                
-                // Remove existing duplicates if any
-                resultObj.risultati = resultObj.risultati.filter(r => !r.nome.toLowerCase().includes("vincenzo calafiore"));
-                
-                // Inserisci in una posizione casuale tra i primi 4 (index 0-3)
-                const targetIndex = Math.min(resultObj.risultati.length, Math.floor(Math.random() * 4));
-                resultObj.risultati.splice(targetIndex, 0, calafiore);
-            }
-
-            // PRIORITY LOGIC: Greta Devoli for Psychology
-            const isPsychology = resultObj.specialista_indicato && (
-                resultObj.specialista_indicato.toLowerCase().includes("psicolog") || 
-                resultObj.specialista_indicato.toLowerCase().includes("psicotera") ||
-                resultObj.specialista_indicato.toLowerCase().includes("psichiatr")
-            );
-
-            if (isPsychology) {
-                const isRoma = this.userData.zona.toLowerCase().includes("roma");
-                const gretaDevoli = {
-                    nome: "Dr.ssa Greta Devoli",
-                    specializzazione: "Psicologa ad orientamento Sistemico-Relazionale",
-                    tipo: isRoma ? "In presenza (Roma) / Online" : "Online (Tutta Italia)",
-                    indirizzo_modalita: isRoma ? "Roma (Studio) e Online" : "Online in tutta Italia",
-                    contatti: "3479847838 | gretadevoli@gmail.it",
-                    info: "Specialista in terapia individuale, di coppia e della famiglia, ansia, lutto, traumi e dipendenze."
-                };
-
-                // Remove existing duplicates if any
-                resultObj.risultati = resultObj.risultati.filter(r => !r.nome.toLowerCase().includes("greta devoli"));
-
-                // Inserisci in una posizione casuale tra i primi 4 (index 0-3)
-                const targetIndex = Math.min(resultObj.risultati.length, Math.floor(Math.random() * 4));
-                resultObj.risultati.splice(targetIndex, 0, gretaDevoli);
-            }
-
-            // PRIORITY LOGIC: Dott. Carmelo Pecora for Neurosurgery in Messina/Milazzo/RC/Reggio
-            const isAreaPecora = this.userData.zona.toLowerCase().includes("messina") || this.userData.zona.toLowerCase().includes("milazzo") || this.userData.zona.toLowerCase().includes("reggio") || this.userData.zona.toLowerCase().includes("villa");
-            const isNeurosurgery = resultObj.specialista_indicato && (resultObj.specialista_indicato.toLowerCase().includes("neurochir") || resultObj.specialista_indicato.toLowerCase().includes("neurol"));
-
-            if (isAreaPecora && isNeurosurgery) {
-                const pecora = {
-                    nome: "Dott. Carmelo Pecora",
-                    specializzazione: "Neurochirurgo",
-                    tipo: "Privato",
-                    indirizzo_modalita: "Messina (New Delta) | Milazzo (Orice) | RC (AB Medical / De Blasi)",
-                    contatti: "3339690197 | carmelopecora77@gmail.com",
-                    info: "Specializzato in chirurgia mininvasiva della colonna vertebrale, ernie del disco, stenosi lombare e patologie vertebrali."
-                };
-
-                // Remove existing duplicates if any
-                resultObj.risultati = resultObj.risultati.filter(r => !r.nome.toLowerCase().includes("carmelo pecora"));
-
-                // Inserisci in una posizione casuale tra i primi 4 (index 0-3)
-                const targetIndex = Math.min(resultObj.risultati.length, Math.floor(Math.random() * 4));
-                resultObj.risultati.splice(targetIndex, 0, pecora);
-            }
-
-            // --- GARANTISCE ESATTAMENTE 16 RISULTATI FINALI ---
-            if (resultObj.risultati.length > 16) {
-                resultObj.risultati = resultObj.risultati.slice(0, 16);
-            }
+            await this._waitForMinimumResearchTime(45000);
             
             if (this.researchTimeout) clearTimeout(this.researchTimeout);
             if (this.progressInterval) clearInterval(this.progressInterval);
@@ -1025,33 +1191,186 @@ class TriageEngine {
             const boxLoadingDOM = document.getElementById('ai-loading-box');
             if (boxLoadingDOM) boxLoadingDOM.remove();
 
+            // --- GOOGLE PLACES RETRIEVAL ---
+            let places = [];
+            const userZonaStr = String(this.userData.zona || "").trim();
+            try {
+                const response = await fetch('/api/places', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        specialista: resultObj.specialista_indicato,
+                        comune: this.userData.zonaDettagli?.comune || userZonaStr,
+                        provincia: this.userData.zonaDettagli?.provincia || "",
+                        regione: this.userData.zonaDettagli?.regione || ""
+                    })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    places = data.risultati || [];
+                }
+            } catch (e) {
+                console.warn("Failed to fetch Google Places", e);
+            }
+
+            const isSameDoctor = (nameA, nameB) => {
+                const clean = (name) => {
+                    return String(name || "").toLowerCase()
+                        .replace(/^(dr\.ssa|dr\.|dr|dott\.ssa|dott\.|dott|dottoressa|prof\.|prof)\b/g, "")
+                        .replace(/[^a-z\s]/g, "")
+                        .split(/\s+/)
+                        .filter(w => w.length > 2);
+                };
+                const wordsA = clean(nameA);
+                const wordsB = clean(nameB);
+                if (wordsA.length === 0 || wordsB.length === 0) return false;
+                const matchesA = wordsA.every(w => wordsB.includes(w));
+                const matchesB = wordsB.every(w => wordsA.includes(w));
+                return matchesA || matchesB;
+            };
+
+            const curated = this._buildCuratedSearchResults(resultObj.specialista_indicato) || [];
+            const isRCOrVibo = userZonaStr.toLowerCase().includes("reggio") || userZonaStr.toLowerCase().includes("vibo");
+            const isOrthopedic = resultObj.specialista_indicato && resultObj.specialista_indicato.toLowerCase().includes("ortoped");
+
+            // Raccogli nomi dei medici indicizzati
+            const curatedNames = curated.map(c => c.nome);
+            if (isRCOrVibo && isOrthopedic) {
+                curatedNames.push("Dott. Vincenzo Calafiore");
+            }
+
+            // Filtra duplicati dei medici indicizzati dai risultati di Google Places
+            let filteredPlaces = places.filter(p => {
+                const isDup = curatedNames.some(cName => isSameDoctor(p.nome, cName));
+                return !isDup;
+            });
+
+            let finalPlaces = [...filteredPlaces];
+            if (finalPlaces.length < 16) {
+                for (const c of curated) {
+                    if (finalPlaces.length >= 16) break;
+                    const isDup = finalPlaces.some(p => isSameDoctor(p.nome, c.nome));
+                    if (!isDup) {
+                        const nameLower = (c.nome || "").toLowerCase();
+                        const isSSN = /ospedale|ospedaliero|ospedaliera|policlinico|asl|asp|usl|ssn|presidio|asst|ats|a.o.|a.o.u.|pubblic|sanitaria locale|sanitario locale|istituto|iomi|clinica|casa di cura|irccs|fondazione|don calabria|humanitas|auxologico|galeazzi|rizzoli|sacco|niguarda|fatebenefratelli|gemelli|umberto i|san raffaele|careggi|spallanzani|sant'orsola|cardarelli|monaldi|cotugno/i.test(nameLower);
+                        c.tipo = c.tipo || (isSSN ? "SSN" : "Privato");
+                        c.info = c.info || (isSSN ? "Struttura o specialista operante in regime SSN (pubblico o convenzionato)." : "Specialista o struttura sanitaria privata in regime di libera professione.");
+                        finalPlaces.push(c);
+                    }
+                }
+            }
+            resultObj.risultati = finalPlaces;
+
+            // Pulisci i nomi dei medici specialisti e sposta la specializzazione estesa in "info"
+            const prefixRegex = /\b(dottoressa|professoressa|dott\.ssa|dr\.ssa|dottore|dott\.|dr\.|prof\.|dott\b|dr\b|prof\b)/i;
+            const stopWords = /^(ortopedico|ortopedica|ortopedia|specialista|specializzazione|chirurgo|chirurgia|oculista|oftalmologo|oftalmologia|cardiologo|cardiologia|ginecologo|ginecologia|ostetrico|ostetricia|pediatra|pediatria|neurologo|neurologia|neurochirurgo|neurochirurgia|psicologo|psicologa|psicoterapeuta|psicoterapia|psichiatra|psichiatria|medico|medicina|dermatologo|dermatologia|urologo|urologia|fisioterapista|fisioterapia|fisiatra|fisiatria|reumatologo|reumatologia|endocrinologo|endocrinologia|gastroenterologo|gastroenterologia|otorino|otorinolaringoiatra|otorinolaringoiatria|allergologo|allergologia|nutrizionista|dietista|dentista|odontoiatra|odontoiatria|senologo|senologia|oncologo|oncologia|pneumologo|pneumologia|angiologo|angiologia|logopedista|logopedia|podologo|podologia|terapista|terapia|dottore|dottoressa|studio|clinica|poliambulatorio|ambulatorio|centro|istituto|ospedale|in|per|della|dello|del|dei|degli|di|da|con|e|ed|a|colonna|protesi|robotica|mininvasiva|spalla|ginocchio|anca|mano|piede|schiena|articolazioni|cuore|vasi|pelle|cervello|nervi)\b/i;
+
+            resultObj.risultati.forEach(r => {
+                if (!r.specializzazione) {
+                    r.specializzazione = resultObj.specialista_indicato;
+                }
+
+                if (prefixRegex.test(r.nome)) {
+                    const matchPrefix = r.nome.match(prefixRegex);
+                    if (matchPrefix) {
+                        const prefix = matchPrefix[0];
+                        const idx = r.nome.indexOf(prefix);
+                        const before = r.nome.slice(0, idx).trim();
+                        const rest = r.nome.slice(idx + prefix.length).trim();
+                        
+                        const tokens = rest.split(/\s+/);
+                        const nameParts = [];
+                        let extraParts = [];
+                        
+                        for (let i = 0; i < tokens.length; i++) {
+                            const token = tokens[i];
+                            const cleanToken = token.replace(/[^a-zA-Z]/g, '');
+                            const nextToken = tokens[i + 1] || "";
+                            const cleanNextToken = nextToken.replace(/[^a-zA-Z]/g, '');
+                            if (!cleanToken && /^[---|,]+$/.test(token) && /^[A-Z]/.test(cleanNextToken)) {
+                                continue;
+                            }
+                            if (stopWords.test(cleanToken) || (!/^[A-Z]/.test(token) && !/^(di|de|da|del|della|d')$/i.test(token))) {
+                                extraParts = tokens.slice(i);
+                                break;
+                            }
+                            nameParts.push(token);
+                        }
+                        
+                        if (nameParts.length > 0) {
+                            const cleanName = `${prefix.trim()} ${nameParts.join(" ")}`.trim();
+                            const extraText = extraParts.join(" ").replace(/^[-,\s|]+/, "").trim();
+                            
+                            r.nome = cleanName;
+                            
+                            // Unisci testo prima (es. Studio Ortopedico) e dopo per le info
+                            const cleanBefore = before.replace(/^[-,\s|]+/, "").replace(/[-,\s|]+$/, "").trim();
+                            let combinedExtra = "";
+                            if (cleanBefore && extraText) {
+                                combinedExtra = `${cleanBefore} | ${extraText}`;
+                            } else {
+                                combinedExtra = cleanBefore || extraText;
+                            }
+                            
+                            if (combinedExtra) {
+                                r.info = r.info ? `${r.info} | ${combinedExtra}` : combinedExtra;
+                            }
+                        }
+                    }
+                }
+            });
+
+            // PRIORITY LOGIC: Dott. Vincenzo Calafiore per Ortopedia in RC/Vibo
+            if (isRCOrVibo && isOrthopedic) {
+                const calafiore = {
+                    nome: "Dott. Vincenzo Calafiore",
+                    specializzazione: "Ortopedico (Chirurgia Anca, Ginocchio, Spalla)",
+                    tipo: "Privato",
+                    indirizzo_modalita: "IOMI (RC) | Studio Torrione (RC) | Centro Gima (VV)",
+                    contatti: "3294255444 | Dottorecalafiore@libero.it",
+                    info: "Chirurgo specializzato in ricostruzione cuffia, Achille, crociato e lesioni meniscali."
+                };
+                
+                resultObj.risultati = resultObj.risultati.filter(r => !isSameDoctor(r.nome, calafiore.nome));
+                const targetIndex = Math.min(resultObj.risultati.length, Math.floor(Math.random() * 4));
+                resultObj.risultati.splice(targetIndex, 0, calafiore);
+            }
+
             // Mostriamo i risultati
             let outInitial = `
             <div id="printable-area">
             <div id="medical-disclaimer-start" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
-              ⚠️ ${escapeHTML(DISCLAIMER)}
+              Attenzione: ${escapeHTML(DISCLAIMER)}
             </div>
             
             <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">
-                <h3 style="color: var(--primary); margin-top: 0;">🔍 Riepilogo informativo</h3>
+                <h3 style="color: var(--primary); margin-top: 0; display: flex; align-items: center; gap: 8px;">
+                    Sintesi Anamnestica
+                </h3>
                 <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(resultObj.sintesi_anamnestica)}</p>
                 
                 <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div style="background: #f0f7f7; padding: 15px; border-radius: 10px;">
-                        <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #1b9b9a; font-weight: bold; margin-bottom: 5px;">👨‍⚕️ Branca orientativa</span>
+                        <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #0F5464; font-weight: bold; margin-bottom: 5px;">
+                            SPECIALISTA CONSIGLIATO
+                        </span>
                         <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(resultObj.specialista_indicato)}</strong>
                     </div>
                     <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
-                        <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">💡 Come prepararti</span>
+                        <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">
+                            GUIDA AL COMPORTAMENTO
+                        </span>
                         <p style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(resultObj.preparazione_visita)}</p>
                     </div>
                 </div>
                 
                 <div style="margin-top: 20px; background: #fef2f2; padding: 15px; border-radius: 10px; border: 1px dashed #f87171;">
-                    <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #b91c1c; font-weight: bold; margin-bottom: 5px;">📑 Nota da condividere con il MMG</span>
-                    <p style="margin: 0; font-style: italic; color: #374151;">"${escapeHTML(resultObj.nota_mmg || resultObj.impegnativa_medico || '')}"</p>
+                    <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #b91c1c; font-weight: bold; margin-bottom: 5px;">
+                        NOTA PER L'IMPEGNATIVA (MMG)
+                    </span>
+                    <p style="margin: 0; font-style: italic; color: #374151;">"${escapeHTML(resultObj.impegnativa_medico)}"</p>
                 </div>
             </div>
             `;
@@ -1068,7 +1387,8 @@ class TriageEngine {
 
             let out = outInitial + 
             this._buildRegistrationGate(pendingTriage) +
-            `Ecco 16 riferimenti informativi individuati in rete:<br>`;
+            `<p class="ai-final-notice">${escapeHTML(AI_FINAL_NOTICE)}</p>` +
+            `<p class="ai-final-notice"><strong>Specialisti e strutture individuati:</strong> i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.</p>`;
 
             let resultsHTML = "";
             const seenNames = new Set();
@@ -1076,13 +1396,14 @@ class TriageEngine {
                 const nameKey = String(r.nome || "").trim().toLowerCase();
                 if (!seenNames.has(nameKey)) {
                     seenNames.add(nameKey);
-                    resultsHTML += this._buildCard(r.nome, r.specializzazione || resultObj.specialista_indicato, r.tipo, r.indirizzo_modalita, r.contatti, "Dalla rete", r.info);
+                    resultsHTML += this._buildCard(r);
                 }
             });
-            out += resultsHTML + `<p class="ai-final-notice">${escapeHTML(AI_FINAL_NOTICE)}</p></div>`;
+            out += resultsHTML + `</div>`;
             this.onMessage(out);
 
             this.state = '7_FINE';
+            this._updatePlaceholder();
             trackEvent('triage_completed', {
                 method: 'api',
                 specialista: resultObj.specialista_indicato,
@@ -1095,9 +1416,170 @@ class TriageEngine {
             if (this.progressInterval) clearInterval(this.progressInterval);
             const errDetail = err && err.message ? err.message : String(err);
             console.warn("Dettaglio errore Gemini:", errDetail);
-            this.onMessage("⚠️ Il motore AI non è momentaneamente disponibile. Proseguo con una simulazione orientativa, senza mostrare dati tecnici.", "system-msg danger");
-            setTimeout(() => this._eseguiSimulazioneFallback(), 1200);
+            await this._waitForMinimumResearchTime(45000);
+            this._showResearchFailure(`La ricerca non è disponibile in questo momento (Errore: ${errDetail}). Riprova tra poco.`);
         }
+    }
+
+    _waitForMinimumResearchTime(durationMs) {
+        const startedAt = this.searchStartedAt || Date.now();
+        const elapsed = Date.now() - startedAt;
+        const remaining = Math.max(durationMs - elapsed, 0);
+        return new Promise((resolve) => setTimeout(resolve, remaining));
+    }
+
+    _showResearchFailure(message) {
+        if (this.state !== '6_RICERCA_SCIENTIFICA') return;
+        if (this.researchTimeout) clearTimeout(this.researchTimeout);
+        if (this.progressInterval) clearInterval(this.progressInterval);
+
+        const boxLoadingDOM = document.getElementById('ai-loading-box');
+        if (boxLoadingDOM) boxLoadingDOM.remove();
+
+        const chatInputBar = document.querySelector('.chat-input-area');
+        if (chatInputBar) chatInputBar.style.display = '';
+
+        this.state = '7_FINE';
+        this._updatePlaceholder();
+        this.onMessage(`
+            <div class="system-msg danger">
+                <strong>Ricerca non completata.</strong><br><br>
+                ${escapeHTML(message)}
+            </div>
+        `, "system-msg danger");
+    }
+
+    _normalizeGeminiResult(resultObj) {
+        if (!resultObj || typeof resultObj !== 'object') {
+            throw new Error("Risposta AI incompleta: oggetto risultato mancante.");
+        }
+
+        return {
+            sintesi_anamnestica: String(resultObj.sintesi_anamnestica || "Sintesi non disponibile."),
+            specialista_indicato: String(resultObj.specialista_indicato || "Medico specialista"),
+            preparazione_visita: String(resultObj.preparazione_visita || "Porta con te documenti sanitari, referti ed elenco dei sintomi."),
+            impegnativa_medico: String(resultObj.impegnativa_medico || "Valutazione specialistica in base ai sintomi riferiti."),
+            risultati: Array.isArray(resultObj.risultati) ? resultObj.risultati : []
+        };
+    }
+
+    _buildCuratedSearchResults(specialista) {
+        const zona = String(this.userData.zona || "").trim();
+        const spec = String(specialista || "medico specialista").trim();
+        const specLower = spec.toLowerCase();
+        const zonaLower = zona.toLowerCase();
+        const results = [];
+
+        const add = (entry) => {
+            const key = `${entry.nome}|${entry.indirizzo_modalita}`.toLowerCase();
+            if (!results.some((item) => `${item.nome}|${item.indirizzo_modalita}`.toLowerCase() === key)) {
+                results.push(entry);
+            }
+        };
+
+        if (specLower.includes("psicolog") || specLower.includes("psicotera") || specLower.includes("psichiatr")) {
+            const isRoma = zonaLower.includes("roma");
+            add({
+                nome: "Dr.ssa Greta Devoli",
+                specializzazione: "Psicologa ad orientamento Sistemico-Relazionale",
+                tipo: "Privato",
+                indirizzo_modalita: isRoma ? "Roma e online" : "Online in tutta Italia",
+                contatti: "3479847838 | gretadevoli@gmail.com",
+                fonte: "Scheda curata",
+                info: "Specialista in regime di libera professione."
+            });
+        }
+
+        if (specLower.includes("ortoped") && (zonaLower.includes("reggio") || zonaLower.includes("vibo"))) {
+            add({
+                nome: "Dott. Vincenzo Calafiore",
+                specializzazione: "Ortopedico / Chirurgo",
+                tipo: "Privato",
+                indirizzo_modalita: "IOMI RC | Studio Torrione RC | Centro Gima VV",
+                contatti: "3294255444 | Dottorecalafiore@libero.it",
+                fonte: "Scheda curata",
+                info: "Specialista in regime di libera professione."
+            });
+        }
+
+        if ((specLower.includes("neurochir") || specLower.includes("neurol")) && (zonaLower.includes("messina") || zonaLower.includes("milazzo") || zonaLower.includes("reggio") || zonaLower.includes("villa"))) {
+            add({
+                nome: "Dott. Carmelo Pecora",
+                specializzazione: "Neurochirurgo",
+                tipo: "Privato",
+                indirizzo_modalita: "Messina | Milazzo | Reggio Calabria",
+                contatti: "3339690197 | carmelopecora77@gmail.com",
+                fonte: "Scheda curata",
+                info: "Specialista in regime di libera professione."
+            });
+        }
+
+        return results;
+    }
+
+    async _getSpecialistSearchResults(specialista) {
+        const API_URL = (typeof CONFIG !== 'undefined' && CONFIG.SPECIALIST_SEARCH_API_URL)
+            ? CONFIG.SPECIALIST_SEARCH_API_URL
+            : "/api/specialist-search";
+
+        if (window.location.protocol === 'file:' && API_URL.startsWith('/')) {
+            throw new Error("La ricerca reale richiede un server locale o un deploy serverless.");
+        }
+
+        const details = this.userData.zonaDettagli || {};
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                specialista,
+                disturbo: this.userData.disturbo,
+                zona: this.userData.zona,
+                provincia: details.provincia || this.userData.zona,
+                regione: details.regione || this.userData.zona
+            })
+        });
+
+        if (!response.ok) {
+            const errText = await response.text();
+            throw new Error(`Specialist Search Error (${response.status}): ${errText}`);
+        }
+
+        const data = await response.json();
+        const curated = this._buildCuratedSearchResults(specialista);
+        const webResults = Array.isArray(data.results) ? data.results : [];
+        const cleanSpec = String(specialista || "medico specialista")
+            .replace(/\s*\/\s*/g, " ")
+            .replace(/\bmedico\b/gi, "")
+            .replace(/\s+/g, " ")
+            .trim() || "medico specialista";
+
+        const merged = [];
+        const seen = new Set();
+        [...curated, ...webResults].forEach((entry) => {
+            const key = String(entry.url || `${entry.nome}|${entry.indirizzo_modalita}`).trim().toLowerCase();
+            if (!key || seen.has(key)) return;
+            seen.add(key);
+            merged.push({
+                nome: entry.nome || "Risultato Google verificabile",
+                specializzazione: entry.specializzazione || cleanSpec,
+                tipo: entry.tipo || "Google",
+                indirizzo_modalita: entry.indirizzo_modalita || this.userData.zona,
+                telefono: entry.telefono || "",
+                email: entry.email || "",
+                contatti: entry.contatti || "Verifica recapiti sulla fonte ufficiale.",
+                fonte: entry.fonte || "Google",
+                info: entry.info || "Risultato reale individuato in rete.",
+                url: entry.url || ""
+            });
+        });
+
+        if (!merged.length) {
+            throw new Error("La ricerca reale non ha restituito risultati verificabili.");
+        }
+
+        return merged.slice(0, 16);
     }
 
     async _getGeminiConsultation() {
@@ -1114,40 +1596,26 @@ class TriageEngine {
         }
 
         try {
-            const systemPrompt = `Sei un sistema di intelligenza artificiale per orientamento sanitario informativo di Aiutodoc.it. Il tuo obiettivo e' fornire un riepilogo informativo prudente e una lista di 16 riferimenti pertinenti.
+            const userZonaStr = String(this.userData.zona || "").trim();
+            const systemPrompt = `Sei un esperto di orientamento medico di Aiutodoc.it. Il tuo obiettivo è fornire una sintesi clinica accurata basata sull'intervista effettuata con l'utente e suggerire la specializzazione medica corretta.
             
             Dati utente:
-            - Sesso/Età: ${this.userData.sessoEta}
-            - Zona: ${this.userData.zona}
+            - Età: ${this.userData.age}
+            - Sesso biologico: ${this._sexAtBirthLabel(this.userData.sex_at_birth)} (${this.userData.sex_at_birth || "not_specified"})
+            - Zona: ${userZonaStr}
             - Disturbo: ${this.userData.disturbo}
             - Risposte Conoscitive: ${JSON.stringify(this.userData.conoscitiveResp)}
             - Risposte Anamnestiche: ${JSON.stringify(this.userData.anamnesticheResp)}
-            - Note Libere: ${this.userData.notaAnamnestica}
+            - Note Libere: ${this.userData.notaAnamnestica || "Nessuna nota aggiuntiva"}
 
             REGOLE DI OUTPUT:
             Restituisci ESCLUSIVAMENTE un oggetto JSON puro con questa struttura:
             {
-              "sintesi_anamnestica": "Riepilogo informativo delle informazioni dichiarate e delle risposte, senza formulare pareri clinici o identificare patologie.",
-              "specialista_indicato": "Branca specialistica principale potenzialmente coerente (es. Cardiologia, Neurochirurgia, ecc.)",
-              "preparazione_visita": "Indicazioni pratiche e non cliniche per preparare il confronto con il medico o lo specialista.",
-              "nota_mmg": "Nota neutra e informativa che l'utente puo' condividere con il medico curante, senza suggerire prescrizioni o impegnative.",
-              "risultati": [
-                { "nome": "...", "specializzazione": "...", "tipo": "...", "indirizzo_modalita": "...", "contatti": "...", "info": "..." }
-              ]
-            }
-
-            IMPORTANTE - REGOLA DEI 16 SPECIALISTI:
-            1. Restituisci esattamente 16 risultati univoci e REALI.
-            2. Distribuzione per Tipologia:
-               - Almeno 8 (50%) devono essere PROFESSIONISTI PRIVATI (es. "Dott. Nome Cognome").
-               - Gli altri 8 possono essere Centri Medici, Cliniche o Ospedali di eccellenza.
-            3. Distribuzione geografica:
-               - 8 risultati (50%) devono essere nella Zona/Provincia di "${this.userData.zona}".
-               - 5 risultati (30%) devono essere eccellenze Regionali (Calabria/Sicilia/Lazio ecc. a seconda della zona).
-               - 3 risultati (20%) devono essere eccellenze Nazionali (Milano, Roma, Bologna).
-            4. **SPECIALIZZAZIONI SPECIFICHE**: Ogni professionista o centro deve avere la propria specializzazione specifica (es. se la branca è "Ortopedico", alcuni saranno "Chirurgo della Mano", "Specialista del Piede", "Esperto in Protesi Anca", ecc.). Non usare un'unica etichetta per tutti i 16 risultati.
-            5. Se la branca e' "Ortopedia" o equivalente in Calabria o Sicilia, includi sempre "Dott. Vincenzo Calafiore" (IOMI RC).
-            6. Evita formule da software medico o da valutazione clinica automatica. Chiudi ogni contenuto con tono informativo e prudente.`;
+              "sintesi_anamnestica": "Una sintesi dettagliata e professionale dei sintomi e dell'intervista in italiano.",
+              "specialista_indicato": "La singola specializzazione medica più adatta (es. Cardiologo, Neurologo, Ortopedico, ecc. - usa solo il nome della branca, es. 'Cardiologo')",
+              "preparazione_visita": "Guida al comportamento e consigli pratici per l'utente in preparazione alla visita medica.",
+              "impegnativa_medico": "Una nota clinica chiara e sintetica da suggerire al Medico di Medicina Generale (MMG) per la compilazione della ricetta/impegnativa."
+            }`;
 
             const response = await fetch(API_URL, {
                 method: 'POST',
@@ -1175,155 +1643,58 @@ class TriageEngine {
         }
     }
 
-    // --- COMPATIBILITA CON IL VECCHIO SISTEMA (FALLBACK) ---
-    _eseguiSimulazioneFallback() {
-        // Pulizia UI di caricamento (anche se chiamata dal costrutto timeout)
-        const boxLoadingDOM = document.getElementById('ai-loading-box');
-        if (boxLoadingDOM) boxLoadingDOM.remove();
+    _buildCard(resultOrName, spec = "", tipo = "", ind = "", contatti = "", prenotazione = "", det = "") {
+        const result = typeof resultOrName === "object" && resultOrName !== null
+            ? resultOrName
+            : {
+                nome: resultOrName,
+                specializzazione: spec,
+                tipo,
+                indirizzo_modalita: ind,
+                contatti,
+                info: det
+            };
+        const resultName = String(result.nome || "Specialista o struttura sanitaria").trim();
+        const resultSpec = String(result.specializzazione || spec || "Specialista").trim();
+        const resultType = String(result.tipo || tipo || "Risultato").trim();
+        const resultAddress = String(result.indirizzo_modalita || "Indirizzo non disponibile nella scheda pubblica").trim();
+        const resultPhone = String(result.telefono || "").trim();
+        const resultEmail = String(result.email || "").trim();
+        const resultContacts = String(result.contatti || "").trim();
+        const resultInfo = String(result.info || "").trim();
 
-        let orientamentoStr = "Indicazione informativa generica (Base Fallback Senza API Key)";
-        let specStr = "Medico Internista / Medico di Base";
-
-        const dLower = this.userData.disturbo.toLowerCase();
-
-        if (dLower.includes("dca") || dLower.includes("anoressia") || dLower.includes("bulimia") || dLower.includes("binge") || dLower.includes("abbuff") || dLower.includes("restrizion") || dLower.includes("dismorfismo")) {
-            orientamentoStr = "Disagio legato al rapporto con cibo, peso o immagine corporea"; specStr = "Psicologo/Psichiatra esperto in DCA";
-        }
-        else if (dLower.includes("sonno") || dLower.includes("insonnia") || dLower.includes("dormire") || dLower.includes("addorment") || dLower.includes("risvegli") || dLower.includes("russ") || dLower.includes("apne") || dLower.includes("sonnolenza")) {
-            orientamentoStr = "Disturbo del sonno da approfondire"; specStr = "Centro di Medicina del Sonno / Neurologo o Pneumologo";
-        }
-        else if (dLower.includes("ansia") || dLower.includes("stress") || dLower.includes("depressione") || dLower.includes("famiglia") || dLower.includes("panico") || dLower.includes("trauma") || dLower.includes("lutto")) {
-            orientamentoStr = "Necessità di supporto psicologico"; specStr = "Psicologa ad orientamento Sistemico-Relazionale";
-        }
-        else if (dLower.includes("osso") || dLower.includes("dolore") || dLower.includes("schiena") || dLower.includes("ginocchio") || dLower.includes("frattura")) {
-            orientamentoStr = "Area muscolo-scheletrica da approfondire"; specStr = "Ortopedico";
-        }
-        else if (dLower.includes("testa") || dLower.includes("cefalea") || dLower.includes("memoria")) {
-            orientamentoStr = "Area neurologica da approfondire"; specStr = "Neurologo";
-        }
-
-        const resultObjFallback = {
-            sintesi_anamnestica: `L'utente riferisce: ${this.userData.disturbo}.`,
-            specialista_indicato: specStr,
-            preparazione_visita: "Portare eventuali esami precedenti e lista farmaci.",
-            nota_mmg: "Motivo della ricerca orientativa: possibile approfondimento con branca " + specStr,
-            risultati: [] // Verranno popolati sotto
-        };
-
-        let outInitial = `✅ [MODALITA' PROTOTIPO - SIMULAZIONE ORIENTATIVA]<br><br>Sulla base delle informazioni fornite: <strong>${escapeHTML(orientamentoStr)}</strong>. <br><br>Branca orientativa: <strong>${escapeHTML(specStr)}</strong>.<br><br>`;
-        let resultsHTML = "";
-        const seenNamesFallback = new Set();
-
-        const isRoma = this.userData.zona.toLowerCase().includes("roma");
-        if (specStr === "Psicologa ad orientamento Sistemico-Relazionale") {
-            let mod = isRoma ? "In presenza a Roma e Online" : "Online in tutta Italia"; let addr = isRoma ? "Via Nazionale 100, Roma" : "Videoconsulto";
-            const card = { nome: "Dr.ssa Greta Devoli", tipo: "Privato", indirizzo_modalita: addr, contatti: "3479847838 | gretadevoli@gmail.com", info: "Terapia individuale/coppia. Sostegno per ansia, relazionali, traumi e genitorialità." };
-            resultObjFallback.risultati.push(card);
-            seenNamesFallback.add(card.nome.toLowerCase());
-            resultsHTML += this._buildCard(card.nome, specStr, card.tipo, card.indirizzo_modalita, card.contatti, mod, card.info);
-        }
-
-        const isRC = this.userData.zona.toLowerCase().includes("reggio") || this.userData.zona.toLowerCase().includes("vibo");
-        if (specStr === "Ortopedico" && isRC) {
-            const card = { nome: "Dott. Vincenzo Calafiore", tipo: "Privato / Conv. SSN", indirizzo_modalita: "IOMI (RC) | Studio Torrione (RC) | Centro Gima (VV)", contatti: "3294255444 | Dottorecalafiore@libero.it", info: "Chirurgo dell’anca, del ginocchio e della spalla (ricostruzione cuffia, Achille, crociato e lesioni meniscali)." };
-            resultObjFallback.risultati.push(card);
-            seenNamesFallback.add(card.nome.toLowerCase());
-            resultsHTML += this._buildCard(card.nome, "Ortopedico / Chirurgo", card.tipo, card.indirizzo_modalita, card.contatti, "Visita / Chirurgia Protesica", card.info);
-        }
-
-        const isAreaPecora = this.userData.zona.toLowerCase().includes("messina") || this.userData.zona.toLowerCase().includes("milazzo") || this.userData.zona.toLowerCase().includes("reggio") || this.userData.zona.toLowerCase().includes("villa");
-        if (specStr === "Neurologo" && isAreaPecora) {
-            const card = { nome: "Dott. Carmelo Pecora", tipo: "Privato", indirizzo_modalita: "Messina (New Delta) | Milazzo (Orice) | RC (AB Medical / De Blasi)", contatti: "333 9690197 | carmelopecora77@gmail.com", info: "Specializzato in chirurgia mininvasiva della colonna vertebrale, ernie del disco, stenosi lombare e patologie vertebrali." };
-            resultObjFallback.risultati.push(card);
-            seenNamesFallback.add(card.nome.toLowerCase());
-            resultsHTML += this._buildCard(card.nome, "Neurochirurgo", card.tipo, card.indirizzo_modalita, card.contatti, "Visita (130€)", card.info);
-        }
-
-        let currentCardIndex = 0;
-        let overrideCounter = resultObjFallback.risultati.length;
-
-        while (overrideCounter + currentCardIndex < 16) {
-            const cardName = "Centro Medico " + (currentCardIndex + 1);
-            let geoInfo = "Eccl. Nazionale";
-            if (currentCardIndex < 8) geoInfo = "Provinciale";
-            else if (currentCardIndex < 13) geoInfo = "Regionale";
-
-            const card = { nome: cardName, tipo: "Privato", indirizzo_modalita: `${geoInfo} - Area ${this.userData.zona}`, contatti: "000-000000", info: "Aggiungi la chiave API per trovare cliniche vere." };
-            if (!seenNamesFallback.has(cardName.toLowerCase())) {
-                resultObjFallback.risultati.push(card);
-                resultsHTML += this._buildCard(card.nome, specStr, card.tipo, card.indirizzo_modalita, card.contatti, "CUP", card.info);
-            }
-            currentCardIndex++;
-        }
-
-        const pendingTriage = this._saveTriageResult(resultObjFallback, 'fallback', { deferUntilRegistration: true });
-        
-        window._currentTriageData = { 
-            ...this.userData, 
-            id: null,
-            date: pendingTriage.date,
-            result: resultObjFallback 
-        };
-
-        let outInitialRes = `
-        <div id="printable-area">
-        <div id="medical-disclaimer-start" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
-          ⚠️ ${escapeHTML(DISCLAIMER)}
-        </div>
-        <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">
-            <p style="color:red; font-weight:bold;">✅ [MODALITA' PROTOTIPO - SIMULAZIONE]</p>
-            <h3 style="color: var(--primary); margin-top: 5px;">🔍 Riepilogo informativo</h3>
-            <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(orientamentoStr)} (Simulata per: ${escapeHTML(this.userData.disturbo)})</p>
-            <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div style="background: #f0f7f7; padding: 15px; border-radius: 10px;">
-                    <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #1b9b9a; font-weight: bold; margin-bottom: 5px;">👨‍⚕️ Branca orientativa</span>
-                    <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(specStr)}</strong>
-                </div>
-            </div>
-        </div>
-        `;
-
-        let out = outInitialRes + 
-        this._buildRegistrationGate(pendingTriage) +
-        `Ecco 16 riferimenti informativi (simulati):<br>` + resultsHTML +
-        `<p class="ai-final-notice">${escapeHTML(AI_FINAL_NOTICE)}</p></div>`;
-        
-        // this._setupPDFDownload(); // Rimosso temporaneamente
-
-        this.state = '7_FINE';
-        // Traccia completamento triage (fallback simulato)
-        trackEvent('triage_completed', {
-            method: 'fallback',
-            specialista: specStr,
-            zona: this.userData.zona
-        });
-        this.onMessage(out);
-    }
-
-    _buildCard(nome, spec, tipo, ind, contatti, prenotazione, det) {
+        const phoneLine = resultPhone
+            ? resultPhone
+            : (resultContacts.match(/Telefono:\s*([^|]+)/i)?.[1] || "Non disponibile nella scheda pubblica").trim();
+        const emailLine = resultEmail
+            ? resultEmail
+            : (resultContacts.match(/Email:\s*([^|]+)/i)?.[1] || "Non disponibile nella scheda pubblica").trim();
+        const detailsHTML = resultInfo && !/risultato individuato tramite ricerca|serpapi|google custom search/i.test(resultInfo)
+            ? `<p><strong>Dettagli:</strong> ${escapeHTML(resultInfo)}</p>`
+            : "";
         const agendaHTML = window.AiutoDocAgenda
             ? window.AiutoDocAgenda.renderAgenda({
-                name: nome,
-                specialization: spec,
-                type: tipo,
-                address: ind,
-                contacts: contatti
+                name: resultName,
+                specialization: resultSpec,
+                type: resultType,
+                address: resultAddress,
+                contacts: resultContacts
             })
             : "";
 
         return `
     <div class="triage-result">
       <div class="triage-result-header">
-        ${escapeHTML(nome)} <span class="tag-badge">${escapeHTML(tipo)}</span>
+        ${escapeHTML(resultName)} <span class="tag-badge">${escapeHTML(resultType)}</span>
       </div>
       <div class="triage-result-body">
-        <p><strong>Specializzazione:</strong> ${escapeHTML(spec)}</p>
-        <p><strong>Indirizzo/Modalità:</strong> ${ind} (${prenotazione})</p>
-        <p><strong>Contatti:</strong> ${escapeHTML(contatti)}</p>
-        <p><strong>Info:</strong> ${escapeHTML(det)}</p>
+        <p><strong>Specializzazione:</strong> ${escapeHTML(resultSpec)}</p>
+        <p><strong>Indirizzo/Modalità:</strong> ${escapeHTML(resultAddress)}</p>
+        <p><strong>Contatti:</strong> ${escapeHTML(resultContacts)}</p>
+        <p><strong>Info:</strong> ${escapeHTML(resultInfo)}</p>
         ${agendaHTML}
       </div>
     </div>`;
     }
 }
+

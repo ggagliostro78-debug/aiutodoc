@@ -3,10 +3,35 @@ const http = require("http");
 const path = require("path");
 const { handleAdminLogin } = require("../server/admin_auth");
 const { handleGeminiProxy } = require("../server/gemini_proxy");
+const { handleSpecialistSearch } = require("../server/specialist_search");
+const { createRequestContext } = require("../server/request_guard");
 
 const root = path.resolve(__dirname, "..");
-const port = Number(process.env.PORT || 4173);
 const host = process.env.HOST || "127.0.0.1";
+const port = Number(process.env.PORT || 4173);
+
+function loadDotEnv() {
+    const envPath = path.join(root, ".env");
+    if (!fs.existsSync(envPath)) return;
+
+    const lines = fs.readFileSync(envPath, "utf8").split(/\r?\n/);
+    for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith("#")) continue;
+        const separator = trimmed.indexOf("=");
+        if (separator < 1) continue;
+        const key = trimmed.slice(0, separator).trim();
+        let value = trimmed.slice(separator + 1).trim();
+        if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+            value = value.slice(1, -1);
+        }
+        if (!process.env[key]) {
+            process.env[key] = value;
+        }
+    }
+}
+
+loadDotEnv();
 
 const mimeTypes = {
     ".css": "text/css; charset=utf-8",
@@ -17,8 +42,8 @@ const mimeTypes = {
     ".jpeg": "image/jpeg",
     ".png": "image/png",
     ".svg": "image/svg+xml",
-    ".webmanifest": "application/manifest+json; charset=utf-8",
-    ".txt": "text/plain; charset=utf-8"
+    ".txt": "text/plain; charset=utf-8",
+    ".webmanifest": "application/manifest+json; charset=utf-8"
 };
 
 function readBody(req) {
@@ -43,14 +68,89 @@ function send(res, statusCode, headers, body) {
 
 async function handleApi(req, res) {
     const body = await readBody(req);
+
     if (req.url === "/api/admin-login") {
-        const result = await handleAdminLogin({ method: req.method, body });
+        const result = await handleAdminLogin({
+            method: req.method,
+            body
+        });
         send(res, result.statusCode, result.headers, result.body);
         return true;
     }
 
     if (req.url === "/api/gemini") {
-        const result = await handleGeminiProxy({ method: req.method, body });
+        const result = await handleGeminiProxy({
+            method: req.method,
+            body,
+            context: createRequestContext(req)
+        });
+        send(res, result.statusCode, result.headers, result.body);
+        return true;
+    }
+
+    if (req.url === "/api/specialist-search") {
+        const result = await handleSpecialistSearch({
+            method: req.method,
+            body,
+            context: createRequestContext(req)
+        });
+        send(res, result.statusCode, result.headers, result.body);
+        return true;
+    }
+
+    if (req.url === "/api/enrich") {
+        const { handleEnrichEntity } = require("../server/enrich");
+        const result = await handleEnrichEntity({
+            method: req.method,
+            body,
+            fetchImpl: fetch,
+            context: createRequestContext(req)
+        });
+        send(res, result.statusCode, result.headers, result.body);
+        return true;
+    }
+
+    if (req.url === "/api/places") {
+        const { handlePlacesSearch } = require("../server/places");
+        const result = await handlePlacesSearch({
+            method: req.method,
+            body,
+            fetchImpl: fetch,
+            context: createRequestContext(req)
+        });
+        send(res, result.statusCode, result.headers, result.body);
+        return true;
+    }
+
+    if (req.url === "/api/triage-save") {
+        const { handleTriageSave } = require("../server/triage_store");
+        const result = await handleTriageSave({
+            method: req.method,
+            body,
+            context: createRequestContext(req)
+        });
+        send(res, result.statusCode, result.headers, result.body);
+        return true;
+    }
+
+    if (req.url === "/api/triage-recover") {
+        const { handleTriageRecover } = require("../server/triage_store");
+        const result = await handleTriageRecover({
+            method: req.method,
+            body,
+            context: createRequestContext(req)
+        });
+        send(res, result.statusCode, result.headers, result.body);
+        return true;
+    }
+
+    if (req.url === "/api/consent-logs") {
+        const { handleConsentLogs } = require("../server/consent_logs");
+        const result = await handleConsentLogs({
+            method: req.method,
+            body,
+            context: createRequestContext(req)
+        });
         send(res, result.statusCode, result.headers, result.body);
         return true;
     }
@@ -60,13 +160,13 @@ async function handleApi(req, res) {
             "Content-Type": "application/json; charset=utf-8",
             "Cache-Control": "no-store"
         }, JSON.stringify({
-            apiKey: "",
-            authDomain: "",
-            projectId: "",
-            storageBucket: "",
-            messagingSenderId: "",
-            appId: "",
-            measurementId: ""
+            apiKey: process.env.FIREBASE_API_KEY || "",
+            authDomain: process.env.FIREBASE_AUTH_DOMAIN || "",
+            projectId: process.env.FIREBASE_PROJECT_ID || "",
+            storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "",
+            messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || "",
+            appId: process.env.FIREBASE_APP_ID || "",
+            measurementId: process.env.FIREBASE_MEASUREMENT_ID || ""
         }));
         return true;
     }
@@ -75,9 +175,13 @@ async function handleApi(req, res) {
 }
 
 function safeFilePath(url) {
-    const cleanPath = decodeURIComponent(new URL(url, `http://${host}:${port}`).pathname);
-    const relative = cleanPath === "/" ? "index.html" : cleanPath.replace(/^\/+/, "");
-    const filePath = path.resolve(root, relative);
+    const pathname = decodeURIComponent(new URL(url, `http://${host}:${port}`).pathname);
+    const relative = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
+    let filePath = path.resolve(root, relative);
+    if (!filePath.startsWith(root)) return null;
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+        filePath = path.join(filePath, "index.html");
+    }
     return filePath.startsWith(root) ? filePath : null;
 }
 
@@ -107,5 +211,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(port, host, () => {
-    console.log(`AIutoDoc dev locale: http://${host}:${port}`);
+    const hasSearch = process.env.GOOGLE_CSE_API_KEY && process.env.GOOGLE_CSE_ID;
+    const mode = `${process.env.GEMINI_API_KEY ? "con proxy Gemini" : "senza GEMINI_API_KEY"}; ${hasSearch ? "con ricerca Google" : "senza ricerca Google configurata"}`;
+    console.log(`AIutoDoc locale: http://${host}:${port} (${mode})`);
 });

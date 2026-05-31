@@ -1,8 +1,8 @@
-const { handleGeminiProxy } = require("../server/gemini_proxy");
+const { handlePlacesSearch } = require("../server/places");
 const { createRequestContext } = require("../server/request_guard");
 
 module.exports = async function handler(req, res) {
-    const result = await handleGeminiProxy({
+    const result = await handlePlacesSearch({
         method: req.method,
         body: req.body,
         context: createRequestContext(req)
@@ -11,6 +11,6 @@ module.exports = async function handler(req, res) {
     Object.entries(result.headers || {}).forEach(([key, value]) => {
         res.setHeader(key, value);
     });
-
+    
     res.status(result.statusCode).send(result.body);
 };

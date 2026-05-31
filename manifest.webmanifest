@@ -5,13 +5,19 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f3f7f7",
-  "theme_color": "#1b9b9a",
+  "background_color": "#F3FBFB",
+  "theme_color": "#0F5464",
   "icons": [
     {
-      "src": "./logo.jpg",
+      "src": "./assets/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/favicon-512.png",
       "sizes": "512x512",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]

@@ -49,6 +49,9 @@ const AI_FINAL_NOTICE = "Questa è un'indicazione informativa. Confermala sempre
 const APP_CONSENT_VERSION = "2026-05-gdpr-v1";
 const REGISTERED_USER_KEY = "aiutodoc_registered_user";
 const ENTRY_CONSENT_KEY = "aiutodoc_entry_consents";
+const TRIAGE_STORAGE_KEY = "aiutodoc_triages";
+const TRIAGE_STORAGE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+const TRIAGE_STORAGE_MAX_ITEMS = 20;
 
 function getStoredJson(key) {
     try {
@@ -61,6 +64,45 @@ function getStoredJson(key) {
 
 function getRegisteredUser() {
     return getStoredJson(REGISTERED_USER_KEY);
+}
+
+function normalizeTriageID(id) {
+    return String(id || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+}
+
+function buildCloudTriageDocId(userId, triageId) {
+    const cleanUserId = String(userId || "").replace(/[^a-zA-Z0-9_-]/g, "");
+    const cleanTriageId = normalizeTriageID(triageId);
+    if (!cleanUserId || !cleanTriageId) return "";
+    return `${cleanUserId}_${cleanTriageId}`;
+}
+
+function getStoredTriages() {
+    const saved = getStoredJson(TRIAGE_STORAGE_KEY) || {};
+    const now = Date.now();
+    const entries = Object.entries(saved)
+        .filter(([, value]) => {
+            const dateMs = Date.parse(value?.date || "");
+            return Number.isFinite(dateMs) && now - dateMs <= TRIAGE_STORAGE_TTL_MS;
+        })
+        .sort(([, a], [, b]) => Date.parse(b?.date || "") - Date.parse(a?.date || ""));
+
+    const pruned = Object.fromEntries(entries.slice(0, TRIAGE_STORAGE_MAX_ITEMS));
+    if (entries.length !== Object.keys(saved).length) {
+        localStorage.setItem(TRIAGE_STORAGE_KEY, JSON.stringify(pruned));
+    }
+    return pruned;
+}
+
+function saveStoredTriage(dataToSave) {
+    const id = normalizeTriageID(dataToSave?.id);
+    if (!id) return;
+    const allResults = getStoredTriages();
+    allResults[id] = dataToSave;
+    const entries = Object.entries(allResults)
+        .sort(([, a], [, b]) => Date.parse(b?.date || "") - Date.parse(a?.date || ""))
+        .slice(0, TRIAGE_STORAGE_MAX_ITEMS);
+    localStorage.setItem(TRIAGE_STORAGE_KEY, JSON.stringify(Object.fromEntries(entries)));
 }
 
 function maskEmail(email) {
@@ -111,62 +153,17 @@ async function registerUserForRecovery(email, consentFlags = {}) {
 
     localStorage.setItem(REGISTERED_USER_KEY, JSON.stringify(registeredUser));
 
-    if (window.firebaseReady) {
-        await window.firebaseReady;
-    }
-    if (db) {
-        await db.collection("registered_users").doc(registeredUser.userId).set({
-            emailHash: registeredUser.emailHash,
-            emailMasked: registeredUser.emailMasked,
-            registeredAt: registeredUser.registeredAt,
-            consentVersion: registeredUser.consentVersion,
-            consents: registeredUser.consents
-        }, { merge: true });
-    }
-
     return registeredUser;
 }
 
 async function resolveFirebaseConfig() {
-    if (typeof CONFIG === 'undefined') return null;
-    if (CONFIG.FIREBASE_CONFIG && CONFIG.FIREBASE_CONFIG.apiKey) {
-        return CONFIG.FIREBASE_CONFIG;
-    }
-
-    if (!CONFIG.FIREBASE_CONFIG_URL || typeof fetch !== 'function') return null;
-
-    try {
-        const response = await fetch(CONFIG.FIREBASE_CONFIG_URL, { cache: 'no-store' });
-        if (!response.ok) return null;
-        const config = await response.json();
-        return config && config.apiKey ? config : null;
-    } catch (error) {
-        console.warn("Firebase config non disponibile:", error);
-        return null;
-    }
+    return null;
 }
 
 async function initFirebase() {
-    const firebaseConfig = await resolveFirebaseConfig();
-
-    if (typeof firebase !== 'undefined' && firebaseConfig && firebaseConfig.apiKey !== "") {
-        try {
-            if (!firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
-                if (firebaseConfig.measurementId && typeof firebase.analytics === 'function') {
-                    firebase.analytics();
-                }
-            }
-            db = firebase.firestore();
-            console.log("Firebase initialized successfully (Firestore + Analytics).");
-        } catch (e) {
-            console.error("Firebase init failed:", e);
-        }
-    } else {
-        console.log("Firebase non configurato o SDK non caricato: persistenza solo locale.");
-    }
+    console.log("Firebase client disabilitato: archivio recupero gestito solo dal backend.");
 }
-window.firebaseReady = initFirebase();
+window.firebaseReady = Promise.resolve();
 
 async function loadSDK() {
     console.log("Standalone mode: Dynamic SDK loading disabled for file:// compatibility.");

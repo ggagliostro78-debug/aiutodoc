@@ -1,12 +1,22 @@
-const CACHE_NAME = 'aiutodoc-static-v20260514-1';
+﻿const CACHE_NAME = 'aiutodoc-static-v20260531-result-start-1';
 const ASSETS = [
   './',
   './index.html',
   './logo.jpg',
+  './assets/header-sito.png',
+  './assets/logo-aiutodoc.png',
+  './assets/favicon-32.png',
+  './assets/favicon-192.png',
+  './assets/favicon-512.png',
+  './assets/logo-aiutodoc-full.jpg',
   './assets/about.png',
   './assets/glossary.png',
   './assets/practices.png',
-  './manifest.webmanifest'
+  './manifest.webmanifest',
+  './privacy-policy/',
+  './cookie-policy/',
+  './disclaimer-medico/',
+  './termini-condizioni/'
 ];
 
 self.addEventListener('install', (event) => {
@@ -51,3 +61,7 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith(networkFirst(event.request));
 });
+
+
+
+

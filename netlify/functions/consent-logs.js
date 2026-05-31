@@ -1,8 +1,8 @@
-const { handleGeminiProxy } = require("../../server/gemini_proxy");
+const { handleConsentLogs } = require("../../server/consent_logs");
 const { createRequestContext } = require("../../server/request_guard");
 
 exports.handler = async function handler(event) {
-    return handleGeminiProxy({
+    return handleConsentLogs({
         method: event.httpMethod,
         body: event.body,
         context: createRequestContext(event)
