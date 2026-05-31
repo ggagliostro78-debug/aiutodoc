@@ -366,6 +366,9 @@ class ChatInterface {
                 if (!this._shouldShowQuickReplies() && window.innerWidth > 950) {
                     this.userInput.focus();
                 }
+                if (window.innerWidth <= 950) {
+                    this.scrollToBottom();
+                }
             }, 100);
         }
         this.scrollToBottom();
@@ -377,12 +380,28 @@ class ChatInterface {
         window.requestAnimationFrame(() => {
             const quickVisible = this.quickReplies && !this.quickReplies.classList.contains('hidden');
             const lastMessage = this.messagesContainer.lastElementChild;
+            const resultStartEl = lastMessage ? lastMessage.querySelector('.result-start, #medical-disclaimer-start') : null;
+
+            if (resultStartEl) {
+                resultStartEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+            }
 
             if (window.innerWidth <= 950) {
-                this.messagesContainer.scrollTo({
-                    top: this.messagesContainer.scrollHeight,
-                    behavior: 'auto'
-                });
+                if (lastMessage) {
+                    lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
+                setTimeout(() => {
+                    if (!this.inputArea) return;
+                    const inputStyle = window.getComputedStyle(this.inputArea);
+                    const inputIsVisible = inputStyle.display !== 'none'
+                        && inputStyle.visibility !== 'hidden'
+                        && !this.inputArea.classList.contains('choice-hidden')
+                        && !this.inputArea.classList.contains('onboarding-hidden');
+                    if (inputIsVisible) {
+                        this.inputArea.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    }
+                }, 180);
                 return;
             }
 

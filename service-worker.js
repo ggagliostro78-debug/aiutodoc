@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'aiutodoc-static-v20260531-mobile-nav-1';
+﻿const CACHE_NAME = 'aiutodoc-static-v20260531-result-start-1';
 const ASSETS = [
   './',
   './index.html',

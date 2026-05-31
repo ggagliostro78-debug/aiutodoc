@@ -181,7 +181,7 @@ class TriageEngine {
     }
 
     _generateTriageID() {
-        const bytes = new Uint8Array(10);
+        const bytes = new Uint8Array(4);
         if (window.crypto && window.crypto.getRandomValues) {
             window.crypto.getRandomValues(bytes);
         } else {
@@ -189,10 +189,9 @@ class TriageEngine {
                 bytes[i] = Math.floor(Math.random() * 256);
             }
         }
-        return Array.from(bytes)
-            .map((byte) => byte.toString(36).padStart(2, "0").toUpperCase())
-            .join("")
-            .slice(0, 16);
+        const letters = String.fromCharCode(65 + (bytes[0] % 26)) + String.fromCharCode(65 + (bytes[1] % 26));
+        const numbers = String(((bytes[2] << 8) + bytes[3]) % 10000).padStart(4, "0");
+        return letters + numbers;
     }
 
     _saveTriageResult(resultObj, source = 'api', options = {}) {
@@ -277,21 +276,39 @@ class TriageEngine {
             consentedAt: new Date().toISOString()
         };
 
-        const saved = await this._saveToCloud(pendingData);
-        if (saved && saved.id) {
-            pendingData.id = saved.id;
-            pendingData.expiresAt = saved.expiresAt;
+        let storageMode = "cloud";
+        try {
+            const saved = await this._saveToCloud(pendingData);
+            if (saved && saved.id) {
+                pendingData.id = saved.id;
+                pendingData.expiresAt = saved.expiresAt;
+            }
+        } catch (error) {
+            if (!this._canFallbackToLocalArchive(error)) {
+                throw error;
+            }
+
+            storageMode = "local";
+            pendingData.expiresAt = null;
+            console.warn("Archivio cloud non disponibile, salvataggio mantenuto solo in locale:", error);
         }
 
         saveStoredTriage(pendingData);
         window._currentTriageData = pendingData;
         window._pendingTriageSave = null;
 
+        const copyHint = storageMode === "cloud"
+            ? "Usa questo codice per tornare ai risultati senza rifare le domande. Non condividerlo."
+            : "Usa questo codice su questo dispositivo per tornare ai risultati senza rifare le domande. Il recupero da altri dispositivi sara disponibile quando l'archivio cloud verra configurato.";
+        const saveNote = storageMode === "cloud"
+            ? "Ricerca salvata con <strong>codice univoco</strong>:"
+            : "Ricerca salvata <strong>su questo dispositivo</strong> con codice univoco:";
+
         gate.outerHTML = `
         <div class="id-copy-box" data-triage-id="${escapeHTML(pendingData.id)}" title="Clicca per copiare l'ID">
-            <p style="margin: 0 0 8px 0; font-size: 0.9rem; opacity: 0.9;">Ricerca salvata con <strong>codice univoco</strong>:</p>
+            <p style="margin: 0 0 8px 0; font-size: 0.9rem; opacity: 0.9;">${saveNote}</p>
             <div class="id-number">${escapeHTML(pendingData.id)}</div>
-            <p class="copy-hint">Usa questo codice per tornare ai risultati senza rifare le domande. Non condividerlo.</p>
+            <p class="copy-hint">${copyHint}</p>
         </div>`;
 
         const newBox = document.querySelector(`.id-copy-box[data-triage-id="${pendingData.id}"]`);
@@ -299,6 +316,16 @@ class TriageEngine {
             newBox.addEventListener('click', () => copyTriageID(pendingData.id, newBox));
             newBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
+    }
+
+    _canFallbackToLocalArchive(error) {
+        const message = String(error?.message || error || "");
+        return [
+            "FIREBASE_ADMIN_CONFIG_MISSING",
+            "Archivio anonimo temporaneamente non disponibile",
+            "Salvataggio codice non riuscito (503)",
+            "server locale o un deploy serverless"
+        ].some((fragment) => message.includes(fragment));
     }
 
     async _saveToCloud(data) {

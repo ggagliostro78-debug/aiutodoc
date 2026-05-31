@@ -8,7 +8,7 @@ const {
 
 const COLLECTION_NAME = "anonymous_triages";
 const MAX_TRIAGE_BODY_BYTES = 80 * 1024;
-const RECOVERY_CODE_BYTES = 16;
+const RECOVERY_CODE_BYTES = 4;
 
 function parseBody(body) {
     if (!body) return {};
@@ -58,19 +58,11 @@ function normalizeRecoveryCode(code) {
     return String(code || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
 }
 
-function formatRecoveryCode(rawCode) {
-    const clean = normalizeRecoveryCode(rawCode);
-    return clean.match(/.{1,4}/g).join("-");
-}
-
 function generateRecoveryCode() {
-    const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     const bytes = crypto.randomBytes(RECOVERY_CODE_BYTES);
-    let code = "AD";
-    for (const byte of bytes) {
-        code += alphabet[byte % alphabet.length];
-    }
-    return formatRecoveryCode(code);
+    const letters = String.fromCharCode(65 + (bytes[0] % 26)) + String.fromCharCode(65 + (bytes[1] % 26));
+    const numbers = String(((bytes[2] << 8) + bytes[3]) % 10000).padStart(4, "0");
+    return letters + numbers;
 }
 
 function hashRecoveryCode(code) {
@@ -182,7 +174,7 @@ async function handleTriageRecover({ method, body, context = {} }) {
 
     const payload = parseBody(body);
     const recoveryCode = normalizeRecoveryCode(payload.id || payload.recoveryCode);
-    if (recoveryCode.length < 12 || recoveryCode.length > 40) {
+    if (recoveryCode.length < 6 || recoveryCode.length > 40) {
         return buildResponse(400, { error: "Codice recupero non valido." }, corsHeaders);
     }
 
