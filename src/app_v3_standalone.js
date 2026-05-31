@@ -61,13 +61,13 @@ class TriageEngine {
         let placeholder = "Scrivi qui...";
         switch (this.state) {
             case '1_SESSO_ETA':
-                placeholder = "Età e sesso biologico (es. 35, Femmina oppure Preferisco non specificare)";
+                placeholder = "Completa prima la card iniziale";
                 break;
             case '2_ZONA':
-                placeholder = "Zona geografica (es. Milano, RM)";
+                placeholder = "Inserisci Comune o Provincia. Es. Milano, Roma, RC oppure Italia";
                 break;
             case '3_DISTURBO':
-                placeholder = "Descrivi il tuo disturbo o sintomo principale...";
+                placeholder = "Descrivi in parole semplici il motivo della ricerca. Es. dolore al ginocchio, mal di testa frequente, difficoltà a dormire...";
                 break;
             case '4_CONOSCITIVE':
             case '5_ANAMNESTICHE':
@@ -143,13 +143,23 @@ class TriageEngine {
             });
         }
 
+        const chatInputBar = document.querySelector('.chat-input-area');
+        const inputEl = document.getElementById('user-input');
+        if (chatInputBar) {
+            chatInputBar.classList.remove('onboarding-hidden');
+            chatInputBar.removeAttribute('aria-hidden');
+        }
+
         if (options.echoUserMessage && window.chatUI) {
             window.chatUI.addMessage(`Età: ${data.age} anni. Sesso biologico: ${sexLabel}.`, 'user-msg');
         }
 
         this.state = '2_ZONA';
-        this.onMessage(`Perfetto, ho registrato le informazioni essenziali nel rispetto della minimizzazione dei dati.<br><br><strong>Qual è la tua zona geografica (Comune e Provincia)?</strong>`);
+        this.onMessage(`Perfetto, ho registrato le informazioni essenziali nel rispetto della minimizzazione dei dati.<br><br><strong>Qual è la tua zona geografica?</strong><br>Puoi indicare Comune, Provincia o scrivere <strong>Italia</strong> per una ricerca nazionale.`);
         this._updatePlaceholder();
+        if (inputEl) {
+            inputEl.focus();
+        }
         return true;
     }
 
@@ -227,11 +237,11 @@ class TriageEngine {
             <p>Il recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.</p>
             <label class="consent-row">
                 <input type="checkbox" class="registration-consent" data-consent="terms">
-                <span>Accetto Termini e Condizioni d'uso.</span>
+                <span>Accetto i <a href="/termini-condizioni/" target="_blank" rel="noopener">Termini e Condizioni d'uso</a>.</span>
             </label>
             <label class="consent-row">
                 <input type="checkbox" class="registration-consent" data-consent="privacy">
-                <span>Dichiaro di aver letto l'Informativa Privacy.</span>
+                <span>Dichiaro di aver letto l'<a href="/privacy-policy/" target="_blank" rel="noopener">Informativa Privacy</a>.</span>
             </label>
             <label class="consent-row">
                 <input type="checkbox" class="registration-consent" data-consent="healthData">
@@ -321,7 +331,7 @@ class TriageEngine {
         }
         const cleanID = normalizeTriageID(id);
 
-        this.onMessage("🔍 Recupero ricerca in corso per ID: " + cleanID + "...", "system-msg");
+        this.onMessage("Recupero: Recupero ricerca in corso per ID: " + cleanID + "...", "system-msg");
 
         try {
             const response = await fetch((typeof CONFIG !== 'undefined' && CONFIG.TRIAGE_RECOVER_API_URL) ? CONFIG.TRIAGE_RECOVER_API_URL : "/api/triage-recover", {
@@ -343,7 +353,7 @@ class TriageEngine {
             const payload = await response.json();
             const data = payload.triage;
             saveStoredTriage(data);
-            this.onMessage("✅ Ricerca recuperata con successo!", "system-msg success");
+            this.onMessage("OK: Ricerca recuperata con successo!", "system-msg success");
             
             // Switch alla tab chat se necessario
             const chatBtn = document.querySelector('[data-target="chat-section"]');
@@ -356,7 +366,7 @@ class TriageEngine {
 
         } catch (err) {
             console.error("Errore recupero cloud:", err);
-            this.onMessage("⚠️ Errore durante il recupero. Riprova.", "system-msg danger");
+            this.onMessage("Attenzione: Errore durante il recupero. Riprova.", "system-msg danger");
         }
     }
 
@@ -435,7 +445,7 @@ class TriageEngine {
 
                     if (!validation.valid) {
                         const message = validation.errors.age || validation.errors.sex_at_birth || "Controlla le informazioni inserite.";
-                        this.onMessage(`❌ ${escapeHTML(message)}`, "system-msg danger");
+                        this.onMessage(`Errore: ${escapeHTML(message)}`, "system-msg danger");
                         return;
                     }
 
@@ -451,7 +461,7 @@ class TriageEngine {
 
                 // Se non troviamo nulla di utile
                 if (!sexMatch && !ageMatch) {
-                   this.onMessage("❌ Dati non chiari. Per favore inserisci età e sesso biologico, oppure scegli 'Preferisco non specificare'.", "system-msg danger");
+                   this.onMessage("Errore: Dati non chiari. Per favore inserisci età e sesso biologico, oppure scegli 'Preferisco non specificare'.", "system-msg danger");
                    return;
                 }
 
@@ -466,7 +476,7 @@ class TriageEngine {
                 const ageNum = ageMatch ? parseInt(ageMatch[0], 10) : null;
 
                 if (ageNum === null || ageNum < 0 || ageNum > 120) {
-                    this.onMessage("❌ L'età inserita non è valida. Per procedere è necessario inserire un'età reale compresa tra 0 e 120 anni (es: Maschio, 47).", "system-msg danger");
+                    this.onMessage("Errore: inserita non è valida. Per procedere è necessario inserire un'età reale compresa tra 0 e 120 anni (es: Maschio, 47).", "system-msg danger");
                     return;
                 }
                 
@@ -503,7 +513,7 @@ class TriageEngine {
                         regione: provinceName
                     };
                     this.state = '3_DISTURBO';
-                    this.onMessage(`✅ Provincia impostata: <strong>${escapeHTML(provinceName)} (${escapeHTML(sigla)})</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
+                    this.onMessage(`OK: impostata: <strong>${escapeHTML(provinceName)} (${escapeHTML(sigla)})</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
                     this._updatePlaceholder();
                 };
 
@@ -551,7 +561,7 @@ class TriageEngine {
                         scope: "regione"
                     };
                     this.state = '3_DISTURBO';
-                    this.onMessage(`✅ Regione impostata: <strong>${escapeHTML(regionName)}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
+                    this.onMessage(`OK: impostata: <strong>${escapeHTML(regionName)}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
                     this._updatePlaceholder();
                 };
 
@@ -565,7 +575,7 @@ class TriageEngine {
                         acceptProvince(directProvinceCode, provinceIt[directProvinceCode]);
                         return;
                     } else if (!seemsLikeSymptom) {
-                        this.onMessage(`❌ La sigla "<strong>${escapeHTML(directProvinceCode)}</strong>" non corrisponde a nessuna provincia italiana valida.`, "system-msg danger");
+                        this.onMessage(`Errore: La sigla "<strong>${escapeHTML(directProvinceCode)}</strong>" non corrisponde a nessuna provincia italiana valida.`, "system-msg danger");
                         return;
                     }
                 }
@@ -592,18 +602,18 @@ class TriageEngine {
                         regione: "Italia"
                     };
                     this.state = '3_DISTURBO';
-                    this.onMessage(`✅ Località impostata: <strong>Italia (Generale)</strong>.<br><br>Ora descrivimi il tuo disturbo o problema principale.`);
+                    this.onMessage(`OK: impostata: <strong>Italia (Generale)</strong>.<br><br>Ora descrivimi il tuo disturbo o problema principale.`);
                     this._updatePlaceholder();
                     return;
                 }
 
                 if (seemsLikeSymptom && cleanZona.length > 10) {
-                    this.onMessage(`⚠️ Sembra che tu stia descrivendo il tuo disturbo. Per aiutarti a trovare lo specialista più vicino, ho bisogno di conoscere prima il tuo <strong>Comune o Provincia</strong> attuale. <br><br>Se preferisci non specificarlo, rispondi semplicemente con <strong>'ITALIA'</strong>.`, "system-msg danger");
+                    this.onMessage(`Attenzione: Sembra che tu stia descrivendo il tuo disturbo. Per aiutarti a trovare lo specialista più vicino, ho bisogno di conoscere prima il tuo <strong>Comune o Provincia</strong> attuale. <br><br>Se preferisci non specificarlo, rispondi semplicemente con <strong>'ITALIA'</strong>.`, "system-msg danger");
                     return;
                 }
 
                 if (!seemsLikeSymptom && (cleanZona.length < 3 || /^\d+$/.test(cleanZona) || /^(.)\1+$/.test(cleanZona))) {
-                    this.onMessage("❌ L'area inserita non sembra valida. Per procedere è necessario inserire una provincia o comune (es. Roma, MI) o scrivi <strong>'Italia'</strong>.", "system-msg danger");
+                    this.onMessage("Errore: L'area inserita non sembra valida. Per procedere è necessario inserire una provincia o comune (es. Roma, MI) o scrivi <strong>'Italia'</strong>.", "system-msg danger");
                     return;
                 }
 
@@ -627,15 +637,15 @@ class TriageEngine {
                             regione: region
                         };
                         this.state = '3_DISTURBO';
-                        this.onMessage(`✅ Località verificata sul territorio: <strong>${validatedCity}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
+                        this.onMessage(`OK: verificata sul territorio: <strong>${validatedCity}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
                         this._updatePlaceholder();
                     } else {
-                        this.onMessage(`❌ Non siamo riusciti a trovare "<strong>${cleanZona}</strong>" sul territorio italiano. Riprova inserendo un Comune o una Provincia in modo più preciso.`, "system-msg danger");
+                        this.onMessage(`Errore: Non siamo riusciti a trovare "<strong>${cleanZona}</strong>" sul territorio italiano. Riprova inserendo un Comune o una Provincia in modo più preciso.`, "system-msg danger");
                         return;
                     }
                 } catch (error) {
                     console.error("Errore validazione geografica:", error);
-                    this.onMessage("⚠️ Non riesco a verificare la località sul territorio italiano in questo momento. Riprova tra poco o scrivi <strong>Italia</strong> per una ricerca nazionale.", "system-msg danger");
+                    this.onMessage("Attenzione: Non riesco a verificare la località sul territorio italiano in questo momento. Riprova tra poco o scrivi <strong>Italia</strong> per una ricerca nazionale.", "system-msg danger");
                     return;
                 }
                 break;
@@ -673,7 +683,7 @@ class TriageEngine {
                     hasBadWords ||
                     hasGibberishWord) {
 
-                    this.onMessage("❌ La descrizione inserita non è valida, troppo breve o sembra digitata casualmente. Ti prego di descrivere un sintomo reale con parole di senso compiuto.", "system-msg danger");
+                    this.onMessage("Errore: La descrizione inserita non è valida, troppo breve o sembra digitata casualmente. Ti prego di descrivere un sintomo reale con parole di senso compiuto.", "system-msg danger");
                     return;
                 }
 
@@ -733,15 +743,15 @@ class TriageEngine {
                         this.userData.disturbo = cleanDisturbo;
                         this.userData.domandeAnamnesticheDinamiche = this._generaDomandeAnamnestiche(cleanDisturbo);
                         this.state = '4_CONOSCITIVE';
-                        this.onMessage("✅ <strong>Sintomo convalidato dai database scientifici/letteratura.</strong><br><br>Ho preso nota del tuo disturbo. Per inquadrarlo meglio, ti porrò ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
+                        this.onMessage("<strong>OK: Sintomo convalidato dai database scientifici/letteratura.</strong><br><br>Ho preso nota del tuo disturbo. Per inquadrarlo meglio, ti porr? ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
                         this._updatePlaceholder();
                     } else {
-                        this.onMessage(`❌ Il testo "<strong>${cleanDisturbo}</strong>" non sembra descrivere un disturbo riconoscibile. Inserisci un problema reale o una necessità sanitaria concreta (es. "cefalea", "vertigini", "dolore alla schiena") e riprova.`, "system-msg danger");
+                        this.onMessage(`Errore: Il testo "<strong>${cleanDisturbo}</strong>" non sembra descrivere un disturbo riconoscibile. Inserisci un problema reale o una necessità sanitaria concreta (es. "cefalea", "vertigini", "dolore alla schiena") e riprova.`, "system-msg danger");
                         return;
                     }
                 } catch (error) {
                     console.error("Errore validazione sintomo:", error);
-                    this.onMessage("⚠️ Non riesco a convalidare il sintomo tramite le fonti online in questo momento. Riprova tra poco o descrivi il disturbo con termini più comuni.", "system-msg danger");
+                    this.onMessage("Attenzione: Non riesco a convalidare il sintomo tramite le fonti online in questo momento. Riprova tra poco o descrivi il disturbo con termini più comuni.", "system-msg danger");
                     return;
                 }
                 break;
@@ -753,7 +763,7 @@ class TriageEngine {
                 const isValidMCQ = /^[A-C](?:\)|\.| -|:|\s|$)/.test(cleanConosc) || /\b(?:RISPOSTA|OPZIONE|LETTERA|SCELGO|LA)\s+[A-C]\b/.test(cleanConosc);
 
                 if (!isValidMCQ) {
-                    this.onMessage("❌ Risposta non valida. Per proseguire scegli una delle opzioni disponibili: <strong>A, B o C</strong>.", "system-msg danger");
+                    this.onMessage("Errore: Risposta non valida. Per proseguire scegli una delle opzioni disponibili: <strong>A, B o C</strong>.", "system-msg danger");
                     return;
                 }
 
@@ -787,7 +797,7 @@ class TriageEngine {
                     }
 
                     if (hasBadWord || hasGibberish || /^(.)\1+$/.test(ncLower) || !this._isValidFreeText(notaConosc)) {
-                        this.onMessage("❌ Il testo inserito non è valido, troppo breve o contiene termini inappropriati. Inserisci informazioni valide o scrivi 'NO'.", "system-msg danger");
+                        this.onMessage("Errore: Il testo inserito non è valido, troppo breve o contiene termini inappropriati. Inserisci informazioni valide o scrivi 'NO'.", "system-msg danger");
                         return;
                     }
                     this.userData.notaConoscitiva = notaConosc;
@@ -807,7 +817,7 @@ class TriageEngine {
                 const isValidChoiceAnam = /^[A-C](?:\)|\.| -|:|\s|$)/.test(cleanAnamn) || /\b(?:RISPOSTA|OPZIONE|LETTERA|SCELGO|LA)\s+[A-C]\b/.test(cleanAnamn);
 
                 if (!isValidChoiceAnam) {
-                    this.onMessage("❌ Formato risposta non riconosciuto. Per essere precisi è necessario rispondere in modo netto con una delle lettere indicate (es. <strong>A, B o C</strong>).", "system-msg danger");
+                    this.onMessage("Errore: Formato risposta non riconosciuto. Per essere precisi è necessario rispondere in modo netto con una delle lettere indicate (es. <strong>A, B o C</strong>).", "system-msg danger");
                     return;
                 }
 
@@ -840,7 +850,7 @@ class TriageEngine {
                     }
 
                     if (hasBadWord || hasGibberish || /^(.)\1+$/.test(naLower) || !this._isValidFreeText(notaAnam)) {
-                        this.onMessage("❌ Il testo inserito non è valido, troppo breve o contiene termini inappropriati. Inserisci informazioni valide o scrivi 'NO'.", "system-msg danger");
+                        this.onMessage("Errore: Il testo inserito non è valido, troppo breve o contiene termini inappropriati. Inserisci informazioni valide o scrivi 'NO'.", "system-msg danger");
                         return;
                     }
                     this.userData.notaAnamnestica = notaAnam;
@@ -856,14 +866,14 @@ class TriageEngine {
 
                 const loadingHTML = `
                     <div id="ai-loading-box" style="display:flex; flex-direction:column; align-items:center; margin-top:10px; width: 100%;">
-                        <p>Dati raccolti con successo. <br><br>⏳ <em>Elaborazione orientamento e preparazione percorsi verificabili...</em></p>
+                        <p>Dati raccolti con successo. <br><br><em>Elaborazione orientamento e preparazione percorsi verificabili...</em></p>
                         
                         <div style="width: 100%; max-width: 300px; background-color: #e0e9e9; border-radius: 10px; margin: 15px 0; overflow: hidden; height: 12px; position:relative;">
-                            <div id="ai-progress-bar" style="width: 0%; height: 100%; background-color: var(--primary, #1b9b9a); transition: width 1s linear;"></div>
+                            <div id="ai-progress-bar" style="width: 0%; height: 100%; background-color: var(--primary, #0F5464); transition: width 1s linear;"></div>
                         </div>
                         <p id="ai-countdown-text" style="font-size: 0.85rem; color: #6f899e; margin-bottom: 10px;">Tempo stimato: 45 secondi</p>
 
-                        <h3 id="ai-loading-title" style="color:var(--primary, #1b9b9a); animation: blink 1.5s infinite;"><strong>ATTENDERE...</strong></h3>
+                        <h3 id="ai-loading-title" style="color:var(--primary, #0F5464); animation: blink 1.5s infinite;"><strong>ATTENDERE...</strong></h3>
                         <style>
                             @keyframes blink { 0% {opacity:1;} 50% {opacity:0.4;} 100% {opacity:1;} }
                         </style>
@@ -905,7 +915,7 @@ class TriageEngine {
                 break;
             default:
                 console.warn("Engine: Stato non gestito ->", this.state);
-                this.onMessage("⚠️ Si è verificato un imprevisto nel flusso. Per favore, clicca su 'Nuova Ricerca' per ricominciare.");
+                this.onMessage("Attenzione: Si è verificato un imprevisto nel flusso. Per favore, clicca su 'Nuova Ricerca' per ricominciare.");
         }
     }
 
@@ -994,7 +1004,7 @@ class TriageEngine {
             return [
                 "Questo sintomo si manifesta o peggiora sotto sforzo fisico (es. salendo le scale)?\n<br><i>A) Sì, mi devo fermare<br>B) Solo a riposo o di notte<br>C) Indipendente dallo sforzo</i>",
                 "Senti irradiazione del fastidio verso braccio sinistro, collo, mandibola o schiena?\n<br><i>A) Sì, irradiazione chiara<br>B) No, è ben localizzato<br>C) Solo peso generalizzato</i>",
-                "Si associa a sudorazione fredda, forte nausea, senso di svenimento o dispnea marcata?\n<br><i>A) Sì, molto intensi<br>B) Solo respiro un po' corto<br>C) Nessun sintomo associato</i>"
+                "Attenzione: Si associa a sudorazione fredda, forte nausea, senso di svenimento o dispnea marcata?\n<br><i>A) Sì, molto intensi<br>B) Solo respiro un po' corto<br>C) Nessun sintomo associato</i>"
             ];
         }
         if (hasAny(["sonno", "insonnia", "dormire", "addorment", "risvegli", "risveglio", "russamento", "russare", "apnee", "apnea notturna", "sonnolenza", "narcolessia"])) {
@@ -1250,7 +1260,7 @@ class TriageEngine {
                             const cleanToken = token.replace(/[^a-zA-Z]/g, '');
                             const nextToken = tokens[i + 1] || "";
                             const cleanNextToken = nextToken.replace(/[^a-zA-Z]/g, '');
-                            if (!cleanToken && /^[-–—|,]+$/.test(token) && /^[A-Z]/.test(cleanNextToken)) {
+                            if (!cleanToken && /^[---|,]+$/.test(token) && /^[A-Z]/.test(cleanNextToken)) {
                                 continue;
                             }
                             if (stopWords.test(cleanToken) || (!/^[A-Z]/.test(token) && !/^(di|de|da|del|della|d')$/i.test(token))) {
@@ -1303,12 +1313,12 @@ class TriageEngine {
             let outInitial = `
             <div id="printable-area">
             <div id="medical-disclaimer-start" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
-              ⚠️ ${escapeHTML(DISCLAIMER)}
+              Attenzione: ${escapeHTML(DISCLAIMER)}
             </div>
             
             <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">
                 <h3 style="color: var(--primary); margin-top: 0; display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 1.2rem;">🔍</span> Sintesi Anamnestica
+                    Sintesi Anamnestica
                 </h3>
                 <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(resultObj.sintesi_anamnestica)}</p>
                 
@@ -1316,14 +1326,14 @@ class TriageEngine {
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div style="background: #f0f7f7; padding: 15px; border-radius: 10px;">
-                        <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #1b9b9a; font-weight: bold; margin-bottom: 5px;">
-                            👨‍⚕️ SPECIALISTA CONSIGLIATO
+                        <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #0F5464; font-weight: bold; margin-bottom: 5px;">
+                            SPECIALISTA CONSIGLIATO
                         </span>
                         <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(resultObj.specialista_indicato)}</strong>
                     </div>
                     <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
                         <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">
-                            💡 GUIDA AL COMPORTAMENTO
+                            GUIDA AL COMPORTAMENTO
                         </span>
                         <p style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(resultObj.preparazione_visita)}</p>
                     </div>
@@ -1331,7 +1341,7 @@ class TriageEngine {
                 
                 <div style="margin-top: 20px; background: #fef2f2; padding: 15px; border-radius: 10px; border: 1px dashed #f87171;">
                     <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #b91c1c; font-weight: bold; margin-bottom: 5px;">
-                        📑 NOTA PER L'IMPEGNATIVA (MMG)
+                        NOTA PER L'IMPEGNATIVA (MMG)
                     </span>
                     <p style="margin: 0; font-style: italic; color: #374151;">"${escapeHTML(resultObj.impegnativa_medico)}"</p>
                 </div>
@@ -1650,3 +1660,4 @@ class TriageEngine {
     </div>`;
     }
 }
+

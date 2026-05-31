@@ -197,7 +197,7 @@ class ChatInterface {
                 chatBtn.click();
             }
 
-            this.addMessage(`Recupero ricerca ID: ${cleanID}...`, 'user-msg');
+            this.addMessage(`Recupero: Recupero ricerca ID: ${cleanID}...`, 'user-msg');
 
             const inputArea = document.querySelector('.chat-input-area');
             if (inputArea) {
@@ -238,30 +238,30 @@ class ChatInterface {
         let out = `
         <div id="printable-area">
         <div id="medical-disclaimer-start" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
-          ⚠️ ${escapeHTML(DISCLAIMER)}
+          Attenzione: ${escapeHTML(DISCLAIMER)}
         </div>
-        ✅ <strong>Ricerca recuperata (ID: ${escapeHTML(saved.id)})</strong>.<br>
+        <strong>OK: Ricerca recuperata (ID: ${escapeHTML(saved.id)})</strong>.<br>
         Data: ${escapeHTML(new Date(saved.date).toLocaleDateString('it-IT'))}<br><br>
 
         <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">
-            <h3 style="color: var(--primary); margin-top: 0;">🔍 Sintesi Anamnestica</h3>
+            <h3 style="color: var(--primary); margin-top: 0;">Sintesi Anamnestica</h3>
             <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(saved.result.sintesi_anamnestica || saved.result.patologia_presunta)}</p>
             
             <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div style="background: #f0f7f7; padding: 15px; border-radius: 10px;">
-                    <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #1b9b9a; font-weight: bold; margin-bottom: 5px;">👨‍⚕️ Specialista Consigliato</span>
+                    <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #0F5464; font-weight: bold; margin-bottom: 5px;">Specialista Consigliato</span>
                     <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(saved.result.specialista_indicato)}</strong>
                 </div>
                 <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
-                    <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">💡 Guida al Comportamento</span>
+                    <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">Guida al Comportamento</span>
                     <p style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(saved.result.preparazione_visita)}</p>
                 </div>
             </div>
             
             <div style="margin-top: 20px; background: #fef2f2; padding: 15px; border-radius: 10px; border: 1px dashed #f87171;">
-                <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #b91c1c; font-weight: bold; margin-bottom: 5px;">📑 Nota per l'Impegnativa (MMG)</span>
+                <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #b91c1c; font-weight: bold; margin-bottom: 5px;">Nota per l'Impegnativa (MMG)</span>
                 <p style="margin: 0; font-style: italic; color: #374151;">"${escapeHTML(saved.result.impegnativa_medico)}"</p>
             </div>
         </div>
@@ -444,7 +444,7 @@ window.copyTriageID = function(id, element) {
             const hint = element.querySelector('.copy-hint');
             if (hint) {
                 const oldText = hint.innerHTML;
-                hint.innerHTML = "✅ <span style='color:#fff; font-weight:bold;'>Copiato negli appunti!</span>";
+                hint.innerHTML = "<span style='color:#fff; font-weight:bold;'>OK: Copiato negli appunti!</span>";
                 setTimeout(() => {
                     hint.innerHTML = oldText;
                 }, 2500);
@@ -455,3 +455,4 @@ window.copyTriageID = function(id, element) {
         alert("Non è stato possibile copiare l'ID automaticamente. Per favore terminalo manualmente: " + id);
     });
 };
+

@@ -12,7 +12,11 @@ const entries = [
   "sitemap.xml",
   "service-worker.js",
   "src",
-  "assets"
+  "assets",
+  "cookie-policy",
+  "privacy-policy",
+  "disclaimer-medico",
+  "termini-condizioni"
 ];
 
 function copyRecursive(source, target) {

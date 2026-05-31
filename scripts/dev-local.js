@@ -134,6 +134,17 @@ async function handleApi(req, res) {
         return true;
     }
 
+    if (req.url === "/api/consent-logs") {
+        const { handleConsentLogs } = require("../server/consent_logs");
+        const result = await handleConsentLogs({
+            method: req.method,
+            body,
+            context: createRequestContext(req)
+        });
+        send(res, result.statusCode, result.headers, result.body);
+        return true;
+    }
+
     if (req.url === "/api/firebase-config") {
         send(res, 200, {
             "Content-Type": "application/json; charset=utf-8",
@@ -156,7 +167,11 @@ async function handleApi(req, res) {
 function safeFilePath(url) {
     const pathname = decodeURIComponent(new URL(url, `http://${host}:${port}`).pathname);
     const relative = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
-    const filePath = path.resolve(root, relative);
+    let filePath = path.resolve(root, relative);
+    if (!filePath.startsWith(root)) return null;
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+        filePath = path.join(filePath, "index.html");
+    }
     return filePath.startsWith(root) ? filePath : null;
 }
 

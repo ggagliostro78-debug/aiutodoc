@@ -3,9 +3,9 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/jpeg" href="./logo.jpg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#1b9b9a" />
+  <meta name="theme-color" content="#0F5464" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -21,29 +21,20 @@
   <meta property="og:title" content="AIutoDoc.it | Prenderti cura di te non è mai stato così semplice" />
   <meta property="og:description" content="Orientamento sanitario informativo e supporto alla ricerca dello specialista più coerente con le informazioni fornite." />
   <meta property="og:url" content="https://aiutodoc.it/" />
-  <meta property="og:image" content="https://aiutodoc.it/logo.jpg" />
+  <meta property="og:image" content="https://aiutodoc.it/assets/header-sito.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="AIutoDoc.it | Prenderti cura di te non è mai stato così semplice" />
   <meta name="twitter:description" content="Orientamento sanitario informativo e supporto alla ricerca dello specialista più coerente con le informazioni fornite." />
-  <meta name="twitter:image" content="https://aiutodoc.it/logo.jpg" />
+  <meta name="twitter:image" content="https://aiutodoc.it/assets/header-sito.png" />
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="apple-touch-icon" href="./logo.jpg" />
-  <link rel="stylesheet" href="./src/style.css?v=3.4.6">
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Styles moved to src/style.css -->
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9C1TRG2K0X"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  <link rel="apple-touch-icon" href="./assets/favicon-192.png" />
+  <link rel="stylesheet" href="./src/style.css?v=4.0.3">
+  <link rel="privacy-policy" href="https://aiutodoc.it/privacy-policy/">
+  <link rel="terms-of-service" href="https://aiutodoc.it/termini-condizioni/">
+  <link rel="help" href="https://aiutodoc.it/cookie-policy/" title="Cookie Policy">
+  <link rel="help" href="https://aiutodoc.it/disclaimer-medico/" title="Disclaimer Medico">
 
-    gtag('config', 'G-9C1TRG2K0X', { 'anonymize_ip': true });
-  </script>
+  <!-- Styles moved to src/style.css -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -60,7 +51,7 @@
       "email": "info@aiutodoc.it",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://aiutodoc.it/logo.jpg"
+        "url": "https://aiutodoc.it/assets/logo-aiutodoc.png"
       }
     },
     "medicalAudience": {
@@ -96,7 +87,7 @@
       <h3>Verifica età, informativa e consensi</h3>
       <div class="modal-scroll">
         <p>Benvenuto in AIutoDoc.it.</p>
-        <p>I dati inseriti vengono trattati esclusivamente per fornire il servizio richiesto e gestiti secondo quanto indicato nell'<a href="#" class="inline-legal-link" data-legal-type="privacy">Informativa Privacy</a>.</p>
+        <p>I dati inseriti vengono trattati esclusivamente per fornire il servizio richiesto e gestiti secondo quanto indicato nell'<a href="/privacy-policy/" target="_blank" rel="noopener">Informativa Privacy</a>.</p>
         <p><strong>ATTENZIONE:</strong> Sono un sistema di intelligenza artificiale che fornisce informazioni di orientamento sanitario. Non sostituisco un medico. Non utilizzare questo servizio in situazioni di emergenza: contatta il 112.</p>
         <div class="age-gate" role="group" aria-label="Verifica età">
           <p><strong>Hai compiuto 14 anni?</strong></p>
@@ -106,11 +97,11 @@
         </div>
         <label class="consent-row">
           <input type="checkbox" id="consent-medical-disclaimer">
-          <span>Dichiaro di aver preso visione del disclaimer medico.</span>
+          <span>Dichiaro di aver preso visione del <a href="/disclaimer-medico/" target="_blank" rel="noopener">disclaimer medico</a>.</span>
         </label>
         <label class="consent-row">
           <input type="checkbox" id="consent-terms">
-          <span>Accetto Termini e Condizioni d'uso.</span>
+          <span>Accetto i <a href="/termini-condizioni/" target="_blank" rel="noopener">Termini e Condizioni d'uso</a>.</span>
         </label>
         <label class="consent-row">
           <input type="checkbox" id="consent-health-data">
@@ -120,6 +111,36 @@
       <button id="accept-privacy-btn" class="btn-primary-wide" disabled>Accetto e voglio continuare</button>
     </div>
   </div>
+
+  <section id="cookie-consent" class="cookie-consent hidden" aria-labelledby="cookie-consent-title" role="dialog" aria-modal="false">
+    <div class="cookie-consent-panel">
+      <div class="cookie-consent-copy">
+        <h2 id="cookie-consent-title">Preferenze cookie</h2>
+        <p>Usiamo cookie tecnici necessari al funzionamento del sito. I cookie analytics vengono caricati solo con il tuo consenso.</p>
+        <a href="/cookie-policy/" target="_blank" rel="noopener">Maggiori informazioni</a>
+      </div>
+      <div id="cookie-customize-panel" class="cookie-customize-panel hidden">
+        <label class="cookie-toggle">
+          <input type="checkbox" checked disabled>
+          <span>Cookie tecnici necessari, sempre attivi</span>
+        </label>
+        <label class="cookie-toggle">
+          <input type="checkbox" id="cookie-analytics">
+          <span>Cookie analytics per statistiche aggregate</span>
+        </label>
+        <label class="cookie-toggle">
+          <input type="checkbox" id="cookie-marketing" disabled>
+          <span>Cookie marketing/profilazione non utilizzati</span>
+        </label>
+      </div>
+      <div class="cookie-actions">
+        <button type="button" id="cookie-accept-all">Accetta tutti</button>
+        <button type="button" id="cookie-reject-all">Rifiuta tutti</button>
+        <button type="button" id="cookie-customize">Personalizza</button>
+        <button type="button" id="cookie-save-custom" class="hidden">Salva preferenze</button>
+      </div>
+    </div>
+  </section>
 
   <!-- Legal Docs Modal -->
   <div id="legal-modal" class="modal-overlay hidden">
@@ -134,7 +155,7 @@
     <header class="chat-header">
       <div class="banner-wrapper">
         <!-- BANNER FULL WIDTH -->
-        <img src="./logo.jpg" alt="AIutoDoc.it Banner" class="banner-img">
+        <img src="./assets/header-sito.png" alt="AIutoDoc.it - Prenderti cura di te non è mai stato così semplice" class="banner-img">
 
         <!-- Hamburger Toggle for Mobile -->
         <button id="menu-toggle" aria-label="Apri il menu di navigazione" aria-expanded="false">Menu</button>
@@ -166,8 +187,8 @@
         <div id="chat-messages" class="messages-area">
           <div class="welcome-message message system-msg">
             <div class="msg-bubble">
-              <div class="welcome-title" style="text-align: center; display: block; font-size: 1.25rem; margin-bottom: 4px;">Con AIutoDoc.it trovi più facilmente <strong>lo specialista giusto per le tue esigenze</strong>.</div>
-              <div class="welcome-subtitle" style="text-align: center; font-style: italic; color: var(--text-muted); margin-bottom: 12px; font-size: 0.85rem;">Prenderti cura di te non è mai stato così semplice.</div>
+              <div class="welcome-title">Trova più facilmente lo specialista adatto alle tue esigenze.</div>
+              <div class="welcome-subtitle">Un supporto semplice per orientarti tra sintomi, specialisti e percorsi sanitari.</div>
               
               <p style="text-align: center; margin-bottom: 10px; font-size: 0.95rem;">AIutoDoc è un sistema di supporto che si basa sull'utilizzo dell'intelligenza artificiale per lo scopo più umano che ci sia: <strong>la cura</strong>.</p>
               
@@ -175,21 +196,25 @@
                 Attraverso poche domande ti aiuto ad <strong>accedere alle figure specialistiche più adatte a te</strong>, sulla base dei sintomi e delle informazioni che condividi.
               </div>
               
-              <p style="text-align: center; margin-bottom: 12px; font-size: 0.9rem;"><strong>⚠️ Non sostituisco una visita medica o il parere di un professionista sanitario.</strong></p>
+              <div class="medical-disclaimer-card" role="note" aria-label="Avviso medico importante">
+                <strong>Importante</strong>
+                <p>AiutoDoc non fornisce diagnosi, prescrizioni o pareri medici e non sostituisce una visita sanitaria.</p>
+                <p>In caso di urgenza, sintomi gravi o peggioramento improvviso, chiama il 112/118 o rivolgiti al Pronto Soccorso.</p>
+              </div>
 
               <form id="initial-medical-form" class="initial-intake-card" novalidate>
                 <h3>Prima di iniziare</h3>
-                <p>Ti chiediamo solo alcune informazioni essenziali per orientarti verso lo specialista più appropriato. Non sostituisce una visita medica.</p>
+                <p>Per orientarti meglio verso lo specialista più appropriato, inserisci prima età e sesso biologico. Il dato sul sesso biologico viene usato solo quando clinicamente rilevante. Puoi scegliere di non specificarlo.</p>
 
                 <label class="initial-field" for="initial-age">
                   <span>Quanti anni hai?</span>
-                  <input id="initial-age" name="age" type="number" min="0" max="120" inputmode="numeric" autocomplete="off" required>
+                  <input id="initial-age" name="age" type="number" min="0" max="120" inputmode="numeric" autocomplete="off" placeholder="Es. 35" aria-describedby="initial-age-error" required>
                 </label>
-                <p class="initial-error" id="initial-age-error" aria-live="polite"></p>
+                <p class="initial-error" id="initial-age-error" aria-live="polite" role="alert"></p>
 
-                <fieldset class="initial-fieldset">
+                <fieldset class="initial-fieldset" aria-describedby="initial-sex-help initial-sex-error">
                   <legend>Sesso biologico</legend>
-                  <p>Ci aiuta a orientare meglio la ricerca dello specialista quando il dato è clinicamente rilevante.</p>
+                  <p id="initial-sex-help">Alcuni sintomi o percorsi sanitari possono dipendere anche dal sesso biologico. Puoi scegliere di non specificarlo.</p>
                   <div class="sex-at-birth-options">
                     <label class="sex-at-birth-card">
                       <input type="radio" name="sex_at_birth" value="female">
@@ -205,8 +230,8 @@
                     </label>
                   </div>
                 </fieldset>
-                <p class="initial-error" id="initial-sex-error" aria-live="polite"></p>
-                <button type="submit" class="btn-primary-wide">Continua</button>
+                <p class="initial-error" id="initial-sex-error" aria-live="polite" role="alert"></p>
+                <button type="submit" class="btn-primary-wide">Continua per iniziare</button>
               </form>
             </div>
             <div class="msg-time">Ora</div>
@@ -215,8 +240,8 @@
         <div id="typing-indicator" class="typing-indicator hidden">
           <span></span><span></span><span></span>
         </div>
-        <div class="chat-input-area">
-          <textarea id="user-input" placeholder="Età e sesso biologico (es. 35, Femmina oppure Preferisco non specificare)" rows="1" enterkeyhint="send" autocapitalize="sentences" autocomplete="on" spellcheck="true"></textarea>
+        <div class="chat-input-area onboarding-hidden" aria-hidden="true">
+          <textarea id="user-input" placeholder="Inserisci Comune o Provincia. Es. Milano, Roma, RC oppure Italia" rows="1" enterkeyhint="send" autocapitalize="sentences" autocomplete="on" spellcheck="true"></textarea>
           <button id="send-btn" class="btn-primary" aria-label="Invia">
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
               stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
@@ -244,7 +269,7 @@
           
           <p><strong>AIutoDoc</strong> nasce per rendere più semplice l'orientamento sanitario. Raccoglie poche informazioni per restituire una risposta coerente con le tue necessità, <strong>supportandoti nella ricerca</strong> di professionisti e strutture sanitarie.</p>
 
-          <p>Le informazioni che fornisci vengono sempre trattate in modo sicuro e <strong>al solo fine di individuare la categoria specialistica più pertinente</strong>. Per maggiori dettagli consulta la nostra <a href="#" class="inline-legal-link" onclick="openLegalModal('privacy'); return false;"><strong>Privacy Policy</strong></a>.</p>
+          <p>Le informazioni che fornisci vengono sempre trattate in modo sicuro e <strong>al solo fine di individuare la categoria specialistica più pertinente</strong>. Per maggiori dettagli consulta la nostra <a href="/privacy-policy/" target="_blank" rel="noopener"><strong>Privacy Policy</strong></a>.</p>
 
           <div class="brand-positioning">
             <div class="problem-box">
@@ -348,13 +373,13 @@
           <div style="margin: 25px 0;">
             <input type="text" id="glossary-search" placeholder="Cerca sintomo, vocabolo o malattia..."
               style="width: 100%; padding: 14px 20px; border-radius: 24px; border: 1px solid var(--border-color); font-family: inherit; font-size: 1rem; color: var(--text-main); outline: none; transition: all 0.2s;"
-              onfocus="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 0 0 2px rgba(27, 155, 154, 0.15)';"
+              onfocus="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 0 0 2px rgba(92, 201, 204, 0.15)';"
               onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';">
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🧠 Psicologia e Psichiatria</h3>
+            Psicologia e Psichiatria</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Apatia:</strong> Mancanza di emozione, motivazione o interesse.</div>
             <div class="g-card"><strong>Disfonia:</strong> Alterazione della voce legata a fattori emotivi.</div>
@@ -373,7 +398,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🦴 Ortopedia e Traumatologia</h3>
+            Ortopedia e Traumatologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Artroscopia:</strong> Procedura chirurgica mininvasiva per ispezionare/operare
               l'interno di un'articolazione (es. ginocchio, spalla).</div>
@@ -393,7 +418,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🧠 Neurologia e Neurochirurgia</h3>
+            Neurologia e Neurochirurgia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Amnesia:</strong> Perdita parziale o totale della memoria.</div>
             <div class="g-card"><strong>Cefalea:</strong> Termine generico per indicare il mal di testa.</div>
@@ -411,7 +436,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            ❤️ Cardiologia</h3>
+            Cardiologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Aritmia:</strong> Alterazione o ritmo irregolare dei battiti cardiaci.</div>
             <div class="g-card"><strong>Bradicardia:</strong> Battito cardiaco eccessivamente lento.</div>
@@ -433,7 +458,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🍎 Gastroenterologia</h3>
+            Gastroenterologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Disfagia:</strong> Difficoltà nella deglutizione del cibo o dei liquidi.</div>
             <div class="g-card"><strong>Dispepsia:</strong> Difficolta digestiva, senso di pesantezza o dolore.</div>
@@ -453,7 +478,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🔬 Dermatologia</h3>
+            Dermatologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Eritema:</strong> Arrossamento forte della cute da infiammazione.</div>
             <div class="g-card"><strong>Prurito:</strong> Irritazione sensoriale che induce a grattarsi.</div>
@@ -472,7 +497,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🚺 Ginecologia e Andrologia</h3>
+            Ginecologia e Andrologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Amenorrea:</strong> Assenza del ciclo mestruale.</div>
             <div class="g-card"><strong>Dismenorrea:</strong> Flusso mestruale dolorosamente alterato.</div>
@@ -489,7 +514,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            👂 Otorinolaringoiatria</h3>
+            Otorinolaringoiatria</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Acufene:</strong> Percezione di rumori o ronzii acuti fissi nelle orecchie.
             </div>
@@ -507,7 +532,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            👁️ Oculistica</h3>
+            Oculistica</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Miodesopsie:</strong> Corpi mobili o "mosche volanti" visive.</div>
             <div class="g-card"><strong>Fosfeni:</strong> Bagliori e percezione visiva di lampi di luce.</div>
@@ -525,7 +550,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            ⚕️ Chirurgia Generale e Toracica</h3>
+            Chirurgia Generale e Toracica</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Ernia:</strong> Protuberanza di un viscere oltre la parete corporea.</div>
             <div class="g-card"><strong>Laparocele:</strong> Ernia formatasi su vecchie ferite incisionali/cicatrici.
@@ -545,7 +570,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🦷 Odontoiatria</h3>
+            Odontoiatria</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Carie:</strong> Infezione cronica distruttiva dei tessuti duri del dente.</div>
             <div class="g-card"><strong>Gengivite:</strong> Infiammazione non distruttiva dei tessuti gengivali.</div>
@@ -565,7 +590,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            💉 Diabetologia ed Endocrinologia</h3>
+            Diabetologia ed Endocrinologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Glicemia:</strong> Concentrazione di glucosio (zucchero) nel sangue.</div>
             <div class="g-card"><strong>Insulinoresistenza:</strong> Ridotta capacità delle cellule di rispondere
@@ -586,7 +611,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            💨 Pneumologia</h3>
+            Pneumologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Dispnea:</strong> Sensazione grave di fatica o difficoltà nel respirare
               (affanno).</div>
@@ -611,7 +636,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🩸 Ematologia</h3>
+            Ematologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Anemia:</strong> Carenza o diminuzione drastica dei globuli rossi o emoglobina.
             </div>
@@ -636,7 +661,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🛡️ Malattie Infettive e Immunologia</h3>
+            Malattie Infettive e Immunologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Sepsi:</strong> Risposta estrema e vitale dell'organismo a un'estesa infezione
               ematica (setticemia).</div>
@@ -662,7 +687,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🌿 Reumatologia</h3>
+            Reumatologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Artrite:</strong> Spinta infiammatoria non meccanica a carico delle
               articolazioni (reumatismi).</div>
@@ -688,7 +713,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            💧 Nefrologia e Urologia</h3>
+            Nefrologia e Urologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Colica Renale:</strong> Un grave dolore lombo-costrittivo legato all'irruzione
               di cristalli nelle delicate vie escretrici.</div>
@@ -714,7 +739,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            👴🏻 Geriatria</h3>
+            Geriatria</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Decadimento Cognitivo:</strong> Regressione del raziocinio geriatrico mentale
               (Avvisaglia dell'Alzheimer iniziale comune o simili).</div>
@@ -740,13 +765,13 @@
               Parkinson o che simulano il ritardo lento di motori e il fermarsi bruscamente e involontaria marcia
               geriatrico. Rischio di letale ruzzolo.</div>
             <div class="g-card"><strong>Fragilità Ossa (Geriatrica):</strong> Il mix combinato grave d'incidente per
-              scivoloni a osteoporosi avanzata tipica delle donne. È la 1° prima grande sintomatologia di degenerazione
+              scivoloni a osteoporosi avanzata tipica delle donne. Ãˆ la 1Â° prima grande sintomatologia di degenerazione
               per rottura mortale testa del femore se atterrate.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            🥦 Nutrizione e Dietologia</h3>
+            Nutrizione e Dietologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>BMI (Indice di Massa):</strong> Metro statistico di stima corporale sull'altezza
               ponderato peso. Usato per i range della "obesità o l'anoressia con BMI". </div>
@@ -785,11 +810,11 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            👶🏼 Pediatria e Neo-Natologia</h3>
+            Pediatria e Neo-Natologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Coliche Gaspanti:</strong> Una fase transiente infantile d'insorgenza serale del
               gas / crampi (es. spasmo piagnucolio dopo la lattazione senza rimedi e feci normali del bebè piangente e
-              gonfio per spasmo non patologico neo-natologia classica nel pediatra al 3° mese a stomaco di spasmo
+              gonfio per spasmo non patologico neo-natologia classica nel pediatra al 3Â° mese a stomaco di spasmo
               dolente o gonfiato aria colica o gassosi tipici dolori della pancia col pancino gonfio e i pianti tipiche
               al pomeriggio neonato.</div>
             <div class="g-card"><strong>Scarlattina:</strong> Tipica infezione eruttiva streptococcica batteriosa
@@ -1002,7 +1027,7 @@
         <div class="info-body">
           <h2>Malattie Infettive</h2>
           <p class="specialty-subtitle">Febbre persistente, infezioni ricorrenti o dubbi dopo un viaggio? Scopri se questa è la figura giusta per le tue necessità.</p>
-          <p><strong>L’Infettivologo</strong> si occupa della diagnosi e del trattamento di <strong>infezioni causate da batteri, virus, funghi e parassiti</strong>. Segue condizioni come HIV, epatiti virali, tubercolosi, infezioni sessualmente trasmissibili, sepsi e patologie tropicali o importate da viaggi. È anche il riferimento per <strong>infezioni complesse</strong> che non rispondono alle terapie abituali o per pazienti con difese immunitarie ridotte.</p>
+          <p><strong>L’Infettivologo</strong> si occupa della diagnosi e del trattamento di <strong>infezioni causate da batteri, virus, funghi e parassiti</strong>. Segue condizioni come HIV, epatiti virali, tubercolosi, infezioni sessualmente trasmissibili, sepsi e patologie tropicali o importate da viaggi. Ãˆ anche il riferimento per <strong>infezioni complesse</strong> che non rispondono alle terapie abituali o per pazienti con difese immunitarie ridotte.</p>
           <p><strong>I segnali da non trascurare</strong>: febbre persistente senza causa apparente, infezioni frequenti o difficili da trattare, sintomi comparsi dopo un viaggio all'estero, esposizione a rischio per malattie sessualmente trasmissibili, stanchezza cronica associata a sudorazioni e calo di peso.</p>
           <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
         </div>
@@ -1011,7 +1036,7 @@
         <div class="info-body">
           <h2>Reumatologia</h2>
           <p class="specialty-subtitle">Dolori articolari, rigidità mattutina, gonfiore alle mani o alle ginocchia? Tutto parte dal primo orientamento.</p>
-          <p><strong>Il Reumatologo</strong> si occupa delle malattie che colpiscono articolazioni, ossa, muscoli e tessuto connettivo, molte delle quali hanno natura autoimmune. Diagnostica e tratta artrite reumatoide, lupus, fibromialgia, gotta, spondilite anchilosante, artrosi e osteoporosi. È una figura spesso sottovalutata, ma <strong>fondamentale per intercettare precocemente malattie</strong> che, se non trattate, possono diventare invalidanti.</p>
+          <p><strong>Il Reumatologo</strong> si occupa delle malattie che colpiscono articolazioni, ossa, muscoli e tessuto connettivo, molte delle quali hanno natura autoimmune. Diagnostica e tratta artrite reumatoide, lupus, fibromialgia, gotta, spondilite anchilosante, artrosi e osteoporosi. Ãˆ una figura spesso sottovalutata, ma <strong>fondamentale per intercettare precocemente malattie</strong> che, se non trattate, possono diventare invalidanti.</p>
           <p><strong>I segnali da non trascurare</strong>: dolori articolari diffusi, rigidità al mattino che dura più di mezz'ora, gonfiore e arrossamento delle articolazioni, stanchezza cronica associata a dolori muscolari, secchezza degli occhi e della bocca, eruzioni cutanee in concomitanza con dolori articolari.</p>
           <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
         </div>
@@ -1020,7 +1045,7 @@
         <div class="info-body">
           <h2>Geriatria</h2>
           <p class="specialty-subtitle">Salute e qualità della vita dopo i 65 anni? Una specializzazione che guarda alla persona nel suo insieme.</p>
-          <p><strong>Il Geriatra</strong> è il medico specializzato nella <strong>cura della persona anziana,</strong> con un approccio globale che tiene conto di tutte le condizioni presenti contemporaneamente. Si occupa della <strong>gestione di patologie multiple</strong>, come ipertensione, diabete, artrosi, demenza e osteoporosi (spesso compresenti nello stesso paziente) e valuta anche aspetti come l'autonomia, il rischio di cadute, l'uso corretto dei farmaci e il benessere psicologico. <strong>È un riferimento prezioso per i familiari che si prendono cura di un anziano</strong>.</p>
+          <p><strong>Il Geriatra</strong> è il medico specializzato nella <strong>cura della persona anziana,</strong> con un approccio globale che tiene conto di tutte le condizioni presenti contemporaneamente. Si occupa della <strong>gestione di patologie multiple</strong>, come ipertensione, diabete, artrosi, demenza e osteoporosi (spesso compresenti nello stesso paziente) e valuta anche aspetti come l'autonomia, il rischio di cadute, l'uso corretto dei farmaci e il benessere psicologico. <strong>Ãˆ un riferimento prezioso per i familiari che si prendono cura di un anziano</strong>.</p>
           <p><strong>I segnali che rendono utile una valutazione geriatrica</strong>: calo della memoria, difficoltà a svolgere le attività quotidiane, perdita di peso, frequenti cadute, confusione, uso di molti farmaci contemporaneamente o necessità di una valutazione complessiva dello stato di salute.</p>
           <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
         </div>
@@ -1049,18 +1074,29 @@
     <!-- Footer App (Legal) -->
     <footer class="legal-footer">
       <button id="install-app-btn" class="install-app-btn hidden" type="button">Installa AIutoDoc</button>
-      <div class="footer-info" style="margin-bottom: 15px; font-size: 0.85rem; opacity: 0.85;">
-        <strong>Contatti:</strong> <a href="mailto:info@aiutodoc.it" style="color: inherit;">info@aiutodoc.it</a>
-      </div>
-      <div class="footer-links">
-        <a href="#" onclick="openLegalModal('privacy')">Privacy Policy</a> |
-        <a href="#" onclick="openLegalModal('terms')">Termini & Condizioni</a> |
-        <a href="#" onclick="openLegalModal('cookie')">Cookie Policy</a> |
-        <a href="#" onclick="openLegalModal('disclaimer')">Disclaimer Medico</a>
-      </div>
-      <div class="footer-copy" style="margin-top: 10px;">
-        &copy; 2026 AIutoDoc. Tutti i diritti riservati.<br>
-        <small>Progetto AI indipendente per orientamento sanitario informativo.</small>
+      <div class="legal-footer-grid">
+        <div class="footer-col">
+          <strong>AiutoDoc - progetto in fase di costituzione</strong>
+          <p>AIutoDoc.it e' attualmente in fase di MVP e operato come progetto personale. Le informazioni societarie saranno aggiornate al momento della costituzione.</p>
+        </div>
+        <div class="footer-col">
+          <strong>Contatti</strong>
+          <p>Email: <a href="mailto:info@aiutodoc.it">info@aiutodoc.it</a><br>Referente privacy: <a href="mailto:privacy@aiutodoc.it">privacy@aiutodoc.it</a><br>PEC: in fase di attivazione</p>
+        </div>
+        <div class="footer-col">
+          <strong>Informazioni legali</strong>
+          <div class="footer-links">
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <a href="/termini-condizioni/">Termini e Condizioni</a>
+            <a href="/cookie-policy/">Cookie Policy</a>
+            <a href="/disclaimer-medico/">Disclaimer Medico</a>
+            <button type="button" id="manage-cookie-preferences" class="footer-link-button">Gestisci preferenze cookie</button>
+          </div>
+        </div>
+        <div class="footer-col">
+          <strong>Copyright</strong>
+          <p>&copy; 2026 AiutoDoc - Tutti i diritti riservati.</p>
+        </div>
       </div>
     </footer>
   </div>
@@ -1069,10 +1105,21 @@
     // Rescue UI Script (Standard Script for Max Availability)
     (function() {
       console.log("Rescue UI Script loading...");
+      const APP_CONSENT_VERSION = '2026-05-gdpr-v1';
+      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
+      const GA_MEASUREMENT_ID = 'G-9C1TRG2K0X';
       const privacyModal = document.getElementById('privacy-modal');
       const acceptBtn = document.getElementById('accept-privacy-btn');
       const userInput = document.getElementById('user-input');
       const sendBtn = document.getElementById('send-btn');
+      const cookieConsent = document.getElementById('cookie-consent');
+      const cookieCustomizePanel = document.getElementById('cookie-customize-panel');
+      const cookieAnalytics = document.getElementById('cookie-analytics');
+      const cookieAcceptAll = document.getElementById('cookie-accept-all');
+      const cookieRejectAll = document.getElementById('cookie-reject-all');
+      const cookieCustomize = document.getElementById('cookie-customize');
+      const cookieSaveCustom = document.getElementById('cookie-save-custom');
+      const manageCookiePreferences = document.getElementById('manage-cookie-preferences');
       const ageRadios = document.querySelectorAll('input[name="age-confirmation"]');
       const consentInputs = [
         document.getElementById('consent-medical-disclaimer'),
@@ -1080,6 +1127,140 @@
         document.getElementById('consent-health-data')
       ].filter(Boolean);
       const minorMessage = document.getElementById('minor-flow-message');
+
+      function readJsonStorage(key) {
+        try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch (error) { return null; }
+      }
+
+      function writeJsonStorage(key, value) {
+        try { localStorage.setItem(key, JSON.stringify(value)); } catch (error) { console.warn('Storage non disponibile:', key, error); }
+      }
+
+      function readStorageValue(key) {
+        try { return localStorage.getItem(key); } catch (error) { return null; }
+      }
+
+      function removeStorageValue(key) {
+        try { localStorage.removeItem(key); } catch (error) {}
+      }
+
+      function logConsent(scope, consents, extra) {
+        const payload = {
+          scope: scope,
+          consentVersion: APP_CONSENT_VERSION,
+          documentVersions: {
+            privacy: '2026-05-29-v1',
+            cookie: '2026-05-29-v1',
+            disclaimer: '2026-05-29-v1',
+            terms: '2026-05-29-v1'
+          },
+          consents: consents,
+          textSnapshot: extra && extra.textSnapshot ? extra.textSnapshot : '',
+          source: extra && extra.source ? extra.source : 'web'
+        };
+
+        fetch('/api/consent-logs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          keepalive: true
+        }).catch(function(error) {
+          console.warn('Log consenso non inviato:', error);
+        });
+      }
+
+      function loadGoogleAnalytics() {
+        if (window.__aiutodocGaLoaded) return;
+        window.__aiutodocGaLoaded = true;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){ window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', GA_MEASUREMENT_ID, { anonymize_ip: true });
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_MEASUREMENT_ID);
+        document.head.appendChild(script);
+      }
+
+      function applyCookiePreferences(preferences) {
+        if (preferences && preferences.analytics === true) {
+          loadGoogleAnalytics();
+        }
+      }
+
+      function hideCookieBanner() {
+        if (cookieConsent) cookieConsent.classList.add('hidden');
+      }
+
+      function showCookieBanner(customizeFirst) {
+        if (!cookieConsent) return;
+        cookieConsent.classList.remove('hidden');
+        const saved = readJsonStorage(COOKIE_CONSENT_KEY);
+        if (cookieAnalytics) cookieAnalytics.checked = !!(saved && saved.analytics);
+        if (customizeFirst && cookieCustomizePanel && cookieSaveCustom) {
+          cookieCustomizePanel.classList.remove('hidden');
+          cookieSaveCustom.classList.remove('hidden');
+        }
+      }
+
+      function saveCookiePreferences(preferences, action) {
+        const record = {
+          necessary: true,
+          analytics: preferences.analytics === true,
+          marketing: false,
+          action: action,
+          consentVersion: APP_CONSENT_VERSION,
+          savedAt: new Date().toISOString(),
+          expiresAt: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString()
+        };
+        writeJsonStorage(COOKIE_CONSENT_KEY, record);
+        applyCookiePreferences(record);
+        logConsent('cookie_banner', record, {
+          source: action,
+          textSnapshot: 'Cookie tecnici necessari; cookie analytics solo previo consenso; marketing non utilizzato.'
+        });
+        hideCookieBanner();
+      }
+
+      if (cookieAcceptAll) {
+        cookieAcceptAll.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: true }, 'accept_all');
+        });
+      }
+      if (cookieRejectAll) {
+        cookieRejectAll.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: false }, 'reject_all');
+        });
+      }
+      if (cookieCustomize) {
+        cookieCustomize.addEventListener('click', function() {
+          if (cookieCustomizePanel) cookieCustomizePanel.classList.remove('hidden');
+          if (cookieSaveCustom) cookieSaveCustom.classList.remove('hidden');
+        });
+      }
+      if (cookieSaveCustom) {
+        cookieSaveCustom.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: cookieAnalytics && cookieAnalytics.checked }, 'customize');
+        });
+      }
+      if (manageCookiePreferences) {
+        manageCookiePreferences.addEventListener('click', function() {
+          showCookieBanner(true);
+        });
+      }
+
+      const storedCookiePreferences = readJsonStorage(COOKIE_CONSENT_KEY);
+      const storedCookieExpired = storedCookiePreferences && Date.parse(storedCookiePreferences.expiresAt || '') <= Date.now();
+      const forceCookiePreferences = readStorageValue('aiutodoc_open_cookie_preferences') === '1';
+      if (forceCookiePreferences) {
+        removeStorageValue('aiutodoc_open_cookie_preferences');
+        showCookieBanner(true);
+      } else if (storedCookiePreferences && !storedCookieExpired) {
+        applyCookiePreferences(storedCookiePreferences);
+      } else {
+        showCookieBanner(false);
+      }
 
       if (privacyModal && acceptBtn) {
         if (userInput) userInput.disabled = true;
@@ -1103,9 +1284,18 @@
             medicalDisclaimer: true,
             terms: true,
             healthData: true,
-            consentVersion: '2026-05-gdpr-v1',
+            consentVersion: APP_CONSENT_VERSION,
             acceptedAt: new Date().toISOString()
           }));
+          logConsent('entry_gate', {
+            ageOver14: true,
+            medicalDisclaimer: true,
+            terms: true,
+            healthData: true
+          }, {
+            source: 'entry_gate',
+            textSnapshot: 'Verifica eta; presa visione disclaimer medico; accettazione termini; consenso esplicito al trattamento dati sanitari art. 9(2)(a) GDPR.'
+          });
           privacyModal.classList.add('hidden');
           setTimeout(function() { privacyModal.style.display = 'none'; }, 500);
           
@@ -1285,3 +1475,4 @@
   <script src="./src/app_bootstrap.js?v=3.4.6"></script>
 </body>
 </html>
+
