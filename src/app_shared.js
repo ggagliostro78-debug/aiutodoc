@@ -89,7 +89,7 @@ async function registerUserForRecovery(email, consentFlags = {}) {
         throw new Error("Inserisci un indirizzo email valido.");
     }
 
-    const required = ["terms", "privacy", "healthData"];
+    const required = ["medicalDisclaimer", "terms", "privacy", "healthData"];
     if (!required.every((key) => consentFlags[key] === true)) {
         throw new Error("Per generare il codice devi confermare tutti i consensi richiesti.");
     }
@@ -102,6 +102,7 @@ async function registerUserForRecovery(email, consentFlags = {}) {
         registeredAt: new Date().toISOString(),
         consentVersion: APP_CONSENT_VERSION,
         consents: {
+            medicalDisclaimer: true,
             terms: true,
             privacy: true,
             healthData: true

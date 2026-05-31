@@ -47,7 +47,7 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "MedicalWebPage",
+    "@type": "WebSite",
     "name": "AIutoDoc",
     "url": "https://aiutodoc.it/",
     "description": "Piattaforma di orientamento sanitario informativo per aiutare il cittadino a individuare la branca specialistica più coerente con le informazioni fornite.",
@@ -63,14 +63,10 @@
         "url": "https://aiutodoc.it/logo.jpg"
       }
     },
-    "medicalAudience": {
-      "@type": "MedicalAudience",
-      "audienceType": "Patient"
-    },
     "mainEntity": {
       "@type": "SoftwareApplication",
       "name": "AIutoDoc",
-      "applicationCategory": "HealthApplication",
+      "applicationCategory": "LifestyleApplication",
       "operatingSystem": "Web",
       "offers": {
         "@type": "Offer",
@@ -106,7 +102,7 @@
         </div>
         <label class="consent-row">
           <input type="checkbox" id="consent-medical-disclaimer">
-          <span>Dichiaro di aver preso visione del disclaimer medico.</span>
+          <span>Ho preso visione del Disclaimer Medico.</span>
         </label>
         <label class="consent-row">
           <input type="checkbox" id="consent-terms">
@@ -114,7 +110,7 @@
         </label>
         <label class="consent-row">
           <input type="checkbox" id="consent-health-data">
-          <span>Presto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.</span>
+          <span>Acconsento al trattamento dei dati sanitari ai sensi dell'art. 9 GDPR.</span>
         </label>
       </div>
       <button id="accept-privacy-btn" class="btn-primary-wide" disabled>Accetto e voglio continuare</button>
@@ -145,6 +141,8 @@
           <button class="nav-btn" data-target="about-section">Chi Siamo</button>
           <button class="nav-btn" data-target="glossary-section">Glossario</button>
           <button class="nav-btn" data-target="practices-section">Branche Mediche</button>
+          <button class="nav-btn" data-target="specialist-area-section">Area Specialista</button>
+          <button class="nav-btn" data-target="admin-agenda-section">Admin Agenda</button>
           <button id="reset-btn" class="nav-btn" title="Riavvia Sessione">Nuova Ricerca</button>
           
           <!-- RECOVERY ID -->
@@ -165,17 +163,17 @@
         <div id="chat-messages" class="messages-area">
           <div class="welcome-message message system-msg">
             <div class="msg-bubble">
-              <strong class="welcome-title" style="text-align: center; display: block; font-size: 1.25rem; margin-bottom: 4px; white-space: nowrap;">Benvenuto in AIutoDoc.it!</strong>
+              <strong class="welcome-title" style="text-align: center; display: block; font-size: 1.25rem; margin-bottom: 4px; white-space: nowrap;">Benvenuto in AIutoDoc.it</strong>
               <div class="welcome-subtitle" style="text-align: center; font-style: italic; color: var(--text-muted); margin-bottom: 12px; font-size: 0.85rem;">L'accesso giusto alla cura giusta.</div>
               
-              <p style="text-align: center; margin-bottom: 10px; font-size: 0.95rem;">Sono un sistema di intelligenza artificiale che fornisce informazioni di orientamento sanitario. Non sostituisco un medico.</p>
+              <p style="text-align: center; margin-bottom: 10px; font-size: 0.95rem;">Piattaforma digitale di orientamento sanitario: ti aiuta a capire quale branca specialistica puo' essere piu' coerente con le informazioni fornite.</p>
               
               <div class="welcome-disclaimer" style="text-align: center; font-size: 0.8rem; color: var(--text-muted); font-style: italic; margin-bottom: 15px;">
-                (Ti aiuto a capire quale branca specialistica potrebbe essere più coerente con le informazioni che inserisci.)
+                Sistema informativo, non clinico. In caso di emergenza chiama il 112.
               </div>
               
               <div style="text-align: center; font-weight: 500;">
-                Rispondi a poche domande: iniziamo da <strong>sesso ed età (es. Uomo, 35)</strong>.
+                Rispondi a poche domande. Inizia da <strong>sesso ed eta' (es. Uomo, 35)</strong>.
               </div>
             </div>
             <div class="msg-time">Ora</div>
@@ -211,12 +209,12 @@
           </div>
           <h2>Perché AIutoDoc?</h2>
           
-          <p><strong>AIutoDoc</strong> nasce per rendere più semplice l'orientamento sanitario: raccoglie poche informazioni, propone una branca specialistica coerente e supporta la ricerca di professionisti e strutture.</p>
+          <p><strong>AIutoDoc</strong> nasce per rendere piu' semplice l'orientamento sanitario: raccoglie poche informazioni, propone una branca specialistica coerente e supporta la ricerca di professionisti e strutture.</p>
 
           <div class="brand-positioning">
             <div class="problem-box">
               <h3>Il Problema: Liste d'Attesa</h3>
-              <p>Le lunghe attese nel sistema sanitario regionale possono essere influenzate anche da richieste non sempre indirizzate alla branca più coerente. Un migliore orientamento informativo può aiutare il cittadino a prepararsi meglio al confronto con il medico.</p>
+              <p>Quando non e' chiaro da dove iniziare, il cittadino puo' arrivare alla prenotazione con dubbi, tentativi e informazioni frammentate. Un orientamento informativo aiuta a preparare meglio il confronto con il medico.</p>
             </div>
             
             <div class="solution-box">
@@ -225,7 +223,7 @@
             </div>
           </div>
 
-          <p>AIutoDoc utilizza sistemi digitali di orientamento per aiutarti a individuare la branca specialistica più coerente con le informazioni fornite e una selezione di professionisti o strutture presenti in rete.</p>
+          <p>AIutoDoc utilizza sistemi digitali di orientamento per aiutarti a individuare la branca specialistica piu' coerente con le informazioni fornite e una selezione di professionisti o strutture presenti in rete.</p>
 
           <div class="impact-stats">
             Meno confusione iniziale, più chiarezza sul professionista da cercare e un percorso più ordinato verso la visita.
@@ -233,11 +231,21 @@
 
           <div class="plus-showcase">
             <h3>Vetrine specialistiche PLUS</h3>
-            <p>Le vetrine PLUS valorizzano lo specialista con contenuti digitali, podcast, agenda di prenotazione e materiali editoriali pensati per trasmettere autorevolezza, professionalità e fiducia.</p>
+            <p>Le vetrine PLUS sono spazi editoriali premium per specialisti e centri: branding professionale, podcast, contenuti multimediali, agenda prenotazioni e materiali divulgativi curati. Non una directory generica, ma una presenza digitale pensata per comunicare autorevolezza, fiducia e continuita'.</p>
+          </div>
+
+          <div class="team-preview">
+            <h3>Team e governance</h3>
+            <div class="team-grid">
+              <div><strong>Founder</strong><span>In aggiornamento</span></div>
+              <div><strong>CTO</strong><span>In aggiornamento</span></div>
+              <div><strong>Marketing</strong><span>In aggiornamento</span></div>
+              <div><strong>Consulenza legale</strong><span>In aggiornamento</span></div>
+            </div>
           </div>
 
           <p style="text-align: center; font-style: italic; margin-top: 20px; color: var(--primary); font-weight: 500;">
-            Siamo l'anello di congiunzione tra le tue necessità di salute e la cura giusta, al momento giusto.
+            Un ecosistema digitale per orientarsi meglio prima della scelta dello specialista.
           </p>
 
           <p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 25px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 15px;">
@@ -247,7 +255,7 @@
           <div class="cta-container">
             <a href="mailto:info@aiutodoc.it" class="btn-secondary-wide">Scrivici: info@aiutodoc.it</a>
             <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc" class="btn-secondary-wide">Collabora a far crescere AIutoDoc.it</a>
-            <button id="investor-btn" class="btn-premium-wide" onclick="window.location.href='mailto:info@aiutodoc.it?subject=Opportunita investimento istituzionale AIutoDoc'">Per opportunità di investimento istituzionali contattare info@aiutodoc.it</button>
+            <button id="investor-btn" class="btn-premium-wide" onclick="window.location.href='mailto:info@aiutodoc.it?subject=Opportunita investimento istituzionale AIutoDoc'">Per opportunita' di investimento istituzionali contattare info@aiutodoc.it</button>
           </div>
         </div>
       </section>
@@ -804,6 +812,20 @@
         </div>
       </section>
 
+      <!-- Section: Admin Agenda Mock -->
+      <section id="admin-agenda-section" class="tab-content hidden-section info-section">
+        <div class="info-body admin-info-body">
+          <div id="admin-agenda-root"></div>
+        </div>
+      </section>
+
+      <!-- Section: Area Specialista Mock -->
+      <section id="specialist-area-section" class="tab-content hidden-section info-section">
+        <div class="info-body admin-info-body">
+          <div id="specialist-area-root"></div>
+        </div>
+      </section>
+
     </main>
 
     <!-- Footer App (Legal) -->
@@ -857,12 +879,18 @@
         consentInputs.forEach(function(input) { input.addEventListener('change', syncConsentButton); });
 
         acceptBtn.addEventListener('click', function() {
+          const ageValue = document.querySelector('input[name="age-confirmation"]:checked')?.value;
+          if (ageValue !== 'yes') {
+            if (minorMessage) minorMessage.classList.remove('hidden');
+            return;
+          }
           console.log("Privacy accepted.");
           localStorage.setItem('aiutodoc_entry_consents', JSON.stringify({
             ageOver14: true,
-            medicalDisclaimer: true,
-            terms: true,
-            healthData: true,
+            ageGate: 'over14',
+            medicalDisclaimer: document.getElementById('consent-medical-disclaimer')?.checked === true,
+            terms: document.getElementById('consent-terms')?.checked === true,
+            healthData: document.getElementById('consent-health-data')?.checked === true,
             consentVersion: '2026-05-gdpr-v1',
             acceptedAt: new Date().toISOString()
           }));
@@ -917,7 +945,7 @@
               <h4>Regolamento per l'uso della piattaforma aiutodoc.it</h4>
               <ul>
                 <li><strong>Natura del Servizio:</strong> Aiutodoc.it utilizza sistemi digitali di orientamento per aiutarti a individuare la branca specialistica più coerente con le informazioni fornite. Il servizio ha scopo puramente informativo e di orientamento. Non è un servizio di telemedicina né una struttura sanitaria.</li>
-                <li><strong>Esclusione di parere medico:</strong> La piattaforma non fornisce pareri clinici, non prescrive farmaci e non suggerisce terapie. L'IA analizza i termini inseriti dall'utente al solo fine di individuare la categoria specialistica più pertinente. L'utente è tenuto a consultare un medico prima di intraprendere qualsiasi decisione sanitaria.</li>
+                <li><strong>Esclusione di parere medico:</strong> La piattaforma non fornisce pareri clinici, non prescrive farmaci e non suggerisce terapie. Il sistema elabora le informazioni fornite dall'utente al solo fine di indicare una branca specialistica potenzialmente coerente. L'utente e' tenuto a consultare un medico prima di intraprendere qualsiasi decisione sanitaria.</li>
                 <li><strong>Limitazione di Responsabilità:</strong> Aiutodoc.it non garantisce l'aggiornamento costante dei dati dei professionisti estratti dalla rete né risponde della qualità della prestazione professionale fornita dai medici individuati. L'utente esonera Aiutodoc.it da ogni responsabilità derivante dal contatto o dalla visita con i professionisti elencati.</li>
                 <li><strong>Emergenze:</strong> In caso di emergenza medica o sintomi acuti, l'utente non deve utilizzare la piattaforma ma contattare immediatamente il 112.</li>
                 <li><strong>Contatti per richieste:</strong> Per richieste informative o di rimozione dall'indicizzazione è possibile scrivere a info@aiutodoc.it.</li>
@@ -1021,6 +1049,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
   <script src="./src/config.js?v=1.1.1"></script>
   <script src="./src/app_shared.js?v=3.4.0"></script>
+  <script src="./src/agenda_mock.js?v=1.0.0"></script>
   <script src="./src/app_v3_standalone.js?v=3.4.0"></script>
   <script src="./src/chat_interface.js?v=3.4.0"></script>
   <script src="./src/app_bootstrap.js?v=3.4.0"></script>

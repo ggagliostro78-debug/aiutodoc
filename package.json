@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "dev": "node scripts/dev-local.js",
     "build": "node scripts/build-netlify.js",
-    "check": "node --check src/app_shared.js && node --check src/app_v3_standalone.js && node --check src/chat_interface.js && node --check src/app_bootstrap.js && node --check server/gemini_proxy.js && node --check netlify/functions/gemini.js && node --check api/gemini.js"
+    "check": "node --check src/app_shared.js && node --check src/app_v3_standalone.js && node --check src/chat_interface.js && node --check src/app_bootstrap.js && node --check src/agenda_mock.js && node --check lib/payments/paymentService.js && node --check lib/specialists/searchSpecialists.js && node --check server/gemini_proxy.js && node --check server/admin_auth.js && node --check scripts/dev-local.js && node --check netlify/functions/gemini.js && node --check netlify/functions/admin-login.js && node --check api/gemini.js && node --check api/admin-login.js"
   },
   "engines": {
     "node": ">=18"

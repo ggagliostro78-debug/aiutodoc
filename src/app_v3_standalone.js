@@ -41,7 +41,7 @@ class TriageEngine {
                 placeholder = "Zona geografica (es. Milano, RM)";
                 break;
             case '3_DISTURBO':
-                placeholder = "Descrivi il tuo disturbo o sintomo principale...";
+                placeholder = "Descrivi il motivo della ricerca...";
                 break;
             case '4_CONOSCITIVE':
             case '5_ANAMNESTICHE':
@@ -125,6 +125,10 @@ class TriageEngine {
                 <input type="email" class="registration-email" autocomplete="email" placeholder="nome@email.it">
             </label>
             <label class="consent-row">
+                <input type="checkbox" class="registration-consent" data-consent="medicalDisclaimer">
+                <span>Ho preso visione del Disclaimer Medico.</span>
+            </label>
+            <label class="consent-row">
                 <input type="checkbox" class="registration-consent" data-consent="terms">
                 <span>Accetto Termini e Condizioni d'uso.</span>
             </label>
@@ -134,10 +138,10 @@ class TriageEngine {
             </label>
             <label class="consent-row">
                 <input type="checkbox" class="registration-consent" data-consent="healthData">
-                <span>Presto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.</span>
+                <span>Acconsento al trattamento dei dati sanitari ai sensi dell'art. 9 GDPR.</span>
             </label>
             <button type="button" class="btn-primary-wide register-and-save-triage">Registrati e genera codice</button>
-            <p class="registration-note">Per minimizzare i dati, l'app salva l'hash dell'email e i consensi associati al codice ricerca.</p>
+            <p class="registration-note">Per minimizzare i dati, l'app salva l'hash dell'email e i consensi separati associati al codice ricerca.</p>
         </div>`;
     }
 
@@ -272,7 +276,7 @@ class TriageEngine {
     _detectUrgency(text) {
         const dangerWords = [
             'petto', 'cuore', 'respir', 'infarto', 'coscienza', 'svvenut', 'sangue', 'emorragia', 
-            'suicid', 'uccider', 'mazzar', 'farla finita', 'emergenza', '118', '112', 'soccorso'
+            'suicid', 'uccider', 'mazzar', 'farla finita', 'emergenza', '112', 'soccorso'
         ];
         return dangerWords.some(w => text.toLowerCase().includes(w));
     }
@@ -416,7 +420,7 @@ class TriageEngine {
                         const validatedCity = data[0].display_name.split(',')[0];
                         this.userData.zona = validatedCity;
                         this.state = '3_DISTURBO';
-                        this.onMessage(`✅ Località verificata sul territorio: <strong>${validatedCity}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
+                    this.onMessage(`✅ Località verificata sul territorio: <strong>${validatedCity}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il motivo della tua ricerca sanitaria?</strong>`);
                         this._updatePlaceholder();
                     } else {
                         this.onMessage(`❌ Non siamo riusciti a trovare "<strong>${cleanZona}</strong>" sul territorio italiano. Riprova inserendo un Comune o una Provincia in modo più preciso.`, "system-msg danger");
@@ -427,7 +431,7 @@ class TriageEngine {
                     // Fallback silenzioso se l'API Geo è down, proseguiamo fiduciosi
                     this.userData.zona = cleanZona;
                     this.state = '3_DISTURBO';
-                    this.onMessage("Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>");
+                    this.onMessage("Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il motivo della tua ricerca sanitaria?</strong>");
                     this._updatePlaceholder();
                 }
                 break;
@@ -613,7 +617,7 @@ class TriageEngine {
                     this.onMessage(`${this.currentAnamnestica + 1}. ` + this.userData.domandeAnamnesticheDinamiche[this.currentAnamnestica]);
                 } else {
                     this.state = '5B_NOTA_ANAMNESTICA';
-                    this.onMessage("Ottimo. Vorresti aggiungere in chiusura qualche <strong>dettaglio descrittivo libero sui tuoi sintomi</strong> prima che io passi i dati all'intelligenza artificiale medica? <br><br><i>La barra \"scrivi qui\" sparirà subito dopo questo invio e inizierò a cercare lo specialista.</i><br><br>Se non hai altro, scrivi <strong>'NO'</strong>.");
+                    this.onMessage("Ottimo. Vorresti aggiungere in chiusura qualche <strong>dettaglio descrittivo libero</strong> prima che il sistema elabori l'orientamento informativo? <br><br><i>La barra \"scrivi qui\" sparirà subito dopo questo invio e inizierò a cercare la branca più coerente.</i><br><br>Se non hai altro, scrivi <strong>'NO'</strong>.");
                     this._updatePlaceholder();
                 }
                 break;
@@ -652,7 +656,7 @@ class TriageEngine {
 
                 const loadingHTML = `
                     <div id="ai-loading-box" style="display:flex; flex-direction:column; align-items:center; margin-top:10px; width: 100%;">
-                        <p>Dati raccolti con successo. <br><br>⏳ <em>Ricerca in corso tra studi scientifici validati e specialisti...</em></p>
+                        <p>Dati raccolti con successo. <br><br>⏳ <em>Elaborazione dell'orientamento informativo e ricerca di professionisti coerenti...</em></p>
                         
                         <div style="width: 100%; max-width: 300px; background-color: #e0e9e9; border-radius: 10px; margin: 15px 0; overflow: hidden; height: 12px; position:relative;">
                             <div id="ai-progress-bar" style="width: 0%; height: 100%; background-color: var(--primary, #1b9b9a); transition: width 1s linear;"></div>
@@ -971,7 +975,7 @@ class TriageEngine {
             if (isPsychology) {
                 const isRoma = this.userData.zona.toLowerCase().includes("roma");
                 const gretaDevoli = {
-                    nome: "Greta Devoli",
+                    nome: "Dr.ssa Greta Devoli",
                     specializzazione: "Psicologa ad orientamento Sistemico-Relazionale",
                     tipo: isRoma ? "In presenza (Roma) / Online" : "Online (Tutta Italia)",
                     indirizzo_modalita: isRoma ? "Roma (Studio) e Online" : "Online in tutta Italia",
@@ -1029,25 +1033,25 @@ class TriageEngine {
             </div>
             
             <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">
-                <h3 style="color: var(--primary); margin-top: 0;">🔍 Sintesi Anamnestica</h3>
+                <h3 style="color: var(--primary); margin-top: 0;">🔍 Riepilogo informativo</h3>
                 <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(resultObj.sintesi_anamnestica)}</p>
                 
                 <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div style="background: #f0f7f7; padding: 15px; border-radius: 10px;">
-                        <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #1b9b9a; font-weight: bold; margin-bottom: 5px;">👨‍⚕️ Specialista Consigliato</span>
+                        <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #1b9b9a; font-weight: bold; margin-bottom: 5px;">👨‍⚕️ Branca orientativa</span>
                         <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(resultObj.specialista_indicato)}</strong>
                     </div>
                     <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
-                        <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">💡 Guida al Comportamento</span>
+                        <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">💡 Come prepararti</span>
                         <p style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(resultObj.preparazione_visita)}</p>
                     </div>
                 </div>
                 
                 <div style="margin-top: 20px; background: #fef2f2; padding: 15px; border-radius: 10px; border: 1px dashed #f87171;">
-                    <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #b91c1c; font-weight: bold; margin-bottom: 5px;">📑 Nota per l'Impegnativa (MMG)</span>
-                    <p style="margin: 0; font-style: italic; color: #374151;">"${escapeHTML(resultObj.impegnativa_medico)}"</p>
+                    <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #b91c1c; font-weight: bold; margin-bottom: 5px;">📑 Nota da condividere con il MMG</span>
+                    <p style="margin: 0; font-style: italic; color: #374151;">"${escapeHTML(resultObj.nota_mmg || resultObj.impegnativa_medico || '')}"</p>
                 </div>
             </div>
             `;
@@ -1064,8 +1068,7 @@ class TriageEngine {
 
             let out = outInitial + 
             this._buildRegistrationGate(pendingTriage) +
-            `<p class="ai-final-notice">${escapeHTML(AI_FINAL_NOTICE)}</p>` +
-            `Ecco 16 specialisti individuati in rete:<br>`;
+            `Ecco 16 riferimenti informativi individuati in rete:<br>`;
 
             let resultsHTML = "";
             const seenNames = new Set();
@@ -1076,7 +1079,7 @@ class TriageEngine {
                     resultsHTML += this._buildCard(r.nome, r.specializzazione || resultObj.specialista_indicato, r.tipo, r.indirizzo_modalita, r.contatti, "Dalla rete", r.info);
                 }
             });
-            out += resultsHTML + `</div>`;
+            out += resultsHTML + `<p class="ai-final-notice">${escapeHTML(AI_FINAL_NOTICE)}</p></div>`;
             this.onMessage(out);
 
             this.state = '7_FINE';
@@ -1111,7 +1114,7 @@ class TriageEngine {
         }
 
         try {
-            const systemPrompt = `Sei un sistema di intelligenza artificiale per orientamento sanitario informativo di Aiutodoc.it. Il tuo obiettivo e' fornire una sintesi informativa non diagnostica e una lista di 16 specialisti pertinenti.
+            const systemPrompt = `Sei un sistema di intelligenza artificiale per orientamento sanitario informativo di Aiutodoc.it. Il tuo obiettivo e' fornire un riepilogo informativo prudente e una lista di 16 riferimenti pertinenti.
             
             Dati utente:
             - Sesso/Età: ${this.userData.sessoEta}
@@ -1124,10 +1127,10 @@ class TriageEngine {
             REGOLE DI OUTPUT:
             Restituisci ESCLUSIVAMENTE un oggetto JSON puro con questa struttura:
             {
-              "sintesi_anamnestica": "Sintesi informativa dei sintomi dichiarati e delle risposte, senza formulare pareri clinici.",
-              "specialista_indicato": "Branca medica principale (es. Cardiologo, Neurochirurgo, ecc.)",
-              "preparazione_visita": "Consigli pratici per la visita (es. 'porta con te esami del sangue recenti')",
-              "impegnativa_medico": "Testo suggerito per il Medico di Medicina Generale (MMG) per facilitare la scrittura dell'impegnativa.",
+              "sintesi_anamnestica": "Riepilogo informativo delle informazioni dichiarate e delle risposte, senza formulare pareri clinici o identificare patologie.",
+              "specialista_indicato": "Branca specialistica principale potenzialmente coerente (es. Cardiologia, Neurochirurgia, ecc.)",
+              "preparazione_visita": "Indicazioni pratiche e non cliniche per preparare il confronto con il medico o lo specialista.",
+              "nota_mmg": "Nota neutra e informativa che l'utente puo' condividere con il medico curante, senza suggerire prescrizioni o impegnative.",
               "risultati": [
                 { "nome": "...", "specializzazione": "...", "tipo": "...", "indirizzo_modalita": "...", "contatti": "...", "info": "..." }
               ]
@@ -1143,7 +1146,8 @@ class TriageEngine {
                - 5 risultati (30%) devono essere eccellenze Regionali (Calabria/Sicilia/Lazio ecc. a seconda della zona).
                - 3 risultati (20%) devono essere eccellenze Nazionali (Milano, Roma, Bologna).
             4. **SPECIALIZZAZIONI SPECIFICHE**: Ogni professionista o centro deve avere la propria specializzazione specifica (es. se la branca è "Ortopedico", alcuni saranno "Chirurgo della Mano", "Specialista del Piede", "Esperto in Protesi Anca", ecc.). Non usare un'unica etichetta per tutti i 16 risultati.
-            5. Se lo specialista è "Ortopedico" in Calabria o Sicilia, includi sempre "Dott. Vincenzo Calafiore" (IOMI RC).`;
+            5. Se la branca e' "Ortopedia" o equivalente in Calabria o Sicilia, includi sempre "Dott. Vincenzo Calafiore" (IOMI RC).
+            6. Evita formule da software medico o da valutazione clinica automatica. Chiudi ogni contenuto con tono informativo e prudente.`;
 
             const response = await fetch(API_URL, {
                 method: 'POST',
@@ -1202,18 +1206,18 @@ class TriageEngine {
             sintesi_anamnestica: `L'utente riferisce: ${this.userData.disturbo}.`,
             specialista_indicato: specStr,
             preparazione_visita: "Portare eventuali esami precedenti e lista farmaci.",
-            impegnativa_medico: "Si consiglia visita specialistica per " + specStr,
+            nota_mmg: "Motivo della ricerca orientativa: possibile approfondimento con branca " + specStr,
             risultati: [] // Verranno popolati sotto
         };
 
-        let outInitial = `✅ [MODALITA' PROTOTIPO - INSERISCI API KEY NEL CODICE PER RICERCA REALE]<br><br>Sulla base delle informazioni fornite: <strong>${escapeHTML(orientamentoStr)}</strong>. <br><br>Branca/specialista indicato: <strong>${escapeHTML(specStr)}</strong>.<br><br>`;
+        let outInitial = `✅ [MODALITA' PROTOTIPO - SIMULAZIONE ORIENTATIVA]<br><br>Sulla base delle informazioni fornite: <strong>${escapeHTML(orientamentoStr)}</strong>. <br><br>Branca orientativa: <strong>${escapeHTML(specStr)}</strong>.<br><br>`;
         let resultsHTML = "";
         const seenNamesFallback = new Set();
 
         const isRoma = this.userData.zona.toLowerCase().includes("roma");
         if (specStr === "Psicologa ad orientamento Sistemico-Relazionale") {
             let mod = isRoma ? "In presenza a Roma e Online" : "Online in tutta Italia"; let addr = isRoma ? "Via Nazionale 100, Roma" : "Videoconsulto";
-            const card = { nome: "Dott.ssa Greta Devoli", tipo: "Privato", indirizzo_modalita: addr, contatti: "3479847838 | gretadevoli@gmail.com", info: "Terapia individuale/coppia. Sostegno per ansia, relazionali, traumi e genitorialità." };
+            const card = { nome: "Dr.ssa Greta Devoli", tipo: "Privato", indirizzo_modalita: addr, contatti: "3479847838 | gretadevoli@gmail.com", info: "Terapia individuale/coppia. Sostegno per ansia, relazionali, traumi e genitorialità." };
             resultObjFallback.risultati.push(card);
             seenNamesFallback.add(card.nome.toLowerCase());
             resultsHTML += this._buildCard(card.nome, specStr, card.tipo, card.indirizzo_modalita, card.contatti, mod, card.info);
@@ -1268,12 +1272,12 @@ class TriageEngine {
         </div>
         <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">
             <p style="color:red; font-weight:bold;">✅ [MODALITA' PROTOTIPO - SIMULAZIONE]</p>
-            <h3 style="color: var(--primary); margin-top: 5px;">🔍 Sintesi Anamnestica</h3>
+            <h3 style="color: var(--primary); margin-top: 5px;">🔍 Riepilogo informativo</h3>
             <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(orientamentoStr)} (Simulata per: ${escapeHTML(this.userData.disturbo)})</p>
             <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div style="background: #f0f7f7; padding: 15px; border-radius: 10px;">
-                    <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #1b9b9a; font-weight: bold; margin-bottom: 5px;">👨‍⚕️ Specialista Consigliato</span>
+                    <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #1b9b9a; font-weight: bold; margin-bottom: 5px;">👨‍⚕️ Branca orientativa</span>
                     <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(specStr)}</strong>
                 </div>
             </div>
@@ -1282,8 +1286,8 @@ class TriageEngine {
 
         let out = outInitialRes + 
         this._buildRegistrationGate(pendingTriage) +
-        `<p class="ai-final-notice">${escapeHTML(AI_FINAL_NOTICE)}</p>` +
-        `Ecco 16 risultati (simulati):<br>` + resultsHTML + `</div>`;
+        `Ecco 16 riferimenti informativi (simulati):<br>` + resultsHTML +
+        `<p class="ai-final-notice">${escapeHTML(AI_FINAL_NOTICE)}</p></div>`;
         
         // this._setupPDFDownload(); // Rimosso temporaneamente
 
@@ -1298,6 +1302,16 @@ class TriageEngine {
     }
 
     _buildCard(nome, spec, tipo, ind, contatti, prenotazione, det) {
+        const agendaHTML = window.AiutoDocAgenda
+            ? window.AiutoDocAgenda.renderAgenda({
+                name: nome,
+                specialization: spec,
+                type: tipo,
+                address: ind,
+                contacts: contatti
+            })
+            : "";
+
         return `
     <div class="triage-result">
       <div class="triage-result-header">
@@ -1308,6 +1322,7 @@ class TriageEngine {
         <p><strong>Indirizzo/Modalità:</strong> ${ind} (${prenotazione})</p>
         <p><strong>Contatti:</strong> ${escapeHTML(contatti)}</p>
         <p><strong>Info:</strong> ${escapeHTML(det)}</p>
+        ${agendaHTML}
       </div>
     </div>`;
     }
