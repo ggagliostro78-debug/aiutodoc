@@ -1,4 +1,5 @@
 const PLACES_API_URL = "https://places.googleapis.com/v1/places:searchText";
+const NOMINATIM_API_URL = "https://nominatim.openstreetmap.org/search";
 const {
     enforceRateLimit,
     truncateText,
@@ -78,6 +79,64 @@ async function fetchPlaces(query, apiKey, fetchImpl) {
         console.error(`Error searching Places for query "${query}":`, e);
         return [];
     }
+}
+
+function pickLocationLabel(address, fallbackName) {
+    return address.city ||
+        address.town ||
+        address.village ||
+        address.municipality ||
+        address.hamlet ||
+        address.suburb ||
+        fallbackName ||
+        "";
+}
+
+async function validateItalianLocation(query, fetchImpl) {
+    const params = new URLSearchParams({
+        format: "json",
+        addressdetails: "1",
+        countrycodes: "it",
+        limit: "5",
+        q: query
+    });
+
+    const response = await fetchImpl(`${NOMINATIM_API_URL}?${params.toString()}`, {
+        headers: {
+            "Accept": "application/json",
+            "User-Agent": "AiutoDoc/1.0 location-validation"
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`Nominatim validation failed with status ${response.status}`);
+    }
+
+    const places = await response.json();
+    const match = (places || []).find((place) => {
+        const address = place.address || {};
+        return String(address.country_code || "").toLowerCase() === "it";
+    });
+
+    if (!match) return null;
+
+    const address = match.address || {};
+    const fallbackName = String(match.display_name || "").split(",")[0].trim();
+    const comune = pickLocationLabel(address, fallbackName);
+    const provincia = address.county ||
+        address.province ||
+        address.state_district ||
+        comune;
+    const regione = address.state || address.region || provincia;
+
+    if (!comune) return null;
+
+    return {
+        comune,
+        provincia,
+        regione,
+        displayName: match.display_name || comune
+    };
 }
 
 const filterOutKeywords = /\b(sanitaria|sanitari|officina ortopedica|articoli ortopedici|articoli sanitari|calzature ortopediche|negozio|vendita|calzature|ausili|farmacia|parafarmacia|para-farmacia|noleggio ausili|medical store|medical systems)\b/i;
@@ -197,11 +256,33 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch, context = {
     if (bodySizeResponse) return bodySizeResponse;
 
     const payload = parseBody(body);
+    const action = cleanField(payload.action);
     const specialista = cleanField(payload.specialista);
     const comune = cleanField(payload.comune);
     const provincia = cleanField(payload.provincia);
     const regione = cleanField(payload.regione);
     const fallbackQuery = cleanField(payload.query);
+    const locationQuery = cleanField(payload.location || payload.localita || fallbackQuery);
+
+    if (action === "validateLocation") {
+        if (!locationQuery) {
+            return buildResponse(400, { error: "Localita mancante." }, corsHeaders);
+        }
+
+        try {
+            const location = await validateItalianLocation(locationQuery, fetchImpl);
+            return buildResponse(200, {
+                found: Boolean(location),
+                location
+            }, corsHeaders);
+        } catch (error) {
+            console.error("Errore validazione localita:", error);
+            return buildResponse(502, {
+                error: "Errore durante la verifica della localita.",
+                detail: error instanceof Error ? error.message : String(error)
+            }, corsHeaders);
+        }
+    }
 
     // Fallback to simple query if structured params not provided
     if (!specialista && !fallbackQuery) {
