@@ -646,17 +646,26 @@ class TriageEngine {
 
                 try {
                     const response = await this._fetchWithTimeout(
-                        `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&countrycodes=it&q=${encodeURIComponent(cleanZona)}`,
-                        {},
+                        '/api/places',
+                        {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                action: 'validateLocation',
+                                location: cleanZona
+                            })
+                        },
                         4500
                     );
-                    const data = await response.json();
+                    if (!response.ok) throw new Error(`Location validation failed: ${response.status}`);
 
-                    if (data && data.length > 0) {
-                        const address = data[0].address || {};
-                        const validatedCity = address.city || address.town || address.village || address.municipality || data[0].display_name.split(',')[0];
-                        const province = address.county || address.province || address.state_district || validatedCity;
-                        const region = address.state || address.region || province;
+                    const data = await response.json();
+                    const location = data && data.location;
+
+                    if (data && data.found && location) {
+                        const validatedCity = location.comune || cleanZona;
+                        const province = location.provincia || validatedCity;
+                        const region = location.regione || province;
                         this.userData.zona = validatedCity;
                         this.userData.zonaDettagli = {
                             comune: validatedCity,
