@@ -1,4 +1,9 @@
-const GOOGLE_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+const GOOGLE_API_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models";
+const DEFAULT_GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const FALLBACK_GEMINI_MODELS = (process.env.GEMINI_FALLBACK_MODELS || "gemini-2.0-flash,gemini-2.0-flash-lite,gemini-flash-latest")
+    .split(",")
+    .map((model) => model.trim())
+    .filter(Boolean);
 const {
     enforceRateLimit,
     truncateText,
@@ -70,6 +75,57 @@ function extractText(payload) {
         .trim();
 }
 
+function uniqueItems(items) {
+    return Array.from(new Set(items.filter(Boolean)));
+}
+
+function buildGeminiUrl(model, apiKey) {
+    return `${GOOGLE_API_BASE_URL}/${encodeURIComponent(model)}:generateContent?key=${apiKey}`;
+}
+
+function buildGenerationConfig(useSchema) {
+    const generationConfig = {
+        temperature: 0.2,
+        responseMimeType: "application/json"
+    };
+
+    if (useSchema) {
+        generationConfig.responseSchema = TRIAGE_RESPONSE_SCHEMA;
+    }
+
+    return generationConfig;
+}
+
+function classifyGeminiUpstreamError(status, errorText) {
+    const normalizedText = String(errorText || "").toLowerCase();
+
+    if (status === 429 && normalizedText.includes("prepayment credits are depleted")) {
+        return "GEMINI_CREDITS_DEPLETED";
+    }
+
+    if (status === 429) {
+        return "GEMINI_RATE_LIMITED";
+    }
+
+    if (status === 503) {
+        return "GEMINI_SERVICE_UNAVAILABLE";
+    }
+
+    return `GEMINI_UPSTREAM_${status}`;
+}
+
+function isRecoverableGeminiFailure(error) {
+    const status = error && error.upstreamStatus;
+    return [429, 500, 502, 503, 504].includes(status);
+}
+
+function shouldUseLocalTriageFallback(error) {
+    const fallbackPreference = process.env.ALLOW_LOCAL_TRIAGE_FALLBACK;
+    if (fallbackPreference === "true") return true;
+    if (fallbackPreference === "false") return false;
+    return isRecoverableGeminiFailure(error);
+}
+
 function buildResponse(statusCode, payload, extraHeaders = {}) {
     return {
         statusCode,
@@ -101,7 +157,9 @@ function buildGuardResponse(guardResult, corsHeaders) {
     });
 }
 
-async function callGemini(prompt, fetchImpl) {
+async function callGemini(prompt, fetchImpl, options = {}) {
+    const model = options.model || DEFAULT_GEMINI_MODEL;
+    const useSchema = options.useSchema !== false;
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
         const error = new Error("Variabile d'ambiente GEMINI_API_KEY non configurata.");
@@ -113,7 +171,7 @@ async function callGemini(prompt, fetchImpl) {
     const timeoutId = setTimeout(() => controller.abort(), 45000);
 
     try {
-        const response = await fetchImpl(`${GOOGLE_API_URL}?key=${apiKey}`, {
+        const response = await fetchImpl(buildGeminiUrl(model, apiKey), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -124,18 +182,18 @@ async function callGemini(prompt, fetchImpl) {
                         parts: [{ text: prompt }]
                     }
                 ],
-                generationConfig: {
-                    temperature: 0.2,
-                    responseMimeType: "application/json",
-                    responseSchema: TRIAGE_RESPONSE_SCHEMA
-                }
+                generationConfig: buildGenerationConfig(useSchema)
             }),
             signal: controller.signal
         });
 
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(`Gemini upstream error (${response.status}): ${errorText}`);
+            const error = new Error(`Gemini upstream error (${response.status}) on ${model}: ${errorText}`);
+            error.code = classifyGeminiUpstreamError(response.status, errorText);
+            error.upstreamStatus = response.status;
+            error.model = model;
+            throw error;
         }
 
         const payload = await response.json();
@@ -148,31 +206,54 @@ async function callGemini(prompt, fetchImpl) {
 
         return {
             rawText: cleanText,
-            result: JSON.parse(cleanText)
+            result: JSON.parse(cleanText),
+            model
         };
     } finally {
         clearTimeout(timeoutId);
     }
 }
 
-async function callGeminiWithRetry(prompt, fetchImpl, retries = 3, delayMs = 3000) {
-    for (let attempt = 1; attempt <= retries; attempt++) {
-        try {
-            return await callGemini(prompt, fetchImpl);
-        } catch (err) {
-            const errStr = String(err.message || err);
-            const isRateLimit = errStr.includes("429") || errStr.includes("RESOURCE_EXHAUSTED");
-            const isServiceUnavailable = errStr.includes("503");
-            
-            if ((isRateLimit || isServiceUnavailable) && attempt < retries) {
-                console.warn(`Gemini API returned rate limit/unavailable. Retrying attempt ${attempt}/${retries} in ${delayMs}ms...`);
-                await new Promise(resolve => setTimeout(resolve, delayMs));
-                delayMs *= 1.5;
-                continue;
+async function callGeminiWithRetry(prompt, fetchImpl, retries = 2, delayMs = 1200) {
+    const models = uniqueItems([DEFAULT_GEMINI_MODEL, ...FALLBACK_GEMINI_MODELS]);
+    let lastError = null;
+    let lastRecoverableError = null;
+
+    for (const model of models) {
+        for (let attempt = 1; attempt <= retries; attempt++) {
+            try {
+                return await callGemini(prompt, fetchImpl, { model, useSchema: true });
+            } catch (err) {
+                lastError = err;
+                const status = err && err.upstreamStatus;
+                const errStr = String(err.message || err);
+                const isRateLimit = status === 429 || errStr.includes("RESOURCE_EXHAUSTED");
+                const isServiceUnavailable = status === 503;
+                const canRetrySameModel = (isRateLimit || isServiceUnavailable) && attempt < retries;
+                if (isRecoverableGeminiFailure(err)) {
+                    lastRecoverableError = err;
+                }
+
+                if (canRetrySameModel) {
+                    console.warn(`Gemini model ${model} unavailable/rate limited. Retry ${attempt}/${retries} in ${delayMs}ms...`);
+                    await new Promise(resolve => setTimeout(resolve, delayMs));
+                    continue;
+                }
+
+                if (status === 400) {
+                    try {
+                        return await callGemini(prompt, fetchImpl, { model, useSchema: false });
+                    } catch (schemaFallbackError) {
+                        lastError = schemaFallbackError;
+                    }
+                }
+
+                break;
             }
-            throw err;
         }
     }
+
+    throw lastRecoverableError || lastError || new Error("Gemini non disponibile.");
 }
 
 function generateMockTriageResponse(prompt) {
@@ -286,14 +367,14 @@ async function handleGeminiProxy({ method, body, fetchImpl = fetch, context = {}
         return buildResponse(200, geminiResponse, corsHeaders);
     } catch (error) {
         console.warn("Gemini API call failed:", error.message || error);
-        if (process.env.ALLOW_LOCAL_TRIAGE_FALLBACK !== "true") {
+        if (!shouldUseLocalTriageFallback(error)) {
             return buildResponse(503, {
                 error: "Servizio AI temporaneamente non disponibile.",
                 code: error && error.code ? error.code : "GEMINI_UNAVAILABLE"
             }, corsHeaders);
         }
 
-        console.warn("Falling back to local clinical rule engine because ALLOW_LOCAL_TRIAGE_FALLBACK=true...");
+        console.warn("Falling back to local clinical rule engine because Gemini returned a recoverable provider error...");
         const mockResponse = generateMockTriageResponse(prompt);
         return buildResponse(200, mockResponse, corsHeaders);
     }
