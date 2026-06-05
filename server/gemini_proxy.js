@@ -126,6 +126,10 @@ function shouldUseLocalTriageFallback(error) {
     return isRecoverableGeminiFailure(error);
 }
 
+function shouldStopGeminiAttempts(error) {
+    return error && error.code === "GEMINI_CREDITS_DEPLETED";
+}
+
 function buildResponse(statusCode, payload, extraHeaders = {}) {
     return {
         statusCode,
@@ -225,6 +229,10 @@ async function callGeminiWithRetry(prompt, fetchImpl, retries = 2, delayMs = 120
                 return await callGemini(prompt, fetchImpl, { model, useSchema: true });
             } catch (err) {
                 lastError = err;
+                if (shouldStopGeminiAttempts(err)) {
+                    throw err;
+                }
+
                 const status = err && err.upstreamStatus;
                 const errStr = String(err.message || err);
                 const isRateLimit = status === 429 || errStr.includes("RESOURCE_EXHAUSTED");
