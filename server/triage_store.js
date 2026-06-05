@@ -86,6 +86,9 @@ function compactTriageData(input) {
         source: truncateText(input.source || "api", 40),
         userData: {
             age: userData.age ?? null,
+            age_range: truncateText(userData.age_range || "", 20),
+            exact_age: userData.exact_age ?? null,
+            weight_kg: userData.weight_kg ?? null,
             sex_at_birth: truncateText(userData.sex_at_birth || "", 40),
             zona: truncateText(userData.zona || "", 200),
             zonaDettagli: userData.zonaDettagli || null,

@@ -280,11 +280,11 @@ body {
 
 .welcome-title {
   display: block;
-  max-width: 780px;
+  max-width: 800px;
   margin: 0 auto 24px;
   color: var(--primary);
   font-family: var(--font-heading);
-  font-size: clamp(2.125rem, 5.4vw, 3.5rem);
+  font-size: 48px;
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -293,13 +293,13 @@ body {
 
 .welcome-subtitle {
   max-width: 680px;
-  margin: 0 auto 32px;
+  margin: 0 auto 28px;
   color: var(--text-main);
   font-family: var(--font-body);
-  font-size: clamp(1.125rem, 2.2vw, 1.375rem);
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: -0.01em;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0;
   text-align: center;
 }
 
@@ -317,8 +317,8 @@ body {
 
 .welcome-disclaimer {
   color: var(--text-muted);
-  font-size: clamp(0.8125rem, 1.3vw, 0.875rem);
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.7;
   display: block;
   margin-top: 10px;
 }
@@ -1116,12 +1116,20 @@ body {
   margin: 6px 0 10px;
 }
 
+.age-range-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
 .sex-at-birth-options {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
+.age-range-card,
 .sex-at-birth-card {
   min-height: 54px;
   padding: 12px;
@@ -1138,17 +1146,20 @@ body {
   line-height: 1.4;
 }
 
+.age-range-card:has(input:checked),
 .sex-at-birth-card:has(input:checked) {
   border-color: var(--secondary);
   background: #eefafa;
   box-shadow: 0 0 0 2px rgba(92, 201, 204, 0.18);
 }
 
+.age-range-card:focus-within,
 .sex-at-birth-card:focus-within {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(92, 201, 204, 0.22);
 }
 
+.age-range-card input,
 .sex-at-birth-card input {
   accent-color: var(--secondary);
   flex: 0 0 auto;
@@ -1190,14 +1201,22 @@ body {
 }
 
 #recovery-id-input {
-  width: 86px;
-  padding: 7px 9px;
+  width: 112px;
+  min-width: 112px;
+  padding: 8px 10px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   font-family: inherit;
-  font-size: 0.75rem;
-  text-align: center;
+  font-size: 0.88rem;
+  line-height: 1.2;
+  text-align: left;
   background: var(--bg-color);
+  color: var(--text-main);
+}
+
+#recovery-id-input::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
 }
 
 .recovery-btn-style {
@@ -1727,13 +1746,16 @@ body {
   margin-top: 8px;
 }
 
+.footer-col a,
 .footer-links a {
-  color: #d8ffff;
+  color: var(--secondary);
   text-decoration: none;
   transition: color 0.2s;
 }
 
+.footer-col a:hover,
 .footer-links a:hover {
+  color: #ffffff;
   text-decoration: underline;
 }
 
@@ -1742,13 +1764,14 @@ body {
   border: 0;
   padding: 0;
   background: transparent;
-  color: #d8ffff;
+  color: var(--secondary);
   cursor: pointer;
   font: inherit;
   text-align: left;
 }
 
 .footer-link-button:hover {
+  color: #ffffff;
   text-decoration: underline;
 }
 
@@ -2102,6 +2125,10 @@ body {
   .btn-primary-wide {
     max-width: 100%;
     width: 100%;
+  }
+
+  .age-range-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .sex-at-birth-options {
@@ -2545,11 +2572,12 @@ body {
   }
 
   #recovery-id-input {
-    width: 75px !important;
+    width: 112px !important;
+    min-width: 112px !important;
     max-width: none !important;
     height: auto !important;
-    font-size: 0.75rem !important;
-    border-radius: 20px !important;
+    font-size: 0.88rem !important;
+    border-radius: 8px !important;
   }
 
   #menu-toggle {
@@ -2561,7 +2589,7 @@ body {
 .welcome-title {
   color: var(--primary) !important;
   font-family: var(--font-heading) !important;
-  font-size: clamp(2.125rem, 5.4vw, 3.5rem) !important;
+  font-size: 48px !important;
   font-weight: 700 !important;
   line-height: 1.1 !important;
   letter-spacing: -0.03em !important;
@@ -2571,12 +2599,12 @@ body {
 .welcome-subtitle {
   color: var(--text-main) !important;
   font-family: var(--font-body) !important;
-  font-size: clamp(1.125rem, 2.2vw, 1.375rem) !important;
+  font-size: 22px !important;
   font-style: normal !important;
-  font-weight: 400 !important;
-  line-height: 1.5 !important;
-  letter-spacing: -0.01em !important;
-  margin: 0 auto 32px !important;
+  font-weight: 500 !important;
+  line-height: 1.45 !important;
+  letter-spacing: 0 !important;
+  margin: 0 auto 28px !important;
 }
 
 .main-nav {
@@ -2610,12 +2638,12 @@ body {
   }
 
   .welcome-title {
-    font-size: 2.125rem !important;
+    font-size: 32px !important;
     line-height: 1.15 !important;
   }
 
   .welcome-subtitle {
-    font-size: 1.125rem !important;
+    font-size: 18px !important;
     line-height: 1.5 !important;
   }
 }
@@ -2647,8 +2675,8 @@ body {
   }
 
   .banner-img {
-    width: clamp(760px, 82%, 980px) !important;
-    margin: 0 auto 0 16px !important;
+    width: clamp(900px, 96%, 1180px) !important;
+    margin: 0 auto 0 0 !important;
   }
 
   .main-nav {
@@ -2678,19 +2706,19 @@ body {
   }
 
   .welcome-message .msg-bubble {
-    padding: clamp(24px, 3.2vw, 34px) !important;
+    padding: 48px 34px 34px !important;
     max-width: 900px !important;
   }
 
   .welcome-title {
-    max-width: 950px !important;
-    font-size: clamp(42px, 4.2vw, 56px) !important;
+    max-width: 800px !important;
+    font-size: 48px !important;
     line-height: 1.1 !important;
-    margin-bottom: 18px !important;
+    margin-bottom: 24px !important;
   }
 
   .welcome-subtitle {
-    margin-bottom: 20px !important;
+    margin-bottom: 28px !important;
   }
 
   .medical-disclaimer-card {
@@ -2705,7 +2733,7 @@ body {
 
 @media (min-width: 701px) and (max-width: 950px) {
   .welcome-title {
-    font-size: clamp(34px, 5vw, 44px) !important;
+    font-size: 48px !important;
   }
 }
 
@@ -2715,7 +2743,7 @@ body {
   }
 
   .welcome-title {
-    font-size: clamp(30px, 8vw, 34px) !important;
+    font-size: 32px !important;
     line-height: 1.15 !important;
   }
 }
@@ -3102,28 +3130,30 @@ body {
   }
 }
 
-/* CMO typography system - source: "Invio e-mail Indicazioni font sito.pdf" */
+/* CMO typography system - source: "Invio e-mail AIutoDoc_Design_System_Aggiornato.pdf" */
 body,
 .msg-bubble,
-.info-body p,
 .info-body li,
 .modal-content,
 .cookie-consent,
-.result-card-main,
-.specialty-detail-section p {
+.result-card-main {
   font-family: var(--font-body) !important;
-  font-size: 18px !important;
+  font-size: 16px !important;
   font-weight: 400 !important;
   line-height: 170% !important;
   letter-spacing: 0 !important;
   color: var(--text-main) !important;
 }
 
+.message.user-msg .msg-bubble {
+  color: #f4ffff !important;
+}
+
 .welcome-title,
 .info-body h1 {
-  max-width: 900px !important;
+  max-width: 800px !important;
   font-family: var(--font-heading) !important;
-  font-size: 56px !important;
+  font-size: 48px !important;
   font-weight: 700 !important;
   line-height: 110% !important;
   letter-spacing: -0.03em !important;
@@ -3133,7 +3163,7 @@ body,
 .info-body h2,
 #cookie-consent-title {
   font-family: var(--font-heading) !important;
-  font-size: 40px !important;
+  font-size: 36px !important;
   font-weight: 700 !important;
   line-height: 120% !important;
   letter-spacing: -0.02em !important;
@@ -3150,7 +3180,7 @@ body,
 .specialty-card strong,
 .medical-disclaimer-card strong {
   font-family: var(--font-heading) !important;
-  font-size: 28px !important;
+  font-size: 26px !important;
   font-weight: 700 !important;
   line-height: 130% !important;
   letter-spacing: -0.01em !important;
@@ -3160,17 +3190,20 @@ body,
 .welcome-subtitle,
 .specialty-subtitle {
   font-family: var(--font-body) !important;
-  font-size: 24px !important;
+  font-size: 22px !important;
   font-weight: 500 !important;
   line-height: 145% !important;
   letter-spacing: 0 !important;
   color: var(--text-main) !important;
 }
 
+.welcome-message .msg-bubble > p,
+.info-body p,
+.specialty-detail-section p,
 .info-body .lead,
 .initial-intake-card p:first-of-type {
   font-family: var(--font-body) !important;
-  font-size: 20px !important;
+  font-size: 18px !important;
   font-weight: 400 !important;
   line-height: 165% !important;
   letter-spacing: 0 !important;
@@ -3189,7 +3222,7 @@ body,
   font-family: var(--font-body) !important;
   font-size: 16px !important;
   font-weight: 400 !important;
-  line-height: 160% !important;
+  line-height: 170% !important;
   letter-spacing: 0.01em !important;
   color: var(--text-muted) !important;
 }
@@ -3203,6 +3236,26 @@ body,
   line-height: 170% !important;
   letter-spacing: 0.01em !important;
   color: var(--text-muted) !important;
+}
+
+.welcome-message .msg-bubble {
+  padding-top: 48px !important;
+}
+
+.welcome-title {
+  margin-bottom: 24px !important;
+}
+
+.welcome-subtitle {
+  margin-bottom: 28px !important;
+}
+
+.welcome-message .msg-bubble > p {
+  margin-bottom: 20px !important;
+}
+
+.welcome-disclaimer {
+  margin-bottom: 32px !important;
 }
 
 button,
@@ -3307,20 +3360,20 @@ select,
   .cookie-consent,
   .result-card-main,
   .specialty-detail-section p {
-    font-size: 16px !important;
+    font-size: 15px !important;
     line-height: 175% !important;
   }
 
   .welcome-title,
   .info-body h1 {
-    font-size: 36px !important;
+    font-size: 32px !important;
     line-height: 115% !important;
     letter-spacing: -0.02em !important;
   }
 
   .info-body h2,
   #cookie-consent-title {
-    font-size: 30px !important;
+    font-size: 28px !important;
     line-height: 125% !important;
   }
 
@@ -3339,13 +3392,16 @@ select,
 
   .welcome-subtitle,
   .specialty-subtitle {
-    font-size: 20px !important;
+    font-size: 18px !important;
     line-height: 150% !important;
   }
 
+  .welcome-message .msg-bubble > p,
+  .info-body p,
+  .specialty-detail-section p,
   .info-body .lead,
   .initial-intake-card p:first-of-type {
-    font-size: 18px !important;
+    font-size: 16px !important;
     line-height: 170% !important;
   }
 
@@ -3365,6 +3421,15 @@ select,
   .ai-disclaimer-box,
   #medical-disclaimer-start {
     font-size: 13px !important;
+  }
+
+  button,
+  .btn-primary,
+  .btn-primary-wide,
+  .btn-premium-wide,
+  .specialty-discover-btn,
+  .cookie-actions button {
+    font-size: 17px !important;
   }
 }
 

@@ -6,10 +6,10 @@ const {
     validateBodySize
 } = require("./request_guard");
 
-const DEFAULT_RESULT_COUNT = 16;
-const LOCAL_COUNT = 8;
-const REGIONAL_COUNT = 5;
-const NATIONAL_COUNT = 3;
+const DEFAULT_RESULT_COUNT = 20;
+const LOCAL_COUNT = 10;
+const REGIONAL_COUNT = 6;
+const NATIONAL_COUNT = 4;
 const EXTRA_COUNT = 10;
 const MAX_QUERY_FIELD_LENGTH = 160;
 
@@ -197,7 +197,8 @@ function normalizeSearchItem({ title, link, snippet, query, scope, source }) {
             email ? `Email: ${email}` : "Email non disponibile nella scheda pubblica"
         ].join(" | "),
         fonte: source,
-        info: infoLabel
+        info: infoLabel,
+        search_scope: scope
         // URL removed to ensure NO external references to other sites as per user request
     };
 }
@@ -319,6 +320,23 @@ function dedupeResults(results) {
     });
 }
 
+function takeUnique(target, source, limit, seen) {
+    for (const item of source) {
+        if (target.length >= limit) break;
+        const key = cleanText(item.url || `${item.nome}|${item.indirizzo_modalita}`).toLowerCase();
+        if (!key || seen.has(key)) continue;
+        seen.add(key);
+        target.push(item);
+    }
+}
+
+function splitByCareType(results) {
+    return {
+        publicOrAccredited: results.filter((item) => item.tipo === "SSN"),
+        privateCare: results.filter((item) => item.tipo !== "SSN")
+    };
+}
+
 async function searchSpecialists(payload, fetchImpl) {
     const specialista = cleanText(payload.specialista, "medico specialista");
     const disturbo = cleanText(payload.disturbo);
@@ -328,27 +346,47 @@ async function searchSpecialists(payload, fetchImpl) {
 
     const clinicalTerms = [specialista, disturbo].filter(Boolean).join(" ");
     const negations = "-miodottore -doctolib -idoctors -paginegialle -paginebianche -cup -qsalute -guidasalute -topdoctors";
-    const localQuery = `${clinicalTerms} ${provincia} dottore clinica ospedale telefono indirizzo email ${negations}`.trim();
-    const regionalQuery = `${clinicalTerms} ${regione} centro specialistico clinica ospedale telefono indirizzo ${negations}`.trim();
-    const nationalQuery = `${clinicalTerms} eccellenza specialistica Italia clinica ospedale telefono indirizzo ${negations}`.trim();
-    const extraRegionalQuery = `${clinicalTerms} ${regione} contatti prenotazioni studio medico ${negations}`.trim();
-    const extraNationalQuery = `${clinicalTerms} Italia contatti prenotazioni ospedale specialista ${negations}`.trim();
+    const localPublicQuery = `${clinicalTerms} ${provincia} ospedale pubblico reparto telefono indirizzo ${negations}`.trim();
+    const localClinicQuery = `${clinicalTerms} ${provincia} clinica privata convenzionata centro specialistico telefono indirizzo ${negations}`.trim();
+    const localPrivateQuery = `${clinicalTerms} ${provincia} specialista privato studio medico telefono indirizzo email ${negations}`.trim();
+    const regionalPublicQuery = `${clinicalTerms} ${regione} ospedale pubblico clinica convenzionata centro specialistico telefono indirizzo ${negations}`.trim();
+    const regionalPrivateQuery = `${clinicalTerms} ${regione} specialista privato studio medico telefono indirizzo email ${negations}`.trim();
+    const nationalQuery = `${clinicalTerms} centro di eccellenza specialistica Italia ospedale clinica universitaria IRCCS telefono indirizzo ${negations}`.trim();
+    const extraRegionalQuery = `${clinicalTerms} ${regione} contatti prenotazioni ospedale clinica studio medico ${negations}`.trim();
+    const extraNationalQuery = `${clinicalTerms} Italia migliori centri specialistici appropriati ospedale clinica ${negations}`.trim();
 
-    const [localRaw, regionalRaw, nationalRaw] = await Promise.all([
-        fetchGoogleResults({ query: localQuery, scope: "Provincia", fetchImpl }),
-        fetchGoogleResults({ query: regionalQuery, scope: "Regione", fetchImpl }),
-        fetchGoogleResults({ query: nationalQuery, scope: "Nazionale", fetchImpl })
+    const [localPublicRaw, localClinicRaw, localPrivateRaw, regionalPublicRaw, regionalPrivateRaw, nationalRaw] = await Promise.all([
+        fetchGoogleResults({ query: localPublicQuery, scope: "Provincia", fetchImpl, count: EXTRA_COUNT }),
+        fetchGoogleResults({ query: localClinicQuery, scope: "Provincia", fetchImpl, count: EXTRA_COUNT }),
+        fetchGoogleResults({ query: localPrivateQuery, scope: "Provincia", fetchImpl, count: EXTRA_COUNT }),
+        fetchGoogleResults({ query: regionalPublicQuery, scope: "Regione", fetchImpl, count: EXTRA_COUNT }),
+        fetchGoogleResults({ query: regionalPrivateQuery, scope: "Regione", fetchImpl, count: EXTRA_COUNT }),
+        fetchGoogleResults({ query: nationalQuery, scope: "Nazionale", fetchImpl, count: EXTRA_COUNT })
     ]);
 
-    const local = dedupeResults(localRaw);
-    const regional = dedupeResults(regionalRaw);
+    const localPublic = dedupeResults(localPublicRaw);
+    const localClinic = dedupeResults(localClinicRaw);
+    const localPrivate = dedupeResults(localPrivateRaw);
+    const regionalPublic = dedupeResults(regionalPublicRaw);
+    const regionalPrivate = dedupeResults(regionalPrivateRaw);
     const national = dedupeResults(nationalRaw);
 
-    let results = dedupeResults([
-        ...local.slice(0, LOCAL_COUNT),
-        ...regional.slice(0, REGIONAL_COUNT),
-        ...national.slice(0, NATIONAL_COUNT)
-    ]).slice(0, DEFAULT_RESULT_COUNT);
+    const seen = new Set();
+    const localBucket = [];
+    takeUnique(localBucket, localPublic, 3, seen);
+    takeUnique(localBucket, localClinic, 6, seen);
+    takeUnique(localBucket, localPrivate, LOCAL_COUNT, seen);
+    takeUnique(localBucket, [...localPublic, ...localClinic, ...localPrivate], LOCAL_COUNT, seen);
+
+    const regionalBucket = [];
+    takeUnique(regionalBucket, regionalPublic, 3, seen);
+    takeUnique(regionalBucket, regionalPrivate, REGIONAL_COUNT, seen);
+    takeUnique(regionalBucket, [...regionalPublic, ...regionalPrivate], REGIONAL_COUNT, seen);
+
+    let results = [];
+    results.push(...localBucket.slice(0, LOCAL_COUNT));
+    results.push(...regionalBucket.slice(0, REGIONAL_COUNT));
+    takeUnique(results, national, DEFAULT_RESULT_COUNT, seen);
 
     if (results.length < DEFAULT_RESULT_COUNT) {
         const [extraRegionalRaw, extraNationalRaw] = await Promise.all([
@@ -356,12 +394,11 @@ async function searchSpecialists(payload, fetchImpl) {
             fetchGoogleResults({ query: extraNationalQuery, scope: "Nazionale", fetchImpl, count: EXTRA_COUNT })
         ]);
 
-        results = dedupeResults([
-            ...results,
-            ...extraRegionalRaw,
-            ...extraNationalRaw
-        ]).slice(0, DEFAULT_RESULT_COUNT);
+        takeUnique(results, dedupeResults(extraRegionalRaw), LOCAL_COUNT + REGIONAL_COUNT, seen);
+        takeUnique(results, dedupeResults(extraNationalRaw), DEFAULT_RESULT_COUNT, seen);
     }
+
+    results = results.slice(0, DEFAULT_RESULT_COUNT);
 
     results = await enrichResults(results, fetchImpl);
 
@@ -372,8 +409,11 @@ async function searchSpecialists(payload, fetchImpl) {
             nazionale: NATIONAL_COUNT
         },
         queries: {
-            provincia: localQuery,
-            regione: regionalQuery,
+            provincia_pubblico: localPublicQuery,
+            provincia_clinica_convenzionata: localClinicQuery,
+            provincia_privato: localPrivateQuery,
+            regione_pubblico_convenzionato: regionalPublicQuery,
+            regione_privato: regionalPrivateQuery,
             nazionale: nationalQuery,
             regione_extra: extraRegionalQuery,
             nazionale_extra: extraNationalQuery

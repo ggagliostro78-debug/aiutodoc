@@ -7,6 +7,9 @@ class TriageEngine {
         this.state = '1_SESSO_ETA';
         this.userData = {
             age: null,
+            age_range: null,
+            exact_age: null,
+            weight_kg: null,
             sex_at_birth: null,
             initialMedicalData: null,
             sessoEta: null,
@@ -18,6 +21,8 @@ class TriageEngine {
         };
         this.currentConoscitiva = 0;
         this.currentAnamnestica = 0;
+        this.conditionalDetailsQueue = [];
+        this.currentConditionalDetail = null;
         this.onMessage = onMessage;
         this._updatePlaceholder();
         this._initUIListeners();
@@ -36,10 +41,10 @@ class TriageEngine {
             initialForm.addEventListener('submit', (event) => {
                 event.preventDefault();
                 const formData = new FormData(initialForm);
-                const ageRaw = formData.get('age');
+                const ageRange = formData.get('age_range');
                 const sexAtBirth = formData.get('sex_at_birth');
                 const validation = this._validateInitialMedicalSearch({
-                    age: ageRaw === null || String(ageRaw).trim() === "" ? null : Number(ageRaw),
+                    age_range: ageRange ? String(ageRange) : "",
                     sex_at_birth: sexAtBirth ? String(sexAtBirth) : ""
                 });
 
@@ -47,7 +52,7 @@ class TriageEngine {
                 if (!validation.valid) return;
 
                 this.acceptInitialMedicalData({
-                    age: Number(ageRaw),
+                    age_range: String(ageRange),
                     sex_at_birth: String(sexAtBirth)
                 }, { echoUserMessage: true });
             });
@@ -73,6 +78,11 @@ class TriageEngine {
             case '5_ANAMNESTICHE':
                 placeholder = "Rispondi indicando la lettera (A, B o C)";
                 break;
+            case '5C_DETTAGLIO_CONDIZIONATO':
+                placeholder = this.currentConditionalDetail === "weight_kg"
+                    ? "Inserisci il peso in kg. Es. 72"
+                    : "Inserisci l'età precisa. Es. 47";
+                break;
             case '4B_NOTA_CONOSCITIVA':
             case '5B_NOTA_ANAMNESTICA':
                 placeholder = "Aggiungi dettagli o scrivi 'NO'";
@@ -93,14 +103,39 @@ class TriageEngine {
         return labels[value] || labels.not_specified;
     }
 
+    _ageRangeLabel(value) {
+        const labels = {
+            "0_2": "0-2 anni",
+            "3_5": "3-5 anni",
+            "6_12": "6-12 anni",
+            "13_17": "13-17 anni",
+            "18_39": "18-39 anni",
+            "40_64": "40-64 anni",
+            "65_74": "65-74 anni",
+            "75_plus": "75 anni o più"
+        };
+        return labels[value] || "";
+    }
+
+    _ageRangeFromExactAge(age) {
+        if (!Number.isInteger(age) || age < 0 || age > 120) return "";
+        if (age <= 2) return "0_2";
+        if (age <= 5) return "3_5";
+        if (age <= 12) return "6_12";
+        if (age <= 17) return "13_17";
+        if (age <= 39) return "18_39";
+        if (age <= 64) return "40_64";
+        if (age <= 74) return "65_74";
+        return "75_plus";
+    }
+
     _validateInitialMedicalSearch(data) {
         const errors = {};
         const allowedSexAtBirth = ["female", "male", "not_specified"];
+        const allowedAgeRanges = ["0_2", "3_5", "6_12", "13_17", "18_39", "40_64", "65_74", "75_plus"];
 
-        if (data.age === undefined || data.age === null || data.age === "") {
-            errors.age = "Inserisci la tua età per continuare.";
-        } else if (!Number.isInteger(data.age) || data.age < 0 || data.age > 120) {
-            errors.age = "Inserisci un'età valida.";
+        if (!data.age_range || !allowedAgeRanges.includes(data.age_range)) {
+            errors.age = "Seleziona una fascia di età per continuare.";
         }
 
         if (!data.sex_at_birth || !allowedSexAtBirth.includes(data.sex_at_birth)) {
@@ -126,14 +161,17 @@ class TriageEngine {
         if (!validation.valid) return false;
 
         const sexLabel = this._sexAtBirthLabel(data.sex_at_birth);
-        this.userData.age = data.age;
+        const ageRangeLabel = this._ageRangeLabel(data.age_range);
+        this.userData.age = null;
+        this.userData.age_range = data.age_range;
         this.userData.sex_at_birth = data.sex_at_birth;
         this.userData.initialMedicalData = {
-            age: data.age,
+            age_range: data.age_range,
+            age_range_label: ageRangeLabel,
             sex_at_birth: data.sex_at_birth,
             created_at: new Date().toISOString()
         };
-        this.userData.sessoEta = `${sexLabel}, ${data.age} anni`;
+        this.userData.sessoEta = `${sexLabel}, ${ageRangeLabel}`;
 
         const initialForm = document.getElementById('initial-medical-form');
         if (initialForm) {
@@ -151,7 +189,7 @@ class TriageEngine {
         }
 
         if (options.echoUserMessage && window.chatUI) {
-            window.chatUI.addMessage(`Età: ${data.age} anni. Sesso biologico: ${sexLabel}.`, 'user-msg');
+            window.chatUI.addMessage(`Fascia di età: ${ageRangeLabel}. Sesso biologico: ${sexLabel}.`, 'user-msg');
         }
 
         this.state = '2_ZONA';
@@ -177,7 +215,85 @@ class TriageEngine {
             sex_at_birth = "male";
         }
 
-        return { age, sex_at_birth };
+        return { age_range: this._ageRangeFromExactAge(age), sex_at_birth };
+    }
+
+    _clinicalContextText() {
+        return [
+            this.userData.disturbo,
+            this.userData.zona,
+            this.userData.notaConoscitiva,
+            this.userData.notaAnamnestica,
+            ...(this.userData.conoscitiveResp || []),
+            ...(this.userData.anamnesticheResp || [])
+        ].join(" ").toLowerCase();
+    }
+
+    _needsPreciseAge() {
+        const text = this._clinicalContextText();
+        const pediatricRanges = ["0_2", "3_5", "6_12", "13_17"];
+        const geriatricRanges = ["65_74", "75_plus"];
+        return pediatricRanges.includes(this.userData.age_range)
+            || geriatricRanges.includes(this.userData.age_range)
+            || /\b(pediatr|bambin|neonat|lattant|adolescent|gravid|fertilit|concep|screening|urg|emerg|dolore torac|sveniment|sincope|cardio|cuore|pressione|aritm|palpit|geriatr|anzian)\w*/i.test(text);
+    }
+
+    _needsWeight() {
+        const text = this._clinicalContextText();
+        const pediatricRanges = ["0_2", "3_5", "6_12", "13_17"];
+        return pediatricRanges.includes(this.userData.age_range)
+            || /\b(peso|bmi|massa corporea|nutriz|diet|obes|sovrappeso|sottopeso|endocrin|diabet|glicem|metabolic|cardiometabolic|cardio metabol|disidrata|vomit|diarrea|farmac|dosagg|dose)\w*/i.test(text);
+    }
+
+    _prepareConditionalDetailsQueue() {
+        const queue = [];
+        if (this._needsPreciseAge() && !this.userData.exact_age) queue.push("exact_age");
+        if (this._needsWeight() && !this.userData.weight_kg) queue.push("weight_kg");
+        this.conditionalDetailsQueue = queue;
+        this.currentConditionalDetail = null;
+        return queue;
+    }
+
+    _askNextConditionalDetailOrFinalNote() {
+        const next = this.conditionalDetailsQueue.shift();
+        if (!next) {
+            this.currentConditionalDetail = null;
+            this.state = '5B_NOTA_ANAMNESTICA';
+            this.onMessage('Ottimo. Vorresti aggiungere qualche dettaglio sui tuoi sintomi prima che elabori i dati? Altrimenti, digita "No" ed inizierò a cercare la figura più indicata per te.');
+            this._updatePlaceholder();
+            return;
+        }
+
+        this.currentConditionalDetail = next;
+        this.state = '5C_DETTAGLIO_CONDIZIONATO';
+        const message = next === "weight_kg"
+            ? "Per questo percorso il peso può essere clinicamente rilevante. Indica il peso in kg, ad esempio <strong>72</strong>."
+            : "Per questo percorso serve anche l'età puntuale. Indica l'età precisa in anni, ad esempio <strong>47</strong>.";
+        this.onMessage(message);
+        this._updatePlaceholder();
+    }
+
+    _handleConditionalDetailInput(input) {
+        const value = String(input || "").replace(",", ".").match(/\d+(?:\.\d+)?/);
+        const numberValue = value ? Number(value[0]) : NaN;
+
+        if (this.currentConditionalDetail === "exact_age") {
+            if (!Number.isInteger(numberValue) || numberValue < 0 || numberValue > 120) {
+                this.onMessage("Errore: inserisci un'età valida compresa tra 0 e 120 anni.", "system-msg danger");
+                return;
+            }
+            this.userData.exact_age = numberValue;
+            this.userData.age = numberValue;
+            this.userData.age_range = this.userData.age_range || this._ageRangeFromExactAge(numberValue);
+        } else if (this.currentConditionalDetail === "weight_kg") {
+            if (!Number.isFinite(numberValue) || numberValue < 0.5 || numberValue > 350) {
+                this.onMessage("Errore: inserisci un peso valido in kg.", "system-msg danger");
+                return;
+            }
+            this.userData.weight_kg = Math.round(numberValue * 10) / 10;
+        }
+
+        this._askNextConditionalDetailOrFinalNote();
     }
 
     _generateTriageID() {
@@ -862,10 +978,13 @@ class TriageEngine {
                 if (this.currentAnamnestica < this.userData.domandeAnamnesticheDinamiche.length) {
                     this.onMessage(`${this.currentAnamnestica + 1}. ` + this.userData.domandeAnamnesticheDinamiche[this.currentAnamnestica]);
                 } else {
-                    this.state = '5B_NOTA_ANAMNESTICA';
-                    this.onMessage('Ottimo. Vorresti aggiungere qualche dettaglio sui tuoi sintomi prima che elabori i dati? Altrimenti, digita "No" ed inizierò a cercare la figura più indicata per te.');
-                    this._updatePlaceholder();
+                    this._prepareConditionalDetailsQueue();
+                    this._askNextConditionalDetailOrFinalNote();
                 }
+                break;
+
+            case '5C_DETTAGLIO_CONDIZIONATO':
+                this._handleConditionalDetailInput(input);
                 break;
 
             case '5B_NOTA_ANAMNESTICA':
@@ -1202,6 +1321,7 @@ class TriageEngine {
 
             // --- GOOGLE PLACES RETRIEVAL ---
             let places = [];
+            const searchWarnings = [];
             const userZonaStr = String(this.userData.zona || "").trim();
             try {
                 const response = await fetch('/api/places', {
@@ -1217,9 +1337,13 @@ class TriageEngine {
                 if (response.ok) {
                     const data = await response.json();
                     places = data.risultati || [];
+                } else {
+                    const detail = await response.text();
+                    searchWarnings.push(`Places: ${response.status} ${detail}`);
                 }
             } catch (e) {
                 console.warn("Failed to fetch Google Places", e);
+                searchWarnings.push(`Places: ${e instanceof Error ? e.message : String(e)}`);
             }
 
             const isSameDoctor = (nameA, nameB) => {
@@ -1240,7 +1364,7 @@ class TriageEngine {
 
             const curated = this._buildCuratedSearchResults(resultObj.specialista_indicato) || [];
             const isRCOrVibo = userZonaStr.toLowerCase().includes("reggio") || userZonaStr.toLowerCase().includes("vibo");
-            const isOrthopedic = resultObj.specialista_indicato && resultObj.specialista_indicato.toLowerCase().includes("ortoped");
+            const isOrthopedic = resultObj.specialista_indicato && /ortoped|traumatolog/i.test(resultObj.specialista_indicato);
 
             // Raccogli nomi dei medici indicizzati
             const curatedNames = curated.map(c => c.nome);
@@ -1255,9 +1379,9 @@ class TriageEngine {
             });
 
             let finalPlaces = [...filteredPlaces];
-            if (finalPlaces.length < 16) {
+            if (finalPlaces.length < 20) {
                 for (const c of curated) {
-                    if (finalPlaces.length >= 16) break;
+                    if (finalPlaces.length >= 20) break;
                     const isDup = finalPlaces.some(p => isSameDoctor(p.nome, c.nome));
                     if (!isDup) {
                         const nameLower = (c.nome || "").toLowerCase();
@@ -1268,6 +1392,27 @@ class TriageEngine {
                     }
                 }
             }
+
+            if (finalPlaces.length < 20) {
+                try {
+                    const fallbackPlaces = await this._getSpecialistSearchResults(resultObj.specialista_indicato);
+                    const nationalFallback = fallbackPlaces.filter((place) =>
+                        String(place.search_scope || "").toLowerCase().includes("nazional")
+                    );
+                    const otherFallback = fallbackPlaces.filter((place) =>
+                        !String(place.search_scope || "").toLowerCase().includes("nazional")
+                    );
+                    for (const fallbackPlace of [...nationalFallback, ...otherFallback]) {
+                        if (finalPlaces.length >= 20) break;
+                        const isDup = finalPlaces.some(p => isSameDoctor(p.nome, fallbackPlace.nome));
+                        if (!isDup) finalPlaces.push(fallbackPlace);
+                    }
+                } catch (fallbackError) {
+                    console.warn("Fallback specialist-search senza risultati:", fallbackError);
+                    searchWarnings.push(`Specialist search: ${fallbackError instanceof Error ? fallbackError.message : String(fallbackError)}`);
+                }
+            }
+            finalPlaces = finalPlaces.slice(0, 20);
             resultObj.risultati = finalPlaces;
 
             // Pulisci i nomi dei medici specialisti e sposta la specializzazione estesa in "info"
@@ -1329,21 +1474,14 @@ class TriageEngine {
                 }
             });
 
-            // PRIORITY LOGIC: Dott. Vincenzo Calafiore per Ortopedia in RC/Vibo
-            if (isRCOrVibo && isOrthopedic) {
-                const calafiore = {
-                    nome: "Dott. Vincenzo Calafiore",
-                    specializzazione: "Ortopedico (Chirurgia Anca, Ginocchio, Spalla)",
-                    tipo: "Privato",
-                    indirizzo_modalita: "IOMI (RC) | Studio Torrione (RC) | Centro Gima (VV)",
-                    contatti: "3294255444 | Dottorecalafiore@libero.it",
-                    info: "Chirurgo specializzato in ricostruzione cuffia, Achille, crociato e lesioni meniscali."
-                };
-                
-                resultObj.risultati = resultObj.risultati.filter(r => !isSameDoctor(r.nome, calafiore.nome));
-                const targetIndex = Math.min(resultObj.risultati.length, Math.floor(Math.random() * 4));
-                resultObj.risultati.splice(targetIndex, 0, calafiore);
-            }
+            const priorityCurated = this._buildCuratedSearchResults(resultObj.specialista_indicato);
+            priorityCurated.forEach((curatedEntry, index) => {
+                resultObj.risultati = resultObj.risultati.filter(r => !isSameDoctor(r.nome, curatedEntry.nome));
+                const stableSeed = `${curatedEntry.nome}|${this.userData.zona}|${this.userData.disturbo}`.length;
+                const targetIndex = Math.min(resultObj.risultati.length, (stableSeed + index) % 5);
+                resultObj.risultati.splice(targetIndex, 0, curatedEntry);
+            });
+            resultObj.risultati = resultObj.risultati.slice(0, 20);
 
             // Mostriamo i risultati
             let outInitial = `
@@ -1408,6 +1546,24 @@ class TriageEngine {
                     resultsHTML += this._buildCard(r);
                 }
             });
+            if (!resultsHTML) {
+                const searchConfigMissing = searchWarnings.some((warning) =>
+                    /CONFIG_MISSING|non configurat|Chiave Google API|GOOGLE_PLACES_CONFIG_MISSING|GOOGLE_SEARCH_CONFIG_MISSING/i.test(warning)
+                );
+                resultsHTML = `
+                <div class="triage-result">
+                  <div class="triage-result-header">
+                    ${searchConfigMissing ? "Ricerca specialisti non configurata" : "Nessuna scheda specialistica disponibile"} <span class="tag-badge">Ricerca</span>
+                  </div>
+                  <div class="triage-result-body">
+                    ${searchConfigMissing
+                        ? `<p>Il motore di ricerca degli specialisti non è configurato in questo ambiente. La sintesi clinica è stata generata, ma l'elenco di specialisti e strutture richiede una chiave Google Places o Google Custom Search/SerpApi.</p>
+                           <p>Configura almeno una tra <strong>GOOGLE_PLACES_API_KEY</strong>, <strong>GOOGLE_MAPS_API_KEY</strong>, oppure <strong>GOOGLE_CSE_API_KEY</strong> con <strong>GOOGLE_CSE_ID</strong>, o <strong>SERPAPI_API_KEY</strong>.</p>`
+                        : `<p>Non sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.</p>
+                           <p>Puoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.</p>`}
+                  </div>
+                </div>`;
+            }
             out += resultsHTML + `</div>`;
             this.onMessage(out);
 
@@ -1472,11 +1628,32 @@ class TriageEngine {
         };
     }
 
+    _curatedContextText() {
+        const details = this.userData.zonaDettagli || {};
+        return [
+            this.userData.zona,
+            details.comune,
+            details.provincia,
+            details.provinciaSigla,
+            details.regione,
+            this.userData.disturbo
+        ].filter(Boolean).join(" ").toLowerCase();
+    }
+
+    _isOrthopedicTraumaContext(specialista) {
+        const text = [
+            specialista,
+            this.userData.disturbo,
+            ...(this.userData.conoscitiveResp || []),
+            ...(this.userData.anamnesticheResp || [])
+        ].filter(Boolean).join(" ").toLowerCase();
+        return /ortoped|traumatolog|ginocch|spalla|anca|menisc|legament|crociat|cuffia|achille|tendin|frattur|distorsion|articolazion|osso|ossa/.test(text);
+    }
+
     _buildCuratedSearchResults(specialista) {
-        const zona = String(this.userData.zona || "").trim();
         const spec = String(specialista || "medico specialista").trim();
         const specLower = spec.toLowerCase();
-        const zonaLower = zona.toLowerCase();
+        const contextLower = this._curatedContextText();
         const results = [];
 
         const add = (entry) => {
@@ -1487,7 +1664,7 @@ class TriageEngine {
         };
 
         if (specLower.includes("psicolog") || specLower.includes("psicotera") || specLower.includes("psichiatr")) {
-            const isRoma = zonaLower.includes("roma");
+            const isRoma = contextLower.includes("roma");
             add({
                 nome: "Dr.ssa Greta Devoli",
                 specializzazione: "Psicologa ad orientamento Sistemico-Relazionale",
@@ -1499,19 +1676,20 @@ class TriageEngine {
             });
         }
 
-        if (specLower.includes("ortoped") && (zonaLower.includes("reggio") || zonaLower.includes("vibo"))) {
+        const isReggioOrVibo = /\b(reggio|rc|vibo|vv|villa san giovanni|palmi|gioia tauro)\b/i.test(contextLower);
+        if (this._isOrthopedicTraumaContext(specLower) && isReggioOrVibo) {
             add({
                 nome: "Dott. Vincenzo Calafiore",
-                specializzazione: "Ortopedico / Chirurgo",
+                specializzazione: "Ortopedico (Chirurgia Anca, Ginocchio, Spalla)",
                 tipo: "Privato",
-                indirizzo_modalita: "IOMI RC | Studio Torrione RC | Centro Gima VV",
+                indirizzo_modalita: "IOMI (RC) | Studio Torrione (RC) | Centro Gima (VV)",
                 contatti: "3294255444 | Dottorecalafiore@libero.it",
                 fonte: "Scheda curata",
-                info: "Specialista in regime di libera professione."
+                info: "Chirurgo specializzato in ricostruzione cuffia, Achille, crociato e lesioni meniscali."
             });
         }
 
-        if ((specLower.includes("neurochir") || specLower.includes("neurol")) && (zonaLower.includes("messina") || zonaLower.includes("milazzo") || zonaLower.includes("reggio") || zonaLower.includes("villa"))) {
+        if ((specLower.includes("neurochir") || specLower.includes("neurol")) && /\b(messina|milazzo|reggio|rc|villa)\b/i.test(contextLower)) {
             add({
                 nome: "Dott. Carmelo Pecora",
                 specializzazione: "Neurochirurgo",
@@ -1588,7 +1766,7 @@ class TriageEngine {
             throw new Error("La ricerca reale non ha restituito risultati verificabili.");
         }
 
-        return merged.slice(0, 16);
+        return merged.slice(0, 20);
     }
 
     async _getGeminiConsultation() {
@@ -1609,7 +1787,9 @@ class TriageEngine {
             const systemPrompt = `Sei un esperto di orientamento medico di Aiutodoc.it. Il tuo obiettivo è fornire una sintesi clinica accurata basata sull'intervista effettuata con l'utente e suggerire la specializzazione medica corretta.
             
             Dati utente:
-            - Età: ${this.userData.age}
+            - Fascia di età iniziale: ${this._ageRangeLabel(this.userData.age_range) || "non specificata"}
+            - Età puntuale, se clinicamente necessaria e raccolta: ${this.userData.exact_age ?? this.userData.age ?? "non raccolta"}
+            - Peso, se clinicamente necessario e raccolto: ${this.userData.weight_kg ? `${this.userData.weight_kg} kg` : "non raccolto"}
             - Sesso biologico: ${this._sexAtBirthLabel(this.userData.sex_at_birth)} (${this.userData.sex_at_birth || "not_specified"})
             - Zona: ${userZonaStr}
             - Disturbo: ${this.userData.disturbo}

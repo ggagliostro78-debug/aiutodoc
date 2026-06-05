@@ -203,17 +203,50 @@
 
               <form id="initial-medical-form" class="initial-intake-card" novalidate>
                 <h3>Prima di iniziare</h3>
-                <p>Per orientarti meglio verso lo specialista più appropriato, inserisci prima età e sesso biologico. Il dato sul sesso biologico viene usato solo quando clinicamente rilevante. Puoi scegliere di non specificarlo.</p>
+                <p>Per orientarti meglio verso lo specialista più appropriato, seleziona una fascia di età e indica il sesso biologico.</p>
 
-                <label class="initial-field" for="initial-age">
-                  <span>Quanti anni hai?</span>
-                  <input id="initial-age" name="age" type="number" min="0" max="120" inputmode="numeric" autocomplete="off" placeholder="Es. 35" aria-describedby="initial-age-error" required>
-                </label>
+                <fieldset class="initial-fieldset" aria-describedby="initial-age-error">
+                  <legend>Fascia di età</legend>
+                  <div class="age-range-options">
+                    <label class="age-range-card">
+                      <input type="radio" name="age_range" value="0_2">
+                      <span>0-2 anni</span>
+                    </label>
+                    <label class="age-range-card">
+                      <input type="radio" name="age_range" value="3_5">
+                      <span>3-5 anni</span>
+                    </label>
+                    <label class="age-range-card">
+                      <input type="radio" name="age_range" value="6_12">
+                      <span>6-12 anni</span>
+                    </label>
+                    <label class="age-range-card">
+                      <input type="radio" name="age_range" value="13_17">
+                      <span>13-17 anni</span>
+                    </label>
+                    <label class="age-range-card">
+                      <input type="radio" name="age_range" value="18_39">
+                      <span>18-39 anni</span>
+                    </label>
+                    <label class="age-range-card">
+                      <input type="radio" name="age_range" value="40_64">
+                      <span>40-64 anni</span>
+                    </label>
+                    <label class="age-range-card">
+                      <input type="radio" name="age_range" value="65_74">
+                      <span>65-74 anni</span>
+                    </label>
+                    <label class="age-range-card">
+                      <input type="radio" name="age_range" value="75_plus">
+                      <span>75 anni o più</span>
+                    </label>
+                  </div>
+                </fieldset>
                 <p class="initial-error" id="initial-age-error" aria-live="polite" role="alert"></p>
 
                 <fieldset class="initial-fieldset" aria-describedby="initial-sex-help initial-sex-error">
                   <legend>Sesso biologico</legend>
-                  <p id="initial-sex-help">Alcuni sintomi o percorsi sanitari possono dipendere anche dal sesso biologico. Puoi scegliere di non specificarlo.</p>
+                  <p id="initial-sex-help">Useremo questi dati solo quando clinicamente rilevanti e solo per migliorare l’orientamento sanitario.</p>
                   <div class="sex-at-birth-options">
                     <label class="sex-at-birth-card">
                       <input type="radio" name="sex_at_birth" value="female">
@@ -764,7 +797,7 @@
               Parkinson o che simulano il ritardo lento di motori e il fermarsi bruscamente e involontaria marcia
               geriatrico. Rischio di letale ruzzolo.</div>
             <div class="g-card"><strong>Fragilità Ossa (Geriatrica):</strong> Il mix combinato grave d'incidente per
-              scivoloni a osteoporosi avanzata tipica delle donne. Ãˆ la 1Â° prima grande sintomatologia di degenerazione
+              scivoloni a osteoporosi avanzata tipica delle donne. È la 1° prima grande sintomatologia di degenerazione
               per rottura mortale testa del femore se atterrate.</div>
           </div>
 
@@ -813,7 +846,7 @@
           <div class="grid-cards">
             <div class="g-card"><strong>Coliche Gaspanti:</strong> Una fase transiente infantile d'insorgenza serale del
               gas / crampi (es. spasmo piagnucolio dopo la lattazione senza rimedi e feci normali del bebè piangente e
-              gonfio per spasmo non patologico neo-natologia classica nel pediatra al 3Â° mese a stomaco di spasmo
+              gonfio per spasmo non patologico neo-natologia classica nel pediatra al 3° mese a stomaco di spasmo
               dolente o gonfiato aria colica o gassosi tipici dolori della pancia col pancino gonfio e i pianti tipiche
               al pomeriggio neonato.</div>
             <div class="g-card"><strong>Scarlattina:</strong> Tipica infezione eruttiva streptococcica batteriosa
@@ -1026,7 +1059,7 @@
         <div class="info-body">
           <h2>Malattie Infettive</h2>
           <p class="specialty-subtitle">Febbre persistente, infezioni ricorrenti o dubbi dopo un viaggio? Scopri se questa è la figura giusta per le tue necessità.</p>
-          <p><strong>L’Infettivologo</strong> si occupa della diagnosi e del trattamento di <strong>infezioni causate da batteri, virus, funghi e parassiti</strong>. Segue condizioni come HIV, epatiti virali, tubercolosi, infezioni sessualmente trasmissibili, sepsi e patologie tropicali o importate da viaggi. Ãˆ anche il riferimento per <strong>infezioni complesse</strong> che non rispondono alle terapie abituali o per pazienti con difese immunitarie ridotte.</p>
+          <p><strong>L’Infettivologo</strong> si occupa della diagnosi e del trattamento di <strong>infezioni causate da batteri, virus, funghi e parassiti</strong>. Segue condizioni come HIV, epatiti virali, tubercolosi, infezioni sessualmente trasmissibili, sepsi e patologie tropicali o importate da viaggi. È anche il riferimento per <strong>infezioni complesse</strong> che non rispondono alle terapie abituali o per pazienti con difese immunitarie ridotte.</p>
           <p><strong>I segnali da non trascurare</strong>: febbre persistente senza causa apparente, infezioni frequenti o difficili da trattare, sintomi comparsi dopo un viaggio all'estero, esposizione a rischio per malattie sessualmente trasmissibili, stanchezza cronica associata a sudorazioni e calo di peso.</p>
           <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
         </div>
@@ -1035,7 +1068,7 @@
         <div class="info-body">
           <h2>Reumatologia</h2>
           <p class="specialty-subtitle">Dolori articolari, rigidità mattutina, gonfiore alle mani o alle ginocchia? Tutto parte dal primo orientamento.</p>
-          <p><strong>Il Reumatologo</strong> si occupa delle malattie che colpiscono articolazioni, ossa, muscoli e tessuto connettivo, molte delle quali hanno natura autoimmune. Diagnostica e tratta artrite reumatoide, lupus, fibromialgia, gotta, spondilite anchilosante, artrosi e osteoporosi. Ãˆ una figura spesso sottovalutata, ma <strong>fondamentale per intercettare precocemente malattie</strong> che, se non trattate, possono diventare invalidanti.</p>
+          <p><strong>Il Reumatologo</strong> si occupa delle malattie che colpiscono articolazioni, ossa, muscoli e tessuto connettivo, molte delle quali hanno natura autoimmune. Diagnostica e tratta artrite reumatoide, lupus, fibromialgia, gotta, spondilite anchilosante, artrosi e osteoporosi. È una figura spesso sottovalutata, ma <strong>fondamentale per intercettare precocemente malattie</strong> che, se non trattate, possono diventare invalidanti.</p>
           <p><strong>I segnali da non trascurare</strong>: dolori articolari diffusi, rigidità al mattino che dura più di mezz'ora, gonfiore e arrossamento delle articolazioni, stanchezza cronica associata a dolori muscolari, secchezza degli occhi e della bocca, eruzioni cutanee in concomitanza con dolori articolari.</p>
           <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
         </div>
@@ -1044,7 +1077,7 @@
         <div class="info-body">
           <h2>Geriatria</h2>
           <p class="specialty-subtitle">Salute e qualità della vita dopo i 65 anni? Una specializzazione che guarda alla persona nel suo insieme.</p>
-          <p><strong>Il Geriatra</strong> è il medico specializzato nella <strong>cura della persona anziana,</strong> con un approccio globale che tiene conto di tutte le condizioni presenti contemporaneamente. Si occupa della <strong>gestione di patologie multiple</strong>, come ipertensione, diabete, artrosi, demenza e osteoporosi (spesso compresenti nello stesso paziente) e valuta anche aspetti come l'autonomia, il rischio di cadute, l'uso corretto dei farmaci e il benessere psicologico. <strong>Ãˆ un riferimento prezioso per i familiari che si prendono cura di un anziano</strong>.</p>
+          <p><strong>Il Geriatra</strong> è il medico specializzato nella <strong>cura della persona anziana,</strong> con un approccio globale che tiene conto di tutte le condizioni presenti contemporaneamente. Si occupa della <strong>gestione di patologie multiple</strong>, come ipertensione, diabete, artrosi, demenza e osteoporosi (spesso compresenti nello stesso paziente) e valuta anche aspetti come l'autonomia, il rischio di cadute, l'uso corretto dei farmaci e il benessere psicologico. <strong>È un riferimento prezioso per i familiari che si prendono cura di un anziano</strong>.</p>
           <p><strong>I segnali che rendono utile una valutazione geriatrica</strong>: calo della memoria, difficoltà a svolgere le attività quotidiane, perdita di peso, frequenti cadute, confusione, uso di molti farmaci contemporaneamente o necessità di una valutazione complessiva dello stato di salute.</p>
           <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
         </div>

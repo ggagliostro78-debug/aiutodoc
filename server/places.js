@@ -194,7 +194,7 @@ function classifyPlace(name, types = []) {
     return "Privato";
 }
 
-function formatPlace(p) {
+function formatPlace(p, searchScope = "") {
     const name = p.displayName ? p.displayName.text : "Centro Medico / Specialista";
     const address = p.formattedAddress || "Indirizzo non disponibile";
     const phone = p.nationalPhoneNumber || "";
@@ -228,8 +228,51 @@ function formatPlace(p) {
         indirizzo_modalita: address,
         contatti: contatti.join(" | ") || "Contatta la struttura per informazioni",
         info: infoLabel,
-        telefono: phone
+        telefono: phone,
+        search_scope: searchScope
     };
+}
+
+function takeUnique(target, source, limit, seenNames) {
+    for (const item of source) {
+        if (target.length >= limit) break;
+        const key = String(item.nome || "").toLowerCase().trim();
+        if (!key || seenNames.has(key)) continue;
+        seenNames.add(key);
+        target.push(item);
+    }
+}
+
+function splitByCareType(list) {
+    return {
+        publicOrAccredited: list.filter((item) => item.tipo === "SSN"),
+        privateCare: list.filter((item) => item.tipo !== "SSN")
+    };
+}
+
+function formatPlaceList(rawPlaces, seenNames, searchScope = "") {
+    const list = [];
+    for (const p of rawPlaces) {
+        if (!isValidPlace(p)) continue;
+        const nameKey = p.displayName?.text?.toLowerCase().trim();
+        if (!nameKey || seenNames.has(nameKey)) continue;
+        seenNames.add(nameKey);
+        list.push(formatPlace(p, searchScope));
+    }
+    return list;
+}
+
+function normalizeForArea(value) {
+    return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+}
+
+function isOutsideUserArea(result, { comune, provincia, regione }) {
+    const address = normalizeForArea(result.indirizzo_modalita);
+    const localTerms = [comune, provincia, regione].map(normalizeForArea).filter(Boolean);
+    return !localTerms.some((term) => term && address.includes(term));
 }
 
 
@@ -289,102 +332,107 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch, context = {
         return buildResponse(400, { error: "Parametri di ricerca mancanti." }, corsHeaders);
     }
 
-    const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_CSE_API_KEY || process.env.GOOGLE_MAPS_API_KEY || process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_API_KEY;
     if (!apiKey) {
-        return buildResponse(500, { error: "Chiave Google API non configurata." }, corsHeaders);
+        return buildResponse(503, {
+            error: "Ricerca Google Places non configurata.",
+            code: "GOOGLE_PLACES_CONFIG_MISSING",
+            detail: "Imposta GOOGLE_PLACES_API_KEY oppure GOOGLE_MAPS_API_KEY."
+        }, corsHeaders);
     }
 
     try {
-        let localRaw = [];
-        let regionalRaw = [];
+        let localPublicRaw = [];
+        let localClinicRaw = [];
+        let localPrivateRaw = [];
+        let regionalPublicRaw = [];
+        let regionalPrivateRaw = [];
         let nationalRaw = [];
 
         if (specialista) {
             const regionName = regione || "";
             const provinceName = provincia || comune || "";
 
-            const localQuery = `${specialista} ${provinceName}`.trim();
-            const regionalQuery = `${specialista} eccellenza ${regionName}`.trim();
-            const nationalQuery = `${specialista} eccellenza Milano Roma Bologna`.trim();
+            const localPublicQuery = `${specialista} ospedale pubblico ${provinceName}`.trim();
+            const localClinicQuery = `${specialista} clinica privata convenzionata ${provinceName}`.trim();
+            const localPrivateQuery = `${specialista} specialista privato studio ${provinceName}`.trim();
+            const regionalPublicQuery = `${specialista} ospedale pubblico clinica convenzionata ${regionName}`.trim();
+            const regionalPrivateQuery = `${specialista} specialista privato studio ${regionName}`.trim();
+            const nationalQuery = `${specialista} centro di eccellenza ospedale clinica Italia Milano Roma Bologna`.trim();
 
-            const [resLocal, resRegional, resNational] = await Promise.all([
-                fetchPlaces(localQuery, apiKey, fetchImpl),
-                fetchPlaces(regionalQuery, apiKey, fetchImpl),
+            const [resLocalPublic, resLocalClinic, resLocalPrivate, resRegionalPublic, resRegionalPrivate, resNational] = await Promise.all([
+                fetchPlaces(localPublicQuery, apiKey, fetchImpl),
+                fetchPlaces(localClinicQuery, apiKey, fetchImpl),
+                fetchPlaces(localPrivateQuery, apiKey, fetchImpl),
+                fetchPlaces(regionalPublicQuery, apiKey, fetchImpl),
+                fetchPlaces(regionalPrivateQuery, apiKey, fetchImpl),
                 fetchPlaces(nationalQuery, apiKey, fetchImpl)
             ]);
 
-            localRaw = resLocal;
-            regionalRaw = resRegional;
+            localPublicRaw = resLocalPublic;
+            localClinicRaw = resLocalClinic;
+            localPrivateRaw = resLocalPrivate;
+            regionalPublicRaw = resRegionalPublic;
+            regionalPrivateRaw = resRegionalPrivate;
             nationalRaw = resNational;
         } else {
             // Fallback
-            localRaw = await fetchPlaces(fallbackQuery, apiKey, fetchImpl);
+            localPrivateRaw = await fetchPlaces(fallbackQuery, apiKey, fetchImpl);
         }
 
-        const localList = [];
-        const regionalList = [];
-        const nationalList = [];
         const seenNames = new Set();
 
-        const regionLabel = regione || "Regione";
-        const provinceLabel = provincia || comune || "Provincia";
+        const localPublicList = formatPlaceList(localPublicRaw, seenNames, "Provincia");
+        const localClinicList = formatPlaceList(localClinicRaw, seenNames, "Provincia");
+        const localPrivateList = formatPlaceList(localPrivateRaw, seenNames, "Provincia");
+        const regionalPublicList = formatPlaceList(regionalPublicRaw, seenNames, "Regione");
+        const regionalPrivateList = formatPlaceList(regionalPrivateRaw, seenNames, "Regione");
+        const nationalList = formatPlaceList(nationalRaw, seenNames, "Nazionale")
+            .filter((item) => isOutsideUserArea(item, { comune, provincia, regione }));
 
-        // 1. Local
-        for (const p of localRaw) {
-            if (!isValidPlace(p)) continue;
-            const nameKey = p.displayName?.text?.toLowerCase().trim();
-            if (!nameKey || seenNames.has(nameKey)) continue;
-            seenNames.add(nameKey);
-            localList.push(formatPlace(p));
-        }
+        const localFallback = [
+            ...localPublicList,
+            ...localClinicList,
+            ...localPrivateList
+        ];
+        const regionalFallback = [
+            ...regionalPublicList,
+            ...regionalPrivateList
+        ];
 
-        // 2. Regional
-        for (const p of regionalRaw) {
-            if (!isValidPlace(p)) continue;
-            const nameKey = p.displayName?.text?.toLowerCase().trim();
-            if (!nameKey || seenNames.has(nameKey)) continue;
-            seenNames.add(nameKey);
-            regionalList.push(formatPlace(p));
-        }
-
-        // 3. National
-        for (const p of nationalRaw) {
-            if (!isValidPlace(p)) continue;
-            const nameKey = p.displayName?.text?.toLowerCase().trim();
-            if (!nameKey || seenNames.has(nameKey)) continue;
-            seenNames.add(nameKey);
-            nationalList.push(formatPlace(p));
-        }
-
-        // Assemble with 50% / 30% / 20% distribution
+        // Assemble 20 results: 10 province, 6 region, 4 national.
+        // Province: include public hospitals, accredited/private clinics, and private specialists where available.
         const finalResults = [];
+        const outputSeen = new Set();
 
-        // 8 Local (50%)
-        const localToTake = localList.slice(0, 8);
-        finalResults.push(...localToTake);
+        const localBucket = [];
+        takeUnique(localBucket, localPublicList, 3, outputSeen);
+        takeUnique(localBucket, localClinicList, 6, outputSeen);
+        takeUnique(localBucket, localPrivateList, 10, outputSeen);
+        takeUnique(localBucket, localFallback, 10, outputSeen);
+        finalResults.push(...localBucket.slice(0, 10));
 
-        // 5 Regional (30%)
-        const regionalToTake = regionalList.slice(0, 5);
-        finalResults.push(...regionalToTake);
+        const regionalBucket = [];
+        takeUnique(regionalBucket, regionalPublicList, 3, outputSeen);
+        takeUnique(regionalBucket, regionalPrivateList, 6, outputSeen);
+        takeUnique(regionalBucket, regionalFallback, 6, outputSeen);
+        finalResults.push(...regionalBucket.slice(0, 6));
 
-        // 3 National (20%)
-        const nationalToTake = nationalList.slice(0, 3);
-        finalResults.push(...nationalToTake);
+        takeUnique(finalResults, nationalList, 20, outputSeen);
 
-        // Fill up to 16 if not enough
-        let remainingLocal = localList.slice(8);
-        let remainingRegional = regionalList.slice(5);
-        let remainingNational = nationalList.slice(3);
-
-        while (finalResults.length < 16 && (remainingLocal.length > 0 || remainingRegional.length > 0 || remainingNational.length > 0)) {
-            if (remainingLocal.length > 0) {
-                finalResults.push(remainingLocal.shift());
-            } else if (remainingRegional.length > 0) {
-                finalResults.push(remainingRegional.shift());
-            } else if (remainingNational.length > 0) {
-                finalResults.push(remainingNational.shift());
+        if (specialista && finalResults.length < 20) {
+            const extraQueries = [
+                `${specialista} Italia IRCCS policlinico centro specialistico clinica`.trim()
+            ];
+            const extraRawGroups = await Promise.all(extraQueries.map((query) => fetchPlaces(query, apiKey, fetchImpl)));
+            for (const rawGroup of extraRawGroups) {
+                const extraList = formatPlaceList(rawGroup, seenNames, "Nazionale")
+                    .filter((item) => isOutsideUserArea(item, { comune, provincia, regione }));
+                takeUnique(finalResults, extraList, 20, outputSeen);
+                if (finalResults.length >= 20) break;
             }
         }
+        finalResults.splice(20);
 
         return buildResponse(200, { risultati: finalResults }, corsHeaders);
 

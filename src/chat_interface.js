@@ -272,6 +272,18 @@ class ChatInterface {
         saved.result.risultati.forEach(r => {
             resultsHTML += engine._buildCard(r.nome, r.specializzazione || saved.result.specialista_indicato, r.tipo, r.indirizzo_modalita, r.contatti, r.fonte || "Archivio", r.info, r.url);
         });
+        if (!resultsHTML) {
+            resultsHTML = `
+            <div class="triage-result">
+              <div class="triage-result-header">
+                Nessuna scheda specialistica disponibile <span class="tag-badge">Archivio</span>
+              </div>
+              <div class="triage-result-body">
+                <p>Questa ricerca salvata non contiene schede pubbliche verificabili per specialisti o strutture.</p>
+                <p>Puoi avviare una nuova ricerca ampliando la zona geografica.</p>
+              </div>
+            </div>`;
+        }
         out += resultsHTML + `</div>`;
 
         this.addMessage(out, 'system-msg');
