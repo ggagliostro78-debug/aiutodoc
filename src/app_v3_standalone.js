@@ -708,6 +708,28 @@ class TriageEngine {
                     this._updatePlaceholder();
                 };
 
+                const knownCityAliases = {
+                    "GIOIA TAURO": {
+                        comune: "Gioia Tauro",
+                        provincia: "Reggio Calabria",
+                        provinciaSigla: "RC",
+                        regione: "Calabria"
+                    }
+                };
+
+                const acceptKnownLocation = (location) => {
+                    this.userData.zona = location.comune;
+                    this.userData.zonaDettagli = {
+                        comune: location.comune,
+                        provincia: location.provincia,
+                        provinciaSigla: location.provinciaSigla,
+                        regione: location.regione
+                    };
+                    this.state = '3_DISTURBO';
+                    this.onMessage(`OK: verificata sul territorio: <strong>${escapeHTML(location.comune)}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
+                    this._updatePlaceholder();
+                };
+
                 // Identifica se l'utente sta descrivendo un sintomo (es. "dolore", "problemi", "comunicazione", "socio")
                 const symptomKeywords = ['dolore', 'problema', 'disturbo', 'comunicazione', 'socio', 'paura', 'ansia', 'stress', 'sintomo', 'male'];
                 const seemsLikeSymptom = symptomKeywords.some(w => input.toLowerCase().includes(w));
@@ -730,6 +752,12 @@ class TriageEngine {
 
                 if (matchedRegion) {
                     acceptRegion(matchedRegion);
+                    return;
+                }
+
+                const knownLocation = knownCityAliases[normalizedZona];
+                if (knownLocation) {
+                    acceptKnownLocation(knownLocation);
                     return;
                 }
                 
@@ -895,7 +923,7 @@ class TriageEngine {
                         this.userData.disturbo = cleanDisturbo;
                         this.userData.domandeAnamnesticheDinamiche = this._generaDomandeAnamnestiche(cleanDisturbo);
                         this.state = '4_CONOSCITIVE';
-                        this.onMessage("<strong>OK: Sintomo convalidato dai database scientifici/letteratura.</strong><br><br>Ho preso nota del tuo disturbo. Per inquadrarlo meglio, ti porr? ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
+                        this.onMessage("<strong>OK: Sintomo convalidato dai database scientifici/letteratura.</strong><br><br>Ho preso nota del tuo disturbo. Per inquadrarlo meglio, ti porrò ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
                         this._updatePlaceholder();
                     } else {
                         this.onMessage(`Errore: Il testo "<strong>${cleanDisturbo}</strong>" non sembra descrivere un disturbo riconoscibile. Inserisci un problema reale o una necessità sanitaria concreta (es. "cefalea", "vertigini", "dolore alla schiena") e riprova.`, "system-msg danger");

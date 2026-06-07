@@ -11,7 +11,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="application-name" content="AIutoDoc" />
   <meta name="apple-mobile-web-app-title" content="AIutoDoc" />
-  <title>AIutoDoc.it | Prenderti cura di te non è mai stato così semplice</title>
+  <title>AIutoDoc.it - Prenderti cura di te non è mai stato così semplice</title>
   <meta name="description" content="AIutoDoc offre orientamento sanitario informativo e supporto alla ricerca dello specialista più coerente con le informazioni fornite. Non sostituisce il medico." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://aiutodoc.it/" />
@@ -86,14 +86,13 @@
     <div class="modal-content">
       <h3>Verifica età, informativa e consensi</h3>
       <div class="modal-scroll">
-        <p>Benvenuto in AIutoDoc.it.</p>
-        <p>I dati inseriti vengono trattati esclusivamente per fornire il servizio richiesto e gestiti secondo quanto indicato nell'<a href="/privacy-policy/" target="_blank" rel="noopener">Informativa Privacy</a>.</p>
+        <p>I dati inseriti vengono trattati esclusivamente per fornire il servizio richiesto e vengono gestiti secondo quanto indicato nell'<a href="/privacy-policy/" target="_blank" rel="noopener">Informativa Privacy</a>.</p>
         <p><strong>ATTENZIONE:</strong> Sono un sistema di intelligenza artificiale che fornisce informazioni di orientamento sanitario. Non sostituisco un medico. Non utilizzare questo servizio in situazioni di emergenza: contatta il 112.</p>
         <div class="age-gate" role="group" aria-label="Verifica età">
           <p><strong>Hai compiuto 14 anni?</strong></p>
           <label><input type="radio" name="age-confirmation" value="yes"> Sì</label>
           <label><input type="radio" name="age-confirmation" value="no"> No</label>
-          <p id="minor-flow-message" class="minor-flow-message hidden">Per i minori di 14 anni l'uso del servizio richiede il coinvolgimento di un genitore o tutore. Chiudi questa finestra e chiedi a un adulto di assisterti.</p>
+          <p id="minor-flow-message" class="minor-flow-message hidden">Per i minori di 14 anni l'uso del servizio richiede il coinvolgimento di un genitore o tutore. Se hai meno di 14 anni, chiedi a un adulto di assisterti.</p>
         </div>
         <label class="consent-row">
           <input type="checkbox" id="consent-medical-disclaimer">
@@ -163,7 +162,7 @@
         <nav class="main-nav">
           <button class="nav-btn active" data-target="chat-section">Orientamento</button>
           <button class="nav-btn" data-target="about-section">Chi Siamo</button>
-          <button class="nav-btn" data-target="specialists-section">Specialisti</button>
+          <button class="nav-btn" data-target="specialists-section">Per gli Specialisti</button>
           <button class="nav-btn" data-target="glossary-section">Glossario</button>
           <button class="nav-btn" data-target="practices-section">Specializzazioni</button>
           <button id="reset-btn" class="nav-btn" title="Riavvia Sessione">Nuova Ricerca</button>
@@ -187,17 +186,11 @@
           <div class="welcome-message message system-msg">
             <div class="msg-bubble">
               <div class="welcome-title">Trova più facilmente lo specialista adatto alle tue esigenze.</div>
-              <div class="welcome-subtitle">Un supporto semplice per orientarti tra sintomi, specialisti e percorsi sanitari.</div>
-              
-              <p style="text-align: center; margin-bottom: 10px; font-size: 0.95rem;">AIutoDoc è un sistema di supporto che si basa sull'utilizzo dell'intelligenza artificiale per lo scopo più umano che ci sia: <strong>la cura</strong>.</p>
-              
-              <div class="welcome-disclaimer" style="text-align: center; font-size: 0.8rem; color: var(--text-muted); font-style: italic; margin-bottom: 15px;">
-                Attraverso poche domande ti aiuto ad <strong>accedere alle figure specialistiche più adatte a te</strong>, sulla base dei sintomi e delle informazioni che condividi.
-              </div>
+              <p style="text-align: center; margin-bottom: 10px; font-size: 0.95rem;">AIutoDoc è un sistema di supporto che si basa sull’utilizzo dell’intelligenza artificiale per lo scopo più umano che ci sia: <strong>la cura</strong>. Attraverso poche e semplici domande ti aiuta ad <strong>accedere alle figure specialistiche più adatte a te</strong>, sulla base dei sintomi e delle informazioni che condividi.</p>
               
               <div class="medical-disclaimer-card" role="note" aria-label="Avviso medico importante">
                 <strong>Importante</strong>
-                <p>AiutoDoc non fornisce diagnosi, prescrizioni o pareri medici e non sostituisce una visita sanitaria.</p>
+                <p>AIutoDoc non fornisce diagnosi, prescrizioni o pareri medici e non sostituisce una visita sanitaria.</p>
                 <p>In caso di urgenza, sintomi gravi o peggioramento improvviso, chiama il 112/118 o rivolgiti al Pronto Soccorso.</p>
               </div>
 
@@ -283,12 +276,12 @@
           </button>
         </div>
         <div class="chat-footer-links">
-          Fare del bene ci fa stare bene: <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc">Collabora</a> o <a href="mailto:info@aiutodoc.it?subject=Opportunita istituzionali AIutoDoc">Opportunità istituzionali</a>
+          Fare del bene ci fa stare bene: <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc">Collabora con noi</a> o <a href="mailto:info@aiutodoc.it?subject=Opportunita istituzionali AIutoDoc">Scopri le opportunità istituzionali</a>
         </div>
         
         <!-- AI DISCLAIMER BOX -->
         <div class="ai-disclaimer-box" style="margin-top: 20px; padding: 15px; background-color: #f0f7f7; border-left: 4px solid var(--primary); border-radius: 4px; font-size: 0.85rem; color: var(--text-main);">
-          <strong>Nota Informativa:</strong> Aiutodoc.it utilizza sistemi digitali di orientamento per aiutarti a individuare la branca specialistica più coerente con le informazioni fornite. Non prescrive cure e non sostituisce il parere del medico. In caso di emergenza, contatta il 112.</div>
+          <strong>Nota Informativa:</strong> AIutoDoc.it utilizza sistemi digitali di orientamento per aiutarti a individuare la branca specialistica più coerente con le informazioni fornite. Non prescrive cure e non sostituisce il parere del medico. In caso di emergenza, contatta il 112.</div>
       </section>
 
       <!-- Section: Chi Siamo -->
@@ -328,9 +321,9 @@
           <p><a href="#" class="inline-page-link internal-nav" data-target="specialists-section">Sei uno specialista o hai una struttura privata e vuoi saperne di più?</a> Clicca qui per scoprire i servizi dedicati a te.</p>
 
           <div class="cta-container">
-            <a href="mailto:info@aiutodoc.it" class="btn-secondary-wide">Contattaci: info@aiutodoc.it</a>
+            <a href="mailto:info@aiutodoc.it" class="btn-secondary-wide">Contattaci: info@AIutoDoc.it</a>
             <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc" class="btn-secondary-wide">Collabora per far crescere AIutoDoc.it</a>
-            <button id="investor-btn" class="btn-premium-wide" onclick="window.location.href='mailto:info@aiutodoc.it?subject=Opportunita investimento istituzionale AIutoDoc'">Per opportunità di investimento istituzionali scrivere a info@aiutodoc.it</button>
+            <button id="investor-btn" class="btn-premium-wide" onclick="window.location.href='mailto:info@aiutodoc.it?subject=Opportunita investimento istituzionale AIutoDoc'">Per opportunità di investimento istituzionali scrivere a info@AIutoDoc.it</button>
           </div>
         </div>
       </section>
@@ -357,7 +350,7 @@
               <ul>
                 <li>Nome e cognome</li>
                 <li>Contatti</li>
-                <li>Specialità e specialistiche per cui si vuole indicizzare il profilo</li>
+                <li>Specialistiche per cui si vuole indicizzare il profilo</li>
                 <li>Gestione agenda</li>
               </ul>
             </div>
@@ -413,479 +406,344 @@
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Psicologia e Psichiatria</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Apatia:</strong> Mancanza di emozione, motivazione o interesse.</div>
-            <div class="g-card"><strong>Disfonia:</strong> Alterazione della voce legata a fattori emotivi.</div>
-            <div class="g-card"><strong>Anamnesi:</strong> Raccolta della storia personale e clinica.</div>
-            <div class="g-card"><strong>Somatizzazione:</strong> Manifestazione fisica di un disagio psicologico.</div>
-            <div class="g-card"><strong>Pensieri ossessivi:</strong> Pensieri ricorrenti, intrusivi e difficili da interrompere.</div>
-            <div class="g-card"><strong>Anedonia:</strong> Incapacità di provare piacere in attività normalmente
-              piacevoli.</div>
-            <div class="g-card"><strong>Disforia:</strong> Profondo malessere emotivo, spesso vissuto con tensione,
-              disagio interno o irritabilità.</div>
-            <div class="g-card"><strong>Doc:</strong> Disturbo Ossessivo Compulsivo (comportamenti ripetitivi).</div>
-            <div class="g-card"><strong>Fobia:</strong> Paura irrazionale e persistente per specifiche situazioni.</div>
-            <div class="g-card"><strong>Derealizzazione:</strong> Sensazione di irrealtà o distacco dal proprio
-              ambiente.</div>
+            <div class="g-card"><strong>Anamnesi:</strong> raccolta della storia personale e clinica.</div>
+            <div class="g-card"><strong>Anedonia:</strong> incapacità di provare piacere nelle attività quotidiane.</div>
+            <div class="g-card"><strong>Apatia:</strong> mancanza di interesse, motivazione o coinvolgimento emotivo.</div>
+            <div class="g-card"><strong>Disfonia:</strong> alterazione della voce legata a fattori emotivi.</div>
+            <div class="g-card"><strong>Derealizzazione:</strong> sensazione che l&#x27;ambiente circostante sia irreale o distante.</div>
+            <div class="g-card"><strong>Disforia:</strong> profondo malessere emotivo, spesso vissuto con disagio interiore o irritabilità.</div>
+            <div class="g-card"><strong>DOC:</strong> Disturbo Ossessivo Compulsivo, comportamenti ripetitivi.</div>
+            <div class="g-card"><strong>Fobia:</strong> paura irrazionale e persistente in specifiche situazioni.</div>
+            <div class="g-card"><strong>Pensieri ossessivi:</strong> pensieri ricorrenti, intrusivi e difficili da interrompere.</div>
+            <div class="g-card"><strong>Somatizzazione:</strong> manifestazione fisica di un disagio psicologico.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Ortopedia e Traumatologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Artroscopia:</strong> Procedura chirurgica mininvasiva per ispezionare/operare
-              l'interno di un'articolazione (es. ginocchio, spalla).</div>
-            <div class="g-card"><strong>Artrosi:</strong> Malattia degenerativa delle cartilagini articolari.</div>
-            <div class="g-card"><strong>Lussazione:</strong> Spostamento permanente delle ossa di un'articolazione.
-            </div>
-            <div class="g-card"><strong>Osteoporosi:</strong> Condizione in cui le ossa diventano più fragili.</div>
-            <div class="g-card"><strong>Tendinite:</strong> Infiammazione acuta di un tendine.</div>
-            <div class="g-card"><strong>Meniscopatia:</strong> Alterazione o lesione a carico del menisco.</div>
-            <div class="g-card"><strong>Borsite:</strong> Infiammazione della borsa sierosa vicina alle articolazioni.
-            </div>
-            <div class="g-card"><strong>Scoliosi:</strong> Curvatura anomala e laterale della colonna vertebrale.</div>
-            <div class="g-card"><strong>Coxartrosi:</strong> Artrosi specifica dell'articolazione dell'anca.</div>
-            <div class="g-card"><strong>Protesi:</strong> Dispositivo artificiale usato per sostituire un'articolazione
-              danneggiata.</div>
+            <div class="g-card"><strong>Artroscopia:</strong> tecnica chirurgica mini-invasiva per diagnosticare o trattare un&#x27;articolazione.</div>
+            <div class="g-card"><strong>Artrosi:</strong> degenerazione progressiva della cartilagine articolare.</div>
+            <div class="g-card"><strong>Borsite:</strong> infiammazione di una borsa sierosa articolare (una piccola sacca piena di liquido che si trova in corrispondenza delle articolazioni).</div>
+            <div class="g-card"><strong>Coxartrosi:</strong> artrosi dell&#x27;articolazione dell&#x27;anca.</div>
+            <div class="g-card"><strong>Lussazione:</strong> perdita del normale contatto tra le superfici articolari.</div>
+            <div class="g-card"><strong>Meniscopatia:</strong> lesione o alterazione del menisco.</div>
+            <div class="g-card"><strong>Osteoporosi:</strong> riduzione della densità ossea che aumenta il rischio di fratture.</div>
+            <div class="g-card"><strong>Protesi:</strong> dispositivo artificiale che sostituisce un&#x27;articolazione danneggiata.</div>
+            <div class="g-card"><strong>Scoliosi:</strong> deviazione laterale che altera la colonna vertebrale.</div>
+            <div class="g-card"><strong>Tendinite:</strong> infiammazione o irritazione di un tendine.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Neurologia e Neurochirurgia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Amnesia:</strong> Perdita parziale o totale della memoria.</div>
-            <div class="g-card"><strong>Cefalea:</strong> Termine generico per indicare il mal di testa.</div>
-            <div class="g-card"><strong>Parestesia:</strong> Sensazione anomala tipo formicolio o intorpidimento.</div>
-            <div class="g-card"><strong>Sincope:</strong> Lo svenimento, ovvero perdita transitoria di coscienza.</div>
-            <div class="g-card"><strong>Vertigine:</strong> Sensazione illusoria di movimento dell'ambiente.</div>
-            <div class="g-card"><strong>Ictus:</strong> Danno cerebrale da interruzione del flusso sanguigno.</div>
-            <div class="g-card"><strong>Stenosi Lombare:</strong> Restringimento del canale vertebrale lombare.</div>
-            <div class="g-card"><strong>Ernia del disco:</strong> Fuoriuscita di materiale discale che comprime i nervi.
-            </div>
-            <div class="g-card"><strong>Afasia:</strong> Perdita della capacità di comporre o comprendere il linguaggio.
-            </div>
-            <div class="g-card"><strong>Atassia:</strong> Mancanza di coordinazione dei movimenti volontari.</div>
+            <div class="g-card"><strong>Afasia:</strong> disturbo della comprensione o produzione del linguaggio, sia parlato che scritto.</div>
+            <div class="g-card"><strong>Amnesia:</strong> perdita parziale o totale della memoria.</div>
+            <div class="g-card"><strong>Atassia:</strong> alterazione della coordinazione dei movimenti.</div>
+            <div class="g-card"><strong>Cefalea:</strong> nome scientifico del mal di testa.</div>
+            <div class="g-card"><strong>Ernia del disco:</strong> fuoriuscita del disco intervertebrale con possibile compressione nervosa.</div>
+            <div class="g-card"><strong>Ictus:</strong> danno cerebrale causato da un&#x27;interruzione del flusso sanguigno.</div>
+            <div class="g-card"><strong>Parestesia:</strong> alterazione della sensibilità di arti o altre parti del corpo con formicolio, intorpidimento, bruciore o sensazione di &quot;punture di spillo&quot;.</div>
+            <div class="g-card"><strong>Sincope:</strong> perdita temporanea di coscienza dovuta a ridotto afflusso di sangue al cervello.</div>
+            <div class="g-card"><strong>Stenosi lombare:</strong> restringimento del canale vertebrale nella zona lombare.</div>
+            <div class="g-card"><strong>Vertigine:</strong> alterazione dell’equilibrio che causa sensazione di movimento o rotazione del proprio corpo o dell’ambiente circostante.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Cardiologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Aritmia:</strong> Alterazione o ritmo irregolare dei battiti cardiaci.</div>
-            <div class="g-card"><strong>Bradicardia:</strong> Battito cardiaco eccessivamente lento.</div>
-            <div class="g-card"><strong>Tachicardia:</strong> Frequenza dei battiti cardiaci veloce.</div>
-            <div class="g-card"><strong>Ipertensione:</strong> Aumento della pressione arteriosa oltre la soglia comune.
-            </div>
-            <div class="g-card"><strong>Ischemia:</strong> Riduzione/blocco del flusso di sangue che arriva al cuore.
-            </div>
-            <div class="g-card"><strong>Angina Pectoris:</strong> Dolore al petto causato da ridotto afflusso di sangue
-              cardiologico.</div>
-            <div class="g-card"><strong>Edema Polmonare:</strong> Accumulo di liquido nei polmoni per insufficienza
-              cardiaca.</div>
-            <div class="g-card"><strong>Palpitazione:</strong> Percezione anomala e sgradevole del proprio battito
-              cardiaco.</div>
-            <div class="g-card"><strong>Trombosi:</strong> Formazione di coaguli di sangue nei vasi sanguigni.</div>
-            <div class="g-card"><strong>Elettrocardiogramma (ECG):</strong> Tracciato visivo dell'attività elettrica del
-              cuore.</div>
+            <div class="g-card"><strong>Angina pectoris:</strong> dolore toracico causato da ridotto afflusso di sangue al cuore.</div>
+            <div class="g-card"><strong>Aritmia:</strong> alterazione del ritmo del battito cardiaco.</div>
+            <div class="g-card"><strong>Bradicardia:</strong> frequenza cardiaca inferiore ai valori normali.</div>
+            <div class="g-card"><strong>ECG (elettrocardiogramma):</strong> esame che registra l&#x27;attività elettrica del cuore.</div>
+            <div class="g-card"><strong>Edema polmonare:</strong> accumulo di liquido nei polmoni.</div>
+            <div class="g-card"><strong>Ipertensione:</strong> aumento persistente della pressione arteriosa.</div>
+            <div class="g-card"><strong>Ischemia:</strong> riduzione dell&#x27;afflusso di sangue a un organo o tessuto.</div>
+            <div class="g-card"><strong>Palpitazioni:</strong> percezione anomala o accentuata del battito cardiaco.</div>
+            <div class="g-card"><strong>Tachicardia:</strong> frequenza cardiaca superiore ai valori normali.</div>
+            <div class="g-card"><strong>Trombosi:</strong> formazione di un coagulo all&#x27;interno di un vaso sanguigno.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Gastroenterologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Disfagia:</strong> Difficoltà nella deglutizione del cibo o dei liquidi.</div>
-            <div class="g-card"><strong>Dispepsia:</strong> Difficolta digestiva, senso di pesantezza o dolore.</div>
-            <div class="g-card"><strong>Meteorismo:</strong> Eccesso di gas accumulato nel tratto gastrointestinale.
-            </div>
-            <div class="g-card"><strong>Pirosi:</strong> Sensazione di bruciore che sale dallo stomaco.</div>
-            <div class="g-card"><strong>Steatorrea:</strong> Presenza di un'eccessiva quantità di grasso nelle feci.
-            </div>
-            <div class="g-card"><strong>Ematemesi:</strong> Vomito contenente sangue.</div>
-            <div class="g-card"><strong>Melena:</strong> Feci scure e catramose contenenti sangue digerito.</div>
-            <div class="g-card"><strong>Reflusso GERD:</strong> Risalita patologica di acido gastrico nell'esofago.
-            </div>
-            <div class="g-card"><strong>Colelitiasi:</strong> Formazione di calcoli nella cistifellea.</div>
-            <div class="g-card"><strong>Polipo:</strong> Escrescenza tumorale (spesso benigna) sulle pareti intestinali.
-            </div>
+            <div class="g-card"><strong>Colelitiasi:</strong> presenza di calcoli nella cistifellea.</div>
+            <div class="g-card"><strong>Disfagia:</strong> difficoltà a deglutire cibi o liquidi.</div>
+            <div class="g-card"><strong>Dispepsia:</strong> disturbo digestivo con pesantezza o dolore addominale.</div>
+            <div class="g-card"><strong>Ematemesi:</strong> vomito con sangue.</div>
+            <div class="g-card"><strong>Melena:</strong> feci nere, presenza di sangue nelle feci.</div>
+            <div class="g-card"><strong>Meteorismo:</strong> eccessivo accumulo di gas nell&#x27;intestino.</div>
+            <div class="g-card"><strong>Pirosi:</strong> sensazione di bruciore allo stomaco o dietro lo sterno.</div>
+            <div class="g-card"><strong>Polipo:</strong> crescita anomala di tessuto, generalmente benigna.</div>
+            <div class="g-card"><strong>Reflusso gastroesofageo (GERD):</strong> risalita del contenuto gastrico nell&#x27;esofago (in italiano RGE).</div>
+            <div class="g-card"><strong>Steatorrea:</strong> presenza eccessiva di grassi nelle feci.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Dermatologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Eritema:</strong> Arrossamento forte della cute da infiammazione.</div>
-            <div class="g-card"><strong>Prurito:</strong> Irritazione sensoriale che induce a grattarsi.</div>
-            <div class="g-card"><strong>Melanoma:</strong> Tumore maligno dei melanociti.</div>
-            <div class="g-card"><strong>Dermatite:</strong> Infiammazione generalizzata della pelle e spaccature.</div>
-            <div class="g-card"><strong>Orticaria:</strong> Eruzione cutanea pruriginosa in rilievo (pomfi).</div>
-            <div class="g-card"><strong>Psoriasi:</strong> Malattia infiammatoria con placche squamose sulla pelle.
-            </div>
-            <div class="g-card"><strong>Alopecia:</strong> Caduta/mancanza localizzata o totale di peli/capelli.</div>
-            <div class="g-card"><strong>Neoplasia:</strong> Formazione di nuovo tessuto abnorme (es. nei sospetti).
-            </div>
-            <div class="g-card"><strong>Petecchie:</strong> Minuscole macchie rosse dovute a microemorragie cutanee.
-            </div>
-            <div class="g-card"><strong>Vescicola:</strong> Piccola bolla cutanea piena di liquido chiaro.</div>
+            <div class="g-card"><strong>Alopecia:</strong> perdita parziale o totale di capelli o peli.</div>
+            <div class="g-card"><strong>Dermatite:</strong> infiammazione della pelle con arrossamento e irritazione.</div>
+            <div class="g-card"><strong>Eritema:</strong> arrossamento della pelle causato da infiammazione.</div>
+            <div class="g-card"><strong>Melanoma:</strong> tumore maligno che origina dai melanociti.</div>
+            <div class="g-card"><strong>Neoplasia:</strong> crescita anomala di cellule o tessuti.</div>
+            <div class="g-card"><strong>Orticaria:</strong> eruzione cutanea con pomfi pruriginosi.</div>
+            <div class="g-card"><strong>Petecchie:</strong> piccole macchie rosse dovute a microemorragie.</div>
+            <div class="g-card"><strong>Prurito:</strong> sensazione che induce a grattarsi.</div>
+            <div class="g-card"><strong>Psoriasi:</strong> malattia infiammatoria cronica della pelle.</div>
+            <div class="g-card"><strong>Vescicola:</strong> piccola lesione cutanea contenente liquido.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            Ginecologia e Andrologia</h3>
+            Ginecologia e Ostetricia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Amenorrea:</strong> Assenza del ciclo mestruale.</div>
-            <div class="g-card"><strong>Dismenorrea:</strong> Flusso mestruale dolorosamente alterato.</div>
-            <div class="g-card"><strong>Ematuria:</strong> Rilevamento di globuli rossi (sangue) nelle urine.</div>
-            <div class="g-card"><strong>Prostatite:</strong> Infiammazione della ghiandola prostatica.</div>
-            <div class="g-card"><strong>Cistite:</strong> Infezione del tratto urinario e infiammazione della vescica.
-            </div>
-            <div class="g-card"><strong>Menorragia:</strong> Mestruazione eccezionalmente abbondante o prolungata.</div>
-            <div class="g-card"><strong>Dispareunia:</strong> Dolore durante i rapporti sessuali.</div>
-            <div class="g-card"><strong>Fibroma:</strong> Tumore benigno del tessuto muscolare dell'utero.</div>
-            <div class="g-card"><strong>Varicocele:</strong> Dilatazione anomala delle vene del testicolo.</div>
-            <div class="g-card"><strong>Colposcopia:</strong> Esame visivo ingrandito della cervice uterina.</div>
+            <div class="g-card"><strong>Amenorrea:</strong> assenza del ciclo mestruale per almeno tre mesi consecutivi.</div>
+            <div class="g-card"><strong>Cistite:</strong> infiammazione della vescica, spesso causata da infezione batterica.</div>
+            <div class="g-card"><strong>Colposcopia:</strong> esame della cervice uterina.</div>
+            <div class="g-card"><strong>Dismenorrea:</strong> mestruazioni dolorose, spesso accompagnate da crampi addominali.</div>
+            <div class="g-card"><strong>Dispareunia:</strong> dolore durante i rapporti sessuali.</div>
+            <div class="g-card"><strong>Ecografia ostetrica:</strong> esame ecografico eseguito durante la gravidanza per monitorare lo sviluppo del feto, la placenta e il liquido amniotico.</div>
+            <div class="g-card"><strong>Endometriosi:</strong> presenza di tessuto simile all&#x27;endometrio al di fuori dell&#x27;utero.</div>
+            <div class="g-card"><strong>Fibroma:</strong> tumore benigno del tessuto muscolare uterino.</div>
+            <div class="g-card"><strong>Menorragia:</strong> flusso mestruale molto abbondante o prolungato.</div>
+            <div class="g-card"><strong>Menopausa:</strong> cessazione definitiva del ciclo mestruale, accompagnata da variazioni ormonali che possono causare vampate di calore, insonnia e alterazioni dell&#x27;umore.</div>
+            <div class="g-card"><strong>Pap test:</strong> esame di screening per la prevenzione del tumore della cervice uterina.</div>
+            <div class="g-card"><strong>Placenta previa:</strong> condizione in cui la placenta si posiziona nella parte inferiore dell&#x27;utero, ostruendo parzialmente o totalmente il canale del parto.</div>
+            <div class="g-card"><strong>Prolasso uterino:</strong> discesa dell&#x27;utero verso il basso causata dall&#x27;indebolimento dei muscoli del pavimento pelvico.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Andrologia e Urologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Calcolosi renale:</strong> presenza di calcoli nei reni o nelle vie urinarie.</div>
+            <div class="g-card"><strong>Disfunzione erettile:</strong> difficoltà persistente a ottenere o mantenere un&#x27;erezione sufficiente per un rapporto sessuale.</div>
+            <div class="g-card"><strong>Ematuria:</strong> presenza di sangue nelle urine, visibile a occhio nudo o rilevabile solo con un esame di laboratorio.</div>
+            <div class="g-card"><strong>Epididimite:</strong> infiammazione dell&#x27;epididimo, la struttura adiacente al testicolo.</div>
+            <div class="g-card"><strong>Iperplasia prostatica benigna:</strong> ingrossamento non tumorale della prostata.</div>
+            <div class="g-card"><strong>Infertilità maschile:</strong> ridotta capacità di concepire, legata a fattori come bassa produzione di spermatozoi, scarsa motilità o alterazioni morfologiche.</div>
+            <div class="g-card"><strong>Prostatite:</strong> infiammazione della prostata, può essere acuta o cronica, batterica o non batterica.</div>
+            <div class="g-card"><strong>PSA (antigene prostatico specifico):</strong> esame del sangue utilizzato per monitorare la salute della prostata.</div>
+            <div class="g-card"><strong>Spermiogramma:</strong> esame di laboratorio che analizza la qualità e la quantità degli spermatozoi.</div>
+            <div class="g-card"><strong>Varicocele:</strong> dilatazione anomala delle vene del testicolo.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Otorinolaringoiatria</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Acufene:</strong> Percezione di rumori o ronzii acuti fissi nelle orecchie.
-            </div>
-            <div class="g-card"><strong>Otite:</strong> Infiammazione dolorosa a carico dell'orecchio.</div>
-            <div class="g-card"><strong>Rinite:</strong> Infiammazione della mucosa nasale.</div>
-            <div class="g-card"><strong>Ipoacusia:</strong> Calo percepibile (lieve o grave) o perdita dell'udito.</div>
-            <div class="g-card"><strong>Faringite:</strong> Forte infiammazione della gola.</div>
-            <div class="g-card"><strong>Epistassi:</strong> Fuoriuscita di sangue dal naso (sangue dal naso).</div>
-            <div class="g-card"><strong>Sinusite:</strong> Infiammazione delle cavità paranasali.</div>
-            <div class="g-card"><strong>Disfonia:</strong> Mancanza/alterazione della voce (raucedine cronica).</div>
-            <div class="g-card"><strong>Audiometria:</strong> Test per determinare la capacità uditiva.</div>
-            <div class="g-card"><strong>Laringite:</strong> Infiammazione delle corde vocali, che porta a raucedine.
-            </div>
+            <div class="g-card"><strong>Acufene:</strong> percezione di ronzii o fischi nelle orecchie.</div>
+            <div class="g-card"><strong>Audiometria:</strong> esame che valuta la capacità uditiva.</div>
+            <div class="g-card"><strong>Disfonia:</strong> alterazione o abbassamento della voce.</div>
+            <div class="g-card"><strong>Epistassi:</strong> fuoriuscita di sangue dal naso.</div>
+            <div class="g-card"><strong>Faringite:</strong> infiammazione della gola.</div>
+            <div class="g-card"><strong>Ipoacusia:</strong> riduzione dell&#x27;udito.</div>
+            <div class="g-card"><strong>Laringite:</strong> infiammazione della laringe e delle corde vocali.</div>
+            <div class="g-card"><strong>Otite:</strong> infiammazione dell&#x27;orecchio.</div>
+            <div class="g-card"><strong>Rinite:</strong> infiammazione della mucosa nasale.</div>
+            <div class="g-card"><strong>Sinusite:</strong> infiammazione dei seni paranasali.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Oculistica</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Miodesopsie:</strong> Corpi mobili o "mosche volanti" visive.</div>
-            <div class="g-card"><strong>Fosfeni:</strong> Bagliori e percezione visiva di lampi di luce.</div>
-            <div class="g-card"><strong>Glaucoma:</strong> Patologia legata alla pressione elevata dell'occhio.</div>
-            <div class="g-card"><strong>Cataratta:</strong> Opacizzazione della lente cristallina.</div>
-            <div class="g-card"><strong>Fotofobia:</strong> Fastidiosa intolleranza all'esposizione della luce.</div>
-            <div class="g-card"><strong>Congiuntivite:</strong> Infiammazione della mucosa trasparente che copre
-              l'occhio.</div>
-            <div class="g-card"><strong>Astigmatismo:</strong> Difetto visivo asimmetrico causato da cornea ovale.</div>
-            <div class="g-card"><strong>Miopia:</strong> Difficoltà a mettere a fuoco oggetti lontani.</div>
-            <div class="g-card"><strong>Presbiopia:</strong> Difficoltà fisiologica legata all'età nel vedere da vicino.
-            </div>
-            <div class="g-card"><strong>Maculopatia:</strong> Malattia della macula, area centrale della retina.</div>
+            <div class="g-card"><strong>Astigmatismo:</strong> difetto visivo causato da una curvatura irregolare della cornea.</div>
+            <div class="g-card"><strong>Cataratta:</strong> opacizzazione del cristallino che causa visione offuscata o sbiadita.</div>
+            <div class="g-card"><strong>Congiuntivite:</strong> infiammazione della congiuntiva.</div>
+            <div class="g-card"><strong>Fosfeni:</strong> percezione di lampi o bagliori luminosi.</div>
+            <div class="g-card"><strong>Fotofobia:</strong> fastidio o intolleranza alla luce.</div>
+            <div class="g-card"><strong>Glaucoma:</strong> malattia dell&#x27;occhio associata a danno del nervo ottico.</div>
+            <div class="g-card"><strong>Maculopatia:</strong> patologia che interessa la macula della retina.</div>
+            <div class="g-card"><strong>Miodesopsie:</strong> percezione di corpi mobili nel campo visivo.</div>
+            <div class="g-card"><strong>Miopia:</strong> difficoltà a vedere nitidamente da lontano.</div>
+            <div class="g-card"><strong>Presbiopia:</strong> difficoltà a vedere da vicino.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Chirurgia Generale e Toracica</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Ernia:</strong> Protuberanza di un viscere oltre la parete corporea.</div>
-            <div class="g-card"><strong>Laparocele:</strong> Ernia formatasi su vecchie ferite incisionali/cicatrici.
-            </div>
-            <div class="g-card"><strong>Ascesso:</strong> Raccolta dolorosa di materiale purulento (pus).</div>
-            <div class="g-card"><strong>Biopsia:</strong> Rimozione e analisi di una lesione sospetta.</div>
-            <div class="g-card"><strong>Cisti:</strong> Formazione cava "a sacca" circondata da parete propria.</div>
-            <div class="g-card"><strong>Fistola:</strong> Canale anomalo che collega due organi interni fra loro.</div>
-            <div class="g-card"><strong>Aderenze:</strong> Fasce di tessuto cicatriziale che uniscono organi disgiunti.
-            </div>
-            <div class="g-card"><strong>Stomia:</strong> Apertura creata chirurgicamente nell'addome.</div>
-            <div class="g-card"><strong>Pneumotorace:</strong> Accumulo di aria nello spazio tra polmone e parete
-              toracica.</div>
-            <div class="g-card"><strong>Drenaggio:</strong> Tubo inserito per svuotare fluidi infetti o sangue in
-              eccesso.</div>
+            <div class="g-card"><strong>Aderenze:</strong> bande di tessuto cicatriziale tra organi o tessuti.</div>
+            <div class="g-card"><strong>Ascesso:</strong> raccolta localizzata di pus.</div>
+            <div class="g-card"><strong>Biopsia:</strong> prelievo di tessuto per analisi diagnostica.</div>
+            <div class="g-card"><strong>Cisti:</strong> formazione chiusa contenente liquido o materiale semisolido.</div>
+            <div class="g-card"><strong>Drenaggio:</strong> procedura per rimuovere liquidi o secrezioni.</div>
+            <div class="g-card"><strong>Ernia:</strong> fuoriuscita di un organo attraverso una parete anatomica.</div>
+            <div class="g-card"><strong>Fistola:</strong> comunicazione anomala tra due organi o tessuti.</div>
+            <div class="g-card"><strong>Laparocele:</strong> ernia che si sviluppa su una cicatrice chirurgica.</div>
+            <div class="g-card"><strong>Pneumotorace:</strong> presenza di aria tra polmone e parete toracica.</div>
+            <div class="g-card"><strong>Stomia:</strong> apertura chirurgica che mette in comunicazione un organo con l&#x27;esterno.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Odontoiatria</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Carie:</strong> Infezione cronica distruttiva dei tessuti duri del dente.</div>
-            <div class="g-card"><strong>Gengivite:</strong> Infiammazione non distruttiva dei tessuti gengivali.</div>
-            <div class="g-card"><strong>Parodontite:</strong> Infiammazione profonda (chiamata anche Piorrea) che mina
-              il dente.</div>
-            <div class="g-card"><strong>Endodonzia:</strong> Terapia canalare o "devitalizzazione" del dente.</div>
-            <div class="g-card"><strong>Ortodonzia:</strong> Branca che riallinea i malposizionamenti dentali.</div>
-            <div class="g-card"><strong>Ascesso Dentale:</strong> Raccolta purulenta infettiva localizzata nel cavo
-              orale.</div>
-            <div class="g-card"><strong>Implantologia:</strong> Sostituzione di denti mancanti con radici artificiali in
-              titanio.</div>
-            <div class="g-card"><strong>Bruxismo:</strong> Digrignamento involontario dei denti (spesso notturno).</div>
-            <div class="g-card"><strong>Afta:</strong> Ulcerazione bianca dolorosa sulle mucose orali.</div>
-            <div class="g-card"><strong>Tartaro:</strong> Placca batterica mineralizzata calcificata ostile sui denti.
-            </div>
+            <div class="g-card"><strong>Afta:</strong> piccola ulcerazione dolorosa della mucosa orale.</div>
+            <div class="g-card"><strong>Ascesso dentale:</strong> raccolta di pus associata a un&#x27;infezione dentale.</div>
+            <div class="g-card"><strong>Bruxismo:</strong> digrignamento involontario dei denti.</div>
+            <div class="g-card"><strong>Carie:</strong> distruzione progressiva dei tessuti del dente.</div>
+            <div class="g-card"><strong>Endodonzia:</strong> trattamento dei canali interni del dente.</div>
+            <div class="g-card"><strong>Gengivite:</strong> infiammazione delle gengive.</div>
+            <div class="g-card"><strong>Implantologia:</strong> branca che si occupa degli impianti dentali.</div>
+            <div class="g-card"><strong>Ortodonzia:</strong> specialità che si occupa della correzione dell&#x27;allineamento dei denti.</div>
+            <div class="g-card"><strong>Parodontite:</strong> infiammazione dei tessuti di supporto del dente.</div>
+            <div class="g-card"><strong>Tartaro:</strong> deposito calcificato derivato dalla placca batterica.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Diabetologia ed Endocrinologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Glicemia:</strong> Concentrazione di glucosio (zucchero) nel sangue.</div>
-            <div class="g-card"><strong>Insulinoresistenza:</strong> Ridotta capacità delle cellule di rispondere
-              all'insulina.</div>
-            <div class="g-card"><strong>Ipotiroidismo:</strong> Produzione insufficiente di ormoni tiroidei.</div>
-            <div class="g-card"><strong>Ipertiroidismo:</strong> Eccessiva iper-attività della ghiandola tiroidea.</div>
-            <div class="g-card"><strong>Polidipsia:</strong> Sete estrema e duratura, sintomo cardine del diabete.</div>
-            <div class="g-card"><strong>Poliuria:</strong> Necessità frequente e abbondante di urinare.</div>
-            <div class="g-card"><strong>Tiroidite:</strong> Processo infiammatorio acuto o autoimmune a carico della
-              tiroide.</div>
-            <div class="g-card"><strong>Emoglobina Glicata:</strong> Esame per valutare il dosaggio di zucchero medio di
-              tre mesi.</div>
-            <div class="g-card"><strong>Chetoacidosi:</strong> Pericolosa complicanza del diabete per carenza acuta di
-              insulina.</div>
-            <div class="g-card"><strong>Irsutismo:</strong> Crescita anomala di peluria in zone tipicamente maschili
-              nella donna.</div>
+            <div class="g-card"><strong>Chetoacidosi:</strong> grave complicanza del diabete causata da carenza di insulina.</div>
+            <div class="g-card"><strong>Emoglobina glicata:</strong> esame che misura la glicemia media degli ultimi mesi.</div>
+            <div class="g-card"><strong>Glicemia:</strong> concentrazione di glucosio nel sangue.</div>
+            <div class="g-card"><strong>Insulinoresistenza:</strong> ridotta risposta delle cellule all&#x27;insulina.</div>
+            <div class="g-card"><strong>Ipertiroidismo:</strong> eccessiva produzione di ormoni tiroidei.</div>
+            <div class="g-card"><strong>Ipotiroidismo:</strong> ridotta produzione di ormoni tiroidei.</div>
+            <div class="g-card"><strong>Irsutismo:</strong> crescita eccessiva di peli nelle donne.</div>
+            <div class="g-card"><strong>Polidipsia:</strong> sete intensa e persistente.</div>
+            <div class="g-card"><strong>Poliuria:</strong> aumento della quantità di urine prodotte.</div>
+            <div class="g-card"><strong>Tiroidite:</strong> infiammazione della ghiandola tiroidea.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Pneumologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Dispnea:</strong> Sensazione grave di fatica o difficoltà nel respirare
-              (affanno).</div>
-            <div class="g-card"><strong>Apnea Notturna:</strong> Interruzioni del respiro della durata di qualche
-              secondo durante il sonno.</div>
-            <div class="g-card"><strong>Emottisi:</strong> Emissione di sangue dalla bocca proveniente dall'apparato
-              respiratorio.</div>
-            <div class="g-card"><strong>Cianosi:</strong> Colorazione bluastra di cute e mucose per mancanza di
-              ossigeno.</div>
-            <div class="g-card"><strong>BPCO:</strong> Broncopneumopatia Cronica Ostruttiva (blocca i polmoni di un
-              fumatore).</div>
-            <div class="g-card"><strong>Spirometria:</strong> Test per valutare l'efficienza funzionale dei polmoni.
-            </div>
-            <div class="g-card"><strong>Saturimetria:</strong> Misurazione dell'ossigenazione del sangue.</div>
-            <div class="g-card"><strong>Asma:</strong> Patologia cronica infiammatoria delle vie respiratorie con
-              "fischio".</div>
-            <div class="g-card"><strong>Bronchite:</strong> Infiammazione (acuta/cronica) dell'albero bronchiale
-              polmonare.</div>
-            <div class="g-card"><strong>Versamento Pleurico:</strong> Accumulo di liquido nella cavità naturale dei
-              polmoni.</div>
+            <div class="g-card"><strong>Apnea notturna:</strong> interruzione temporanea della respirazione durante il sonno.</div>
+            <div class="g-card"><strong>Asma:</strong> malattia infiammatoria cronica delle vie respiratorie.</div>
+            <div class="g-card"><strong>BPCO:</strong> broncopneumopatia cronica ostruttiva che limita il flusso d&#x27;aria.</div>
+            <div class="g-card"><strong>Bronchite:</strong> infiammazione dei bronchi.</div>
+            <div class="g-card"><strong>Cianosi:</strong> colorazione bluastra della pelle per carenza di ossigeno.</div>
+            <div class="g-card"><strong>Dispnea:</strong> difficoltà o affanno respiratorio.</div>
+            <div class="g-card"><strong>Emottisi:</strong> emissione di sangue proveniente dalle vie respiratorie.</div>
+            <div class="g-card"><strong>Saturimetria:</strong> misurazione della quantità di ossigeno nel sangue.</div>
+            <div class="g-card"><strong>Spirometria:</strong> esame non invasivo che valuta la funzionalità polmonare.</div>
+            <div class="g-card"><strong>Versamento pleurico:</strong> accumulo di liquido nello spazio pleurico.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Ematologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Anemia:</strong> Carenza o diminuzione drastica dei globuli rossi o emoglobina.
-            </div>
-            <div class="g-card"><strong>Leucocitosi:</strong> Aumento eccessivo del numero di globuli bianchi.</div>
-            <div class="g-card"><strong>Piastrinopenia:</strong> Pericolosa carenza di piastrine, responsabili per il
-              coagulo.</div>
-            <div class="g-card"><strong>Adenopatia:</strong> Ingrossamento anomalo (linfoadenopatia) dei linfonodi.
-            </div>
-            <div class="g-card"><strong>Emocromo:</strong> Esame base eseguitore che conta o analizza tutti i valori del
-              sangue.</div>
-            <div class="g-card"><strong>Talassemia:</strong> Malattie ereditaria del sangue detta "Anemia Mediterranea".
-            </div>
-            <div class="g-card"><strong>Leucemia:</strong> Tumore liquido del sangue localizzato nel midollo osseo.
-            </div>
-            <div class="g-card"><strong>Mieloma:</strong> Infiltrazione tumorale diffusa e maligna del midollo osseo
-              (plasmacellule).</div>
-            <div class="g-card"><strong>Emofilia:</strong> Malattia congenita del deficit nella coagulazione delle
-              emorragie.</div>
-            <div class="g-card"><strong>Splenomegalia:</strong> Ingrossamento anomalo e palpabile della milza
-              nell'addome.</div>
+            <div class="g-card"><strong>Adenopatia:</strong> ingrossamento anomalo dei linfonodi, detto anche linfoadenopatia.</div>
+            <div class="g-card"><strong>Anemia:</strong> riduzione del numero di globuli rossi o dei livelli di emoglobina nel sangue.</div>
+            <div class="g-card"><strong>Emofilia:</strong> malattia genetica che compromette la capacità del sangue di coagulare correttamente.</div>
+            <div class="g-card"><strong>Emocromo:</strong> esame del sangue di base che misura e analizza tutti i principali componenti del sangue.</div>
+            <div class="g-card"><strong>Leucemia:</strong> tumore del sangue che origina nel midollo osseo, dove si produce una quantità anomala di globuli bianchi non funzionali.</div>
+            <div class="g-card"><strong>Leucocitosi:</strong> aumento del numero di globuli bianchi nel sangue.</div>
+            <div class="g-card"><strong>Mieloma multiplo:</strong> tumore maligno che colpisce le plasmacellule del midollo osseo.</div>
+            <div class="g-card"><strong>Piastrinopenia:</strong> riduzione del numero di piastrine nel sangue, con conseguente difficoltà nella coagulazione.</div>
+            <div class="g-card"><strong>Splenomegalia:</strong> ingrossamento anomalo della milza, rilevabile alla palpazione addominale.</div>
+            <div class="g-card"><strong>Talassemia:</strong> malattia ereditaria del sangue che riduce la produzione di emoglobina funzionale.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Malattie Infettive e Immunologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Sepsi:</strong> Risposta estrema e vitale dell'organismo a un'estesa infezione
-              ematica (setticemia).</div>
-            <div class="g-card"><strong>Esantema:</strong> Qualsiasi eruzione cutanea causata tipicamente da
-              infezioni/virus.</div>
-            <div class="g-card"><strong>Mialgia:</strong> Sensazione di dolore o fatica muscolare generalizzata (tipica
-              dell'influenza).</div>
-            <div class="g-card"><strong>Antigene:</strong> Sostanza estranea (virus, batterio, tox, muffa) estranea e
-              nociva al corpo immunitario.</div>
-            <div class="g-card"><strong>Anticorpo:</strong> Proteina generata spontaneamente dal sistema immunitario per
-              la difesa.</div>
-            <div class="g-card"><strong>Autoimmunità:</strong> Quando il sistema immunitario attacca erroneamente se
-              stesso.</div>
-            <div class="g-card"><strong>Immunosoppressione:</strong> Disarmo grave o calo di forza del sistema difensivo
-              corporeo generale.</div>
-            <div class="g-card"><strong>Meningite:</strong> Infiammazione grave alle membrane avvolgenti perimetrali
-              dell'encefalo (meningi) e spina.</div>
-            <div class="g-card"><strong>Linfociti:</strong> Specifiche e aggressive tipologie microscopiche di "globulo
-              bianco".</div>
-            <div class="g-card"><strong>Anamnesi Epidemiologica:</strong> Ricerca o ricostruzione tracciata dei contatti
-              e dei viaggi recenti dell'infettato.</div>
+            <div class="g-card"><strong>Anamnesi epidemiologica:</strong> ricostruzione dei contatti avuti e dei luoghi frequentati di recente da un paziente, utile per tracciare l&#x27;origine e la diffusione di un&#x27;infezione.</div>
+            <div class="g-card"><strong>Anticorpo:</strong> proteina prodotta dal sistema immunitario in risposta alla presenza di un agente estraneo.</div>
+            <div class="g-card"><strong>Antigene:</strong> qualsiasi sostanza estranea all&#x27;organismo, come un virus, un batterio o una tossina, che attiva una risposta del sistema immunitario.</div>
+            <div class="g-card"><strong>Autoimmunità:</strong> condizione in cui il sistema immunitario non riconosce correttamente i tessuti dell&#x27;organismo e li attacca come se fossero estranei.</div>
+            <div class="g-card"><strong>Esantema:</strong> eruzione cutanea diffusa, solitamente associata a un&#x27;infezione virale o batterica.</div>
+            <div class="g-card"><strong>Immunosoppressione:</strong> riduzione della capacità del sistema immunitario di difendere l&#x27;organismo.</div>
+            <div class="g-card"><strong>Linfociti:</strong> cellule del sangue appartenenti alla categoria dei globuli bianchi, fondamentali per la risposta immunitaria. Riconoscono gli agenti patogeni e coordinano le difese dell&#x27;organismo.</div>
+            <div class="g-card"><strong>Meningite:</strong> infiammazione delle membrane che avvolgono il cervello e il midollo spinale, causata da virus o batteri.</div>
+            <div class="g-card"><strong>Mialgia:</strong> dolore muscolare diffuso, tipico di infezioni come l&#x27;influenza.</div>
+            <div class="g-card"><strong>Sepsi:</strong> risposta infiammatoria grave e generalizzata dell&#x27;organismo a un&#x27;infezione.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Reumatologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Artrite:</strong> Spinta infiammatoria non meccanica a carico delle
-              articolazioni (reumatismi).</div>
-            <div class="g-card"><strong>Eritema a Farfalla:</strong> Tipico arrossamento al volto e alle gote frequente
-              in casi di "Lupus" grave.</div>
-            <div class="g-card"><strong>Sindrome di Raynaud:</strong> Le estremità o dita divengono transitoriamente
-              fredde o bianche allo stress termico.</div>
-            <div class="g-card"><strong>Rigidità Mattutina:</strong> Lentezza persistente del corpo, dopo il riposo di
-              notte (caratteristica della A.R.).</div>
-            <div class="g-card"><strong>Fibromialgia:</strong> Malattia neurologico/reumatica del dolore cronico su vari
-              "Punti Sensibili" e con insonnia.</div>
-            <div class="g-card"><strong>Sclerodermia:</strong> Complessa patologia dell'ispessimento / irrigidimento
-              generalizzato di pelle ed organi.</div>
-            <div class="g-card"><strong>Gotta:</strong> Particolare forma di artrite infiammatoria provocata dai
-              cristalli taglienti dell'iperuricemia asessuata.</div>
-            <div class="g-card"><strong>VES:</strong> Esame infiammatorio generico misurante la velocità sedimentaria
-              nei globuli globuli rossi nel siero.</div>
-            <div class="g-card"><strong>PCR:</strong> Acronimo di Proteina C Reattiva, un indicatore forte
-              dell'infiammazione circolante in fase molto acuta.</div>
-            <div class="g-card"><strong>Artropatia:</strong> Malattia o sofferenza aspecifica genericamente localizzata
-              sulle articolazioni, da approfondire con il medico.</div>
+            <div class="g-card"><strong>Artrite:</strong> infiammazione delle articolazioni non legata a trauma meccanico. Causa dolore, gonfiore e rigidità.</div>
+            <div class="g-card"><strong>Artropatia:</strong> termine generico per indicare una malattia articolare.</div>
+            <div class="g-card"><strong>Eritema a farfalla:</strong> arrossamento tipico del volto, soprattutto guance e dorso del naso, associato spesso al Lupus Eritematoso Sistemico (LES).</div>
+            <div class="g-card"><strong>Fibromialgia:</strong> sindrome caratterizzata da dolore muscoloscheletrico diffuso, affaticamento e disturbi del sonno.</div>
+            <div class="g-card"><strong>Gotta:</strong> forma di artrite dolorosa causata da un accumulo di acido urico nel sangue (iperuricemia).</div>
+            <div class="g-card"><strong>PCR:</strong> proteina c reattiva, marker di infiammazione acuta nel sangue.</div>
+            <div class="g-card"><strong>Rigidità mattutina:</strong> difficoltà a muovere le articolazioni al risveglio.</div>
+            <div class="g-card"><strong>Sclerodermia:</strong> rara malattia autoimmune con ispessimento e irrigidimento della cute e, nei casi più severi, degli organi interni.</div>
+            <div class="g-card"><strong>Sindrome di Raynaud:</strong> disturbo che provoca un&#x27;improvvisa e anomala costrizione dei piccoli vasi sanguigni (vasospasmo), riducendo l&#x27;afflusso di sangue alle estremità del corpo.</div>
+            <div class="g-card"><strong>VES:</strong> velocità di eritrosedimentazione. Esame del sangue che può indicare la presenza di un’infiammazione.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Nefrologia e Urologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Colica Renale:</strong> Un grave dolore lombo-costrittivo legato all'irruzione
-              di cristalli nelle delicate vie escretrici.</div>
-            <div class="g-card"><strong>Ematuria:</strong> Visiva o microscopica presenza del sangue disciolto
-              nell'orina giornaliera espulsa e non diluita.</div>
-            <div class="g-card"><strong>Oliguria:</strong> Sensibile e ridotta minzione, ovvero produzione di poca in
-              confronto ai volumi o pesi ingeriti liquidi dal soggetto.</div>
-            <div class="g-card"><strong>Calcolosi:</strong> Depositi di pietre (spesso per calcio) solido nei reni
-              (Nefrolitiasi) o che raggiungono la vescica asintomatica.</div>
-            <div class="g-card"><strong>Insufficienza Renale:</strong> Disfunzione cronica / acuta di filtraggio ed
-              eliminazione in un rene su scarti / urea.</div>
-            <div class="g-card"><strong>Dialisi:</strong> Fondamentale sostituzione temporanea o vita-nteraa che filtra
-              all'esterno il sangue della funzione e via al rene rotto.</div>
-            <div class="g-card"><strong>Creatininemia:</strong> Parametro valutato nel campione del muscolo che ne
-              indica la funzionalità renale (Rene di scarico in esami ematici classici).</div>
-            <div class="g-card"><strong>Proteinuria:</strong> Presenza innaturale o indice di insufficienza per molecole
-              proteiche espulse visibilmente in esame urina generale o schiuma.</div>
-            <div class="g-card"><strong>PSA:</strong> (Antigene Prostatico) Esame maschile sentinella del siero in caso
-              di patologia del cancro del sistema andrologico senile urologico .</div>
-            <div class="g-card"><strong>Disuria:</strong> Riconosciuta fatica (Spesso a sgocciolamenti per bruciore)
-              della minzione da un'urgenza/costante in spasmo da batteri (Infezioni) nel maschio.</div>
+            <div class="g-card"><strong>Calcolosi renale:</strong> presenza di calcoli nei reni o nelle vie urinarie. Può essere del tutto asintomatica o causare dolore intenso quando i calcoli si spostano.</div>
+            <div class="g-card"><strong>Colica renale:</strong> dolore acuto e improvviso nella zona lombare, causato dal passaggio di un calcolo lungo le vie urinarie.</div>
+            <div class="g-card"><strong>Creatininemia:</strong> valore misurato nel sangue che indica quanto bene i reni filtrano i prodotti di scarto del metabolismo muscolare. Un valore elevato può segnalare una ridotta funzionalità renale.</div>
+            <div class="g-card"><strong>Dialisi:</strong> trattamento che sostituisce la funzione del rene quando questo non è più in grado di filtrare il sangue autonomamente. Può essere temporanea o permanente.</div>
+            <div class="g-card"><strong>Disuria:</strong> difficoltà o dolore durante la minzione, spesso accompagnata da bruciore o senso di urgenza. Frequente nelle infezioni delle vie urinarie.</div>
+            <div class="g-card"><strong>Ematuria:</strong> presenza di sangue nelle urine, visibile a occhio nudo o rilevabile solo con un esame di laboratorio. Richiede sempre una valutazione medica.</div>
+            <div class="g-card"><strong>Insufficienza renale:</strong> riduzione, acuta o cronica, della capacità dei reni di filtrare i rifiuti e regolare i liquidi nell&#x27;organismo.</div>
+            <div class="g-card"><strong>Oliguria:</strong> produzione di urina significativamente inferiore al normale. Può essere un segnale di disidratazione o di un problema renale.</div>
+            <div class="g-card"><strong>Proteinuria:</strong> presenza anomala di proteine nelle urine, rilevabile con un esame delle urine. Può indicare un danno ai reni o una malattia sistemica.</div>
+            <div class="g-card"><strong>PSA (antigene prostatico specifico):</strong> esame del sangue utilizzato per monitorare la salute della prostata.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Geriatria</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Decadimento Cognitivo:</strong> Regressione del raziocinio geriatrico mentale
-              (Avvisaglia dell'Alzheimer iniziale comune o simili).</div>
-            <div class="g-card"><strong>Sarcopenia:</strong> Grave e graduale perdita di fisiologica massa trofica
-              muscolare generalizzata con carenza d'energia nell'anziano o debolezza in arti inferiori.</div>
-            <div class="g-card"><strong>Piaga da decubito:</strong> Una letale lesione/ulcera assettica generata dalla
-              immobilità della pelle against i letti. Spesso coccige.</div>
-            <div class="g-card"><strong>Politerapia:</strong> Assunzione critica e prolungata che interseca più di 5
-              principi uniti della medicina (Farmaci). L'equilibro deve non collidere in associazione tossica.</div>
-            <div class="g-card"><strong>Delirum:</strong> Condizione transitoria dis-orientata acuta e confusionale
-              derivata a sbalzo per la vecchiaia, da scompensi tossico o infezioni (Demenza Iniziale O acromegalia finta
-              mentale).</div>
-            <div class="g-card"><strong>Incontinenza:</strong> Cedimento patologico all'autonomia fisiologica e al suo
-              sfintere d'uscita (Tantissima o poche gocce persistenti) urologica naturale del paziente. Feci inclusi
-              talvolta.</div>
-            <div class="g-card"><strong>Malnutrizione:</strong> Assenza parziale nel decadente individuo dismesso di
-              appetito all'idratazione / cibi (Rischio vitale da anoressia tipico ospedalizzazione casalinga del demente
-              o allettato per cure vecchie)</div>
-            <div class="g-card"><strong>Ipotensione Ortostatica:</strong> Frequente il crollo pericoloso
-              all'innalzamento e diminuzione a svenimento (Sensazione transitoria a pressione della testa/sangue nel
-              porsi alzato in due step di verticalizzazione dai lettini o panchine basse).</div>
-            <div class="g-card"><strong>Parkinsonismi:</strong> Condizioni neurologiche di tremore somigliante ad
-              Parkinson o che simulano il ritardo lento di motori e il fermarsi bruscamente e involontaria marcia
-              geriatrico. Rischio di letale ruzzolo.</div>
-            <div class="g-card"><strong>Fragilità Ossa (Geriatrica):</strong> Il mix combinato grave d'incidente per
-              scivoloni a osteoporosi avanzata tipica delle donne. È la 1° prima grande sintomatologia di degenerazione
-              per rottura mortale testa del femore se atterrate.</div>
+            <div class="g-card"><strong>Decadimento cognitivo:</strong> progressiva riduzione delle capacità mentali che può essere un segnale precoce di Alzheimer o di altre forme di demenza.</div>
+            <div class="g-card"><strong>Delirium:</strong> stato di confusione mentale acuto e temporaneo, caratterizzato da disorientamento e agitazione, più frequente negli anziani.</div>
+            <div class="g-card"><strong>Fragilità ossea:</strong> condizione tipica dell&#x27;età avanzata, spesso legata all&#x27;osteoporosi, che aumenta il rischio di fratture anche in seguito a cadute lievi.</div>
+            <div class="g-card"><strong>Incontinenza:</strong> perdita involontaria del controllo della vescica o dell&#x27;intestino.</div>
+            <div class="g-card"><strong>Ipotensione ortostatica:</strong> calo improvviso della pressione sanguigna al momento di alzarsi in piedi, che può causare capogiri o svenimenti.</div>
+            <div class="g-card"><strong>Malnutrizione:</strong> apporto insufficiente di nutrienti o liquidi, spesso associato a perdita di appetito, difficoltà a deglutire o isolamento.</div>
+            <div class="g-card"><strong>Parkinsonismi:</strong> condizioni neurologiche che producono sintomi simili al Parkinson, aumentando il rischio di cadute.</div>
+            <div class="g-card"><strong>Piaghe da decubito:</strong> lesioni cutanee causate dalla pressione prolungata su una zona del corpo, tipiche dei pazienti allettati.</div>
+            <div class="g-card"><strong>Politerapia:</strong> assunzione contemporanea di cinque o più farmaci.</div>
+            <div class="g-card"><strong>Sarcopenia:</strong> perdita progressiva di massa e forza muscolare legata all&#x27;invecchiamento. Causa debolezza, difficoltà nei movimenti e aumenta il rischio di cadute.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Nutrizione e Dietologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>BMI (Indice di Massa):</strong> Metro statistico di stima corporale sull'altezza
-              ponderato peso. Usato per i range della "obesità o l'anoressia con BMI". </div>
-            <div class="g-card"><strong>Disfagia:</strong> Sensazione patologica pericolosa se di ostruzione della
-              masticazione al canale e strozzamento nei fluidi alimentari. Spesso gestito da Logopedista specializzato.
-            </div>
-            <div class="g-card"><strong>Metabolismo Basale:</strong> Una serie di fabbisogni o "calorie vuote per
-              tenersi vivo a zero", ovvero un consumo del fisico dormiente non sotto digestione metabolica.</div>
-            <div class="g-card"><strong>Celiachia:</strong> Un blocco reattivo a grave infiammazione di tipo
-              immunitario/villale e al glutine delle feci e dimagrimento del celiaco con infiammazione malassorbimento.
-              Esiste una forma tollera o asintomatico non rintracciabili con semplici sintomi digestivi.</div>
-            <div class="g-card"><strong>Intolleranza Lattosio:</strong> Una condizione dove manca un enzima chiamato
-              "lattasi", senza il quale i zuccheri fermentano al ventre generando colon gonfio e diarrea crampo idrica
-              in seguito d'assunzione latticini non curati dal dietista in forma acuta.</div>
-            <div class="g-card"><strong>Anoressia:</strong> Sindrome o alterazione patologica persistente e ossessiva e
-              restrittiva dei nutrienti solidi, da rifiutarlo visibilmente con paura mortale con alterazione o vomiti
-              provocati ai fini peso corporeo dimagrendosi al decesso cardiaca da atrofizzazione miocardite fatale.
-            </div>
-            <div class="g-card"><strong>Bulimia:</strong> Desiderio di crisi insaziabili, incontrollati sfoghi
-              d'alimentazione. Spesso esita con induzione chimica vomiti in solitudine / uso scorretto massivi dei
-              lassativi drastici chimici non gestiti con vomiti e colpevolezza a danno renale per vomito, cuore per
-              scompensi da malnutrizioni cicliche per fame o scompensi.</div>
-            <div class="g-card"><strong>Colesterolemia:</strong> Depositi dannosi arteriosi o livelli di lipidi
-              viscerali alti pericoloso fegati / cuore misuranti l'assetto LDL/HDL esaminante le statistiche in
-              dietologia da referto o arteriore esposto o malnutrito aterosclerotico.</div>
-            <div class="g-card"><strong>Glicazione (Indice I.G):</strong> Termine scientifico clinico della "Velocità di
-              rialzo da zucchero". Alimenti molto forti sparati sul torrente rapido faranno rialzo drastico rapido
-              ormoni della stanchezza. (Indice insulinico Glicemico misurato dal Dietista Clinico su Diabetologia
-              curante nutrizione associato al piano). </div>
-            <div class="g-card"><strong>Dca (Disturbi Comportamentali):</strong> L'insieme medico e generale in
-              assorbimento mentale sulle dis-percezione del fisico di malattie e ansia del dismorfobico comportamentale
-              dei rifiuti per il peso (DCA= acronimo clinico al ricovero dell'anoressia nervosa grave con malnutrizioni
-              al limite es. dismorfismo corporeo o binge eating disordini cronici con abbuffato cronica curata o di
-              equipe psichiatrico nutrizionista. ).</div>
+            <div class="g-card"><strong>Anoressia nervosa:</strong> disturbo alimentare caratterizzato da una restrizione estrema del cibo, paura intensa di aumentare di peso e un&#x27;alterata percezione del proprio corpo.</div>
+            <div class="g-card"><strong>BMI (indice di massa corporea):</strong> valore calcolato in base a peso e altezza, utilizzato per valutare se una persona è sottopeso, normopeso, sovrappeso oppure obesa.</div>
+            <div class="g-card"><strong>Bulimia nervosa:</strong> disturbo alimentare caratterizzato da episodi ricorrenti di abbuffate seguiti da comportamenti compensatori.</div>
+            <div class="g-card"><strong>Celiachia:</strong> intolleranza permanente al glutine, di natura autoimmune.</div>
+            <div class="g-card"><strong>Colesterolemia:</strong> livello di colesterolo nel sangue.</div>
+            <div class="g-card"><strong>DCA (disturbi del comportamento alimentare):</strong> categoria clinica che include anoressia nervosa, bulimia, binge eating disorder e altri disturbi legati a un rapporto alterato con il cibo e con il proprio corpo.</div>
+            <div class="g-card"><strong>Disfagia:</strong> difficoltà a deglutire cibi solidi o liquidi.</div>
+            <div class="g-card"><strong>Glicemia:</strong> misura il livello di zucchero nel sangue.</div>
+            <div class="g-card"><strong>Indice glicemico:</strong> indica la velocità con cui un alimento fa aumentare la glicemia.</div>
+            <div class="g-card"><strong>Intolleranza al lattosio:</strong> incapacità di digerire il lattosio, lo zucchero del latte, a causa di una carenza dell&#x27;enzima lattasi.</div>
+            <div class="g-card"><strong>Metabolismo basale:</strong> quantità di energia minima che l&#x27;organismo consuma a riposo per mantenere le funzioni vitali.</div>
           </div>
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Pediatria e Neo-Natologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Coliche Gaspanti:</strong> Una fase transiente infantile d'insorgenza serale del
-              gas / crampi (es. spasmo piagnucolio dopo la lattazione senza rimedi e feci normali del bebè piangente e
-              gonfio per spasmo non patologico neo-natologia classica nel pediatra al 3° mese a stomaco di spasmo
-              dolente o gonfiato aria colica o gassosi tipici dolori della pancia col pancino gonfio e i pianti tipiche
-              al pomeriggio neonato.</div>
-            <div class="g-card"><strong>Scarlattina:</strong> Tipica infezione eruttiva streptococcica batteriosa
-              esentema classica con placche e con eruzioni puntiformi simili fragole lingua rosacea nei bambini,
-              contagiosa a vie aeree. Antibioco come unica forma per Scarlattina. </div>
-            <div class="g-card"><strong>Enuresi:</strong> Malattia (Solitamente fisiologica ai minori dei 5) del pipì
-              letto transitoria. Spesso non diagnosticato di urologia d'infanzia al primo triennio per psicologico ansia
-              del bambino / controllo infantile sfinteri del sistema urologico primario, in fase dello sviluppo nervoso
-              immaturo pipì a letto in bambini). </div>
-            <div class="g-card"><strong>Bronchiolite:</strong> Infezione del sintomo acuto di polmone acuta virale (VRS
-              Tipico invernale), che occlude respiratorio polmone con rantoli fischietti che generano fame aria e
-              infiamma i polmoncini pediatrici (Neonati spesso in ospedale / Pronto Soccorsi se grave o bassa respiri
-              /cianosi bambini). </div>
-            <div class="g-card"><strong>Morbillo:</strong> Infezione virale o malattia mortale un tempo per polmonite
-              (Oggi debellata di vaccinazione/pediatrica primaria a maculo-papulare di eruzioni a progressione dal capo
-              macchiato con tosse a viso papulosa dal virus del morbillo ai pediatri macule esantemica diffusa). </div>
-            <div class="g-card"><strong>Crosta Latta:</strong> Problema visivo grassa estetica o esfoliazione sebacea
-              cutanea, ma del capelvenere infante molto oleoso o seborrea. Nessun fastidio non prurigine neo-pediatri /
-              Croste della testa o infantile cappuccio crostosa del sebo. </div>
-            <div class="g-card"><strong>Bocca-Mani-Piedi:</strong> Virale / Vescicolare d'origine pediatrica. Pruriti o
-              Vesciche ulcere solo alle 3 zone a lingua bocca bollicine, piedi palmo e mani virus tipico delle asilo /
-              nidi virale molto febbrile ad altissima diffusione o epidemia dei bimbi infettivi. </div>
-            <div class="g-card"><strong>Sesta Malattia:</strong> Un tipico andamento esantemico o sub-esantema
-              transitorio d'alta febbre di tre e successiva / esplosione di un maculato esantema rosato a defervescenza
-              / o diminuzione (Risolto subito dalla comparsità virale senza farmaci specifici maculato roseoloso
-              esantemi post - febbre nei bambini o pediatria febbre esantematica o roseola. </div>
-            <div class="g-card"><strong>SIDS (Morte in culla):</strong> Gravissima o Acronimo fatale letale al neonato
-              "Sudden Infant Death". Arresto nel dormire / soffocamento. Le cure pediatriche raccomandando profilassi
-              sulla schiena a dormire / e temperatura controllate al pediatra e del lettino svuotato e culla senza
-              para-colpi (Sindormi di neonato in culla a sonno). </div>
-            <div class="g-card"><strong>Apcar (Punteggio Clinico):</strong> Un valore numerico standard tra zero a Dieci
-              0-10 per indicare benessere valutato post-partum dal medico neonatologo in 5 punti o colorito pelle, o
-              respiro battito riflessivo, valutato sui minuti uno al cinque min per salvare a valutazioni il neonato o
-              nascituro indice d'affanno da Partorite </div>
+            <div class="g-card"><strong>Apgar:</strong> valutazione effettuata dal neonatologo subito dopo la nascita, a 1 e a 5 minuti di vita. Misura colore della pelle, frequenza cardiaca, riflessi, tono muscolare e respiro.</div>
+            <div class="g-card"><strong>Bocca-mani-piedi:</strong> infezione virale frequente nei bambini piccoli, caratterizzata da febbre e piccole vesciche nella bocca, sui palmi delle mani e sulle piante dei piedi.</div>
+            <div class="g-card"><strong>Bronchiolite:</strong> infezione virale acuta delle vie respiratorie inferiori, più comune nei neonati e nei lattanti durante i mesi invernali.</div>
+            <div class="g-card"><strong>Colica del neonato:</strong> episodi di pianto intenso e prolungato nei primi mesi di vita, spesso attribuiti a crampi intestinali o gas.</div>
+            <div class="g-card"><strong>Crosta lattea:</strong> accumulo di secrezioni sebacee sul cuoio capelluto del neonato.</div>
+            <div class="g-card"><strong>Enuresi:</strong> perdita involontaria di urina durante il sonno, comunemente detta &quot;fare la pipì a letto&quot;.</div>
+            <div class="g-card"><strong>Morbillo:</strong> malattia infettiva virale altamente contagiosa, caratterizzata da febbre alta e un&#x27;eruzione cutanea che si diffonde progressivamente. Oggi è prevenibile con la vaccinazione.</div>
+            <div class="g-card"><strong>Scarlattina:</strong> infezione batterica causata dallo streptococco, frequente in età scolare. Si manifesta con febbre, mal di gola e un&#x27;eruzione cutanea rossa e diffusa.</div>
+            <div class="g-card"><strong>SIDS (morte in culla):</strong> acronimo di Sudden Infant Death Syndrome, indica la morte improvvisa e inspiegabile di un neonato apparentemente sano durante il sonno.</div>
+            <div class="g-card"><strong>Sesta malattia:</strong> infezione virale infantile che causa febbre alta, seguita dalla comparsa di un&#x27;eruzione rosata non pruriginosa.</div>
           </div>
         </div>
       </section>
 
-      <!-- Section: Specializzazioni -->
       <section id="practices-section" class="tab-content hidden-section info-section">
         <div class="info-body">
           <div style="text-align: center;"><img src="./assets/practices.png" alt="Specializzazioni" loading="lazy" decoding="async"
@@ -1050,8 +908,8 @@
         <div class="info-body">
           <h2>Ematologia</h2>
           <p class="specialty-subtitle">Anemia, stanchezza intensa, lividi frequenti o valori del sangue alterati? Il giusto inquadramento ti aiuta a non avere dubbi.</p>
-          <p><strong>L'Ematologo</strong> si occupa delle <strong>malattie del sangue e degli organi che lo producono</strong>, come midollo osseo e linfonodi. Diagnosa e tratta anemia, leucemia, linfoma, mieloma multiplo, trombosi, disturbi della coagulazione e piastrine basse. Spesso è il primo specialista a cui si viene indirizzati dopo <strong>esami del sangue con valori anomali</strong>, e lavora in stretto contatto con l'Oncologo quando la patologia ha natura tumorale.</p>
-          <p><strong>I segnali da non trascurare</strong>: stanchezza intensa e persistente, pallore, lividi che compaiono senza motivo, sanguinamenti difficili da fermare, linfonodi ingrossati, febbre ricorrente o sudorazioni notturne abbondanti. Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.</p>
+          <p><strong>L'Ematologo</strong> si occupa delle <strong>malattie del sangue e degli organi che lo producono</strong>, come midollo osseo e linfonodi. Diagnostica e tratta anemia, leucemia, linfoma, mieloma multiplo, trombosi, disturbi della coagulazione e piastrine basse. Spesso è il primo specialista a cui si viene indirizzati dopo <strong>esami del sangue con valori anomali</strong>, e lavora in stretto contatto con l'Oncologo quando la patologia ha natura tumorale.</p>
+          <p><strong>I segnali da non trascurare</strong>: stanchezza intensa e persistente, pallore, lividi che compaiono senza motivo, sanguinamenti difficili da fermare, linfonodi ingrossati, febbre ricorrente o sudorazioni notturne abbondanti.</p>
           <p class="specialty-cta-copy">Scegliere il professionista giusto fin da subito può aiutarti a risparmiare tempo e denaro.<br><strong>Hai dubbi sulla figura più adatta a te?</strong> Possiamo aiutarti ad orientarti, ti basterà rispondere a poche e semplici domande.</p><div class="specialty-cta-actions"><button class="internal-nav specialty-discover-btn" data-target="chat-section" aria-label="Scopri a chi rivolgerti"><strong>Scopri a chi rivolgerti</strong></button></div>
         </div>
       </section>
@@ -1108,12 +966,12 @@
       <button id="install-app-btn" class="install-app-btn hidden" type="button">Installa AIutoDoc</button>
       <div class="legal-footer-grid">
         <div class="footer-col">
-          <strong>AiutoDoc - progetto in fase di costituzione</strong>
-          <p>AIutoDoc.it e' attualmente in fase di MVP e operato come progetto personale. Le informazioni societarie saranno aggiornate al momento della costituzione.</p>
+          <strong>AIutoDoc - progetto in fase di costituzione</strong>
+          <p>AIutoDoc.it è attualmente in fase di MVP e operato come progetto personale. Le informazioni societarie saranno aggiornate al momento della costituzione.</p>
         </div>
         <div class="footer-col">
           <strong>Contatti</strong>
-          <p>Email: <a href="mailto:info@aiutodoc.it">info@aiutodoc.it</a><br>Referente privacy: <a href="mailto:privacy@aiutodoc.it">privacy@aiutodoc.it</a><br>PEC: in fase di attivazione</p>
+          <p>Email: <a href="mailto:info@aiutodoc.it">info@AIutoDoc.it</a><br>Referente privacy: <a href="mailto:privacy@aiutodoc.it">privacy@AIutoDoc.it</a><br>PEC: in fase di attivazione</p>
         </div>
         <div class="footer-col">
           <strong>Informazioni legali</strong>
@@ -1127,7 +985,7 @@
         </div>
         <div class="footer-col">
           <strong>Copyright</strong>
-          <p>&copy; 2026 AiutoDoc - Tutti i diritti riservati.</p>
+          <p>&copy; 2026 AIutoDoc - Tutti i diritti riservati.</p>
         </div>
       </div>
     </footer>
@@ -1395,7 +1253,7 @@
                 <li><strong>Base giuridica:</strong> Per l'uso del servizio sono richiesti consensi separati: presa visione del disclaimer medico, accettazione dei termini e consenso esplicito al trattamento dei dati sanitari ex art. 9(2)(a) GDPR.</li>
                 <li><strong>Finalità e conservazione:</strong> I dati inseriti vengono trattati per erogare il servizio di orientamento sanitario informativo. La conservazione dipende dalle funzioni richieste dall'utente, come il codice di recupero previa registrazione.</li>
                 <li><strong>Comunicazione a terzi:</strong> Per il funzionamento della ricerca, il testo fornito può essere elaborato tramite API di fornitori di Intelligenza Artificiale che operano secondo protocolli di sicurezza standard.</li>
-                <li><strong>Diritti dell'interessato:</strong> Puoi scrivere a info@aiutodoc.it per richieste di accesso, rettifica, cancellazione o revoca del consenso.</li>
+                <li><strong>Diritti dell'interessato:</strong> Puoi scrivere a info@AIutoDoc.it per richieste di accesso, rettifica, cancellazione o revoca del consenso.</li>
               </ul>
             `; 
             break;
@@ -1408,7 +1266,7 @@
                 <li><strong>Esclusione di parere medico:</strong> La piattaforma non fornisce pareri clinici, non prescrive farmaci e non suggerisce terapie. L'IA analizza i termini inseriti dall'utente al solo fine di individuare la categoria specialistica più pertinente. L'utente è tenuto a consultare un medico prima di intraprendere qualsiasi decisione sanitaria.</li>
                 <li><strong>Limitazione di Responsabilità:</strong> Aiutodoc.it non garantisce l'aggiornamento costante dei dati dei professionisti estratti dalla rete né risponde della qualità della prestazione professionale fornita dai medici individuati. L'utente esonera Aiutodoc.it da ogni responsabilità derivante dal contatto o dalla visita con i professionisti elencati.</li>
                 <li><strong>Emergenze:</strong> In caso di emergenza medica o sintomi acuti, l'utente non deve utilizzare la piattaforma ma contattare immediatamente il 112.</li>
-                <li><strong>Contatti per richieste:</strong> Per richieste informative o di rimozione dall'indicizzazione è possibile scrivere a info@aiutodoc.it.</li>
+                <li><strong>Contatti per richieste:</strong> Per richieste informative o di rimozione dall'indicizzazione è possibile scrivere a info@AIutoDoc.it.</li>
               </ul>
             `; 
             break;
