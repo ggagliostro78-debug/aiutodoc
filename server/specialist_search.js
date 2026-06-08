@@ -93,6 +93,50 @@ function htmlToText(html) {
         .replace(/&quot;/gi, '"'));
 }
 
+function isValidDisplayName(name) {
+    const value = cleanText(name);
+    if (!value) return false;
+
+    const doctorPrefix = /^(?:Dott\.ssa|Dott\.|Dr\.ssa|Dr\.|Prof\.ssa|Prof\.|Dottore|Dottoressa|Dott|Dr|Prof)(?=\s|$)/i;
+    const genericDoctorTerms = /^(specialisti?|medici?|dottori?|ortopedico|ortopedica|ortopedia|cardiologo|cardiologa|cardiologia|neurologo|neurologa|neurologia|chirurgo|chirurga|chirurgia|psicologo|psicologa|psicologia|dermatologo|dermatologa|dermatologia|urologo|urologa|urologia|ginecologo|ginecologa|ginecologia|pediatra|pediatria|studio|centro|clinica|ambulatorio|poliambulatorio)$/i;
+    const facilityTerms = /\b(ospedale|policlinico|clinica|casa di cura|centro medico|centro specialistico|istituto|irccs|fondazione|ambulatorio|poliambulatorio|asl|asp|asst|presidio)\b/i;
+
+    if (doctorPrefix.test(value)) {
+        const tokens = value
+            .replace(doctorPrefix, "")
+            .replace(/[^A-Za-zÀ-ÿ'’\-\s]/g, " ")
+            .split(/\s+/)
+            .filter(Boolean)
+            .filter((token) => !/^(di|de|del|della|da|d'|de')$/i.test(token));
+
+        const firstGenericIndex = tokens.findIndex((token) => genericDoctorTerms.test(token));
+        const nameTokens = firstGenericIndex >= 0 ? tokens.slice(0, firstGenericIndex) : tokens;
+        return nameTokens.length >= 2;
+    }
+
+    if (/^(?:dottori|medici|specialisti)(?:\b|$)/i.test(value)) return false;
+    if (/\b(?:prenota|migliori|elenco|lista|trova|cerca|visita specialistica)\b/i.test(value)) return false;
+
+    return facilityTerms.test(value) && value.replace(/[^A-Za-zÀ-ÿ\s]/g, " ").trim().split(/\s+/).filter(Boolean).length >= 2;
+}
+
+function normalizeDisplayName(name) {
+    const value = cleanText(name);
+    const doctorPrefix = /^(Dott\.ssa|Dott\.|Dr\.ssa|Dr\.|Prof\.ssa|Prof\.|Dottore|Dottoressa|Dott|Dr|Prof)(?=\s|$)/i;
+    const genericDoctorTerms = /^(specialisti?|medici?|dottori?|ortopedico|ortopedica|ortopedia|cardiologo|cardiologa|cardiologia|neurologo|neurologa|neurologia|chirurgo|chirurga|chirurgia|psicologo|psicologa|psicologia|dermatologo|dermatologa|dermatologia|urologo|urologa|urologia|ginecologo|ginecologa|ginecologia|pediatra|pediatria|studio|centro|clinica|ambulatorio|poliambulatorio)$/i;
+    const prefixMatch = value.match(doctorPrefix);
+    if (!prefixMatch) return value;
+
+    const tokens = value
+        .replace(doctorPrefix, "")
+        .replace(/[^A-Za-zÀ-ÿ'’\-\s]/g, " ")
+        .split(/\s+/)
+        .filter(Boolean);
+    const firstGenericIndex = tokens.findIndex((token) => genericDoctorTerms.test(token));
+    const nameTokens = firstGenericIndex >= 0 ? tokens.slice(0, firstGenericIndex) : tokens;
+    return `${prefixMatch[1]} ${nameTokens.join(" ")}`.trim();
+}
+
 async function fetchPublicPageText(url, fetchImpl) {
     if (!/^https:\/\//i.test(url || "")) return "";
 
@@ -151,12 +195,13 @@ async function enrichResults(results, fetchImpl) {
 function extractDisplayName(title, snippet) {
     const combined = `${cleanText(title)} ${cleanText(snippet)}`;
     const doctorMatch = combined.match(/\b(?:Dott\.ssa|Dott\.|Dr\.ssa|Dr\.|Prof\.ssa|Prof\.|Dottore|Dottoressa)\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ'’-]+(?:\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ'’-]+){0,3}/);
-    if (doctorMatch) return cleanText(doctorMatch[0]);
+    if (doctorMatch && isValidDisplayName(doctorMatch[0])) return normalizeDisplayName(doctorMatch[0]);
 
     const facilityMatch = combined.match(/\b(?:Ospedale|Policlinico|Clinica|Casa di Cura|Centro Medico|Centro Specialistico|Istituto|Humanitas|Auxologico|GVM|San Raffaele|Gemelli|Niguarda)\s+[^.;|·]{2,70}/i);
     if (facilityMatch) return cleanText(facilityMatch[0]);
 
     const cleanTitle = cleanText(title);
+    if (/\b(?:Dott\.ssa|Dott\.|Dr\.ssa|Dr\.|Prof\.ssa|Prof\.|Dottore|Dottoressa|Dott|Dr|Prof)\b/i.test(cleanTitle)) return "";
     const genericTitle = /(?:^\d+\s+|migliori|prenota online|prenota la tua|reparti|servizi|visita specialistica|visita ortopedica|ortopedici\s+a|ortopedici\s+e|ginocchio\s+a|specialisti\s+a)/i.test(cleanTitle);
     return genericTitle ? "" : cleanTitle;
 }
@@ -176,7 +221,7 @@ function normalizeSearchItem({ title, link, snippet, query, scope, source }) {
     const displayName = extractDisplayName(title, snippet);
 
     const isAggregator = /(miodottore|doctolib|idoctors|paginegialle|paginebianche|cup|qsalute|guidasalute|topdoctors|yelp|tripadvisor|facebook|instagram)\./i.test(link || "");
-    if (!displayName || isAggregator) return null;
+    if (!displayName || !isValidDisplayName(displayName) || isAggregator) return null;
 
     const nameLower = displayName.toLowerCase();
     const isSSN = /ospedale|ospedaliero|ospedaliera|policlinico|asl|asp|usl|ssn|presidio|asst|ats|a.o.|a.o.u.|pubblic|sanitaria locale|sanitario locale|istituto|iomi|clinica|casa di cura|irccs|fondazione|don calabria|humanitas|auxologico|galeazzi|rizzoli|sacco|niguarda|fatebenefratelli|gemelli|umberto i|san raffaele|careggi|spallanzani|sant'orsola|cardarelli|monaldi|cotugno/i.test(nameLower);

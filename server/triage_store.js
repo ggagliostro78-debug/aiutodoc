@@ -58,11 +58,22 @@ function normalizeRecoveryCode(code) {
     return String(code || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
 }
 
-function generateRecoveryCode() {
+function normalizeUserCodePrefix(prefix) {
+    return String(prefix || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 2);
+}
+
+function generateRecoveryCode(userPrefix) {
+    const prefix = normalizeUserCodePrefix(userPrefix);
+    if (prefix.length !== 2) {
+        const error = new Error("Prefisso codice non valido.");
+        error.code = "RECOVERY_PREFIX_INVALID";
+        throw error;
+    }
+
     const bytes = crypto.randomBytes(RECOVERY_CODE_BYTES);
     const letters = String.fromCharCode(65 + (bytes[0] % 26)) + String.fromCharCode(65 + (bytes[1] % 26));
     const numbers = String(((bytes[2] << 8) + bytes[3]) % 10000).padStart(4, "0");
-    return letters + numbers;
+    return `${prefix}${letters}${numbers}`;
 }
 
 function hashRecoveryCode(code) {
@@ -129,7 +140,12 @@ async function handleTriageSave({ method, body, context = {} }) {
         return buildResponse(400, { error: "Dati triage incompleti." }, corsHeaders);
     }
 
-    const recoveryCode = generateRecoveryCode();
+    const userPrefix = normalizeUserCodePrefix(payload.userCodePrefix || payload.triage?.userCodePrefix);
+    if (userPrefix.length !== 2) {
+        return buildResponse(400, { error: "Inserisci due caratteri alfanumerici per generare il codice recupero." }, corsHeaders);
+    }
+
+    const recoveryCode = generateRecoveryCode(userPrefix);
     const codeHash = hashRecoveryCode(recoveryCode);
     const now = new Date();
     const expiresAt = new Date(now.getTime() + retentionDays() * 24 * 60 * 60 * 1000);
@@ -208,7 +224,9 @@ async function handleTriageRecover({ method, body, context = {} }) {
 }
 
 module.exports = {
+    generateRecoveryCode,
     handleTriageRecover,
     handleTriageSave,
+    normalizeUserCodePrefix,
     normalizeRecoveryCode
 };

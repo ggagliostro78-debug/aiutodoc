@@ -296,7 +296,9 @@ class TriageEngine {
         this._askNextConditionalDetailOrFinalNote();
     }
 
-    _generateTriageID() {
+    _generateTriageID(userPrefix = "") {
+        const cleanPrefix = String(userPrefix || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 2);
+        const prefix = cleanPrefix.length === 2 ? cleanPrefix : "ID";
         const bytes = new Uint8Array(4);
         if (window.crypto && window.crypto.getRandomValues) {
             window.crypto.getRandomValues(bytes);
@@ -307,7 +309,7 @@ class TriageEngine {
         }
         const letters = String.fromCharCode(65 + (bytes[0] % 26)) + String.fromCharCode(65 + (bytes[1] % 26));
         const numbers = String(((bytes[2] << 8) + bytes[3]) % 10000).padStart(4, "0");
-        return letters + numbers;
+        return `${prefix}${letters}${numbers}`;
     }
 
     _saveTriageResult(resultObj, source = 'api', options = {}) {
@@ -362,6 +364,10 @@ class TriageEngine {
                 <input type="checkbox" class="registration-consent" data-consent="healthData">
                 <span>Presto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.</span>
             </label>
+            <label class="recovery-prefix-row">
+                <span>Scegli 2 caratteri alfanumerici per personalizzare il codice recupero</span>
+                <input type="text" class="recovery-prefix-input" maxlength="2" pattern="[A-Za-z0-9]{2}" inputmode="text" autocomplete="off" placeholder="Es. A7">
+            </label>
             <button type="button" class="btn-primary-wide register-and-save-triage">Genera codice anonimo</button>
             <p class="registration-note">Per tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.</p>
         </div>`;
@@ -383,7 +389,16 @@ class TriageEngine {
             throw new Error("Per generare il codice devi confermare tutti i consensi richiesti.");
         }
 
+        const userCodePrefix = String(gate.querySelector('.recovery-prefix-input')?.value || "")
+            .toUpperCase()
+            .replace(/[^A-Z0-9]/g, "")
+            .slice(0, 2);
+        if (userCodePrefix.length !== 2) {
+            throw new Error("Inserisci due caratteri alfanumerici per generare il codice recupero.");
+        }
+
         pendingData.userRegistration = null;
+        pendingData.userCodePrefix = userCodePrefix;
         pendingData.consents = {
             terms: true,
             privacy: true,
@@ -405,6 +420,7 @@ class TriageEngine {
             }
 
             storageMode = "local";
+            pendingData.id = this._generateTriageID(userCodePrefix);
             pendingData.expiresAt = null;
             console.warn("Archivio cloud non disponibile, salvataggio mantenuto solo in locale:", error);
         }
@@ -456,7 +472,10 @@ class TriageEngine {
         const response = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ triage: data })
+            body: JSON.stringify({
+                triage: data,
+                userCodePrefix: data.userCodePrefix || ""
+            })
         });
 
         if (!response.ok) {
@@ -1502,6 +1521,8 @@ class TriageEngine {
                 }
             });
 
+            resultObj.risultati = resultObj.risultati.filter(r => this._isDisplayableResultName(r.nome));
+
             const priorityCurated = this._buildCuratedSearchResults(resultObj.specialista_indicato);
             priorityCurated.forEach((curatedEntry, index) => {
                 resultObj.risultati = resultObj.risultati.filter(r => !isSameDoctor(r.nome, curatedEntry.nome));
@@ -1509,6 +1530,7 @@ class TriageEngine {
                 const targetIndex = Math.min(resultObj.risultati.length, (stableSeed + index) % 5);
                 resultObj.risultati.splice(targetIndex, 0, curatedEntry);
             });
+            resultObj.risultati = resultObj.risultati.filter(r => this._isDisplayableResultName(r.nome));
             resultObj.risultati = resultObj.risultati.slice(0, 20);
 
             // Mostriamo i risultati
@@ -1860,6 +1882,50 @@ class TriageEngine {
         }
     }
 
+    _isDisplayableResultName(name) {
+        const value = String(name || "").trim();
+        if (!value) return false;
+
+        const doctorPrefix = /^(?:Dott\.ssa|Dott\.|Dr\.ssa|Dr\.|Prof\.ssa|Prof\.|Dottore|Dottoressa|Dott|Dr|Prof)(?=\s|$)/i;
+        const genericDoctorTerms = /^(specialisti?|medici?|dottori?|ortopedico|ortopedica|ortopedia|cardiologo|cardiologa|cardiologia|neurologo|neurologa|neurologia|chirurgo|chirurga|chirurgia|psicologo|psicologa|psicologia|dermatologo|dermatologa|dermatologia|urologo|urologa|urologia|ginecologo|ginecologa|ginecologia|pediatra|pediatria|studio|centro|clinica|ambulatorio|poliambulatorio)$/i;
+        const facilityTerms = /\b(ospedale|policlinico|clinica|casa di cura|centro medico|centro specialistico|istituto|irccs|fondazione|ambulatorio|poliambulatorio|asl|asp|asst|presidio)\b/i;
+
+        if (doctorPrefix.test(value)) {
+            const tokens = value
+                .replace(doctorPrefix, "")
+                .replace(/[^A-Za-zÀ-ÿ'’\-\s]/g, " ")
+                .split(/\s+/)
+                .filter(Boolean)
+                .filter((token) => !/^(di|de|del|della|da|d'|de')$/i.test(token));
+
+            const firstGenericIndex = tokens.findIndex((token) => genericDoctorTerms.test(token));
+            const nameTokens = firstGenericIndex >= 0 ? tokens.slice(0, firstGenericIndex) : tokens;
+            return nameTokens.length >= 2;
+        }
+
+        if (/^(?:dottori|medici|specialisti)(?:\b|$)/i.test(value)) return false;
+        if (/\b(?:prenota|migliori|elenco|lista|trova|cerca|visita specialistica)\b/i.test(value)) return false;
+
+        return facilityTerms.test(value) && value.replace(/[^A-Za-zÀ-ÿ\s]/g, " ").trim().split(/\s+/).filter(Boolean).length >= 2;
+    }
+
+    _normalizeDisplayResultName(name) {
+        const value = String(name || "").trim();
+        const doctorPrefix = /^(Dott\.ssa|Dott\.|Dr\.ssa|Dr\.|Prof\.ssa|Prof\.|Dottore|Dottoressa|Dott|Dr|Prof)(?=\s|$)/i;
+        const genericDoctorTerms = /^(specialisti?|medici?|dottori?|ortopedico|ortopedica|ortopedia|cardiologo|cardiologa|cardiologia|neurologo|neurologa|neurologia|chirurgo|chirurga|chirurgia|psicologo|psicologa|psicologia|dermatologo|dermatologa|dermatologia|urologo|urologa|urologia|ginecologo|ginecologa|ginecologia|pediatra|pediatria|studio|centro|clinica|ambulatorio|poliambulatorio)$/i;
+        const prefixMatch = value.match(doctorPrefix);
+        if (!prefixMatch) return value;
+
+        const tokens = value
+            .replace(doctorPrefix, "")
+            .replace(/[^A-Za-zÀ-ÿ'’\-\s]/g, " ")
+            .split(/\s+/)
+            .filter(Boolean);
+        const firstGenericIndex = tokens.findIndex((token) => genericDoctorTerms.test(token));
+        const nameTokens = firstGenericIndex >= 0 ? tokens.slice(0, firstGenericIndex) : tokens;
+        return `${prefixMatch[1]} ${nameTokens.join(" ")}`.trim();
+    }
+
     _buildCard(resultOrName, spec = "", tipo = "", ind = "", contatti = "", prenotazione = "", det = "") {
         const result = typeof resultOrName === "object" && resultOrName !== null
             ? resultOrName
@@ -1871,7 +1937,9 @@ class TriageEngine {
                 contatti,
                 info: det
             };
-        const resultName = String(result.nome || "Specialista o struttura sanitaria").trim();
+        const resultName = this._normalizeDisplayResultName(result.nome || "Specialista o struttura sanitaria");
+        if (!this._isDisplayableResultName(resultName)) return "";
+
         const resultSpec = String(result.specializzazione || spec || "Specialista").trim();
         const resultType = String(result.tipo || tipo || "Risultato").trim();
         const resultAddress = String(result.indirizzo_modalita || "Indirizzo non disponibile nella scheda pubblica").trim();

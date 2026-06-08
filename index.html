@@ -256,7 +256,7 @@
                   </div>
                 </fieldset>
                 <p class="initial-error" id="initial-sex-error" aria-live="polite" role="alert"></p>
-                <button type="submit" class="btn-primary-wide">Continua per iniziare</button>
+                <button type="submit" class="btn-primary-wide">Clicca per iniziare</button>
               </form>
             </div>
             <div class="msg-time">Ora</div>
@@ -996,6 +996,7 @@
     (function() {
       console.log("Rescue UI Script loading...");
       const APP_CONSENT_VERSION = '2026-05-gdpr-v1';
+      const ENTRY_CONSENT_KEY = 'aiutodoc_entry_consents';
       const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
       const GA_MEASUREMENT_ID = 'G-9C1TRG2K0X';
       const privacyModal = document.getElementById('privacy-modal');
@@ -1032,6 +1033,27 @@
 
       function removeStorageValue(key) {
         try { localStorage.removeItem(key); } catch (error) {}
+      }
+
+      function hasValidEntryConsent() {
+        const saved = readJsonStorage(ENTRY_CONSENT_KEY);
+        return !!(
+          saved &&
+          saved.consentVersion === APP_CONSENT_VERSION &&
+          saved.ageOver14 === true &&
+          saved.medicalDisclaimer === true &&
+          saved.terms === true &&
+          saved.healthData === true
+        );
+      }
+
+      function unlockAppAfterEntryConsent() {
+        if (privacyModal) {
+          privacyModal.classList.add('hidden');
+          privacyModal.style.display = 'none';
+        }
+        if (userInput) userInput.disabled = false;
+        if (sendBtn) sendBtn.disabled = false;
       }
 
       function logConsent(scope, consents, extra) {
@@ -1153,58 +1175,87 @@
       }
 
       if (privacyModal && acceptBtn) {
-        if (userInput) userInput.disabled = true;
-        if (sendBtn) sendBtn.disabled = true;
+        if (hasValidEntryConsent()) {
+          unlockAppAfterEntryConsent();
+        } else {
+          if (userInput) userInput.disabled = true;
+          if (sendBtn) sendBtn.disabled = true;
 
-        const syncConsentButton = function() {
-          const ageValue = document.querySelector('input[name="age-confirmation"]:checked')?.value;
-          const isAdultEnough = ageValue === 'yes';
-          const allConsents = consentInputs.every(function(input) { return input.checked; });
-          acceptBtn.disabled = !(isAdultEnough && allConsents);
-          if (minorMessage) minorMessage.classList.toggle('hidden', ageValue !== 'no');
-        };
+          const syncConsentButton = function() {
+            const ageValue = document.querySelector('input[name="age-confirmation"]:checked')?.value;
+            const isAdultEnough = ageValue === 'yes';
+            const allConsents = consentInputs.every(function(input) { return input.checked; });
+            acceptBtn.disabled = !(isAdultEnough && allConsents);
+            if (minorMessage) minorMessage.classList.toggle('hidden', ageValue !== 'no');
+          };
 
-        ageRadios.forEach(function(input) { input.addEventListener('change', syncConsentButton); });
-        consentInputs.forEach(function(input) { input.addEventListener('change', syncConsentButton); });
+          ageRadios.forEach(function(input) { input.addEventListener('change', syncConsentButton); });
+          consentInputs.forEach(function(input) { input.addEventListener('change', syncConsentButton); });
 
-        acceptBtn.addEventListener('click', function() {
-          console.log("Privacy accepted.");
-          localStorage.setItem('aiutodoc_entry_consents', JSON.stringify({
-            ageOver14: true,
-            medicalDisclaimer: true,
-            terms: true,
-            healthData: true,
-            consentVersion: APP_CONSENT_VERSION,
-            acceptedAt: new Date().toISOString()
-          }));
-          logConsent('entry_gate', {
-            ageOver14: true,
-            medicalDisclaimer: true,
-            terms: true,
-            healthData: true
-          }, {
-            source: 'entry_gate',
-            textSnapshot: 'Verifica eta; presa visione disclaimer medico; accettazione termini; consenso esplicito al trattamento dati sanitari art. 9(2)(a) GDPR.'
+          acceptBtn.addEventListener('click', function() {
+            console.log("Privacy accepted.");
+            writeJsonStorage(ENTRY_CONSENT_KEY, {
+              ageOver14: true,
+              medicalDisclaimer: true,
+              terms: true,
+              healthData: true,
+              consentVersion: APP_CONSENT_VERSION,
+              acceptedAt: new Date().toISOString()
+            });
+            logConsent('entry_gate', {
+              ageOver14: true,
+              medicalDisclaimer: true,
+              terms: true,
+              healthData: true
+            }, {
+              source: 'entry_gate',
+              textSnapshot: 'Verifica eta; presa visione disclaimer medico; accettazione termini; consenso esplicito al trattamento dati sanitari art. 9(2)(a) GDPR.'
+            });
+            privacyModal.classList.add('hidden');
+            setTimeout(function() { privacyModal.style.display = 'none'; }, 500);
+            
+            // --- RIPOSIZIONA IN ALTO PER VEDERE IL BANNER ---
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            
+            if (userInput) { userInput.disabled = false; }
+            if (sendBtn) sendBtn.disabled = false;
           });
-          privacyModal.classList.add('hidden');
-          setTimeout(function() { privacyModal.style.display = 'none'; }, 500);
-          
-          // --- RIPOSIZIONA IN ALTO PER VEDERE IL BANNER ---
-          window.scrollTo({ top: 0, behavior: 'instant' });
-          
-          if (userInput) { userInput.disabled = false; }
-          if (sendBtn) sendBtn.disabled = false;
-        });
+        }
       }
 
       const navBtns = document.querySelectorAll('.nav-btn');
       const tabContents = document.querySelectorAll('.tab-content');
 
-      function navigateToSection(targetId) {
+      function getCurrentSectionId() {
+        const visibleSection = Array.from(tabContents).find(function(content) {
+          return !content.classList.contains('hidden-section');
+        });
+        return visibleSection ? visibleSection.id : 'chat-section';
+      }
+
+      function scrollToPageTop() {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      }
+
+      function setHistorySection(targetId, replace) {
+        if (!window.history || !window.history.pushState) return;
+        const state = { aiutodocSection: targetId };
+        const title = document.title;
+        if (replace) {
+          window.history.replaceState(state, title);
+        } else if (!history.state || history.state.aiutodocSection !== targetId) {
+          window.history.pushState(state, title);
+        }
+      }
+
+      function navigateToSection(targetId, options) {
         if (!targetId) return;
         const targetEl = document.getElementById(targetId);
         if (!targetEl) return;
+        const settings = Object.assign({ updateHistory: true, replaceHistory: false }, options || {});
         console.log("Navigating to:", targetId);
+
+        scrollToPageTop();
         tabContents.forEach(function(content) { content.classList.add('hidden-section'); });
         targetEl.classList.remove('hidden-section');
         document.querySelector('.main-nav')?.classList.remove('open');
@@ -1217,7 +1268,12 @@
           b.classList.toggle('active', b.getAttribute('data-target') === activeTarget);
         });
 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        scrollToPageTop();
+        requestAnimationFrame(scrollToPageTop);
+
+        if (settings.updateHistory) {
+          setHistorySection(targetId, settings.replaceHistory);
+        }
 
         if (targetId === 'chat-section') {
           setTimeout(function() {
@@ -1236,6 +1292,14 @@
           }
           navigateToSection(targetId);
         });
+      });
+
+      setHistorySection(getCurrentSectionId(), true);
+      window.addEventListener('popstate', function(event) {
+        const targetId = event.state && event.state.aiutodocSection;
+        if (targetId && document.getElementById(targetId)) {
+          navigateToSection(targetId, { updateHistory: false });
+        }
       });
 
       window.openLegalModal = function(type) {

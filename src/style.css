@@ -256,6 +256,10 @@ body {
   padding-bottom: 112px;
 }
 
+.messages-area:has(.welcome-message) {
+  padding-bottom: 32px;
+}
+
 /* Welcome Message Special Styling */
 .welcome-message {
   width: 100%;
@@ -487,6 +491,28 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   font: inherit;
+}
+
+.recovery-prefix-row {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.recovery-prefix-input {
+  width: 96px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .registration-note,

@@ -82,12 +82,21 @@ function documentUrl(account, collectionName, documentId) {
     return `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${collection}/${doc}`;
 }
 
+function generateDocumentId() {
+    return crypto.randomBytes(16).toString("hex");
+}
+
 function getFirestoreAdmin(fetchImpl = fetch) {
     const account = parseServiceAccount();
 
     return {
         collection(collectionName) {
             return {
+                async add(data) {
+                    const documentId = generateDocumentId();
+                    await this.doc(documentId).set(data);
+                    return { id: documentId };
+                },
                 doc(documentId) {
                     return {
                         async set(data) {
