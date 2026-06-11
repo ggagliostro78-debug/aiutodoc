@@ -38,37 +38,80 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "MedicalWebPage",
-    "name": "AIutoDoc",
-    "url": "https://aiutodoc.it/",
-    "description": "Piattaforma di orientamento sanitario informativo per aiutare il cittadino a individuare la branca specialistica più coerente con le informazioni fornite.",
-    "inLanguage": "it-IT",
-    "isAccessibleForFree": true,
-    "publisher": {
-      "@type": "Organization",
-      "name": "AIutoDoc",
-      "url": "https://aiutodoc.it/",
-      "email": "info@aiutodoc.it",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://aiutodoc.it/assets/logo-aiutodoc.png"
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://aiutodoc.it/#organization",
+        "name": "AIutoDoc",
+        "alternateName": [
+          "aiutodoc",
+          "AIutoDoc.it",
+          "aiutodoc.it"
+        ],
+        "url": "https://aiutodoc.it/",
+        "email": "info@aiutodoc.it",
+        "logo": {
+          "@type": "ImageObject",
+          "@id": "https://aiutodoc.it/#logo",
+          "url": "https://aiutodoc.it/assets/logo-aiutodoc.png"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://aiutodoc.it/#website",
+        "name": "AIutoDoc",
+        "alternateName": [
+          "aiutodoc",
+          "AIutoDoc.it",
+          "aiutodoc.it"
+        ],
+        "url": "https://aiutodoc.it/",
+        "inLanguage": "it-IT",
+        "publisher": {
+          "@id": "https://aiutodoc.it/#organization"
+        }
+      },
+      {
+        "@type": "MedicalWebPage",
+        "@id": "https://aiutodoc.it/#webpage",
+        "name": "AIutoDoc.it - Orientamento sanitario informativo",
+        "url": "https://aiutodoc.it/",
+        "description": "Piattaforma di orientamento sanitario informativo per aiutare il cittadino a individuare la branca specialistica più coerente con le informazioni fornite.",
+        "inLanguage": "it-IT",
+        "isAccessibleForFree": true,
+        "publisher": {
+          "@id": "https://aiutodoc.it/#organization"
+        },
+        "isPartOf": {
+          "@id": "https://aiutodoc.it/#website"
+        },
+        "medicalAudience": {
+          "@type": "MedicalAudience",
+          "audienceType": "Patient"
+        },
+        "mainEntity": {
+          "@id": "https://aiutodoc.it/#app"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://aiutodoc.it/#app",
+        "name": "AIutoDoc",
+        "alternateName": "aiutodoc",
+        "url": "https://aiutodoc.it/",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Web",
+        "isAccessibleForFree": true,
+        "publisher": {
+          "@id": "https://aiutodoc.it/#organization"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        }
       }
-    },
-    "medicalAudience": {
-      "@type": "MedicalAudience",
-      "audienceType": "Patient"
-    },
-    "mainEntity": {
-      "@type": "SoftwareApplication",
-      "name": "AIutoDoc",
-      "applicationCategory": "HealthApplication",
-      "operatingSystem": "Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "EUR"
-      }
-    }
+    ]
   }
   </script>
 </head>
