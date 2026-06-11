@@ -78,6 +78,10 @@ class TriageEngine {
             case '5_ANAMNESTICHE':
                 placeholder = "Rispondi indicando la lettera (A, B o C)";
                 break;
+            case '4B_NOTA_CONOSCITIVA_SCELTA':
+            case '5B_NOTA_ANAMNESTICA_SCELTA':
+                placeholder = "Scegli Si o No";
+                break;
             case '5C_DETTAGLIO_CONDIZIONATO':
                 placeholder = this.currentConditionalDetail === "weight_kg"
                     ? "Inserisci il peso in kg. Es. 72"
@@ -85,7 +89,7 @@ class TriageEngine {
                 break;
             case '4B_NOTA_CONOSCITIVA':
             case '5B_NOTA_ANAMNESTICA':
-                placeholder = "Aggiungi dettagli o scrivi 'NO'";
+                placeholder = "inserisci il testo che desideri e clicca il tasto a lato per continuare";
                 break;
             case '7_FINE':
                 placeholder = "Orientamento completato.";
@@ -258,8 +262,8 @@ class TriageEngine {
         const next = this.conditionalDetailsQueue.shift();
         if (!next) {
             this.currentConditionalDetail = null;
-            this.state = '5B_NOTA_ANAMNESTICA';
-            this.onMessage('Ottimo. Vorresti aggiungere qualche dettaglio sui tuoi sintomi prima che elabori i dati? Altrimenti, digita "No" ed inizierò a cercare la figura più indicata per te.');
+            this.state = '5B_NOTA_ANAMNESTICA_SCELTA';
+            this.onMessage(this._buildAdditionalDetailsPrompt('anamnestica'));
             this._updatePlaceholder();
             return;
         }
@@ -294,6 +298,96 @@ class TriageEngine {
         }
 
         this._askNextConditionalDetailOrFinalNote();
+    }
+
+    _buildAdditionalDetailsPrompt(scope) {
+        const text = scope === 'conoscitiva'
+            ? 'Hai altre informazioni o dettagli che vorresti aggiungere riguardo a questi aspetti generali?'
+            : 'Vorresti aggiungere qualche dettaglio sui tuoi sintomi prima che elabori i dati?';
+
+        return `
+            <div class="detail-choice-prompt">
+                <p>${text}</p>
+                <div class="detail-choice-actions" role="group" aria-label="Aggiunta dettagli">
+                    <button type="button" class="detail-choice-btn" data-reply="Si">Si</button>
+                    <button type="button" class="detail-choice-btn" data-reply="No">No</button>
+                </div>
+            </div>
+        `;
+    }
+
+    _isAffirmativeChoice(input) {
+        return /^(si|sÃ¬|ok|certo|aggiungo|voglio aggiungere)\b/i.test(String(input || "").trim());
+    }
+
+    _isNegativeChoice(input) {
+        return /^(no|nessuna|nessuno|niente)\b/i.test(String(input || "").trim());
+    }
+
+    _askConoscitivaFreeText() {
+        this.state = '4B_NOTA_CONOSCITIVA';
+        this.onMessage('Inserisci il testo che desideri e clicca il tasto a lato per continuare.');
+        this._updatePlaceholder();
+    }
+
+    _askAnamnesticaFreeText() {
+        this.state = '5B_NOTA_ANAMNESTICA';
+        this.onMessage('Inserisci il testo che desideri e clicca il tasto a lato per continuare.');
+        this._updatePlaceholder();
+    }
+
+    _startAnamnesisQuestions() {
+        this.state = '5_ANAMNESTICHE';
+        this.onMessage(`Molto bene. Ora passiamo alla seconda fase con <strong>${this.userData.domandeAnamnesticheDinamiche.length} domande anamnestiche</strong> piÃ¹ specifiche sul disturbo per migliorare l'orientamento (rispondi con <strong>A, B o C</strong>).<br><br>1. ` + this.userData.domandeAnamnesticheDinamiche[0]);
+        this._updatePlaceholder();
+    }
+
+    _startScientificResearch() {
+        this.state = '6_RICERCA_SCIENTIFICA';
+
+        const chatInputBar = document.querySelector('.chat-input-area');
+        if (chatInputBar) chatInputBar.style.display = 'none';
+
+        const loadingHTML = `
+            <div id="ai-loading-box" style="display:flex; flex-direction:column; align-items:center; margin-top:10px; width: 100%;">
+                <p>Dati raccolti con successo. <br><br><em>Elaborazione orientamento e preparazione percorsi verificabili...</em></p>
+                
+                <div style="width: 100%; max-width: 300px; background-color: #e0e9e9; border-radius: 10px; margin: 15px 0; overflow: hidden; height: 12px; position:relative;">
+                    <div id="ai-progress-bar" style="width: 0%; height: 100%; background-color: var(--primary, #0F5464); transition: width 1s linear;"></div>
+                </div>
+                <p id="ai-countdown-text" style="font-size: 0.85rem; color: #6f899e; margin-bottom: 10px;">Tempo stimato: 45 secondi</p>
+
+                <h3 id="ai-loading-title" style="color:var(--primary, #0F5464); animation: blink 1.5s infinite;"><strong>ATTENDERE...</strong></h3>
+                <style>
+                    @keyframes blink { 0% {opacity:1;} 50% {opacity:0.4;} 100% {opacity:1;} }
+                </style>
+            </div>
+        `;
+
+        this.onMessage(loadingHTML);
+
+        let progressSeconds = 0;
+        this.searchStartedAt = Date.now();
+
+        setTimeout(() => {
+            this.progressInterval = setInterval(() => {
+                progressSeconds++;
+                const bar = document.getElementById('ai-progress-bar');
+                const text = document.getElementById('ai-countdown-text');
+                if (bar && text) {
+                    const percentage = Math.min((progressSeconds / 45) * 100, 100);
+                    bar.style.width = percentage + '%';
+                    const tRimasti = Math.max(45 - progressSeconds, 0);
+                    text.innerText = `Tempo residuo stimato: ${tRimasti} secondi`;
+                }
+            }, 1000);
+        }, 100);
+
+        this.researchTimeout = setTimeout(() => {
+            this._showResearchFailure("La ricerca reale non ha risposto entro il tempo previsto. Riprova tra poco: nessun risultato simulato viene mostrato.");
+        }, 55000);
+
+        this._eseguiRicercaAI();
     }
 
     _generateTriageID(userPrefix = "") {
@@ -893,7 +987,7 @@ class TriageEngine {
                         'ansia', 'stress', 'depress', 'panico', 'dialogo', 'parlare', 'sfogo', 'tristezza', 'paura', 'angoscia', 'trauma', 'lutto', 'ossession', 'solitudine', 'mentale', 'psicolog', 'psichiatr', 'umore', 'emozion', 'mente', 
                         'partner', 'coppia', 'socio', 'relazione', 'conflitto', 'comunicazione', 'sessual', 'erezi', 'eiacula', 'libido', 'desiderio', 'intimità', 'lavoro', 'genitori', 'figli', 'scuola', 'bullismo', 'autostima', 'personalità', 'fobia', 'attacchi', 'delir', 'allucin', 'pensier', 'comportament', 'terapia', 'psicotera',
                         // --- Sintomi Generali & Branche ---
-                        'dolor', 'brucior', 'prurit', 'fastidi', 'febbre', 'tosse', 'macchi', 'nausea', 'vomit', 'vertigin', 'capogir', 'debolezz', 'stanch', 'sangue', 'visita', 'mal di', 'male', 'gonfior', 'occhi', 'testa', 'schiena', 'pancia', 'gamba', 'braccio', 'mano', 'piede', 'ginocchi', 'spalla', 'fiato', 'respiro', 'battito', 'formicol', 'udito', 'vista', 'memoria', 'peso', 'diabete', 'tiroid',
+                        'dolor', 'brucior', 'prurit', 'fastidi', 'febbre', 'tosse', 'macchi', 'neo', 'nevo', 'nei', 'lesion cutanea', 'melanom', 'verruca', 'brufol', 'foruncol', 'orticaria', 'ponfo', 'nausea', 'vomit', 'vertigin', 'capogir', 'debolezz', 'stanch', 'sangue', 'visita', 'mal di', 'male', 'gonfior', 'occhi', 'testa', 'schiena', 'pancia', 'gamba', 'braccio', 'mano', 'piede', 'ginocchi', 'spalla', 'fiato', 'respiro', 'battito', 'formicol', 'udito', 'vista', 'memoria', 'peso', 'diabete', 'tiroid',
                         'ortoped', 'neurol', 'cardiol', 'gastro', 'dermatol', 'ginecol', 'urol', 'androl', 'prostat', 'pene', 'testicol', 'vescica', 'otorino', 'oculist', 'chirurg', 'dentist', 'odontoi', 'endocr', 'diabet', 'pneumo', 'emato', 'infettiv', 'reumatol', 'geriatr', 'dietol', 'nutriz', 'pediatr',
                         // --- Glossario Esteso (A-Z) ---
                         'acufen', 'otite', 'rinite', 'ipoacusia', 'faringite', 'epistassi', 'sinusite', 'disfonia', 'laringite', 'raucedine', 'otalgia', 'labirintite', 'meniere', 'colesteatoma',
@@ -972,10 +1066,23 @@ class TriageEngine {
                 if (this.currentConoscitiva < DOMANDE_CONOSCITIVE.length) {
                     this.onMessage(`${this.currentConoscitiva + 1}. ` + DOMANDE_CONOSCITIVE[this.currentConoscitiva]);
                 } else {
-                    this.state = '4B_NOTA_CONOSCITIVA';
-                    this.onMessage('Perfetto. Hai altre informazioni o dettagli che vorresti aggiungere riguardo a questi aspetti generali? Altrimenti, digita "No".');
+                    this.state = '4B_NOTA_CONOSCITIVA_SCELTA';
+                    this.onMessage(this._buildAdditionalDetailsPrompt('conoscitiva'));
                     this._updatePlaceholder();
                 }
+                break;
+
+            case '4B_NOTA_CONOSCITIVA_SCELTA':
+                if (this._isAffirmativeChoice(input)) {
+                    this._askConoscitivaFreeText();
+                    break;
+                }
+                if (this._isNegativeChoice(input)) {
+                    this.userData.notaConoscitiva = "Nessun dettaglio aggiuntivo fornito.";
+                    this._startAnamnesisQuestions();
+                    break;
+                }
+                this.onMessage("Errore: scegli <strong>Si</strong> oppure <strong>No</strong> per proseguire.", "system-msg danger");
                 break;
 
             case '4B_NOTA_CONOSCITIVA':
@@ -1004,9 +1111,7 @@ class TriageEngine {
                     this.userData.notaConoscitiva = "Nessun dettaglio aggiuntivo fornito.";
                 }
 
-                this.state = '5_ANAMNESTICHE';
-                this.onMessage(`Molto bene. Ora passiamo alla seconda fase con <strong>${this.userData.domandeAnamnesticheDinamiche.length} domande anamnestiche</strong> più specifiche sul disturbo per migliorare l'orientamento (rispondi con <strong>A, B o C</strong>).<br><br>1. ` + this.userData.domandeAnamnesticheDinamiche[0]);
-                this._updatePlaceholder();
+                this._startAnamnesisQuestions();
                 break;
 
             case '5_ANAMNESTICHE':
@@ -1032,6 +1137,19 @@ class TriageEngine {
 
             case '5C_DETTAGLIO_CONDIZIONATO':
                 this._handleConditionalDetailInput(input);
+                break;
+
+            case '5B_NOTA_ANAMNESTICA_SCELTA':
+                if (this._isAffirmativeChoice(input)) {
+                    this._askAnamnesticaFreeText();
+                    break;
+                }
+                if (this._isNegativeChoice(input)) {
+                    this.userData.notaAnamnestica = "Nessun dettaglio aggiuntivo anamnestico fornito.";
+                    this._startScientificResearch();
+                    break;
+                }
+                this.onMessage("Errore: scegli <strong>Si</strong> oppure <strong>No</strong> per proseguire.", "system-msg danger");
                 break;
 
             case '5B_NOTA_ANAMNESTICA':
@@ -1060,57 +1178,11 @@ class TriageEngine {
                     this.userData.notaAnamnestica = "Nessun dettaglio aggiuntivo anamnestico fornito.";
                 }
 
-                this.state = '6_RICERCA_SCIENTIFICA';
-                
-                // Nascondi barra di input durante la ricerca (DOPO l'ultima domanda dell'anamnesi)
-                const chatInputBar = document.querySelector('.chat-input-area');
-                if (chatInputBar) chatInputBar.style.display = 'none';
-
-                const loadingHTML = `
-                    <div id="ai-loading-box" style="display:flex; flex-direction:column; align-items:center; margin-top:10px; width: 100%;">
-                        <p>Dati raccolti con successo. <br><br><em>Elaborazione orientamento e preparazione percorsi verificabili...</em></p>
-                        
-                        <div style="width: 100%; max-width: 300px; background-color: #e0e9e9; border-radius: 10px; margin: 15px 0; overflow: hidden; height: 12px; position:relative;">
-                            <div id="ai-progress-bar" style="width: 0%; height: 100%; background-color: var(--primary, #0F5464); transition: width 1s linear;"></div>
-                        </div>
-                        <p id="ai-countdown-text" style="font-size: 0.85rem; color: #6f899e; margin-bottom: 10px;">Tempo stimato: 45 secondi</p>
-
-                        <h3 id="ai-loading-title" style="color:var(--primary, #0F5464); animation: blink 1.5s infinite;"><strong>ATTENDERE...</strong></h3>
-                        <style>
-                            @keyframes blink { 0% {opacity:1;} 50% {opacity:0.4;} 100% {opacity:1;} }
-                        </style>
-                    </div>
-                `;
-
-                this.onMessage(loadingHTML);
+                this._startScientificResearch();
+                break;
 
             case '6_RICERCA_SCIENTIFICA':
-                // Avvia la barra di progresso di 45 secondi
-                let progressSeconds = 0;
-                this.searchStartedAt = Date.now();
-
-                // Assicuriamoci che il DOM abbia renderizzato il caricamento chiamando setTimeout
-                setTimeout(() => {
-                    this.progressInterval = setInterval(() => {
-                        progressSeconds++;
-                        const bar = document.getElementById('ai-progress-bar');
-                        const text = document.getElementById('ai-countdown-text');
-                        if (bar && text) {
-                            const percentage = Math.min((progressSeconds / 45) * 100, 100);
-                            bar.style.width = percentage + '%';
-                            const tRimasti = Math.max(45 - progressSeconds, 0);
-                            text.innerText = `Tempo residuo stimato: ${tRimasti} secondi`;
-                        }
-                    }, 1000);
-                }, 100);
-
-                // Timeout tecnico: la ricerca resta visibile per 45 secondi, poi mostriamo risultati reali o errore esplicito.
-                this.researchTimeout = setTimeout(() => {
-                    this._showResearchFailure("La ricerca reale non ha risposto entro il tempo previsto. Riprova tra poco: nessun risultato simulato viene mostrato.");
-                }, 55000);
-
-                // Proviamo a chiamare subito l'API
-                this._eseguiRicercaAI();
+                this._startScientificResearch();
                 break;
 
             case '7_FINE':
@@ -1130,6 +1202,7 @@ class TriageEngine {
             "mano", "mani", "polso", "polsi", "dito", "dita", "gomito",
             "anca", "bacino", "inguine", "coscia", "femore", "gamba", "gambe",
             "cuore", "petto", "tosse", "asma", "stomaco", "pancia", "addome",
+            "neo", "nei", "nevo", "nevi", "verruca", "verruche", "brufolo", "foruncolo",
             "ano", "retto", "pressione"
         ]);
         const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -1151,7 +1224,8 @@ class TriageEngine {
             NEURO_CENTRALE: ["testa", "cefalea", "emicrania", "vertigin", "equilibrio", "formicol", "tremore", "scotoma", "paresi", "paralisi", "neuropatia"],
             ORTHO: ["osso", "ossa", "schiena", "ginocchio", "ginocchia", "frattura", "articolazion", "distorsion", "tendin", "legament", "cervical", "sciatalgia", "spalla", "caviglia", "tallone", "polso", "anca", "gomito"],
             CARDIO: ["cuore", "palpitazion", "petto", "pressione", "sincope", "edema", "angina", "pericardite"],
-            PNEUMO: ["polmon", "pneumo", "asma", "bronchi", "fischio", "catarro", "tosse", "affanno", "respiro"]
+            PNEUMO: ["polmon", "pneumo", "asma", "bronchi", "fischio", "catarro", "tosse", "affanno", "respiro"],
+            DERMATO: ["pelle", "cute", "dermat", "macchia", "macchie", "neo", "nei", "nevo", "nevi", "melanom", "lesion cutanea", "lesione cutanea", "prurit", "eruzion", "orticaria", "ponfo", "verruca", "verruche", "brufolo", "brufoli", "foruncolo", "foruncoli", "cisti"]
         };
 
         // --- LOGICA DI SELEZIONE PRIORITARIA (ORDINE GLOBALE) ---
@@ -1176,6 +1250,13 @@ class TriageEngine {
                 "Avverti un dolore di tipo pulsante e molto acuto che peggiora stendendoti a letto?\n<br><i>A) Molto forte e pulsante<br>B) Lieve e sopportabile<br>C) Nessun dolore</i>",
                 "C'è un evidente gonfiore (ascesso) visibile sul viso o sulle gengive?\n<br><i>A) Gonfiore grosso e caldo<br>B) Solo un piccolo bozzo in bocca<br>C) Nessun rigonfiamento</i>",
                 "Le tue gengive sanguinano abbondantemente e spontaneamente mentre lavi i denti?\n<br><i>A) Sì, tanto sangue rosso vivo<br>B) Solo ogni tanto poche tracce<br>C) Mai sanguinanti</i>"
+            ];
+        }
+        if (hasAny(SEDE.DERMATO)) {
+            return [
+                "La lesione cutanea, il neo o la macchia sono cambiati rapidamente per dimensione, colore, forma o rilievo?\n<br><i>A) Si, cambiamento evidente o rapido<br>B) Cambiamento lieve o dubbio<br>C) No, sembra stabile</i>",
+                "Hai notato sanguinamento, croste, dolore, prurito intenso o margini irregolari nella zona?\n<br><i>A) Si, uno o piu segni evidenti<br>B) Solo fastidio lieve<br>C) No</i>",
+                "Il problema riguarda un singolo punto preciso o piu aree della pelle?\n<br><i>A) Singola lesione/neo ben preciso<br>B) Piu chiazze o lesioni<br>C) Eruzione diffusa o prurito generale</i>"
             ];
         }
         if (hasAny(SEDE.URO)) {
@@ -1526,8 +1607,8 @@ class TriageEngine {
             const priorityCurated = this._buildCuratedSearchResults(resultObj.specialista_indicato);
             priorityCurated.forEach((curatedEntry, index) => {
                 resultObj.risultati = resultObj.risultati.filter(r => !isSameDoctor(r.nome, curatedEntry.nome));
-                const stableSeed = `${curatedEntry.nome}|${this.userData.zona}|${this.userData.disturbo}`.length;
-                const targetIndex = Math.min(resultObj.risultati.length, (stableSeed + index) % 5);
+                const firstFiveLimit = Math.min(resultObj.risultati.length, 4);
+                const targetIndex = Math.min(resultObj.risultati.length, Math.floor(Math.random() * (firstFiveLimit + 1)));
                 resultObj.risultati.splice(targetIndex, 0, curatedEntry);
             });
             resultObj.risultati = resultObj.risultati.filter(r => this._isDisplayableResultName(r.nome));
@@ -1713,16 +1794,15 @@ class TriageEngine {
             }
         };
 
-        if (specLower.includes("psicolog") || specLower.includes("psicotera") || specLower.includes("psichiatr")) {
-            const isRoma = contextLower.includes("roma");
+        if (specLower.includes("psicolog") || specLower.includes("psicotera")) {
             add({
                 nome: "Dr.ssa Greta Devoli",
                 specializzazione: "Psicologa ad orientamento Sistemico-Relazionale",
                 tipo: "Privato",
-                indirizzo_modalita: isRoma ? "Roma e online" : "Online in tutta Italia",
+                indirizzo_modalita: "Online in tutta Italia",
                 contatti: "3479847838 | gretadevoli@gmail.com",
                 fonte: "Scheda curata",
-                info: "Specialista in regime di libera professione."
+                info: "Disponibile online a livello nazionale per le specialità e sotto-specialità indicate."
             });
         }
 
@@ -1739,7 +1819,7 @@ class TriageEngine {
             });
         }
 
-        if ((specLower.includes("neurochir") || specLower.includes("neurol")) && /\b(messina|milazzo|reggio|rc|villa)\b/i.test(contextLower)) {
+        if (specLower.includes("neurochir") && /\b(messina|milazzo|reggio|rc|villa)\b/i.test(contextLower)) {
             add({
                 nome: "Dott. Carmelo Pecora",
                 specializzazione: "Neurochirurgo",
@@ -1845,7 +1925,8 @@ class TriageEngine {
             - Disturbo: ${this.userData.disturbo}
             - Risposte Conoscitive: ${JSON.stringify(this.userData.conoscitiveResp)}
             - Risposte Anamnestiche: ${JSON.stringify(this.userData.anamnesticheResp)}
-            - Note Libere: ${this.userData.notaAnamnestica || "Nessuna nota aggiuntiva"}
+            - Nota libera conoscitiva: ${this.userData.notaConoscitiva || "Nessuna nota aggiuntiva"}
+            - Nota libera anamnestica: ${this.userData.notaAnamnestica || "Nessuna nota aggiuntiva"}
 
             REGOLE DI OUTPUT:
             Restituisci ESCLUSIVAMENTE un oggetto JSON puro con questa struttura:

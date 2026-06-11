@@ -773,6 +773,40 @@ body {
   overflow-wrap: anywhere;
 }
 
+.detail-choice-prompt p {
+  margin: 0 0 12px;
+}
+
+.detail-choice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.detail-choice-btn {
+  min-width: 96px;
+  border: 1px solid rgba(15, 84, 100, 0.24);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--primary);
+  font-weight: 700;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.detail-choice-btn:hover,
+.detail-choice-btn:focus-visible,
+.detail-choice-btn.is-selected {
+  background: rgba(92, 201, 204, 0.16);
+  border-color: var(--primary);
+  outline: none;
+}
+
+.detail-choice-btn:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
 #ai-loading-box {
   scroll-margin-bottom: calc(96px + var(--safe-bottom));
 }

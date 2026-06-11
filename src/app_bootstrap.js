@@ -106,13 +106,23 @@ function setupInstallPrompt() {
         event.preventDefault();
         deferredPrompt = event;
         installBtn.classList.remove('hidden');
+        trackEvent('pwa_install_prompt_available', {
+            source: 'beforeinstallprompt'
+        });
     });
 
     installBtn.addEventListener('click', async () => {
         if (!deferredPrompt) return;
 
+        trackEvent('pwa_install_button_click', {
+            source: 'install_app_button'
+        });
         deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
+        const choice = await deferredPrompt.userChoice;
+        trackEvent('pwa_install_prompt_choice', {
+            outcome: choice && choice.outcome ? choice.outcome : 'unknown',
+            platform: choice && choice.platform ? choice.platform : 'unknown'
+        });
         deferredPrompt = null;
         installBtn.classList.add('hidden');
     });
@@ -120,6 +130,9 @@ function setupInstallPrompt() {
     window.addEventListener('appinstalled', () => {
         deferredPrompt = null;
         installBtn.classList.add('hidden');
+        trackEvent('pwa_app_installed', {
+            source: 'appinstalled'
+        });
     });
 }
 

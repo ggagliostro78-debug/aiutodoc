@@ -196,7 +196,7 @@ function generateMockTriageResponse(prompt) {
         esami = "Elettrocardiogramma (ECG), Ecocardiogramma color-doppler.";
         impegnativa = "Sì, per visita cardiologica con elettrocardiogramma.";
         preparazione = "Evitare sforzi intensi o assunzione eccessiva di caffeina nelle ore precedenti la visita.";
-    } else if (promptLower.includes("dermatol") || promptLower.includes("pelle") || promptLower.includes("nei") || promptLower.includes("macchie") || promptLower.includes("eruzione") || promptLower.includes("prurito")) {
+    } else if (promptLower.includes("dermatol") || promptLower.includes("pelle") || promptLower.includes("cute") || /\b(nei|neo|nevo|nevi)\b/.test(promptLower) || promptLower.includes("macchie") || promptLower.includes("lesione cutanea") || promptLower.includes("melanom") || promptLower.includes("verruca") || promptLower.includes("orticaria") || promptLower.includes("eruzione") || promptLower.includes("prurito")) {
         specialista = "Dermatologo";
         sintesi = "Manifestazione cutanea o alterazione dermatologica meritevole di approfondimento clinico per via dermatoscopica.";
         esami = "Mappatura dei nei (se applicabile), esame obiettivo dermatologico.";

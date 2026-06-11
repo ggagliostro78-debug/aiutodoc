@@ -35,6 +35,12 @@ class ChatInterface {
         return /A,\s*B\s*o\s*C/i.test(placeholder) || Boolean(this._extractLatestChoices());
     }
 
+    _hasLatestDetailChoicePrompt() {
+        const messages = Array.from(this.messagesContainer.querySelectorAll('.message.system-msg .msg-bubble'));
+        const latest = messages[messages.length - 1];
+        return Boolean(latest && latest.querySelector('.detail-choice-btn[data-reply]'));
+    }
+
     _extractLatestChoices() {
         const messages = Array.from(this.messagesContainer.querySelectorAll('.message.system-msg .msg-bubble'));
         const latest = messages[messages.length - 1];
@@ -135,6 +141,17 @@ class ChatInterface {
         });
     }
 
+    _lockDetailChoiceGroup(selectedButton) {
+        const group = selectedButton.closest('.detail-choice-actions');
+        if (!group || group.classList.contains('is-locked')) return;
+
+        group.classList.add('is-locked');
+        group.querySelectorAll('.detail-choice-btn').forEach((button) => {
+            button.disabled = true;
+            button.classList.toggle('is-selected', button === selectedButton);
+        });
+    }
+
     _lockQuickReplies() {
         if (!this.quickReplies) return;
         this.quickReplies.querySelectorAll('.quick-reply-btn').forEach((button) => {
@@ -160,7 +177,7 @@ class ChatInterface {
     }
 
     _syncQuickReplies() {
-        const shouldHideTextInput = !this.userInput.disabled && this._shouldShowQuickReplies();
+        const shouldHideTextInput = !this.userInput.disabled && (this._shouldShowQuickReplies() || this._hasLatestDetailChoicePrompt());
         if (this.quickReplies) {
             this.quickReplies.classList.add('hidden');
             this.quickReplies.classList.remove('desktop-choice-mode');
@@ -328,6 +345,14 @@ class ChatInterface {
         bubble.querySelectorAll('.id-copy-box[data-triage-id]').forEach((el) => {
             el.addEventListener('click', () => {
                 copyTriageID(el.dataset.triageId, el);
+            });
+        });
+
+        bubble.querySelectorAll('.detail-choice-btn[data-reply]').forEach((button) => {
+            button.addEventListener('click', () => {
+                if (this.userInput.disabled || button.disabled) return;
+                this._lockDetailChoiceGroup(button);
+                this.handleSendViaDispatcher(button.dataset.reply);
             });
         });
 
