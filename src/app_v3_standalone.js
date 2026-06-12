@@ -1496,6 +1496,18 @@ class TriageEngine {
 
             // Raccogli nomi dei medici indicizzati
             const curatedNames = curated.map(c => c.nome);
+            const attendedSpecialistNames = [
+                "Dott. Vincenzo Calafiore",
+                "Dott. Carmelo Pecora",
+                "Dr.ssa Greta Devoli"
+            ];
+            const isBlockedAttendedSpecialist = (entry) => {
+                const name = entry && entry.nome;
+                if (!name) return false;
+                const isAttended = attendedSpecialistNames.some(attendedName => isSameDoctor(name, attendedName));
+                if (!isAttended) return false;
+                return !curatedNames.some(curatedName => isSameDoctor(name, curatedName));
+            };
             if (isRCOrVibo && isOrthopedic) {
                 curatedNames.push("Dott. Vincenzo Calafiore");
             }
@@ -1503,7 +1515,7 @@ class TriageEngine {
             // Filtra duplicati dei medici indicizzati dai risultati di Google Places
             let filteredPlaces = places.filter(p => {
                 const isDup = curatedNames.some(cName => isSameDoctor(p.nome, cName));
-                return !isDup;
+                return !isDup && !isBlockedAttendedSpecialist(p);
             });
 
             let finalPlaces = [...filteredPlaces];
@@ -1533,7 +1545,7 @@ class TriageEngine {
                     for (const fallbackPlace of [...nationalFallback, ...otherFallback]) {
                         if (finalPlaces.length >= 20) break;
                         const isDup = finalPlaces.some(p => isSameDoctor(p.nome, fallbackPlace.nome));
-                        if (!isDup) finalPlaces.push(fallbackPlace);
+                        if (!isDup && !isBlockedAttendedSpecialist(fallbackPlace)) finalPlaces.push(fallbackPlace);
                     }
                 } catch (fallbackError) {
                     console.warn("Fallback specialist-search senza risultati:", fallbackError);
@@ -1603,6 +1615,7 @@ class TriageEngine {
             });
 
             resultObj.risultati = resultObj.risultati.filter(r => this._isDisplayableResultName(r.nome));
+            resultObj.risultati = resultObj.risultati.filter(r => !isBlockedAttendedSpecialist(r));
 
             const priorityCurated = this._buildCuratedSearchResults(resultObj.specialista_indicato);
             priorityCurated.forEach((curatedEntry, index) => {
