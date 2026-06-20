@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0F5464">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="application-name" content="AIutoDoc">
+  <meta name="apple-mobile-web-app-title" content="AIutoDoc">
+  <title>Chi Siamo | AIutoDoc.it</title>
+  <meta name="description" content="AIutoDoc nasce per rendere piu semplice l'orientamento sanitario e aiutarti a individuare la branca specialistica piu coerente con le tue esigenze.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://aiutodoc.it/chi-siamo/">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/favicon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/src/style.css?v=4.1.0">
+</head>
+<body>
+  <div id="app-splash" class="app-splash">
+    <div class="app-splash-card">
+      <div class="app-splash-title">AIutoDoc</div>
+      <div class="app-splash-subtitle">Prenderti cura di te non è mai stato così semplice</div>
+    </div>
+  </div>
+  <section id="cookie-consent" class="cookie-consent hidden" aria-labelledby="cookie-consent-title" role="dialog" aria-modal="false">
+    <div class="cookie-consent-panel">
+      <div class="cookie-consent-copy">
+        <h2 id="cookie-consent-title">Preferenze cookie</h2>
+        <p>Usiamo cookie tecnici necessari al funzionamento del sito. I cookie analytics vengono caricati solo con il tuo consenso.</p>
+        <a href="/cookie-policy/" target="_blank" rel="noopener">Maggiori informazioni</a>
+      </div>
+      <div id="cookie-customize-panel" class="cookie-customize-panel hidden">
+        <label class="cookie-toggle">
+          <input type="checkbox" checked disabled>
+          <span>Cookie tecnici necessari, sempre attivi</span>
+        </label>
+        <label class="cookie-toggle">
+          <input type="checkbox" id="cookie-analytics">
+          <span>Cookie analytics per statistiche aggregate</span>
+        </label>
+        <label class="cookie-toggle">
+          <input type="checkbox" id="cookie-marketing" disabled>
+          <span>Cookie marketing/profilazione non utilizzati</span>
+        </label>
+      </div>
+      <div class="cookie-actions">
+        <button type="button" id="cookie-accept-all">Accetta tutti</button>
+        <button type="button" id="cookie-reject-all">Rifiuta tutti</button>
+        <button type="button" id="cookie-customize">Personalizza</button>
+        <button type="button" id="cookie-save-custom" class="hidden">Salva preferenze</button>
+      </div>
+    </div>
+  </section>
+  <div id="legal-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 id="legal-modal-title">Documento Legale</h3>
+      <div class="modal-scroll" id="legal-modal-text"></div>
+      <button id="close-legal-btn" class="btn-primary-wide">Chiudi</button>
+    </div>
+  </div>
+  <div id="app">
+    <header class="chat-header">
+      <div class="banner-wrapper">
+        <img src="/assets/header-sito.png" alt="AIutoDoc.it - Prenderti cura di te non è mai stato così semplice" class="banner-img">
+
+        <!-- Hamburger Toggle for Mobile -->
+        <button id="menu-toggle" aria-label="Apri il menu di navigazione" aria-expanded="false">Menu</button>
+
+        <!-- MENU A 5 TASTI + ID RICERCA -->
+        <nav class="main-nav">
+          <button type="button" class="nav-btn" onclick="window.location.href='/'">Orientamento</button>
+          <button type="button" class="nav-btn active" onclick="window.location.href='/chi-siamo/'">Chi Siamo</button>
+          <button type="button" class="nav-btn" onclick="window.location.href='/per-gli-specialisti/'">Per gli Specialisti</button>
+          <button type="button" class="nav-btn" onclick="window.location.href='/glossario/'">Glossario</button>
+          <button type="button" class="nav-btn" onclick="window.location.href='/specializzazioni/'">Specializzazioni</button>
+          <button id="reset-btn" class="nav-btn" title="Riavvia Sessione">Nuova Ricerca</button>
+          
+          <button type="button" id="recovery-page-btn" class="nav-btn recovery-btn-style" onclick="window.location.href='/recupera-ricerca/'" title="Recupera una ricerca già eseguita">Recupera ricerca</button>
+        </nav>
+      </div>
+    </header>
+    <main class="content-container">
+<section id="about-section" class="info-section">
+        <div class="info-body">
+          <div style="text-align: center;">
+            <img src="/assets/about.png" alt="Chi Siamo" class="section-image" loading="lazy" decoding="async" onerror="this.style.display='none'">
+          </div>
+          <h2>Perché AIutoDoc?</h2>
+          
+          <p><strong>AIutoDoc</strong> nasce per rendere più semplice l'orientamento sanitario. Raccoglie poche informazioni per restituire una risposta coerente con le tue necessità, <strong>supportandoti nella ricerca</strong> di professionisti e strutture sanitarie.</p>
+
+          <p>Le informazioni che fornisci vengono sempre trattate in modo sicuro e <strong>al solo fine di individuare la categoria specialistica più pertinente</strong>. Per maggiori dettagli consulta la nostra <a href="/privacy-policy/" target="_blank" rel="noopener"><strong>Privacy Policy</strong></a>.</p>
+
+          <div class="brand-positioning">
+            <div class="problem-box">
+              <h3>Il problema delle liste d'attesa</h3>
+              <p>Molte delle lunghe attese nel Servizio Sanitario Regionale (SSR) dipendono da richieste indirizzate verso la specializzazione sbagliata. Un <strong>orientamento informativo</strong> ti può aiutare a prepararti meglio al confronto con il medico ma, soprattutto, a <strong>trovare lo specialista più adatto alle tue esigenze</strong>, riducendo il rischio di attese prolungate e sprechi di denaro.</p>
+            </div>
+            
+            <div class="solution-box">
+              <h3>Il Ruolo di AIutoDoc</h3>
+              <p>AIutoDoc interviene preventivamente con un percorso digitale di orientamento che precede la fase di prenotazione, senza sostituire il medico o le sue decisioni.</p>
+              <p>Ti aiuta ad individuare <strong>la branca specialistica più coerente con le informazioni fornite</strong> e ti propone una selezione di professionisti o strutture, basandosi sui dati presenti in rete.</p>
+            </div>
+          </div>
+
+          <h3>Il risultato?</h3>
+          <div class="impact-stats">
+            Meno confusione iniziale sul professionista a cui rivolgerti. <strong>Il tuo percorso sarà più chiaro</strong> e arriverai alla visita con tutte le informazioni necessarie. Siamo l’anello di congiunzione tra le tue esigenze e la possibilità di <strong>accedere più facilmente alla figura giusta per te</strong>.
+          </div>
+
+          <p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 25px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 15px;">
+            <strong>AIutoDoc utilizza strumenti di intelligenza artificiale per finalità informative di orientamento e non sostituisce in alcun modo il medico curante.</strong>
+          </p>
+
+          <p><a href="/per-gli-specialisti/" class="inline-page-link">Sei uno specialista o hai una struttura privata e vuoi saperne di più?</a> Clicca qui per scoprire i servizi dedicati a te.</p>
+
+          <div class="cta-container">
+            <a href="mailto:info@aiutodoc.it" class="btn-secondary-wide">Contattaci: info@aiutodoc.it</a>
+            <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc" class="btn-secondary-wide">Collabora per far crescere AIutoDoc.it</a>
+            <button id="investor-btn" class="btn-premium-wide" onclick="window.location.href='mailto:info@aiutodoc.it?subject=Opportunita investimento istituzionale AIutoDoc'">Per opportunità di investimento istituzionali scrivere a info@aiutodoc.it</button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="legal-footer">
+      <button id="install-app-btn" class="install-app-btn hidden" type="button">Installa AIutoDoc</button>
+      <div class="legal-footer-grid">
+        <div class="footer-col">
+          <strong>AIutoDoc - progetto in fase di costituzione</strong>
+          <p>AIutoDoc.it è attualmente in fase di MVP e operato come progetto personale. Le informazioni societarie saranno aggiornate al momento della costituzione.</p>
+        </div>
+        <div class="footer-col">
+          <strong>Contatti</strong>
+          <p>Email: <a href="mailto:info@aiutodoc.it">info@aiutodoc.it</a><br>Referente privacy: <a href="mailto:info@aiutodoc.it">info@aiutodoc.it</a><br>PEC: ggagliostro@pec.it</p>
+        </div>
+        <div class="footer-col">
+          <strong>Informazioni legali</strong>
+          <div class="footer-links">
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <a href="/termini-condizioni/">Termini e Condizioni</a>
+            <a href="/cookie-policy/">Cookie Policy</a>
+            <a href="/disclaimer-medico/">Disclaimer Medico</a>
+            <button type="button" id="manage-cookie-preferences" class="footer-link-button">Gestisci preferenze cookie</button>
+          </div>
+        </div>
+        <div class="footer-col">
+          <strong>Copyright</strong>
+          <p>&copy; 2026 AIutoDoc - Tutti i diritti riservati.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
+      const GA_MEASUREMENT_ID = 'G-9C1TRG2K0X';
+      const cookieConsent = document.getElementById('cookie-consent');
+      const cookieCustomizePanel = document.getElementById('cookie-customize-panel');
+      const cookieAnalytics = document.getElementById('cookie-analytics');
+      const cookieAcceptAll = document.getElementById('cookie-accept-all');
+      const cookieRejectAll = document.getElementById('cookie-reject-all');
+      const cookieCustomize = document.getElementById('cookie-customize');
+      const cookieSaveCustom = document.getElementById('cookie-save-custom');
+      const manageCookiePreferences = document.getElementById('manage-cookie-preferences');
+      const menuToggle = document.getElementById('menu-toggle');
+      const mainNav = document.querySelector('.main-nav');
+      const closeLegalBtn = document.getElementById('close-legal-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      const recoveryBtn = document.getElementById('recovery-btn');
+      const splash = document.getElementById('app-splash');
+      const banner = document.querySelector('.banner-img');
+
+      function readJsonStorage(key) {
+        try {
+          const raw = window.localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : null;
+        } catch (error) {
+          console.warn('Impossibile leggere localStorage:', error);
+          return null;
+        }
+      }
+
+      function writeJsonStorage(key, value) {
+        try {
+          window.localStorage.setItem(key, JSON.stringify(value));
+        } catch (error) {
+          console.warn('Impossibile salvare localStorage:', error);
+        }
+      }
+
+      function loadGoogleAnalytics() {
+        if (window.__aiutodocGaLoaded) return;
+        window.__aiutodocGaLoaded = true;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){ window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', GA_MEASUREMENT_ID, { anonymize_ip: true });
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_MEASUREMENT_ID);
+        document.head.appendChild(script);
+      }
+
+      function applyCookiePreferences(preferences) {
+        if (preferences && preferences.analytics === true) {
+          loadGoogleAnalytics();
+        }
+      }
+
+      function hideCookieBanner() {
+        if (cookieConsent) cookieConsent.classList.add('hidden');
+      }
+
+      function showCookieBanner(customizeFirst) {
+        if (!cookieConsent) return;
+        cookieConsent.classList.remove('hidden');
+        const saved = readJsonStorage(COOKIE_CONSENT_KEY);
+        if (cookieAnalytics) cookieAnalytics.checked = !!(saved && saved.analytics);
+        if (customizeFirst && cookieCustomizePanel && cookieSaveCustom) {
+          cookieCustomizePanel.classList.remove('hidden');
+          cookieSaveCustom.classList.remove('hidden');
+        }
+      }
+
+      function saveCookiePreferences(preferences) {
+        const record = {
+          necessary: true,
+          analytics: preferences.analytics === true,
+          marketing: false,
+          savedAt: new Date().toISOString(),
+          expiresAt: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString()
+        };
+        writeJsonStorage(COOKIE_CONSENT_KEY, record);
+        applyCookiePreferences(record);
+        hideCookieBanner();
+      }
+
+      if (cookieAcceptAll) {
+        cookieAcceptAll.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: true });
+        });
+      }
+      if (cookieRejectAll) {
+        cookieRejectAll.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: false });
+        });
+      }
+      if (cookieCustomize) {
+        cookieCustomize.addEventListener('click', function() {
+          if (cookieCustomizePanel) cookieCustomizePanel.classList.remove('hidden');
+          if (cookieSaveCustom) cookieSaveCustom.classList.remove('hidden');
+        });
+      }
+      if (cookieSaveCustom) {
+        cookieSaveCustom.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: cookieAnalytics && cookieAnalytics.checked });
+        });
+      }
+      if (manageCookiePreferences) {
+        manageCookiePreferences.addEventListener('click', function() {
+          showCookieBanner(true);
+        });
+      }
+
+      const storedCookiePreferences = readJsonStorage(COOKIE_CONSENT_KEY);
+      const storedCookieExpired = storedCookiePreferences && Date.parse(storedCookiePreferences.expiresAt || '') <= Date.now();
+      if (storedCookiePreferences && !storedCookieExpired) {
+        applyCookiePreferences(storedCookiePreferences);
+      } else {
+        showCookieBanner(false);
+      }
+
+      if (menuToggle && mainNav) {
+        const syncMenuState = function(isOpen) {
+          mainNav.classList.toggle('open', isOpen);
+          document.body.classList.toggle('menu-open', isOpen);
+          menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          menuToggle.textContent = isOpen ? 'Chiudi' : 'Menu';
+        };
+
+        syncMenuState(false);
+
+        menuToggle.addEventListener('click', function(event) {
+          event.stopPropagation();
+          syncMenuState(!mainNav.classList.contains('open'));
+        });
+
+        mainNav.querySelectorAll('button, a').forEach(function(el) {
+          el.addEventListener('click', function() {
+            syncMenuState(false);
+          });
+        });
+
+        document.addEventListener('click', function(event) {
+          if (!mainNav.classList.contains('open')) return;
+          if (mainNav.contains(event.target) || menuToggle.contains(event.target)) return;
+          syncMenuState(false);
+        });
+
+        window.addEventListener('resize', function() {
+          if (window.innerWidth > 950) {
+            syncMenuState(false);
+          }
+        });
+      }
+
+      if (banner) {
+        banner.setAttribute('role', 'button');
+        banner.setAttribute('tabindex', '0');
+        banner.setAttribute('title', 'Torna alla home');
+
+        const goHome = function() { window.location.href = '/'; };
+        banner.addEventListener('click', goHome);
+        banner.addEventListener('keydown', function(event) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            goHome();
+          }
+        });
+      }
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+          window.location.href = '/';
+        });
+      }
+
+      if (recoveryBtn) {
+        recoveryBtn.addEventListener('click', function() {
+          window.location.href = '/';
+        });
+      }
+
+      if (closeLegalBtn) {
+        closeLegalBtn.addEventListener('click', function() {
+          document.getElementById('legal-modal')?.classList.add('hidden');
+        });
+      }
+
+      if (splash) {
+        window.requestAnimationFrame(function() {
+          setTimeout(function() {
+            splash.classList.add('hidden');
+          }, 160);
+        });
+      }
+    })();
+  </script>
+
+
+</body>
+</html>

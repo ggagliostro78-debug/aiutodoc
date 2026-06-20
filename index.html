@@ -204,17 +204,13 @@
         <!-- MENU A 5 TASTI + ID RICERCA -->
         <nav class="main-nav">
           <button class="nav-btn active" data-target="chat-section">Orientamento</button>
-          <button class="nav-btn" data-target="about-section">Chi Siamo</button>
-          <button class="nav-btn" data-target="specialists-section">Per gli Specialisti</button>
-          <button class="nav-btn" data-target="glossary-section">Glossario</button>
-          <button class="nav-btn" data-target="practices-section">Specializzazioni</button>
+          <button type="button" class="nav-btn" onclick="window.location.href='/chi-siamo/'">Chi Siamo</button>
+          <button type="button" class="nav-btn" onclick="window.location.href='/per-gli-specialisti/'">Per gli Specialisti</button>
+          <button type="button" class="nav-btn" onclick="window.location.href='/glossario/'">Glossario</button>
+          <button type="button" class="nav-btn" onclick="window.location.href='/specializzazioni/'">Specializzazioni</button>
           <button id="reset-btn" class="nav-btn" title="Riavvia Sessione">Nuova Ricerca</button>
           
-          <!-- RECOVERY ID -->
-          <div class="recovery-nav-group">
-            <input type="text" id="recovery-id-input" placeholder="ID ricerca">
-            <button id="recovery-btn" class="nav-btn recovery-btn-style">Recupera</button>
-          </div>
+          <button type="button" id="recovery-page-btn" class="nav-btn recovery-btn-style" onclick="window.location.href='/recupera-ricerca/'" title="Recupera una ricerca già eseguita">Recupera ricerca</button>
         </nav>
       </div>
     </header>
@@ -361,7 +357,7 @@
             <strong>AIutoDoc utilizza strumenti di intelligenza artificiale per finalità informative di orientamento e non sostituisce in alcun modo il medico curante.</strong>
           </p>
 
-          <p><a href="#" class="inline-page-link internal-nav" data-target="specialists-section">Sei uno specialista o hai una struttura privata e vuoi saperne di più?</a> Clicca qui per scoprire i servizi dedicati a te.</p>
+          <p><a href="/per-gli-specialisti/" class="inline-page-link">Sei uno specialista o hai una struttura privata e vuoi saperne di più?</a> Clicca qui per scoprire i servizi dedicati a te.</p>
 
           <div class="cta-container">
             <a href="mailto:info@aiutodoc.it" class="btn-secondary-wide">Contattaci: info@aiutodoc.it</a>
@@ -1159,6 +1155,10 @@
         }
       }
 
+      function shouldDelayCookieBanner() {
+        return privacyModal && !hasValidEntryConsent();
+      }
+
       function saveCookiePreferences(preferences, action) {
         const record = {
           necessary: true,
@@ -1213,7 +1213,7 @@
         showCookieBanner(true);
       } else if (storedCookiePreferences && !storedCookieExpired) {
         applyCookiePreferences(storedCookiePreferences);
-      } else {
+      } else if (!shouldDelayCookieBanner()) {
         showCookieBanner(false);
       }
 
@@ -1256,12 +1256,12 @@
             });
             privacyModal.classList.add('hidden');
             setTimeout(function() { privacyModal.style.display = 'none'; }, 500);
-            
-            // --- RIPOSIZIONA IN ALTO PER VEDERE IL BANNER ---
             window.scrollTo({ top: 0, behavior: 'instant' });
-            
             if (userInput) { userInput.disabled = false; }
             if (sendBtn) sendBtn.disabled = false;
+            if (!storedCookiePreferences || storedCookieExpired) {
+              showCookieBanner(false);
+            }
           });
         }
       }
@@ -1337,7 +1337,12 @@
         });
       });
 
-      setHistorySection(getCurrentSectionId(), true);
+      const initialHashTarget = window.location.hash ? decodeURIComponent(window.location.hash.slice(1)) : '';
+      if (initialHashTarget && document.getElementById(initialHashTarget)) {
+        navigateToSection(initialHashTarget, { replaceHistory: true });
+      } else {
+        setHistorySection(getCurrentSectionId(), true);
+      }
       window.addEventListener('popstate', function(event) {
         const targetId = event.state && event.state.aiutodocSection;
         if (targetId && document.getElementById(targetId)) {

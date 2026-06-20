@@ -28,6 +28,26 @@ class ChatInterface {
                 if (e.key === 'Enter') this.handleRecovery();
             });
         }
+
+        const pendingRecoveryId = this._consumePendingRecoveryId();
+        if (pendingRecoveryId) {
+            window.setTimeout(() => {
+                this.handleRecovery(pendingRecoveryId);
+            }, 120);
+        }
+    }
+
+    _consumePendingRecoveryId() {
+        try {
+            const key = 'aiutodoc_pending_recovery_id';
+            const pending = localStorage.getItem(key);
+            if (!pending) return '';
+            localStorage.removeItem(key);
+            return String(pending).trim();
+        } catch (error) {
+            console.warn('Recovery pending ID non disponibile:', error);
+            return '';
+        }
     }
 
     _shouldShowQuickReplies() {
@@ -191,8 +211,11 @@ class ChatInterface {
         }
     }
 
-    async handleRecovery() {
-        const id = this.recoveryInput.value.trim();
+    async handleRecovery(idOverride) {
+        const sourceValue = typeof idOverride === 'string'
+            ? idOverride
+            : (this.recoveryInput ? this.recoveryInput.value : '');
+        const id = String(sourceValue || '').trim();
         if (!id) return;
         console.log("Recovery: avviato recupero per ID", id);
 
@@ -222,7 +245,9 @@ class ChatInterface {
             }
 
             this.displaySavedTriage(saved);
-            this.recoveryInput.value = '';
+            if (this.recoveryInput) {
+                this.recoveryInput.value = '';
+            }
         } else {
             alert("ID non trovato. Controlla il numero e riprova (gli ID sono universali se salvati online).");
         }

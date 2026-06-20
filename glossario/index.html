@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0F5464">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="application-name" content="AIutoDoc">
+  <meta name="apple-mobile-web-app-title" content="AIutoDoc">
+  <title>Breve Glossario Medico | AIutoDoc.it</title>
+  <meta name="description" content="Questo glossario raccoglie i termini piu comuni utilizzati nei principali rami ambulatoriali per aiutarti a capire meglio i tuoi referti.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://aiutodoc.it/glossario/">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/favicon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/src/style.css?v=4.1.0">
+</head>
+<body>
+  <div id="app-splash" class="app-splash">
+    <div class="app-splash-card">
+      <div class="app-splash-title">AIutoDoc</div>
+      <div class="app-splash-subtitle">Prenderti cura di te non è mai stato così semplice</div>
+    </div>
+  </div>
+  <section id="cookie-consent" class="cookie-consent hidden" aria-labelledby="cookie-consent-title" role="dialog" aria-modal="false">
+    <div class="cookie-consent-panel">
+      <div class="cookie-consent-copy">
+        <h2 id="cookie-consent-title">Preferenze cookie</h2>
+        <p>Usiamo cookie tecnici necessari al funzionamento del sito. I cookie analytics vengono caricati solo con il tuo consenso.</p>
+        <a href="/cookie-policy/" target="_blank" rel="noopener">Maggiori informazioni</a>
+      </div>
+      <div id="cookie-customize-panel" class="cookie-customize-panel hidden">
+        <label class="cookie-toggle">
+          <input type="checkbox" checked disabled>
+          <span>Cookie tecnici necessari, sempre attivi</span>
+        </label>
+        <label class="cookie-toggle">
+          <input type="checkbox" id="cookie-analytics">
+          <span>Cookie analytics per statistiche aggregate</span>
+        </label>
+        <label class="cookie-toggle">
+          <input type="checkbox" id="cookie-marketing" disabled>
+          <span>Cookie marketing/profilazione non utilizzati</span>
+        </label>
+      </div>
+      <div class="cookie-actions">
+        <button type="button" id="cookie-accept-all">Accetta tutti</button>
+        <button type="button" id="cookie-reject-all">Rifiuta tutti</button>
+        <button type="button" id="cookie-customize">Personalizza</button>
+        <button type="button" id="cookie-save-custom" class="hidden">Salva preferenze</button>
+      </div>
+    </div>
+  </section>
+  <div id="legal-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 id="legal-modal-title">Documento Legale</h3>
+      <div class="modal-scroll" id="legal-modal-text"></div>
+      <button id="close-legal-btn" class="btn-primary-wide">Chiudi</button>
+    </div>
+  </div>
+  <div id="app">
+    <header class="chat-header">
+      <div class="banner-wrapper">
+        <img src="/assets/header-sito.png" alt="AIutoDoc.it - Prenderti cura di te non è mai stato così semplice" class="banner-img">
+
+        <!-- Hamburger Toggle for Mobile -->
+        <button id="menu-toggle" aria-label="Apri il menu di navigazione" aria-expanded="false">Menu</button>
+
+        <!-- MENU A 5 TASTI + ID RICERCA -->
+        <nav class="main-nav">
+          <button type="button" class="nav-btn" onclick="window.location.href='/'">Orientamento</button>
+          <button type="button" class="nav-btn" onclick="window.location.href='/chi-siamo/'">Chi Siamo</button>
+          <button type="button" class="nav-btn" onclick="window.location.href='/per-gli-specialisti/'">Per gli Specialisti</button>
+          <button type="button" class="nav-btn active" onclick="window.location.href='/glossario/'">Glossario</button>
+          <button type="button" class="nav-btn" onclick="window.location.href='/specializzazioni/'">Specializzazioni</button>
+          <button id="reset-btn" class="nav-btn" title="Riavvia Sessione">Nuova Ricerca</button>
+          
+          <button type="button" id="recovery-page-btn" class="nav-btn recovery-btn-style" onclick="window.location.href='/recupera-ricerca/'" title="Recupera una ricerca già eseguita">Recupera ricerca</button>
+        </nav>
+      </div>
+    </header>
+    <main class="content-container">
+<section id="glossary-section" class="info-section">
+        <div class="info-body">
+          <div style="text-align: center;"><img src="/assets/glossary.png" alt="Glossario Medico Cartoon" loading="lazy" decoding="async"
+              class="section-image" onerror="this.style.display='none'"></div>
+          <h2>Breve Glossario Medico</h2>
+          <p>La medicina è piena di termini complessi? Ti aiutiamo noi!</p>
+          <p>Questo glossario raccoglie i termini più comuni utilizzati nei 10 principali rami ambulatoriali per aiutarti a <strong>capire meglio i tuoi referti</strong>.</p>
+          <p>Clicca su ciascun termine per approfondire.</p>
+
+          <div style="margin: 25px 0;">
+            <input type="text" id="glossary-search" placeholder="Cerca sintomo, vocabolo o malattia..."
+              style="width: 100%; padding: 14px 20px; border-radius: 24px; border: 1px solid var(--border-color); font-family: inherit; font-size: 1rem; color: var(--text-main); outline: none; transition: all 0.2s;"
+              onfocus="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 0 0 2px rgba(92, 201, 204, 0.15)';"
+              onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';">
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Psicologia e Psichiatria</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Anamnesi:</strong> raccolta della storia personale e clinica.</div>
+            <div class="g-card"><strong>Anedonia:</strong> incapacità di provare piacere nelle attività quotidiane.</div>
+            <div class="g-card"><strong>Apatia:</strong> mancanza di interesse, motivazione o coinvolgimento emotivo.</div>
+            <div class="g-card"><strong>Disfonia:</strong> alterazione della voce legata a fattori emotivi.</div>
+            <div class="g-card"><strong>Derealizzazione:</strong> sensazione che l&#x27;ambiente circostante sia irreale o distante.</div>
+            <div class="g-card"><strong>Disforia:</strong> profondo malessere emotivo, spesso vissuto con disagio interiore o irritabilità.</div>
+            <div class="g-card"><strong>DOC:</strong> Disturbo Ossessivo Compulsivo, comportamenti ripetitivi.</div>
+            <div class="g-card"><strong>Fobia:</strong> paura irrazionale e persistente in specifiche situazioni.</div>
+            <div class="g-card"><strong>Pensieri ossessivi:</strong> pensieri ricorrenti, intrusivi e difficili da interrompere.</div>
+            <div class="g-card"><strong>Somatizzazione:</strong> manifestazione fisica di un disagio psicologico.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Ortopedia e Traumatologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Artroscopia:</strong> tecnica chirurgica mini-invasiva per diagnosticare o trattare un&#x27;articolazione.</div>
+            <div class="g-card"><strong>Artrosi:</strong> degenerazione progressiva della cartilagine articolare.</div>
+            <div class="g-card"><strong>Borsite:</strong> infiammazione di una borsa sierosa articolare (una piccola sacca piena di liquido che si trova in corrispondenza delle articolazioni).</div>
+            <div class="g-card"><strong>Coxartrosi:</strong> artrosi dell&#x27;articolazione dell&#x27;anca.</div>
+            <div class="g-card"><strong>Lussazione:</strong> perdita del normale contatto tra le superfici articolari.</div>
+            <div class="g-card"><strong>Meniscopatia:</strong> lesione o alterazione del menisco.</div>
+            <div class="g-card"><strong>Osteoporosi:</strong> riduzione della densità ossea che aumenta il rischio di fratture.</div>
+            <div class="g-card"><strong>Protesi:</strong> dispositivo artificiale che sostituisce un&#x27;articolazione danneggiata.</div>
+            <div class="g-card"><strong>Scoliosi:</strong> deviazione laterale che altera la colonna vertebrale.</div>
+            <div class="g-card"><strong>Tendinite:</strong> infiammazione o irritazione di un tendine.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Neurologia e Neurochirurgia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Afasia:</strong> disturbo della comprensione o produzione del linguaggio, sia parlato che scritto.</div>
+            <div class="g-card"><strong>Amnesia:</strong> perdita parziale o totale della memoria.</div>
+            <div class="g-card"><strong>Atassia:</strong> alterazione della coordinazione dei movimenti.</div>
+            <div class="g-card"><strong>Cefalea:</strong> nome scientifico del mal di testa.</div>
+            <div class="g-card"><strong>Ernia del disco:</strong> fuoriuscita del disco intervertebrale con possibile compressione nervosa.</div>
+            <div class="g-card"><strong>Ictus:</strong> danno cerebrale causato da un&#x27;interruzione del flusso sanguigno.</div>
+            <div class="g-card"><strong>Parestesia:</strong> alterazione della sensibilità di arti o altre parti del corpo con formicolio, intorpidimento, bruciore o sensazione di &quot;punture di spillo&quot;.</div>
+            <div class="g-card"><strong>Sincope:</strong> perdita temporanea di coscienza dovuta a ridotto afflusso di sangue al cervello.</div>
+            <div class="g-card"><strong>Stenosi lombare:</strong> restringimento del canale vertebrale nella zona lombare.</div>
+            <div class="g-card"><strong>Vertigine:</strong> alterazione dell’equilibrio che causa sensazione di movimento o rotazione del proprio corpo o dell’ambiente circostante.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Cardiologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Angina pectoris:</strong> dolore toracico causato da ridotto afflusso di sangue al cuore.</div>
+            <div class="g-card"><strong>Aritmia:</strong> alterazione del ritmo del battito cardiaco.</div>
+            <div class="g-card"><strong>Bradicardia:</strong> frequenza cardiaca inferiore ai valori normali.</div>
+            <div class="g-card"><strong>ECG (elettrocardiogramma):</strong> esame che registra l&#x27;attività elettrica del cuore.</div>
+            <div class="g-card"><strong>Edema polmonare:</strong> accumulo di liquido nei polmoni.</div>
+            <div class="g-card"><strong>Ipertensione:</strong> aumento persistente della pressione arteriosa.</div>
+            <div class="g-card"><strong>Ischemia:</strong> riduzione dell&#x27;afflusso di sangue a un organo o tessuto.</div>
+            <div class="g-card"><strong>Palpitazioni:</strong> percezione anomala o accentuata del battito cardiaco.</div>
+            <div class="g-card"><strong>Tachicardia:</strong> frequenza cardiaca superiore ai valori normali.</div>
+            <div class="g-card"><strong>Trombosi:</strong> formazione di un coagulo all&#x27;interno di un vaso sanguigno.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Gastroenterologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Colelitiasi:</strong> presenza di calcoli nella cistifellea.</div>
+            <div class="g-card"><strong>Disfagia:</strong> difficoltà a deglutire cibi o liquidi.</div>
+            <div class="g-card"><strong>Dispepsia:</strong> disturbo digestivo con pesantezza o dolore addominale.</div>
+            <div class="g-card"><strong>Ematemesi:</strong> vomito con sangue.</div>
+            <div class="g-card"><strong>Melena:</strong> feci nere, presenza di sangue nelle feci.</div>
+            <div class="g-card"><strong>Meteorismo:</strong> eccessivo accumulo di gas nell&#x27;intestino.</div>
+            <div class="g-card"><strong>Pirosi:</strong> sensazione di bruciore allo stomaco o dietro lo sterno.</div>
+            <div class="g-card"><strong>Polipo:</strong> crescita anomala di tessuto, generalmente benigna.</div>
+            <div class="g-card"><strong>Reflusso gastroesofageo (GERD):</strong> risalita del contenuto gastrico nell&#x27;esofago (in italiano RGE).</div>
+            <div class="g-card"><strong>Steatorrea:</strong> presenza eccessiva di grassi nelle feci.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Dermatologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Alopecia:</strong> perdita parziale o totale di capelli o peli.</div>
+            <div class="g-card"><strong>Dermatite:</strong> infiammazione della pelle con arrossamento e irritazione.</div>
+            <div class="g-card"><strong>Eritema:</strong> arrossamento della pelle causato da infiammazione.</div>
+            <div class="g-card"><strong>Melanoma:</strong> tumore maligno che origina dai melanociti.</div>
+            <div class="g-card"><strong>Neoplasia:</strong> crescita anomala di cellule o tessuti.</div>
+            <div class="g-card"><strong>Orticaria:</strong> eruzione cutanea con pomfi pruriginosi.</div>
+            <div class="g-card"><strong>Petecchie:</strong> piccole macchie rosse dovute a microemorragie.</div>
+            <div class="g-card"><strong>Prurito:</strong> sensazione che induce a grattarsi.</div>
+            <div class="g-card"><strong>Psoriasi:</strong> malattia infiammatoria cronica della pelle.</div>
+            <div class="g-card"><strong>Vescicola:</strong> piccola lesione cutanea contenente liquido.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Ginecologia e Ostetricia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Amenorrea:</strong> assenza del ciclo mestruale per almeno tre mesi consecutivi.</div>
+            <div class="g-card"><strong>Cistite:</strong> infiammazione della vescica, spesso causata da infezione batterica.</div>
+            <div class="g-card"><strong>Colposcopia:</strong> esame della cervice uterina.</div>
+            <div class="g-card"><strong>Dismenorrea:</strong> mestruazioni dolorose, spesso accompagnate da crampi addominali.</div>
+            <div class="g-card"><strong>Dispareunia:</strong> dolore durante i rapporti sessuali.</div>
+            <div class="g-card"><strong>Ecografia ostetrica:</strong> esame ecografico eseguito durante la gravidanza per monitorare lo sviluppo del feto, la placenta e il liquido amniotico.</div>
+            <div class="g-card"><strong>Endometriosi:</strong> presenza di tessuto simile all&#x27;endometrio al di fuori dell&#x27;utero.</div>
+            <div class="g-card"><strong>Fibroma:</strong> tumore benigno del tessuto muscolare uterino.</div>
+            <div class="g-card"><strong>Menorragia:</strong> flusso mestruale molto abbondante o prolungato.</div>
+            <div class="g-card"><strong>Menopausa:</strong> cessazione definitiva del ciclo mestruale, accompagnata da variazioni ormonali che possono causare vampate di calore, insonnia e alterazioni dell&#x27;umore.</div>
+            <div class="g-card"><strong>Pap test:</strong> esame di screening per la prevenzione del tumore della cervice uterina.</div>
+            <div class="g-card"><strong>Placenta previa:</strong> condizione in cui la placenta si posiziona nella parte inferiore dell&#x27;utero, ostruendo parzialmente o totalmente il canale del parto.</div>
+            <div class="g-card"><strong>Prolasso uterino:</strong> discesa dell&#x27;utero verso il basso causata dall&#x27;indebolimento dei muscoli del pavimento pelvico.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Andrologia e Urologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Calcolosi renale:</strong> presenza di calcoli nei reni o nelle vie urinarie.</div>
+            <div class="g-card"><strong>Disfunzione erettile:</strong> difficoltà persistente a ottenere o mantenere un&#x27;erezione sufficiente per un rapporto sessuale.</div>
+            <div class="g-card"><strong>Ematuria:</strong> presenza di sangue nelle urine, visibile a occhio nudo o rilevabile solo con un esame di laboratorio.</div>
+            <div class="g-card"><strong>Epididimite:</strong> infiammazione dell&#x27;epididimo, la struttura adiacente al testicolo.</div>
+            <div class="g-card"><strong>Iperplasia prostatica benigna:</strong> ingrossamento non tumorale della prostata.</div>
+            <div class="g-card"><strong>Infertilità maschile:</strong> ridotta capacità di concepire, legata a fattori come bassa produzione di spermatozoi, scarsa motilità o alterazioni morfologiche.</div>
+            <div class="g-card"><strong>Prostatite:</strong> infiammazione della prostata, può essere acuta o cronica, batterica o non batterica.</div>
+            <div class="g-card"><strong>PSA (antigene prostatico specifico):</strong> esame del sangue utilizzato per monitorare la salute della prostata.</div>
+            <div class="g-card"><strong>Spermiogramma:</strong> esame di laboratorio che analizza la qualità e la quantità degli spermatozoi.</div>
+            <div class="g-card"><strong>Varicocele:</strong> dilatazione anomala delle vene del testicolo.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Otorinolaringoiatria</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Acufene:</strong> percezione di ronzii o fischi nelle orecchie.</div>
+            <div class="g-card"><strong>Audiometria:</strong> esame che valuta la capacità uditiva.</div>
+            <div class="g-card"><strong>Disfonia:</strong> alterazione o abbassamento della voce.</div>
+            <div class="g-card"><strong>Epistassi:</strong> fuoriuscita di sangue dal naso.</div>
+            <div class="g-card"><strong>Faringite:</strong> infiammazione della gola.</div>
+            <div class="g-card"><strong>Ipoacusia:</strong> riduzione dell&#x27;udito.</div>
+            <div class="g-card"><strong>Laringite:</strong> infiammazione della laringe e delle corde vocali.</div>
+            <div class="g-card"><strong>Otite:</strong> infiammazione dell&#x27;orecchio.</div>
+            <div class="g-card"><strong>Rinite:</strong> infiammazione della mucosa nasale.</div>
+            <div class="g-card"><strong>Sinusite:</strong> infiammazione dei seni paranasali.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Oculistica</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Astigmatismo:</strong> difetto visivo causato da una curvatura irregolare della cornea.</div>
+            <div class="g-card"><strong>Cataratta:</strong> opacizzazione del cristallino che causa visione offuscata o sbiadita.</div>
+            <div class="g-card"><strong>Congiuntivite:</strong> infiammazione della congiuntiva.</div>
+            <div class="g-card"><strong>Fosfeni:</strong> percezione di lampi o bagliori luminosi.</div>
+            <div class="g-card"><strong>Fotofobia:</strong> fastidio o intolleranza alla luce.</div>
+            <div class="g-card"><strong>Glaucoma:</strong> malattia dell&#x27;occhio associata a danno del nervo ottico.</div>
+            <div class="g-card"><strong>Maculopatia:</strong> patologia che interessa la macula della retina.</div>
+            <div class="g-card"><strong>Miodesopsie:</strong> percezione di corpi mobili nel campo visivo.</div>
+            <div class="g-card"><strong>Miopia:</strong> difficoltà a vedere nitidamente da lontano.</div>
+            <div class="g-card"><strong>Presbiopia:</strong> difficoltà a vedere da vicino.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Chirurgia Generale e Toracica</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Aderenze:</strong> bande di tessuto cicatriziale tra organi o tessuti.</div>
+            <div class="g-card"><strong>Ascesso:</strong> raccolta localizzata di pus.</div>
+            <div class="g-card"><strong>Biopsia:</strong> prelievo di tessuto per analisi diagnostica.</div>
+            <div class="g-card"><strong>Cisti:</strong> formazione chiusa contenente liquido o materiale semisolido.</div>
+            <div class="g-card"><strong>Drenaggio:</strong> procedura per rimuovere liquidi o secrezioni.</div>
+            <div class="g-card"><strong>Ernia:</strong> fuoriuscita di un organo attraverso una parete anatomica.</div>
+            <div class="g-card"><strong>Fistola:</strong> comunicazione anomala tra due organi o tessuti.</div>
+            <div class="g-card"><strong>Laparocele:</strong> ernia che si sviluppa su una cicatrice chirurgica.</div>
+            <div class="g-card"><strong>Pneumotorace:</strong> presenza di aria tra polmone e parete toracica.</div>
+            <div class="g-card"><strong>Stomia:</strong> apertura chirurgica che mette in comunicazione un organo con l&#x27;esterno.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Odontoiatria</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Afta:</strong> piccola ulcerazione dolorosa della mucosa orale.</div>
+            <div class="g-card"><strong>Ascesso dentale:</strong> raccolta di pus associata a un&#x27;infezione dentale.</div>
+            <div class="g-card"><strong>Bruxismo:</strong> digrignamento involontario dei denti.</div>
+            <div class="g-card"><strong>Carie:</strong> distruzione progressiva dei tessuti del dente.</div>
+            <div class="g-card"><strong>Endodonzia:</strong> trattamento dei canali interni del dente.</div>
+            <div class="g-card"><strong>Gengivite:</strong> infiammazione delle gengive.</div>
+            <div class="g-card"><strong>Implantologia:</strong> branca che si occupa degli impianti dentali.</div>
+            <div class="g-card"><strong>Ortodonzia:</strong> specialità che si occupa della correzione dell&#x27;allineamento dei denti.</div>
+            <div class="g-card"><strong>Parodontite:</strong> infiammazione dei tessuti di supporto del dente.</div>
+            <div class="g-card"><strong>Tartaro:</strong> deposito calcificato derivato dalla placca batterica.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Diabetologia ed Endocrinologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Chetoacidosi:</strong> grave complicanza del diabete causata da carenza di insulina.</div>
+            <div class="g-card"><strong>Emoglobina glicata:</strong> esame che misura la glicemia media degli ultimi mesi.</div>
+            <div class="g-card"><strong>Glicemia:</strong> concentrazione di glucosio nel sangue.</div>
+            <div class="g-card"><strong>Insulinoresistenza:</strong> ridotta risposta delle cellule all&#x27;insulina.</div>
+            <div class="g-card"><strong>Ipertiroidismo:</strong> eccessiva produzione di ormoni tiroidei.</div>
+            <div class="g-card"><strong>Ipotiroidismo:</strong> ridotta produzione di ormoni tiroidei.</div>
+            <div class="g-card"><strong>Irsutismo:</strong> crescita eccessiva di peli nelle donne.</div>
+            <div class="g-card"><strong>Polidipsia:</strong> sete intensa e persistente.</div>
+            <div class="g-card"><strong>Poliuria:</strong> aumento della quantità di urine prodotte.</div>
+            <div class="g-card"><strong>Tiroidite:</strong> infiammazione della ghiandola tiroidea.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Pneumologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Apnea notturna:</strong> interruzione temporanea della respirazione durante il sonno.</div>
+            <div class="g-card"><strong>Asma:</strong> malattia infiammatoria cronica delle vie respiratorie.</div>
+            <div class="g-card"><strong>BPCO:</strong> broncopneumopatia cronica ostruttiva che limita il flusso d&#x27;aria.</div>
+            <div class="g-card"><strong>Bronchite:</strong> infiammazione dei bronchi.</div>
+            <div class="g-card"><strong>Cianosi:</strong> colorazione bluastra della pelle per carenza di ossigeno.</div>
+            <div class="g-card"><strong>Dispnea:</strong> difficoltà o affanno respiratorio.</div>
+            <div class="g-card"><strong>Emottisi:</strong> emissione di sangue proveniente dalle vie respiratorie.</div>
+            <div class="g-card"><strong>Saturimetria:</strong> misurazione della quantità di ossigeno nel sangue.</div>
+            <div class="g-card"><strong>Spirometria:</strong> esame non invasivo che valuta la funzionalità polmonare.</div>
+            <div class="g-card"><strong>Versamento pleurico:</strong> accumulo di liquido nello spazio pleurico.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Ematologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Adenopatia:</strong> ingrossamento anomalo dei linfonodi, detto anche linfoadenopatia.</div>
+            <div class="g-card"><strong>Anemia:</strong> riduzione del numero di globuli rossi o dei livelli di emoglobina nel sangue.</div>
+            <div class="g-card"><strong>Emofilia:</strong> malattia genetica che compromette la capacità del sangue di coagulare correttamente.</div>
+            <div class="g-card"><strong>Emocromo:</strong> esame del sangue di base che misura e analizza tutti i principali componenti del sangue.</div>
+            <div class="g-card"><strong>Leucemia:</strong> tumore del sangue che origina nel midollo osseo, dove si produce una quantità anomala di globuli bianchi non funzionali.</div>
+            <div class="g-card"><strong>Leucocitosi:</strong> aumento del numero di globuli bianchi nel sangue.</div>
+            <div class="g-card"><strong>Mieloma multiplo:</strong> tumore maligno che colpisce le plasmacellule del midollo osseo.</div>
+            <div class="g-card"><strong>Piastrinopenia:</strong> riduzione del numero di piastrine nel sangue, con conseguente difficoltà nella coagulazione.</div>
+            <div class="g-card"><strong>Splenomegalia:</strong> ingrossamento anomalo della milza, rilevabile alla palpazione addominale.</div>
+            <div class="g-card"><strong>Talassemia:</strong> malattia ereditaria del sangue che riduce la produzione di emoglobina funzionale.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Malattie Infettive e Immunologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Anamnesi epidemiologica:</strong> ricostruzione dei contatti avuti e dei luoghi frequentati di recente da un paziente, utile per tracciare l&#x27;origine e la diffusione di un&#x27;infezione.</div>
+            <div class="g-card"><strong>Anticorpo:</strong> proteina prodotta dal sistema immunitario in risposta alla presenza di un agente estraneo.</div>
+            <div class="g-card"><strong>Antigene:</strong> qualsiasi sostanza estranea all&#x27;organismo, come un virus, un batterio o una tossina, che attiva una risposta del sistema immunitario.</div>
+            <div class="g-card"><strong>Autoimmunità:</strong> condizione in cui il sistema immunitario non riconosce correttamente i tessuti dell&#x27;organismo e li attacca come se fossero estranei.</div>
+            <div class="g-card"><strong>Esantema:</strong> eruzione cutanea diffusa, solitamente associata a un&#x27;infezione virale o batterica.</div>
+            <div class="g-card"><strong>Immunosoppressione:</strong> riduzione della capacità del sistema immunitario di difendere l&#x27;organismo.</div>
+            <div class="g-card"><strong>Linfociti:</strong> cellule del sangue appartenenti alla categoria dei globuli bianchi, fondamentali per la risposta immunitaria. Riconoscono gli agenti patogeni e coordinano le difese dell&#x27;organismo.</div>
+            <div class="g-card"><strong>Meningite:</strong> infiammazione delle membrane che avvolgono il cervello e il midollo spinale, causata da virus o batteri.</div>
+            <div class="g-card"><strong>Mialgia:</strong> dolore muscolare diffuso, tipico di infezioni come l&#x27;influenza.</div>
+            <div class="g-card"><strong>Sepsi:</strong> risposta infiammatoria grave e generalizzata dell&#x27;organismo a un&#x27;infezione.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Reumatologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Artrite:</strong> infiammazione delle articolazioni non legata a trauma meccanico. Causa dolore, gonfiore e rigidità.</div>
+            <div class="g-card"><strong>Artropatia:</strong> termine generico per indicare una malattia articolare.</div>
+            <div class="g-card"><strong>Eritema a farfalla:</strong> arrossamento tipico del volto, soprattutto guance e dorso del naso, associato spesso al Lupus Eritematoso Sistemico (LES).</div>
+            <div class="g-card"><strong>Fibromialgia:</strong> sindrome caratterizzata da dolore muscoloscheletrico diffuso, affaticamento e disturbi del sonno.</div>
+            <div class="g-card"><strong>Gotta:</strong> forma di artrite dolorosa causata da un accumulo di acido urico nel sangue (iperuricemia).</div>
+            <div class="g-card"><strong>PCR:</strong> proteina c reattiva, marker di infiammazione acuta nel sangue.</div>
+            <div class="g-card"><strong>Rigidità mattutina:</strong> difficoltà a muovere le articolazioni al risveglio.</div>
+            <div class="g-card"><strong>Sclerodermia:</strong> rara malattia autoimmune con ispessimento e irrigidimento della cute e, nei casi più severi, degli organi interni.</div>
+            <div class="g-card"><strong>Sindrome di Raynaud:</strong> disturbo che provoca un&#x27;improvvisa e anomala costrizione dei piccoli vasi sanguigni (vasospasmo), riducendo l&#x27;afflusso di sangue alle estremità del corpo.</div>
+            <div class="g-card"><strong>VES:</strong> velocità di eritrosedimentazione. Esame del sangue che può indicare la presenza di un’infiammazione.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Nefrologia e Urologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Calcolosi renale:</strong> presenza di calcoli nei reni o nelle vie urinarie. Può essere del tutto asintomatica o causare dolore intenso quando i calcoli si spostano.</div>
+            <div class="g-card"><strong>Colica renale:</strong> dolore acuto e improvviso nella zona lombare, causato dal passaggio di un calcolo lungo le vie urinarie.</div>
+            <div class="g-card"><strong>Creatininemia:</strong> valore misurato nel sangue che indica quanto bene i reni filtrano i prodotti di scarto del metabolismo muscolare. Un valore elevato può segnalare una ridotta funzionalità renale.</div>
+            <div class="g-card"><strong>Dialisi:</strong> trattamento che sostituisce la funzione del rene quando questo non è più in grado di filtrare il sangue autonomamente. Può essere temporanea o permanente.</div>
+            <div class="g-card"><strong>Disuria:</strong> difficoltà o dolore durante la minzione, spesso accompagnata da bruciore o senso di urgenza. Frequente nelle infezioni delle vie urinarie.</div>
+            <div class="g-card"><strong>Ematuria:</strong> presenza di sangue nelle urine, visibile a occhio nudo o rilevabile solo con un esame di laboratorio. Richiede sempre una valutazione medica.</div>
+            <div class="g-card"><strong>Insufficienza renale:</strong> riduzione, acuta o cronica, della capacità dei reni di filtrare i rifiuti e regolare i liquidi nell&#x27;organismo.</div>
+            <div class="g-card"><strong>Oliguria:</strong> produzione di urina significativamente inferiore al normale. Può essere un segnale di disidratazione o di un problema renale.</div>
+            <div class="g-card"><strong>Proteinuria:</strong> presenza anomala di proteine nelle urine, rilevabile con un esame delle urine. Può indicare un danno ai reni o una malattia sistemica.</div>
+            <div class="g-card"><strong>PSA (antigene prostatico specifico):</strong> esame del sangue utilizzato per monitorare la salute della prostata.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Geriatria</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Decadimento cognitivo:</strong> progressiva riduzione delle capacità mentali che può essere un segnale precoce di Alzheimer o di altre forme di demenza.</div>
+            <div class="g-card"><strong>Delirium:</strong> stato di confusione mentale acuto e temporaneo, caratterizzato da disorientamento e agitazione, più frequente negli anziani.</div>
+            <div class="g-card"><strong>Fragilità ossea:</strong> condizione tipica dell&#x27;età avanzata, spesso legata all&#x27;osteoporosi, che aumenta il rischio di fratture anche in seguito a cadute lievi.</div>
+            <div class="g-card"><strong>Incontinenza:</strong> perdita involontaria del controllo della vescica o dell&#x27;intestino.</div>
+            <div class="g-card"><strong>Ipotensione ortostatica:</strong> calo improvviso della pressione sanguigna al momento di alzarsi in piedi, che può causare capogiri o svenimenti.</div>
+            <div class="g-card"><strong>Malnutrizione:</strong> apporto insufficiente di nutrienti o liquidi, spesso associato a perdita di appetito, difficoltà a deglutire o isolamento.</div>
+            <div class="g-card"><strong>Parkinsonismi:</strong> condizioni neurologiche che producono sintomi simili al Parkinson, aumentando il rischio di cadute.</div>
+            <div class="g-card"><strong>Piaghe da decubito:</strong> lesioni cutanee causate dalla pressione prolungata su una zona del corpo, tipiche dei pazienti allettati.</div>
+            <div class="g-card"><strong>Politerapia:</strong> assunzione contemporanea di cinque o più farmaci.</div>
+            <div class="g-card"><strong>Sarcopenia:</strong> perdita progressiva di massa e forza muscolare legata all&#x27;invecchiamento. Causa debolezza, difficoltà nei movimenti e aumenta il rischio di cadute.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Nutrizione e Dietologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Anoressia nervosa:</strong> disturbo alimentare caratterizzato da una restrizione estrema del cibo, paura intensa di aumentare di peso e un&#x27;alterata percezione del proprio corpo.</div>
+            <div class="g-card"><strong>BMI (indice di massa corporea):</strong> valore calcolato in base a peso e altezza, utilizzato per valutare se una persona è sottopeso, normopeso, sovrappeso oppure obesa.</div>
+            <div class="g-card"><strong>Bulimia nervosa:</strong> disturbo alimentare caratterizzato da episodi ricorrenti di abbuffate seguiti da comportamenti compensatori.</div>
+            <div class="g-card"><strong>Celiachia:</strong> intolleranza permanente al glutine, di natura autoimmune.</div>
+            <div class="g-card"><strong>Colesterolemia:</strong> livello di colesterolo nel sangue.</div>
+            <div class="g-card"><strong>DCA (disturbi del comportamento alimentare):</strong> categoria clinica che include anoressia nervosa, bulimia, binge eating disorder e altri disturbi legati a un rapporto alterato con il cibo e con il proprio corpo.</div>
+            <div class="g-card"><strong>Disfagia:</strong> difficoltà a deglutire cibi solidi o liquidi.</div>
+            <div class="g-card"><strong>Glicemia:</strong> misura il livello di zucchero nel sangue.</div>
+            <div class="g-card"><strong>Indice glicemico:</strong> indica la velocità con cui un alimento fa aumentare la glicemia.</div>
+            <div class="g-card"><strong>Intolleranza al lattosio:</strong> incapacità di digerire il lattosio, lo zucchero del latte, a causa di una carenza dell&#x27;enzima lattasi.</div>
+            <div class="g-card"><strong>Metabolismo basale:</strong> quantità di energia minima che l&#x27;organismo consuma a riposo per mantenere le funzioni vitali.</div>
+          </div>
+
+          <h3
+            style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
+            Pediatria e Neo-Natologia</h3>
+          <div class="grid-cards">
+            <div class="g-card"><strong>Apgar:</strong> valutazione effettuata dal neonatologo subito dopo la nascita, a 1 e a 5 minuti di vita. Misura colore della pelle, frequenza cardiaca, riflessi, tono muscolare e respiro.</div>
+            <div class="g-card"><strong>Bocca-mani-piedi:</strong> infezione virale frequente nei bambini piccoli, caratterizzata da febbre e piccole vesciche nella bocca, sui palmi delle mani e sulle piante dei piedi.</div>
+            <div class="g-card"><strong>Bronchiolite:</strong> infezione virale acuta delle vie respiratorie inferiori, più comune nei neonati e nei lattanti durante i mesi invernali.</div>
+            <div class="g-card"><strong>Colica del neonato:</strong> episodi di pianto intenso e prolungato nei primi mesi di vita, spesso attribuiti a crampi intestinali o gas.</div>
+            <div class="g-card"><strong>Crosta lattea:</strong> accumulo di secrezioni sebacee sul cuoio capelluto del neonato.</div>
+            <div class="g-card"><strong>Enuresi:</strong> perdita involontaria di urina durante il sonno, comunemente detta &quot;fare la pipì a letto&quot;.</div>
+            <div class="g-card"><strong>Morbillo:</strong> malattia infettiva virale altamente contagiosa, caratterizzata da febbre alta e un&#x27;eruzione cutanea che si diffonde progressivamente. Oggi è prevenibile con la vaccinazione.</div>
+            <div class="g-card"><strong>Scarlattina:</strong> infezione batterica causata dallo streptococco, frequente in età scolare. Si manifesta con febbre, mal di gola e un&#x27;eruzione cutanea rossa e diffusa.</div>
+            <div class="g-card"><strong>SIDS (morte in culla):</strong> acronimo di Sudden Infant Death Syndrome, indica la morte improvvisa e inspiegabile di un neonato apparentemente sano durante il sonno.</div>
+            <div class="g-card"><strong>Sesta malattia:</strong> infezione virale infantile che causa febbre alta, seguita dalla comparsa di un&#x27;eruzione rosata non pruriginosa.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="legal-footer">
+      <button id="install-app-btn" class="install-app-btn hidden" type="button">Installa AIutoDoc</button>
+      <div class="legal-footer-grid">
+        <div class="footer-col">
+          <strong>AIutoDoc - progetto in fase di costituzione</strong>
+          <p>AIutoDoc.it è attualmente in fase di MVP e operato come progetto personale. Le informazioni societarie saranno aggiornate al momento della costituzione.</p>
+        </div>
+        <div class="footer-col">
+          <strong>Contatti</strong>
+          <p>Email: <a href="mailto:info@aiutodoc.it">info@aiutodoc.it</a><br>Referente privacy: <a href="mailto:info@aiutodoc.it">info@aiutodoc.it</a><br>PEC: ggagliostro@pec.it</p>
+        </div>
+        <div class="footer-col">
+          <strong>Informazioni legali</strong>
+          <div class="footer-links">
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <a href="/termini-condizioni/">Termini e Condizioni</a>
+            <a href="/cookie-policy/">Cookie Policy</a>
+            <a href="/disclaimer-medico/">Disclaimer Medico</a>
+            <button type="button" id="manage-cookie-preferences" class="footer-link-button">Gestisci preferenze cookie</button>
+          </div>
+        </div>
+        <div class="footer-col">
+          <strong>Copyright</strong>
+          <p>&copy; 2026 AIutoDoc - Tutti i diritti riservati.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
+      const GA_MEASUREMENT_ID = 'G-9C1TRG2K0X';
+      const cookieConsent = document.getElementById('cookie-consent');
+      const cookieCustomizePanel = document.getElementById('cookie-customize-panel');
+      const cookieAnalytics = document.getElementById('cookie-analytics');
+      const cookieAcceptAll = document.getElementById('cookie-accept-all');
+      const cookieRejectAll = document.getElementById('cookie-reject-all');
+      const cookieCustomize = document.getElementById('cookie-customize');
+      const cookieSaveCustom = document.getElementById('cookie-save-custom');
+      const manageCookiePreferences = document.getElementById('manage-cookie-preferences');
+      const menuToggle = document.getElementById('menu-toggle');
+      const mainNav = document.querySelector('.main-nav');
+      const closeLegalBtn = document.getElementById('close-legal-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      const recoveryBtn = document.getElementById('recovery-btn');
+      const splash = document.getElementById('app-splash');
+      const banner = document.querySelector('.banner-img');
+
+      function readJsonStorage(key) {
+        try {
+          const raw = window.localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : null;
+        } catch (error) {
+          console.warn('Impossibile leggere localStorage:', error);
+          return null;
+        }
+      }
+
+      function writeJsonStorage(key, value) {
+        try {
+          window.localStorage.setItem(key, JSON.stringify(value));
+        } catch (error) {
+          console.warn('Impossibile salvare localStorage:', error);
+        }
+      }
+
+      function loadGoogleAnalytics() {
+        if (window.__aiutodocGaLoaded) return;
+        window.__aiutodocGaLoaded = true;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){ window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', GA_MEASUREMENT_ID, { anonymize_ip: true });
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_MEASUREMENT_ID);
+        document.head.appendChild(script);
+      }
+
+      function applyCookiePreferences(preferences) {
+        if (preferences && preferences.analytics === true) {
+          loadGoogleAnalytics();
+        }
+      }
+
+      function hideCookieBanner() {
+        if (cookieConsent) cookieConsent.classList.add('hidden');
+      }
+
+      function showCookieBanner(customizeFirst) {
+        if (!cookieConsent) return;
+        cookieConsent.classList.remove('hidden');
+        const saved = readJsonStorage(COOKIE_CONSENT_KEY);
+        if (cookieAnalytics) cookieAnalytics.checked = !!(saved && saved.analytics);
+        if (customizeFirst && cookieCustomizePanel && cookieSaveCustom) {
+          cookieCustomizePanel.classList.remove('hidden');
+          cookieSaveCustom.classList.remove('hidden');
+        }
+      }
+
+      function saveCookiePreferences(preferences) {
+        const record = {
+          necessary: true,
+          analytics: preferences.analytics === true,
+          marketing: false,
+          savedAt: new Date().toISOString(),
+          expiresAt: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString()
+        };
+        writeJsonStorage(COOKIE_CONSENT_KEY, record);
+        applyCookiePreferences(record);
+        hideCookieBanner();
+      }
+
+      if (cookieAcceptAll) {
+        cookieAcceptAll.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: true });
+        });
+      }
+      if (cookieRejectAll) {
+        cookieRejectAll.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: false });
+        });
+      }
+      if (cookieCustomize) {
+        cookieCustomize.addEventListener('click', function() {
+          if (cookieCustomizePanel) cookieCustomizePanel.classList.remove('hidden');
+          if (cookieSaveCustom) cookieSaveCustom.classList.remove('hidden');
+        });
+      }
+      if (cookieSaveCustom) {
+        cookieSaveCustom.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: cookieAnalytics && cookieAnalytics.checked });
+        });
+      }
+      if (manageCookiePreferences) {
+        manageCookiePreferences.addEventListener('click', function() {
+          showCookieBanner(true);
+        });
+      }
+
+      const storedCookiePreferences = readJsonStorage(COOKIE_CONSENT_KEY);
+      const storedCookieExpired = storedCookiePreferences && Date.parse(storedCookiePreferences.expiresAt || '') <= Date.now();
+      if (storedCookiePreferences && !storedCookieExpired) {
+        applyCookiePreferences(storedCookiePreferences);
+      } else {
+        showCookieBanner(false);
+      }
+
+      if (menuToggle && mainNav) {
+        const syncMenuState = function(isOpen) {
+          mainNav.classList.toggle('open', isOpen);
+          document.body.classList.toggle('menu-open', isOpen);
+          menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          menuToggle.textContent = isOpen ? 'Chiudi' : 'Menu';
+        };
+
+        syncMenuState(false);
+
+        menuToggle.addEventListener('click', function(event) {
+          event.stopPropagation();
+          syncMenuState(!mainNav.classList.contains('open'));
+        });
+
+        mainNav.querySelectorAll('button, a').forEach(function(el) {
+          el.addEventListener('click', function() {
+            syncMenuState(false);
+          });
+        });
+
+        document.addEventListener('click', function(event) {
+          if (!mainNav.classList.contains('open')) return;
+          if (mainNav.contains(event.target) || menuToggle.contains(event.target)) return;
+          syncMenuState(false);
+        });
+
+        window.addEventListener('resize', function() {
+          if (window.innerWidth > 950) {
+            syncMenuState(false);
+          }
+        });
+      }
+
+      if (banner) {
+        banner.setAttribute('role', 'button');
+        banner.setAttribute('tabindex', '0');
+        banner.setAttribute('title', 'Torna alla home');
+
+        const goHome = function() { window.location.href = '/'; };
+        banner.addEventListener('click', goHome);
+        banner.addEventListener('keydown', function(event) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            goHome();
+          }
+        });
+      }
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+          window.location.href = '/';
+        });
+      }
+
+      if (recoveryBtn) {
+        recoveryBtn.addEventListener('click', function() {
+          window.location.href = '/';
+        });
+      }
+
+      if (closeLegalBtn) {
+        closeLegalBtn.addEventListener('click', function() {
+          document.getElementById('legal-modal')?.classList.add('hidden');
+        });
+      }
+
+      if (splash) {
+        window.requestAnimationFrame(function() {
+          setTimeout(function() {
+            splash.classList.add('hidden');
+          }, 160);
+        });
+      }
+    })();
+  </script>
+
+
+  <script>
+    (function() {
+      const glossarySearchInput = document.getElementById('glossary-search');
+      const gCards = document.querySelectorAll('.g-card');
+      gCards.forEach(function(card) {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function() {
+          const strongTag = card.querySelector('strong');
+          if (strongTag) {
+            const term = strongTag.innerText.replace(':', '').trim();
+            window.open('https://www.google.com/search?q=' + encodeURIComponent(term + ' significato medico'), '_blank');
+          }
+        });
+      });
+      if (glossarySearchInput) {
+        glossarySearchInput.addEventListener('input', function(e) {
+          const val = e.target.value.toLowerCase().trim();
+          gCards.forEach(function(card) {
+            card.style.display = card.innerText.toLowerCase().indexOf(val) > -1 ? 'block' : 'none';
+          });
+          const categories = document.querySelectorAll('#glossary-section h3');
+          categories.forEach(function(cat) {
+            const grid = cat.nextElementSibling;
+            if (grid && grid.classList.contains('grid-cards')) {
+              const hasVisible = Array.from(grid.querySelectorAll('.g-card')).some(function(c) { return c.style.display !== 'none'; });
+              cat.style.display = hasVisible ? 'block' : 'none';
+              grid.style.display = hasVisible ? 'grid' : 'none';
+            }
+          });
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>

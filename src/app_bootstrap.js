@@ -52,7 +52,7 @@ function setupMobileMenu() {
         syncMenuState(!mainNav.classList.contains('open'));
     };
 
-    mainNav.querySelectorAll('[data-target], #reset-btn, #recovery-btn').forEach((el) => {
+    mainNav.querySelectorAll('[data-target], #reset-btn, #recovery-btn, #recovery-page-btn').forEach((el) => {
         el.addEventListener('click', () => syncMenuState(false));
     });
 
