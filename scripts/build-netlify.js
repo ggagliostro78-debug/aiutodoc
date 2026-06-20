@@ -13,10 +13,15 @@ const entries = [
   "service-worker.js",
   "src",
   "assets",
+  "chi-siamo",
   "cookie-policy",
   "privacy-policy",
   "disclaimer-medico",
-  "termini-condizioni"
+  "termini-condizioni",
+  "glossario",
+  "per-gli-specialisti",
+  "recupera-ricerca",
+  "specializzazioni"
 ];
 
 function copyRecursive(source, target) {
