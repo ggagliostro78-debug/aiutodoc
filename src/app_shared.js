@@ -170,7 +170,21 @@ async function loadSDK() {
 
 function trackEvent(eventName, params = {}) {
     if (typeof gtag === 'function') {
-        gtag('event', eventName, params);
+        const reservedParamMap = {
+            source: 'event_source',
+            medium: 'event_medium',
+            campaign: 'event_campaign',
+            term: 'event_term',
+            content: 'event_content'
+        };
+        const safeParams = {};
+
+        Object.entries(params || {}).forEach(([key, value]) => {
+            const safeKey = reservedParamMap[key] || key;
+            safeParams[safeKey] = value;
+        });
+
+        gtag('event', eventName, safeParams);
     }
 }
 

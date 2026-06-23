@@ -107,7 +107,7 @@ function setupInstallPrompt() {
         deferredPrompt = event;
         installBtn.classList.remove('hidden');
         trackEvent('pwa_install_prompt_available', {
-            source: 'beforeinstallprompt'
+            prompt_origin: 'beforeinstallprompt'
         });
     });
 
@@ -115,7 +115,7 @@ function setupInstallPrompt() {
         if (!deferredPrompt) return;
 
         trackEvent('pwa_install_button_click', {
-            source: 'install_app_button'
+            prompt_origin: 'install_app_button'
         });
         deferredPrompt.prompt();
         const choice = await deferredPrompt.userChoice;
@@ -131,7 +131,7 @@ function setupInstallPrompt() {
         deferredPrompt = null;
         installBtn.classList.add('hidden');
         trackEvent('pwa_app_installed', {
-            source: 'appinstalled'
+            prompt_origin: 'appinstalled'
         });
     });
 }
