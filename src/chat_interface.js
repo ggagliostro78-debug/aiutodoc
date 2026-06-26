@@ -92,9 +92,8 @@ class ChatInterface {
 
     _enhanceMultipleChoiceBubble(bubble) {
         bubble.querySelectorAll('i').forEach((italicBlock) => {
-            const rawText = italicBlock.innerHTML
-                .replace(/<br\s*\/?>/gi, '\n')
-                .replace(/<[^>]+>/g, '');
+            // Read the parsed DOM text so entities such as &nbsp; stay whitespace, not visible text.
+            const rawText = normalizeMedicalText(italicBlock.innerText || italicBlock.textContent || '');
             const lines = rawText
                 .split(/\n+/)
                 .map((line) => line.trim())

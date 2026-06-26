@@ -85,7 +85,7 @@ class TriageEngine {
             case '5C_DETTAGLIO_CONDIZIONATO':
                 placeholder = this.currentConditionalDetail === "weight_kg"
                     ? "Inserisci il peso in kg. Es. 72"
-                    : "Inserisci l'et? precisa. Es. 47";
+                    : "Inserisci l'età precisa. Es. 47";
                 break;
             case '4B_NOTA_CONOSCITIVA':
             case '5B_NOTA_ANAMNESTICA':
@@ -116,7 +116,7 @@ class TriageEngine {
             "18_39": "18-39 anni",
             "40_64": "40-64 anni",
             "65_74": "65-74 anni",
-            "75_plus": "75 anni o pi?"
+            "75_plus": "75 anni o più"
         };
         return normalizeMedicalText(labels[value] || "");
     }
@@ -139,7 +139,7 @@ class TriageEngine {
         const allowedAgeRanges = ["0_2", "3_5", "6_12", "13_17", "18_39", "40_64", "65_74", "75_plus"];
 
         if (!data.age_range || !allowedAgeRanges.includes(data.age_range)) {
-            errors.age = "Seleziona una fascia di et? per continuare.";
+            errors.age = "Seleziona una fascia di età per continuare.";
         }
 
         if (!data.sex_at_birth || !allowedSexAtBirth.includes(data.sex_at_birth)) {
@@ -193,7 +193,7 @@ class TriageEngine {
         }
 
         if (options.echoUserMessage && window.chatUI) {
-            window.chatUI.addMessage(`Fascia di et?: ${ageRangeLabel}. Sesso biologico: ${sexLabel}.`, 'user-msg');
+            window.chatUI.addMessage(`Fascia di età: ${ageRangeLabel}. Sesso biologico: ${sexLabel}.`, 'user-msg');
         }
 
         trackEvent('triage_started', {
@@ -275,8 +275,8 @@ class TriageEngine {
         this.currentConditionalDetail = next;
         this.state = '5C_DETTAGLIO_CONDIZIONATO';
         const message = next === "weight_kg"
-            ? "Per questo percorso il peso puÃƒÆ’Ã‚Â² essere clinicamente rilevante. Indica il peso in kg, ad esempio <strong>72</strong>."
-            : "Per questo percorso serve anche l'etÃƒÂ  puntuale. Indica l'etÃƒÂ  precisa in anni, ad esempio <strong>47</strong>.";
+            ? "Per questo percorso il peso può essere clinicamente rilevante. Indica il peso in kg, ad esempio <strong>72</strong>."
+            : "Per questo percorso serve anche l'età puntuale. Indica l'età precisa in anni, ad esempio <strong>47</strong>.";
         this.onMessage(message);
         this._updatePlaceholder();
     }
@@ -287,7 +287,7 @@ class TriageEngine {
 
         if (this.currentConditionalDetail === "exact_age") {
             if (!Number.isInteger(numberValue) || numberValue < 0 || numberValue > 120) {
-                this.onMessage("Errore: inserisci un'etÃƒÆ’Ã‚Â  valida compresa tra 0 e 120 anni.", "system-msg danger");
+                this.onMessage("Errore: inserisci un'età valida compresa tra 0 e 120 anni.", "system-msg danger");
                 return;
             }
             this.userData.exact_age = numberValue;
@@ -654,7 +654,7 @@ class TriageEngine {
         // Questa logica riutilizza il blocco HTML definitivo (adattato per includere il tasto PDF)
         const triageID = resultObj.id || this.currentTriageID;
         
-        // (VerrÃƒÆ’Ã‚Â  implementata meglio nel chunk successivo inserendo il bottone PDF)
+        // (Verrà implementata meglio nel chunk successivo inserendo il bottone PDF)
     }
 
     _detectUrgency(text) {
@@ -735,7 +735,7 @@ class TriageEngine {
 
                 // Se non troviamo nulla di utile
                 if (!sexMatch && !ageMatch) {
-                   this.onMessage("Errore: Dati non chiari. Per favore inserisci etÃƒÆ’Ã‚Â  e sesso biologico, oppure scegli 'Preferisco non specificare'.", "system-msg danger");
+                   this.onMessage("Errore: Dati non chiari. Per favore inserisci età e sesso biologico, oppure scegli 'Preferisco non specificare'.", "system-msg danger");
                    return;
                 }
 
@@ -750,14 +750,14 @@ class TriageEngine {
                 const ageNum = ageMatch ? parseInt(ageMatch[0], 10) : null;
 
                 if (ageNum === null || ageNum < 0 || ageNum > 120) {
-                    this.onMessage("Errore: inserita non ÃƒÆ’Ã‚Â¨ valida. Per procedere ÃƒÆ’Ã‚Â¨ necessario inserire un'etÃƒÆ’Ã‚Â  reale compresa tra 0 e 120 anni (es: Maschio, 47).", "system-msg danger");
+                    this.onMessage("Errore: inserita non è valida. Per procedere è necessario inserire un'età reale compresa tra 0 e 120 anni (es: Maschio, 47).", "system-msg danger");
                     return;
                 }
                 
                 this.userData.sessoEta = `${sesso}, ${ageNum} anni`;
-                console.log("Engine: Sesso ed EtÃƒÆ’Ã‚Â  validati ->", this.userData.sessoEta);
+                console.log("Engine: Sesso ed Età validati ->", this.userData.sessoEta);
                 this.state = '2_ZONA';
-                this.onMessage(`Perfetto: <strong>${this.userData.sessoEta}</strong>. <br><br><strong>Qual ÃƒÆ’Ã‚Â¨ la tua zona geografica (Comune e Provincia)?</strong>`);
+                this.onMessage(`Perfetto: <strong>${this.userData.sessoEta}</strong>. <br><br><strong>Qual è la tua zona geografica (Comune e Provincia)?</strong>`);
                 this._updatePlaceholder();
                 break;
 
@@ -766,7 +766,7 @@ class TriageEngine {
 
                 // Mappatura delle 107 sigle provinciali italiane
                 const provinceIt = {
-                    "AG": "Agrigento", "AL": "Alessandria", "AN": "Ancona", "AO": "Aosta", "AR": "Arezzo", "AP": "Ascoli Piceno", "AT": "Asti", "AV": "Avellino", "BA": "Bari", "BT": "Barletta-Andria-Trani", "BL": "Belluno", "BN": "Benevento", "BG": "Bergamo", "BI": "Biella", "BO": "Bologna", "BZ": "Bolzano", "BS": "Brescia", "BR": "Brindisi", "CA": "Cagliari", "CL": "Caltanissetta", "CB": "Campobasso", "SU": "Sud Sardegna", "CE": "Caserta", "CT": "Catania", "CZ": "Catanzaro", "CH": "Chieti", "CO": "Como", "CS": "Cosenza", "CR": "Cremona", "KR": "Crotone", "CN": "Cuneo", "EN": "Enna", "FM": "Fermo", "FE": "Ferrara", "FI": "Firenze", "FG": "Foggia", "FC": "ForlÃƒÆ’Ã‚Â¬-Cesena", "FR": "Frosinone", "GE": "Genova", "GO": "Gorizia", "GR": "Grosseto", "IM": "Imperia", "IS": "Isernia", "SP": "La Spezia", "AQ": "L'Aquila", "LT": "Latina", "LE": "Lecce", "LC": "Lecco", "LI": "Livorno", "LO": "Lodi", "LU": "Lucca", "MC": "Macerata", "MN": "Mantova", "MS": "Massa-Carrara", "MT": "Matera", "ME": "Messina", "MI": "Milano", "MO": "Modena", "MB": "Monza e della Brianza", "NA": "Napoli", "NO": "Novara", "NU": "Nuoro", "OR": "Oristano", "PD": "Padova", "PA": "Palermo", "PR": "Parma", "PV": "Pavia", "PG": "Perugia", "PU": "Pesaro e Urbino", "PE": "Pescara", "PC": "Piacenza", "PI": "Pisa", "PT": "Pistoia", "PN": "Pordenone", "PZ": "Potenza", "PO": "Prato", "RG": "Ragusa", "RA": "Ravenna", "RC": "Reggio Calabria", "RE": "Reggio Emilia", "RI": "Rieti", "RN": "Rimini", "RM": "Roma", "RO": "Rovigo", "SA": "Salerno", "SS": "Sassari", "SV": "Savona", "SI": "Siena", "SR": "Siracusa", "SO": "Sondrio", "TA": "Taranto", "TE": "Teramo", "TR": "Terni", "TO": "Torino", "TP": "Trapani", "TN": "Trento", "TV": "Treviso", "TS": "Trieste", "UD": "Udine", "VA": "Varese", "VE": "Venezia", "VB": "Verbano-Cusio-Ossola", "VC": "Vercelli", "VR": "Verona", "VV": "Vibo Valentia", "VI": "Vicenza", "VT": "Viterbo"
+                    "AG": "Agrigento", "AL": "Alessandria", "AN": "Ancona", "AO": "Aosta", "AR": "Arezzo", "AP": "Ascoli Piceno", "AT": "Asti", "AV": "Avellino", "BA": "Bari", "BT": "Barletta-Andria-Trani", "BL": "Belluno", "BN": "Benevento", "BG": "Bergamo", "BI": "Biella", "BO": "Bologna", "BZ": "Bolzano", "BS": "Brescia", "BR": "Brindisi", "CA": "Cagliari", "CL": "Caltanissetta", "CB": "Campobasso", "SU": "Sud Sardegna", "CE": "Caserta", "CT": "Catania", "CZ": "Catanzaro", "CH": "Chieti", "CO": "Como", "CS": "Cosenza", "CR": "Cremona", "KR": "Crotone", "CN": "Cuneo", "EN": "Enna", "FM": "Fermo", "FE": "Ferrara", "FI": "Firenze", "FG": "Foggia", "FC": "Forlì-Cesena", "FR": "Frosinone", "GE": "Genova", "GO": "Gorizia", "GR": "Grosseto", "IM": "Imperia", "IS": "Isernia", "SP": "La Spezia", "AQ": "L'Aquila", "LT": "Latina", "LE": "Lecce", "LC": "Lecco", "LI": "Livorno", "LO": "Lodi", "LU": "Lucca", "MC": "Macerata", "MN": "Mantova", "MS": "Massa-Carrara", "MT": "Matera", "ME": "Messina", "MI": "Milano", "MO": "Modena", "MB": "Monza e della Brianza", "NA": "Napoli", "NO": "Novara", "NU": "Nuoro", "OR": "Oristano", "PD": "Padova", "PA": "Palermo", "PR": "Parma", "PV": "Pavia", "PG": "Perugia", "PU": "Pesaro e Urbino", "PE": "Pescara", "PC": "Piacenza", "PI": "Pisa", "PT": "Pistoia", "PN": "Pordenone", "PZ": "Potenza", "PO": "Prato", "RG": "Ragusa", "RA": "Ravenna", "RC": "Reggio Calabria", "RE": "Reggio Emilia", "RI": "Rieti", "RN": "Rimini", "RM": "Roma", "RO": "Rovigo", "SA": "Salerno", "SS": "Sassari", "SV": "Savona", "SI": "Siena", "SR": "Siracusa", "SO": "Sondrio", "TA": "Taranto", "TE": "Teramo", "TR": "Terni", "TO": "Torino", "TP": "Trapani", "TN": "Trento", "TV": "Treviso", "TS": "Trieste", "UD": "Udine", "VA": "Varese", "VE": "Venezia", "VB": "Verbano-Cusio-Ossola", "VC": "Vercelli", "VR": "Verona", "VV": "Vibo Valentia", "VI": "Vicenza", "VT": "Viterbo"
                 };
 
                 const normalizeProvinceText = (value) => String(value || "")
@@ -787,7 +787,7 @@ class TriageEngine {
                         regione: provinceName
                     };
                     this.state = '3_DISTURBO';
-                    this.onMessage(`OK: impostata: <strong>${escapeHTML(provinceName)} (${escapeHTML(sigla)})</strong>.<br><br>Grazie. Ora descrivimi piÃƒÆ’Ã‚Â¹ nel dettaglio: <strong>qual ÃƒÆ’Ã‚Â¨ il tuo disturbo o sintomo principale?</strong>`);
+                    this.onMessage(`OK: impostata: <strong>${escapeHTML(provinceName)} (${escapeHTML(sigla)})</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
                     this._updatePlaceholder();
                 };
 
@@ -835,7 +835,7 @@ class TriageEngine {
                         scope: "regione"
                     };
                     this.state = '3_DISTURBO';
-                    this.onMessage(`OK: impostata: <strong>${escapeHTML(regionName)}</strong>.<br><br>Grazie. Ora descrivimi piÃƒÆ’Ã‚Â¹ nel dettaglio: <strong>qual ÃƒÆ’Ã‚Â¨ il tuo disturbo o sintomo principale?</strong>`);
+                    this.onMessage(`OK: impostata: <strong>${escapeHTML(regionName)}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
                     this._updatePlaceholder();
                 };
 
@@ -857,7 +857,7 @@ class TriageEngine {
                         regione: location.regione
                     };
                     this.state = '3_DISTURBO';
-                    this.onMessage(`OK: verificata sul territorio: <strong>${escapeHTML(location.comune)}</strong>.<br><br>Grazie. Ora descrivimi piÃƒÆ’Ã‚Â¹ nel dettaglio: <strong>qual ÃƒÆ’Ã‚Â¨ il tuo disturbo o sintomo principale?</strong>`);
+                    this.onMessage(`OK: verificata sul territorio: <strong>${escapeHTML(location.comune)}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
                     this._updatePlaceholder();
                 };
 
@@ -892,7 +892,7 @@ class TriageEngine {
                     return;
                 }
                 
-                // Se la stringa ÃƒÆ’Ã‚Â¨ molto lunga e contiene parole legate ai sintomi, o se ÃƒÆ’Ã‚Â¨ "salta" o "non so"
+                // Se la stringa è molto lunga e contiene parole legate ai sintomi, o se è "salta" o "non so"
                 const skipKeywords = ['salta', 'skip', 'niente', 'non so', 'nessuna', 'generale', 'tutta italia', 'italia'];
                 const isSkip = skipKeywords.includes(input.toLowerCase().trim());
                 
@@ -910,12 +910,12 @@ class TriageEngine {
                 }
 
                 if (seemsLikeSymptom && cleanZona.length > 10) {
-                    this.onMessage(`Attenzione: Sembra che tu stia descrivendo il tuo disturbo. Per aiutarti a trovare lo specialista piÃƒÆ’Ã‚Â¹ vicino, ho bisogno di conoscere prima il tuo <strong>Comune o Provincia</strong> attuale. <br><br>Se preferisci non specificarlo, rispondi semplicemente con <strong>'ITALIA'</strong>.`, "system-msg danger");
+                    this.onMessage(`Attenzione: Sembra che tu stia descrivendo il tuo disturbo. Per aiutarti a trovare lo specialista più vicino, ho bisogno di conoscere prima il tuo <strong>Comune o Provincia</strong> attuale. <br><br>Se preferisci non specificarlo, rispondi semplicemente con <strong>'ITALIA'</strong>.`, "system-msg danger");
                     return;
                 }
 
                 if (!seemsLikeSymptom && (cleanZona.length < 3 || /^\d+$/.test(cleanZona) || /^(.)\1+$/.test(cleanZona))) {
-                    this.onMessage("Errore: L'area inserita non sembra valida. Per procedere ÃƒÆ’Ã‚Â¨ necessario inserire una provincia o comune (es. Roma, MI) o scrivi <strong>'Italia'</strong>.", "system-msg danger");
+                    this.onMessage("Errore: L'area inserita non sembra valida. Per procedere è necessario inserire una provincia o comune (es. Roma, MI) o scrivi <strong>'Italia'</strong>.", "system-msg danger");
                     return;
                 }
 
@@ -948,15 +948,15 @@ class TriageEngine {
                             regione: region
                         };
                         this.state = '3_DISTURBO';
-                        this.onMessage(`OK: verificata sul territorio: <strong>${validatedCity}</strong>.<br><br>Grazie. Ora descrivimi piÃƒÆ’Ã‚Â¹ nel dettaglio: <strong>qual ÃƒÆ’Ã‚Â¨ il tuo disturbo o sintomo principale?</strong>`);
+                        this.onMessage(`OK: verificata sul territorio: <strong>${validatedCity}</strong>.<br><br>Grazie. Ora descrivimi più nel dettaglio: <strong>qual è il tuo disturbo o sintomo principale?</strong>`);
                         this._updatePlaceholder();
                     } else {
-                        this.onMessage(`Errore: Non siamo riusciti a trovare "<strong>${cleanZona}</strong>" sul territorio italiano. Riprova inserendo un Comune o una Provincia in modo piÃƒÆ’Ã‚Â¹ preciso.`, "system-msg danger");
+                        this.onMessage(`Errore: Non siamo riusciti a trovare "<strong>${cleanZona}</strong>" sul territorio italiano. Riprova inserendo un Comune o una Provincia in modo più preciso.`, "system-msg danger");
                         return;
                     }
                 } catch (error) {
                     console.error("Errore validazione geografica:", error);
-                    this.onMessage("Attenzione: Non riesco a verificare la localitÃƒÆ’Ã‚Â  sul territorio italiano in questo momento. Riprova tra poco o scrivi <strong>Italia</strong> per una ricerca nazionale.", "system-msg danger");
+                    this.onMessage("Attenzione: Non riesco a verificare la località sul territorio italiano in questo momento. Riprova tra poco o scrivi <strong>Italia</strong> per una ricerca nazionale.", "system-msg danger");
                     return;
                 }
                 break;
@@ -994,16 +994,16 @@ class TriageEngine {
                     hasBadWords ||
                     hasGibberishWord) {
 
-                    this.onMessage("Errore: La descrizione inserita non ÃƒÆ’Ã‚Â¨ valida, troppo breve o sembra digitata casualmente. Ti prego di descrivere un sintomo reale con parole di senso compiuto.", "system-msg danger");
+                    this.onMessage("Errore: La descrizione inserita non è valida, troppo breve o sembra digitata casualmente. Ti prego di descrivere un sintomo reale con parole di senso compiuto.", "system-msg danger");
                     return;
                 }
 
                 try {
-                    // 2) Whitelist diretta per Supporto Psicologico e Sintomatico Generale (bypassa la validitÃƒÆ’Ã‚Â  testuale enciclopedica Wikipedia garantendo l'accesso)
+                    // 2) Whitelist diretta per Supporto Psicologico e Sintomatico Generale (bypassa la validità testuale enciclopedica Wikipedia garantendo l'accesso)
                     const directValidationWhitelist = [
                         // --- Psicologia & Relazioni ---
                         'ansia', 'stress', 'depress', 'panico', 'dialogo', 'parlare', 'sfogo', 'tristezza', 'paura', 'angoscia', 'trauma', 'lutto', 'ossession', 'solitudine', 'mentale', 'psicolog', 'psichiatr', 'umore', 'emozion', 'mente', 
-                        'partner', 'coppia', 'socio', 'relazione', 'conflitto', 'comunicazione', 'sessual', 'erezi', 'eiacula', 'libido', 'desiderio', 'intimitÃƒÆ’Ã‚Â ', 'lavoro', 'genitori', 'figli', 'scuola', 'bullismo', 'autostima', 'personalitÃƒÆ’Ã‚Â ', 'fobia', 'attacchi', 'delir', 'allucin', 'pensier', 'comportament', 'terapia', 'psicotera',
+                        'partner', 'coppia', 'socio', 'relazione', 'conflitto', 'comunicazione', 'sessual', 'erezi', 'eiacula', 'libido', 'desiderio', 'intimità', 'lavoro', 'genitori', 'figli', 'scuola', 'bullismo', 'autostima', 'personalità', 'fobia', 'attacchi', 'delir', 'allucin', 'pensier', 'comportament', 'terapia', 'psicotera',
                         // --- Sintomi Generali & Branche ---
                         'dolor', 'brucior', 'prurit', 'fastidi', 'febbre', 'tosse', 'macchi', 'neo', 'nevo', 'nei', 'lesion cutanea', 'melanom', 'verruca', 'brufol', 'foruncol', 'orticaria', 'ponfo', 'nausea', 'vomit', 'vertigin', 'capogir', 'debolezz', 'stanch', 'sangue', 'visita', 'mal di', 'male', 'gonfior', 'occhi', 'testa', 'schiena', 'pancia', 'gamba', 'braccio', 'mano', 'piede', 'ginocchi', 'spalla', 'fiato', 'respiro', 'battito', 'formicol', 'udito', 'vista', 'memoria', 'peso', 'diabete', 'tiroid',
                         'ortoped', 'neurol', 'cardiol', 'gastro', 'dermatol', 'ginecol', 'urol', 'androl', 'prostat', 'pene', 'testicol', 'vescica', 'otorino', 'oculist', 'chirurg', 'dentist', 'odontoi', 'endocr', 'diabet', 'pneumo', 'emato', 'infettiv', 'reumatol', 'geriatr', 'dietol', 'nutriz', 'pediatr',
@@ -1022,7 +1022,7 @@ class TriageEngine {
                         'paresi', 'paralisi', 'atassia', 'afasia', 'disartria', 'diplopia', 'scotoma', 'neuropatia', 'miastenia', 'tia', 'ictus', 'parkinson', 'alzheimer', 'epilessia',
                         'amenorrea', 'dismenorrea', 'dispareunia', 'vaginismo', 'endometriosi', 'vulvite', 'vaginite',
                         'bmi', 'obesit', 'anoressia', 'disfagia', 'metabolismo', 'celiachia', 'glutine', 'lattosio', 'bulimia', 'lassativi', 'colesterolo', 'ldl', 'hdl', 'glicazione', 'dca', 'binge eating', 'abbuff', 'restrizion', 'restrittiv', 'dismorfismo', 'vomito autoindotto',
-                        'scarlattina', 'enuresi', 'bronchiolite', 'morbillo', 'crosta latta', 'bocca-mani-piedi', 'sesta malattia', 'roseola', 'sids', 'apcar', 'neonato', 'bebÃƒÆ’Ã‚Â¨'
+                        'scarlattina', 'enuresi', 'bronchiolite', 'morbillo', 'crosta latta', 'bocca-mani-piedi', 'sesta malattia', 'roseola', 'sids', 'apcar', 'neonato', 'bebè'
                     ];
                     const isDirectValid = directValidationWhitelist.some(word => dtl.includes(word));
 
@@ -1054,15 +1054,15 @@ class TriageEngine {
                         this.userData.disturbo = cleanDisturbo;
                         this.userData.domandeAnamnesticheDinamiche = this._generaDomandeAnamnestiche(cleanDisturbo);
                         this.state = '4_CONOSCITIVE';
-                        this.onMessage("<strong>OK: Sintomo convalidato dai database scientifici/letteratura.</strong><br><br>Ho preso nota del tuo disturbo. Per inquadrarlo meglio, ti porrÃƒÆ’Ã‚Â² ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
+                        this.onMessage("<strong>OK: Sintomo convalidato dai database scientifici/letteratura.</strong><br><br>Ho preso nota del tuo disturbo. Per inquadrarlo meglio, ti porrò ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
                         this._updatePlaceholder();
                     } else {
-                        this.onMessage(`Errore: Il testo "<strong>${cleanDisturbo}</strong>" non sembra descrivere un disturbo riconoscibile. Inserisci un problema reale o una necessitÃƒÆ’Ã‚Â  sanitaria concreta (es. "cefalea", "vertigini", "dolore alla schiena") e riprova.`, "system-msg danger");
+                        this.onMessage(`Errore: Il testo "<strong>${cleanDisturbo}</strong>" non sembra descrivere un disturbo riconoscibile. Inserisci un problema reale o una necessità sanitaria concreta (es. "cefalea", "vertigini", "dolore alla schiena") e riprova.`, "system-msg danger");
                         return;
                     }
                 } catch (error) {
                     console.error("Errore validazione sintomo:", error);
-                    this.onMessage("Attenzione: Non riesco a convalidare il sintomo tramite le fonti online in questo momento. Riprova tra poco o descrivi il disturbo con termini piÃƒÆ’Ã‚Â¹ comuni.", "system-msg danger");
+                    this.onMessage("Attenzione: Non riesco a convalidare il sintomo tramite le fonti online in questo momento. Riprova tra poco o descrivi il disturbo con termini più comuni.", "system-msg danger");
                     return;
                 }
                 break;
@@ -1121,7 +1121,7 @@ class TriageEngine {
                     }
 
                     if (hasBadWord || hasGibberish || /^(.)\1+$/.test(ncLower) || !this._isValidFreeText(notaConosc)) {
-                        this.onMessage("Errore: Il testo inserito non ÃƒÆ’Ã‚Â¨ valido, troppo breve o contiene termini inappropriati. Inserisci informazioni valide o scrivi 'NO'.", "system-msg danger");
+                        this.onMessage("Errore: Il testo inserito non è valido, troppo breve o contiene termini inappropriati. Inserisci informazioni valide o scrivi 'NO'.", "system-msg danger");
                         return;
                     }
                     this.userData.notaConoscitiva = notaConosc;
@@ -1139,7 +1139,7 @@ class TriageEngine {
                 const isValidChoiceAnam = /^[A-C](?:\)|\.| -|:|\s|$)/.test(cleanAnamn) || /\b(?:RISPOSTA|OPZIONE|LETTERA|SCELGO|LA)\s+[A-C]\b/.test(cleanAnamn);
 
                 if (!isValidChoiceAnam) {
-                    this.onMessage("Errore: Formato risposta non riconosciuto. Per essere precisi ÃƒÆ’Ã‚Â¨ necessario rispondere in modo netto con una delle lettere indicate (es. <strong>A, B o C</strong>).", "system-msg danger");
+                    this.onMessage("Errore: Formato risposta non riconosciuto. Per essere precisi è necessario rispondere in modo netto con una delle lettere indicate (es. <strong>A, B o C</strong>).", "system-msg danger");
                     return;
                 }
 
@@ -1188,7 +1188,7 @@ class TriageEngine {
                     }
 
                     if (hasBadWord || hasGibberish || /^(.)\1+$/.test(naLower) || !this._isValidFreeText(notaAnam)) {
-                        this.onMessage("Errore: Il testo inserito non ÃƒÆ’Ã‚Â¨ valido, troppo breve o contiene termini inappropriati. Inserisci informazioni valide o scrivi 'NO'.", "system-msg danger");
+                        this.onMessage("Errore: Il testo inserito non è valido, troppo breve o contiene termini inappropriati. Inserisci informazioni valide o scrivi 'NO'.", "system-msg danger");
                         return;
                     }
                     this.userData.notaAnamnestica = notaAnam;
@@ -1207,7 +1207,7 @@ class TriageEngine {
                 break;
             default:
                 console.warn("Engine: Stato non gestito ->", this.state);
-                this.onMessage("Attenzione: Si ÃƒÆ’Ã‚Â¨ verificato un imprevisto nel flusso. Per favore, clicca su 'Nuova Ricerca' per ricominciare.");
+                this.onMessage("Attenzione: Si è verificato un imprevisto nel flusso. Per favore, clicca su 'Nuova Ricerca' per ricominciare.");
         }
     }
 
@@ -1226,7 +1226,7 @@ class TriageEngine {
         const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const hasTerm = (term) => {
             if (wholeWordTerms.has(term)) {
-                return new RegExp(`(^|[^a-zÃƒÆ’Ã‚Â ÃƒÆ’Ã‚Â¨ÃƒÆ’Ã‚Â©ÃƒÆ’Ã‚Â¬ÃƒÆ’Ã‚Â²ÃƒÆ’Ã‚Â¹])${escapeRegExp(term)}([^a-zÃƒÆ’Ã‚Â ÃƒÆ’Ã‚Â¨ÃƒÆ’Ã‚Â©ÃƒÆ’Ã‚Â¬ÃƒÆ’Ã‚Â²ÃƒÆ’Ã‚Â¹]|$)`, 'i').test(dLower);
+                return new RegExp(`(^|[^a-zàèéìòù])${escapeRegExp(term)}([^a-zàèéìòù]|$)`, 'i').test(dLower);
             }
             return dLower.includes(term);
         };
@@ -1251,23 +1251,23 @@ class TriageEngine {
         // 1. Organi di Senso (Sempre Prioritari)
         if (hasAny(SEDE.OCCHI)) {
             return [
-                "Hai notato un improvviso o graduale calo della vista mono o bilaterale?\n<br><i>A) Calo molto brusco/improvviso<br>B) Lento e progressivo<br>C) La vista ÃƒÆ’Ã‚Â¨ invariata</i>",
-                "L'occhio si presenta molto rosso, fotofobico (fastidio per la luce) o lacrimante?\n<br><i>A) SÃƒÆ’Ã‚Â¬, molto rosso e urente<br>B) Solo leggermente arrossato<br>C) Oculare bianco normale</i>",
+                "Hai notato un improvviso o graduale calo della vista mono o bilaterale?\n<br><i>A) Calo molto brusco/improvviso<br>B) Lento e progressivo<br>C) La vista è invariata</i>",
+                "L'occhio si presenta molto rosso, fotofobico (fastidio per la luce) o lacrimante?\n<br><i>A) Sì, molto rosso e urente<br>B) Solo leggermente arrossato<br>C) Oculare bianco normale</i>",
                 "Vedi 'mosche volanti' (miodesopsie), lampi di luce (fosfeni) o ombre nel campo visivo?\n<br><i>A) Molti lampi e punti neri improvvisi<br>B) Qualche mosca volante vecchia<br>C) Nessun disturbo visivo simile</i>"
             ];
         }
         if (hasAny(SEDE.ORL)) {
             return [
-                "Lamenti febbre alta, gonfiore dei linfonodi (collo) o difficoltÃƒÂ  a deglutire anche i liquidi?\n<br><i>A) SÃƒÆ’Ã‚Â¬, tutto questo<br>B) Solo un po' di fastidio<br>C) Niente gonfiore o febbre</i>",
-                "C'ÃƒÆ’Ã‚Â¨ perdita dell'udito, sensazione di orecchio tappato o ronzio (acufene) costante?\n<br><i>A) Rombano/Fischiano in continuo<br>B) Sento ovattato / calo lieve dell'udito<br>C) Nessun problema uditivo</i>",
-                "Hai tosse persistente da oltre 2-3 settimane o hai cambiato improvvisamente la voce (raucedine cronica)?\n<br><i>A) SÃƒÆ’Ã‚Â¬, da molto tempo<br>B) Da pochi giorni<br>C) Non ho tosse nÃƒÆ’Ã‚Â© calo di voce</i>"
+                "Lamenti febbre alta, gonfiore dei linfonodi (collo) o difficoltà a deglutire anche i liquidi?\n<br><i>A) Sì, tutto questo<br>B) Solo un po' di fastidio<br>C) Niente gonfiore o febbre</i>",
+                "C'è perdita dell'udito, sensazione di orecchio tappato o ronzio (acufene) costante?\n<br><i>A) Rombano/Fischiano in continuo<br>B) Sento ovattato / calo lieve dell'udito<br>C) Nessun problema uditivo</i>",
+                "Hai tosse persistente da oltre 2-3 settimane o hai cambiato improvvisamente la voce (raucedine cronica)?\n<br><i>A) Sì, da molto tempo<br>B) Da pochi giorni<br>C) Non ho tosse né calo di voce</i>"
             ];
         }
         if (hasAny(SEDE.DENTI)) {
             return [
                 "Avverti un dolore di tipo pulsante e molto acuto che peggiora stendendoti a letto?\n<br><i>A) Molto forte e pulsante<br>B) Lieve e sopportabile<br>C) Nessun dolore</i>",
-                "C'ÃƒÆ’Ã‚Â¨ un evidente gonfiore (ascesso) visibile sul viso o sulle gengive?\n<br><i>A) Gonfiore grosso e caldo<br>B) Solo un piccolo bozzo in bocca<br>C) Nessun rigonfiamento</i>",
-                "Le tue gengive sanguinano abbondantemente e spontaneamente mentre lavi i denti?\n<br><i>A) SÃƒÆ’Ã‚Â¬, tanto sangue rosso vivo<br>B) Solo ogni tanto poche tracce<br>C) Mai sanguinanti</i>"
+                "C'è un evidente gonfiore (ascesso) visibile sul viso o sulle gengive?\n<br><i>A) Gonfiore grosso e caldo<br>B) Solo un piccolo bozzo in bocca<br>C) Nessun rigonfiamento</i>",
+                "Le tue gengive sanguinano abbondantemente e spontaneamente mentre lavi i denti?\n<br><i>A) Sì, tanto sangue rosso vivo<br>B) Solo ogni tanto poche tracce<br>C) Mai sanguinanti</i>"
             ];
         }
         if (hasAny(SEDE.DERMATO)) {
@@ -1279,9 +1279,9 @@ class TriageEngine {
         }
         if (hasAny(SEDE.URO)) {
             return [
-                "Il disturbo ÃƒÆ’Ã‚Â¨ legato a bruciore, dolore o fastidio durante la minzione oppure a sintomi genitali/pelvici?\n<br><i>A) SÃƒÆ’Ã‚Â¬, in modo evidente<br>B) Solo lieve o saltuario<br>C) No</i>",
-                "Hai aumento della frequenza urinaria, urgenza, perdite anomale o dolore pelvico/genitale?\n<br><i>A) SÃƒÆ’Ã‚Â¬, chiaramente<br>B) Solo in parte<br>C) No</i>",
-                "Hai notato sangue nelle urine, febbre, dolore lombare o peggioramento progressivo?\n<br><i>A) SÃƒÆ’Ã‚Â¬, uno o piÃƒÆ’Ã‚Â¹ di questi segni<br>B) Solo lieve sospetto<br>C) No</i>"
+                "Il disturbo è legato a bruciore, dolore o fastidio durante la minzione oppure a sintomi genitali/pelvici?\n<br><i>A) Sì, in modo evidente<br>B) Solo lieve o saltuario<br>C) No</i>",
+                "Hai aumento della frequenza urinaria, urgenza, perdite anomale o dolore pelvico/genitale?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Hai notato sangue nelle urine, febbre, dolore lombare o peggioramento progressivo?\n<br><i>A) Sì, uno o più di questi segni<br>B) Solo lieve sospetto<br>C) No</i>"
             ];
         }
 
@@ -1289,13 +1289,13 @@ class TriageEngine {
         if (dLower.includes("bruciore")) {
             if (hasAny(SEDE.GASTRO)) { /* Prosegue al blocco Gastro sotto */ }
             else if (hasAny(SEDE.ORTHO)) { /* Prosegue al blocco Ortopedia sotto */ }
-            else if (hasAny(SEDE.ORL)) { /* Prosegue al blocco ORL sopra (ma ÃƒÆ’Ã‚Â¨ giÃƒÆ’Ã‚Â  passato) */ }
+            else if (hasAny(SEDE.ORL)) { /* Prosegue al blocco ORL sopra (ma è già passato) */ }
             else {
                 // Default per Bruciore se non ci sono altre sedi specifiche
                 return [
-                    "C'ÃƒÆ’Ã‚Â¨ bruciore forte o dolore acuto durante la minzione (quando urini)?\n<br><i>A) SÃƒÆ’Ã‚Â¬, molto forte<br>B) Fastidio lieve o pesantezza<br>C) Nessun problema urinario</i>",
-                    "Hai notato tracce di sangue (ematuria) o secrezioni anomale (perdite inusuali)?\n<br><i>A) SÃƒÆ’Ã‚Â¬, sanguinamento evidente<br>B) Secrezioni o colore torbido<br>C) Nessuna alterazione</i>",
-                    "Hai uno stimolo urgente, costante o un aumento anormale della frequenza (specie notturna)?\n<br><i>A) SÃƒÆ’Ã‚Â¬, vado spessissimo in bagno<br>B) Frequenza leggermente aumentata<br>C) Normale frequenza</i>"
+                    "C'è bruciore forte o dolore acuto durante la minzione (quando urini)?\n<br><i>A) Sì, molto forte<br>B) Fastidio lieve o pesantezza<br>C) Nessun problema urinario</i>",
+                    "Hai notato tracce di sangue (ematuria) o secrezioni anomale (perdite inusuali)?\n<br><i>A) Sì, sanguinamento evidente<br>B) Secrezioni o colore torbido<br>C) Nessuna alterazione</i>",
+                    "Hai uno stimolo urgente, costante o un aumento anormale della frequenza (specie notturna)?\n<br><i>A) Sì, vado spessissimo in bagno<br>B) Frequenza leggermente aumentata<br>C) Normale frequenza</i>"
                 ];
             }
         }
@@ -1303,148 +1303,148 @@ class TriageEngine {
         // 3. Cardio/Pneumo (Urgenze)
         if (hasAny(SEDE.CARDIO) || (dLower.includes("affanno") && !hasAny(["tosse", "catarro", "fumo"]))) {
             return [
-                "Questo sintomo si manifesta o peggiora sotto sforzo fisico (es. salendo le scale)?\n<br><i>A) SÃƒÆ’Ã‚Â¬, mi devo fermare<br>B) Solo a riposo o di notte<br>C) Indipendente dallo sforzo</i>",
-                "Senti irradiazione del fastidio verso braccio sinistro, collo, mandibola o schiena?\n<br><i>A) SÃƒÆ’Ã‚Â¬, irradiazione chiara<br>B) No, ÃƒÆ’Ã‚Â¨ ben localizzato<br>C) Solo peso generalizzato</i>",
-                "Attenzione: Si associa a sudorazione fredda, forte nausea, senso di svenimento o dispnea marcata?\n<br><i>A) SÃƒÆ’Ã‚Â¬, molto intensi<br>B) Solo respiro un po' corto<br>C) Nessun sintomo associato</i>"
+                "Questo sintomo si manifesta o peggiora sotto sforzo fisico (es. salendo le scale)?\n<br><i>A) Sì, mi devo fermare<br>B) Solo a riposo o di notte<br>C) Indipendente dallo sforzo</i>",
+                "Senti irradiazione del fastidio verso braccio sinistro, collo, mandibola o schiena?\n<br><i>A) Sì, irradiazione chiara<br>B) No, è ben localizzato<br>C) Solo peso generalizzato</i>",
+                "Attenzione: Si associa a sudorazione fredda, forte nausea, senso di svenimento o dispnea marcata?\n<br><i>A) Sì, molto intensi<br>B) Solo respiro un po' corto<br>C) Nessun sintomo associato</i>"
             ];
         }
         if (hasAny(["sonno", "insonnia", "dormire", "addorment", "risvegli", "risveglio", "russamento", "russare", "apnee", "apnea notturna", "sonnolenza", "narcolessia"])) {
             return [
-                "Il problema principale ÃƒÆ’Ã‚Â¨ addormentarti, mantenere il sonno o svegliarti troppo presto?\n<br><i>A) Fatica ad addormentarmi<br>B) Risvegli frequenti o precoci<br>C) Sonno non riposante</i>",
-                "Chi dorme con te nota russamento forte, pause respiratorie o risvegli con senso di soffocamento?\n<br><i>A) SÃƒÆ’Ã‚Â¬, russamento/apnee evidenti<br>B) Russamento leggero o dubbio<br>C) No, non risulta</i>",
-                "Durante il giorno hai sonnolenza marcata, cali di attenzione o colpi di sonno?\n<br><i>A) SÃƒÆ’Ã‚Â¬, interferisce con le attivitÃƒÆ’Ã‚Â <br>B) A volte<br>C) No</i>"
+                "Il problema principale è addormentarti, mantenere il sonno o svegliarti troppo presto?\n<br><i>A) Fatica ad addormentarmi<br>B) Risvegli frequenti o precoci<br>C) Sonno non riposante</i>",
+                "Chi dorme con te nota russamento forte, pause respiratorie o risvegli con senso di soffocamento?\n<br><i>A) Sì, russamento/apnee evidenti<br>B) Russamento leggero o dubbio<br>C) No, non risulta</i>",
+                "Durante il giorno hai sonnolenza marcata, cali di attenzione o colpi di sonno?\n<br><i>A) Sì, interferisce con le attività<br>B) A volte<br>C) No</i>"
             ];
         }
         if (hasAny(SEDE.PNEUMO) || (dLower.includes("respiro") && !hasAny(SEDE.CARDIO))) {
             return [
-                "Il respiro ÃƒÆ’Ã‚Â¨ accompagnato da rumori di fischi o sibili prolungati (tipo asma)?\n<br><i>A) SÃƒÆ’Ã‚Â¬, mi 'fischia' spesso il petto<br>B) Solo quando c'ÃƒÆ’Ã‚Â¨ umiditÃƒÆ’Ã‚Â /sforzo<br>C) Non ho fischi</i>",
+                "Il respiro è accompagnato da rumori di fischi o sibili prolungati (tipo asma)?\n<br><i>A) Sì, mi 'fischia' spesso il petto<br>B) Solo quando c'è umidità/sforzo<br>C) Non ho fischi</i>",
                 "Svegliandoti la notte o al mattino hai episodi pesanti di tosse con molto catarro oscuro/denso?\n<br><i>A) Espello catarro fitto ogni giorno<br>B) Tosse solo secca stizzosa<br>C) Nessuna tosse la mattina</i>",
-                "Sei o sei stato per anni un forte fumatore attivo (o passivo pesante)?\n<br><i>A) SÃƒÆ’Ã‚Â¬, fumo / ho fumato tanto in vita<br>B) Solo poche volte al giorno o rari periodi<br>C) Mai fumato</i>"
+                "Sei o sei stato per anni un forte fumatore attivo (o passivo pesante)?\n<br><i>A) Sì, fumo / ho fumato tanto in vita<br>B) Solo poche volte al giorno o rari periodi<br>C) Mai fumato</i>"
             ];
         }
 
         // 4. Gastro e branche distrettuali specifiche
         if (hasAny(SEDE.GASTRO)) {
             return [
-                "Il disturbo ÃƒÆ’Ã‚Â¨ strettamente correlato ai pasti (prima, durate o subito dopo)?\n<br><i>A) SÃƒÆ’Ã‚Â¬, specialmente dopo i pasti<br>B) No, ÃƒÆ’Ã‚Â¨ indipendente<br>C) Peggiora a digiuno</i>",
-                "Hai notato alterazioni significative dell'alvo (stipsi prolungata o diarrea persistente)?\n<br><i>A) SÃƒÆ’Ã‚Â¬, forti alterazioni<br>B) Solo lievi episodi<br>C) Intestino regolare</i>",
-                "Hai notato perdite di peso immotivate o inappetenza grave ultimamente?\n<br><i>A) SÃƒÆ’Ã‚Â¬, calo di peso evidente<br>B) Solo poco appetito<br>C) Peso ed appetito stabili</i>"
+                "Il disturbo è strettamente correlato ai pasti (prima, durate o subito dopo)?\n<br><i>A) Sì, specialmente dopo i pasti<br>B) No, è indipendente<br>C) Peggiora a digiuno</i>",
+                "Hai notato alterazioni significative dell'alvo (stipsi prolungata o diarrea persistente)?\n<br><i>A) Sì, forti alterazioni<br>B) Solo lievi episodi<br>C) Intestino regolare</i>",
+                "Hai notato perdite di peso immotivate o inappetenza grave ultimamente?\n<br><i>A) Sì, calo di peso evidente<br>B) Solo poco appetito<br>C) Peso ed appetito stabili</i>"
             ];
         }
         if (hasAny(["ginocchio", "ginocchia", "menisco", "menisc", "crociato", "rotula", "patella", "collateral"])) {
             return [
-                "Il dolore al ginocchio compare soprattutto camminando, salendo o scendendo le scale, oppure alzandoti dopo essere stato seduto?\n<br><i>A) SÃƒÆ’Ã‚Â¬, in modo netto<br>B) Solo dopo sforzo prolungato<br>C) No, cambia poco</i>",
-                "Hai avuto gonfiore, cedimento del ginocchio o sensazione di blocco articolare?\n<br><i>A) SÃƒÆ’Ã‚Â¬, chiaramente<br>B) Solo lieve instabilitÃƒÆ’Ã‚Â  o rigiditÃƒÆ’Ã‚Â <br>C) No</i>",
-                "Il fastidio ÃƒÆ’Ã‚Â¨ localizzato in un punto preciso del ginocchio (interno, esterno, dietro o rotula)?\n<br><i>A) SÃƒÆ’Ã‚Â¬, molto preciso<br>B) ÃƒÆ’Ã‹â€  diffuso ma sempre nel ginocchio<br>C) Si irradia spesso altrove</i>"
+                "Il dolore al ginocchio compare soprattutto camminando, salendo o scendendo le scale, oppure alzandoti dopo essere stato seduto?\n<br><i>A) Sì, in modo netto<br>B) Solo dopo sforzo prolungato<br>C) No, cambia poco</i>",
+                "Hai avuto gonfiore, cedimento del ginocchio o sensazione di blocco articolare?\n<br><i>A) Sì, chiaramente<br>B) Solo lieve instabilità o rigidità<br>C) No</i>",
+                "Il fastidio è localizzato in un punto preciso del ginocchio (interno, esterno, dietro o rotula)?\n<br><i>A) Sì, molto preciso<br>B) È diffuso ma sempre nel ginocchio<br>C) Si irradia spesso altrove</i>"
             ];
         }
         if (hasAny(["spalla", "spalle", "cuffia", "omero", "clavicola"])) {
             return [
-                "Il dolore alla spalla aumenta quando alzi il braccio o lo porti dietro la schiena?\n<br><i>A) SÃƒÆ’Ã‚Â¬, molto<br>B) Solo in alcuni movimenti<br>C) No</i>",
-                "Hai perdita di forza, dolore notturno o difficoltÃƒÂ  a sollevare oggetti?\n<br><i>A) SÃƒÆ’Ã‚Â¬, chiaramente<br>B) Solo moderatamente<br>C) No</i>",
-                "Il problema ÃƒÆ’Ã‚Â¨ iniziato dopo un trauma o uno sforzo preciso, oppure si ÃƒÆ’Ã‚Â¨ sviluppato gradualmente?\n<br><i>A) Dopo trauma o gesto preciso<br>B) Gradualmente<br>C) Non saprei</i>"
+                "Il dolore alla spalla aumenta quando alzi il braccio o lo porti dietro la schiena?\n<br><i>A) Sì, molto<br>B) Solo in alcuni movimenti<br>C) No</i>",
+                "Hai perdita di forza, dolore notturno o difficoltà a sollevare oggetti?\n<br><i>A) Sì, chiaramente<br>B) Solo moderatamente<br>C) No</i>",
+                "Il problema è iniziato dopo un trauma o uno sforzo preciso, oppure si è sviluppato gradualmente?\n<br><i>A) Dopo trauma o gesto preciso<br>B) Gradualmente<br>C) Non saprei</i>"
             ];
         }
         if (hasAny(["schiena", "collo", "lomb", "dors", "cervical", "sciatal", "ernia disc", "colonna"])) {
             return [
-                "Il dolore a schiena o collo peggiora con posture prolungate, movimenti o sforzi?\n<br><i>A) SÃƒÆ’Ã‚Â¬, nettamente<br>B) Solo in parte<br>C) No</i>",
-                "Il fastidio si irradia a gluteo, gamba, braccio o mano con scossa o formicolio?\n<br><i>A) SÃƒÆ’Ã‚Â¬, chiaramente<br>B) Solo a tratti<br>C) No</i>",
-                "Hai rigiditÃƒÆ’Ã‚Â  marcata o limitazione importante dei movimenti?\n<br><i>A) SÃƒÆ’Ã‚Â¬<br>B) Moderata<br>C) No</i>"
+                "Il dolore a schiena o collo peggiora con posture prolungate, movimenti o sforzi?\n<br><i>A) Sì, nettamente<br>B) Solo in parte<br>C) No</i>",
+                "Il fastidio si irradia a gluteo, gamba, braccio o mano con scossa o formicolio?\n<br><i>A) Sì, chiaramente<br>B) Solo a tratti<br>C) No</i>",
+                "Hai rigidità marcata o limitazione importante dei movimenti?\n<br><i>A) Sì<br>B) Moderata<br>C) No</i>"
             ];
         }
         if (hasAny(["piede", "piedi", "caviglia", "caviglie", "tallone", "talloni", "achille", "fascite"])) {
             return [
-                "Il dolore a piede o caviglia compare soprattutto quando appoggi il peso o cammini?\n<br><i>A) SÃƒÆ’Ã‚Â¬, nettamente<br>B) Solo dopo uso prolungato<br>C) No</i>",
-                "Hai gonfiore, instabilitÃƒÆ’Ã‚Â  o dolore dopo distorsione o trauma?\n<br><i>A) SÃƒÆ’Ã‚Â¬, evidente<br>B) Solo lieve<br>C) No</i>",
-                "Il fastidio ÃƒÆ’Ã‚Â¨ localizzato sotto il tallone, sul tendine d'Achille o dentro l'articolazione?\n<br><i>A) SÃƒÆ’Ã‚Â¬, ben localizzato<br>B) ÃƒÆ’Ã‹â€  diffuso ma nella stessa zona<br>C) Non saprei</i>"
+                "Il dolore a piede o caviglia compare soprattutto quando appoggi il peso o cammini?\n<br><i>A) Sì, nettamente<br>B) Solo dopo uso prolungato<br>C) No</i>",
+                "Hai gonfiore, instabilità o dolore dopo distorsione o trauma?\n<br><i>A) Sì, evidente<br>B) Solo lieve<br>C) No</i>",
+                "Il fastidio è localizzato sotto il tallone, sul tendine d'Achille o dentro l'articolazione?\n<br><i>A) Sì, ben localizzato<br>B) È diffuso ma nella stessa zona<br>C) Non saprei</i>"
             ];
         }
         if (hasAny(["anzian", "nonn", "demenz", "alzheimer", "caduta"])) {
             return [
-                "L'anziano subisce perdita improvvisa della stabilitÃƒÆ’Ã‚Â  o cadute immotivate?\n<br><i>A) SÃƒÆ’Ã‚Â¬, cadute frequenti<br>B) Solo debolezza nel camminare<br>C) Autonomia completa</i>",
-                "Hai notato disorientamento, dimenticanza di volti o smarrimento in luoghi noti?\n<br><i>A) SÃƒÆ’Ã‚Â¬, alterazioni cognitive evidenti<br>B) Piccole dimenticanze senili<br>C) LuciditÃƒÆ’Ã‚Â  totale</i>",
-                "Manifesta tremori a riposo, rigiditÃƒÆ’Ã‚Â  nei movimenti o volto poco espressivo?\n<br><i>A) SÃƒÆ’Ã‚Â¬, tremori e lentezza<br>B) Solo stanchezza muscolare<br>C) Movimenti fluidi</i>"
+                "L'anziano subisce perdita improvvisa della stabilità o cadute immotivate?\n<br><i>A) Sì, cadute frequenti<br>B) Solo debolezza nel camminare<br>C) Autonomia completa</i>",
+                "Hai notato disorientamento, dimenticanza di volti o smarrimento in luoghi noti?\n<br><i>A) Sì, alterazioni cognitive evidenti<br>B) Piccole dimenticanze senili<br>C) Lucidità totale</i>",
+                "Manifesta tremori a riposo, rigidità nei movimenti o volto poco espressivo?\n<br><i>A) Sì, tremori e lentezza<br>B) Solo stanchezza muscolare<br>C) Movimenti fluidi</i>"
             ];
         }
         if (hasAny(["tremore", "equilibrio", "paresi", "paralisi", "neuropatia", "sensibilit", "scossa"])) {
             return [
-                "Hai notato formicolii, perdita di sensibilitÃƒÆ’Ã‚Â  o riduzione della forza in una parte del corpo?\n<br><i>A) SÃƒÆ’Ã‚Â¬, in modo evidente<br>B) Solo lieve o intermittente<br>C) No</i>",
-                "Il sintomo si associa a disturbi dell'equilibrio, della parola, della vista o del controllo dei movimenti?\n<br><i>A) SÃƒÆ’Ã‚Â¬, chiaramente<br>B) Solo in parte<br>C) No</i>",
-                "L'esordio ÃƒÆ’Ã‚Â¨ stato improvviso oppure graduale e ricorrente?\n<br><i>A) Improvviso<br>B) Graduale o ricorrente<br>C) Non saprei</i>"
+                "Hai notato formicolii, perdita di sensibilità o riduzione della forza in una parte del corpo?\n<br><i>A) Sì, in modo evidente<br>B) Solo lieve o intermittente<br>C) No</i>",
+                "Il sintomo si associa a disturbi dell'equilibrio, della parola, della vista o del controllo dei movimenti?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "L'esordio è stato improvviso oppure graduale e ricorrente?\n<br><i>A) Improvviso<br>B) Graduale o ricorrente<br>C) Non saprei</i>"
             ];
         }
         if (hasAny(["mano", "mani", "polso", "polsi", "dito", "dita", "gomito", "tunnel carpale"])) {
             return [
-                "Il dolore a mano, polso o gomito peggiora con presa, scrittura o movimenti ripetitivi?\n<br><i>A) SÃƒÆ’Ã‚Â¬, chiaramente<br>B) Solo dopo uso prolungato<br>C) No</i>",
-                "Hai rigiditÃƒÆ’Ã‚Â , perdita di forza o difficoltÃƒÂ  a usare la mano normalmente?\n<br><i>A) SÃƒÆ’Ã‚Â¬, molto<br>B) Solo in parte<br>C) No</i>",
-                "Senti formicolio o intorpidimento soprattutto di notte o al risveglio?\n<br><i>A) SÃƒÆ’Ã‚Â¬, spesso<br>B) Solo occasionalmente<br>C) No</i>"
+                "Il dolore a mano, polso o gomito peggiora con presa, scrittura o movimenti ripetitivi?\n<br><i>A) Sì, chiaramente<br>B) Solo dopo uso prolungato<br>C) No</i>",
+                "Hai rigidità, perdita di forza o difficoltà a usare la mano normalmente?\n<br><i>A) Sì, molto<br>B) Solo in parte<br>C) No</i>",
+                "Senti formicolio o intorpidimento soprattutto di notte o al risveglio?\n<br><i>A) Sì, spesso<br>B) Solo occasionalmente<br>C) No</i>"
             ];
         }
         if (hasAny(["anca", "bacino", "inguine", "coscia", "femore", "gamba", "gambe"])) {
             return [
-                "Il dolore all'anca o alla gamba aumenta camminando, caricando peso o salendo le scale?\n<br><i>A) SÃƒÆ’Ã‚Â¬, nettamente<br>B) Solo dopo sforzo<br>C) No</i>",
-                "Hai zoppia, rigiditÃƒÆ’Ã‚Â  o difficoltÃƒÂ  nei movimenti dell'anca o della gamba?\n<br><i>A) SÃƒÆ’Ã‚Â¬, evidente<br>B) Moderata<br>C) No</i>",
-                "Il problema ÃƒÆ’Ã‚Â¨ iniziato dopo trauma o sforzo, oppure in modo graduale?\n<br><i>A) Dopo trauma o sforzo preciso<br>B) Gradualmente nel tempo<br>C) Non saprei</i>"
+                "Il dolore all'anca o alla gamba aumenta camminando, caricando peso o salendo le scale?\n<br><i>A) Sì, nettamente<br>B) Solo dopo sforzo<br>C) No</i>",
+                "Hai zoppia, rigidità o difficoltà nei movimenti dell'anca o della gamba?\n<br><i>A) Sì, evidente<br>B) Moderata<br>C) No</i>",
+                "Il problema è iniziato dopo trauma o sforzo, oppure in modo graduale?\n<br><i>A) Dopo trauma o sforzo preciso<br>B) Gradualmente nel tempo<br>C) Non saprei</i>"
             ];
         }
         if (hasAny(SEDE.NEURO_CENTRALE) || hasAny(["formicol", "intorpid", "debolezza", "paresi", "paralisi", "neuropatia", "sensibilit", "scossa", "tremore"])) {
             return [
-                "Hai notato formicolii, perdita di sensibilitÃƒÆ’Ã‚Â  o riduzione della forza in una parte del corpo?\n<br><i>A) SÃƒÆ’Ã‚Â¬, in modo evidente<br>B) Solo lieve o intermittente<br>C) No</i>",
-                "Il sintomo si associa a disturbi dell'equilibrio, della parola, della vista o del controllo dei movimenti?\n<br><i>A) SÃƒÆ’Ã‚Â¬, chiaramente<br>B) Solo in parte<br>C) No</i>",
-                "L'esordio ÃƒÆ’Ã‚Â¨ stato improvviso oppure graduale e ricorrente?\n<br><i>A) Improvviso<br>B) Graduale o ricorrente<br>C) Non saprei</i>"
+                "Hai notato formicolii, perdita di sensibilità o riduzione della forza in una parte del corpo?\n<br><i>A) Sì, in modo evidente<br>B) Solo lieve o intermittente<br>C) No</i>",
+                "Il sintomo si associa a disturbi dell'equilibrio, della parola, della vista o del controllo dei movimenti?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "L'esordio è stato improvviso oppure graduale e ricorrente?\n<br><i>A) Improvviso<br>B) Graduale o ricorrente<br>C) Non saprei</i>"
             ];
         }
 
         // 6. Ortopedia generale
         if (hasAny(SEDE.ORTHO)) {
             return [
-                "Il dolore o fastidio peggiora con il movimento o in determinate posture?\n<br><i>A) SÃƒÆ’Ã‚Â¬, sempre<br>B) Solo a riposo<br>C) Solo dopo sforzi eccessivi</i>",
-                "Hai subito traumi diretti o sovraccarichi nell'area interessata ultimamente?\n<br><i>A) SÃƒÆ’Ã‚Â¬, di recente<br>B) Nessun trauma apparente<br>C) Trauma vecchio o sforzo ripetuto</i>",
-                "Hai gonfiore, rigiditÃƒÆ’Ã‚Â  o limitazione funzionale della zona interessata?\n<br><i>A) SÃƒÆ’Ã‚Â¬, marcati<br>B) Solo lievi<br>C) No</i>"
+                "Il dolore o fastidio peggiora con il movimento o in determinate posture?\n<br><i>A) Sì, sempre<br>B) Solo a riposo<br>C) Solo dopo sforzi eccessivi</i>",
+                "Hai subito traumi diretti o sovraccarichi nell'area interessata ultimamente?\n<br><i>A) Sì, di recente<br>B) Nessun trauma apparente<br>C) Trauma vecchio o sforzo ripetuto</i>",
+                "Hai gonfiore, rigidità o limitazione funzionale della zona interessata?\n<br><i>A) Sì, marcati<br>B) Solo lievi<br>C) No</i>"
             ];
         }
 
         // 7. Sistemici e Psico/Anziani
         if (hasAny(["dca", "anoressia", "bulimia", "binge eating", "abbuff", "restrizion", "restrittiv", "dismorfismo", "lassativi", "vomito autoindotto", "rapporto con il cibo", "paura di ingrassare"])) {
             return [
-                "Questo disagio riguarda soprattutto il rapporto con il cibo, il peso o l'immagine corporea?\n<br><i>A) SÃƒÆ’Ã‚Â¬, ÃƒÆ’Ã‚Â¨ molto presente<br>B) A volte, in alcuni periodi<br>C) No, non ÃƒÆ’Ã‚Â¨ centrale</i>",
-                "Ti capita di alternare restrizioni, abbuffate o comportamenti di compenso come vomito autoindotto, digiuno, lassativi o esercizio eccessivo?\n<br><i>A) SÃƒÆ’Ã‚Â¬, spesso o con fatica a controllarlo<br>B) Qualche episodio occasionale<br>C) No, non mi capita</i>",
-                "Questo tema ti causa vergogna, isolamento, ansia intensa o interferisce con studio, lavoro o relazioni?\n<br><i>A) SÃƒÆ’Ã‚Â¬, molto<br>B) In parte<br>C) Poco o nulla</i>"
+                "Questo disagio riguarda soprattutto il rapporto con il cibo, il peso o l'immagine corporea?\n<br><i>A) Sì, è molto presente<br>B) A volte, in alcuni periodi<br>C) No, non è centrale</i>",
+                "Ti capita di alternare restrizioni, abbuffate o comportamenti di compenso come vomito autoindotto, digiuno, lassativi o esercizio eccessivo?\n<br><i>A) Sì, spesso o con fatica a controllarlo<br>B) Qualche episodio occasionale<br>C) No, non mi capita</i>",
+                "Questo tema ti causa vergogna, isolamento, ansia intensa o interferisce con studio, lavoro o relazioni?\n<br><i>A) Sì, molto<br>B) In parte<br>C) Poco o nulla</i>"
             ];
         }
         if (hasAny(["diabet", "zucchero", "tiroid", "ormon", "glicemia"]) || (dLower.includes("peso") && hasAny(["stanchezza", "sete", "fame"]))) {
             return [
-                "Avverti una sete forte e continua, associata al bisogno frequente di urinare (anche di notte)?\n<br><i>A) Bevo litri e non mi basta<br>B) Un po' piÃƒÆ’Ã‚Â¹ del solito<br>C) Regolare</i>",
+                "Avverti una sete forte e continua, associata al bisogno frequente di urinare (anche di notte)?\n<br><i>A) Bevo litri e non mi basta<br>B) Un po' più del solito<br>C) Regolare</i>",
                 "Hai notato drastici cambiamenti al peso o un aumento inspiegabile della stanchezza?\n<br><i>A) Peso oscillante e forte spossatezza<br>B) Molta stanchezza ma peso stabile<br>C) Sto bene</i>",
-                "Ci sono stati recenti controlli del sangue sfasati? (Colesterolo, valori tiroidei, trigliceridi)?\n<br><i>A) SÃƒÆ’Ã‚Â¬, valori molto fuori range<br>B) Lievemente sballati<br>C) Perfetti</i>"
+                "Ci sono stati recenti controlli del sangue sfasati? (Colesterolo, valori tiroidei, trigliceridi)?\n<br><i>A) Sì, valori molto fuori range<br>B) Lievemente sballati<br>C) Perfetti</i>"
             ];
         }
         if (hasAny(["sangue", "anemia", "linfonodi", "febbre alta", "stanchezza", "lividi", "leucemia", "mieloma", "ves"])) {
             return [
-                "Hai febbre molto elevata che prosegue costante, associata a grandi brividi ed estrema prostrazione?\n<br><i>A) SÃƒÆ’Ã‚Â¬, la tachipirina non scende stabilmente<br>B) Picchi ma controllabili<br>C) Non ho febbre ora</i>",
+                "Hai febbre molto elevata che prosegue costante, associata a grandi brividi ed estrema prostrazione?\n<br><i>A) Sì, la tachipirina non scende stabilmente<br>B) Picchi ma controllabili<br>C) Non ho febbre ora</i>",
                 "Noti improvvisi ingrossamenti dolenti ai linfonodi (collo, ascelle, inguine) che non regrediscono?\n<br><i>A) Molto grossi e duri<br>B) Ce ne sono un paio piccoli e indolori<br>C) Tutto piatto</i>",
                 "Noti ecchimosi o sanguinamenti immotivati dalle gengive senza traumi logici?\n<br><i>A) Tanti lividi scuri spontanei<br>B) Se sbatto esce un piccolo livido<br>C) Pelle perfettamente integra</i>"
             ];
         }
         if (hasAny(["artrite", "fibromialg", "gotta", "rigidit", "autoimmun", "lupus", "infiammazion"])) {
             return [
-                "Avverti dolore a piÃƒÆ’Ã‚Â¹ articolazioni (es. mani, ginocchia) in modo speculare?\n<br><i>A) SÃƒÆ’Ã‚Â¬, mani/piedi uguali dx e sx<br>B) No, solo un'articolazione<br>C) Nessun dolore</i>",
-                "Al mattino avverti una rigiditÃƒÆ’Ã‚Â  che dura piÃƒÆ’Ã‚Â¹ di un'ora prima di riuscire a muoverti bene?\n<br><i>A) SÃƒÆ’Ã‚Â¬, molto tempo<br>B) Solo pochi minuti<br>C) No, sono subito agile</i>",
-                "Questo stato si accompagna a una stanchezza importante e dolore in punti muscolari diffusi?\n<br><i>A) SÃƒÆ’Ã‚Â¬, stanchezza cronica e dolori sparsi<br>B) Solo stanchezza pomeridiana<br>C) Sto bene</i>"
+                "Avverti dolore a più articolazioni (es. mani, ginocchia) in modo speculare?\n<br><i>A) Sì, mani/piedi uguali dx e sx<br>B) No, solo un'articolazione<br>C) Nessun dolore</i>",
+                "Al mattino avverti una rigidità che dura più di un'ora prima di riuscire a muoverti bene?\n<br><i>A) Sì, molto tempo<br>B) Solo pochi minuti<br>C) No, sono subito agile</i>",
+                "Questo stato si accompagna a una stanchezza importante e dolore in punti muscolari diffusi?\n<br><i>A) Sì, stanchezza cronica e dolori sparsi<br>B) Solo stanchezza pomeridiana<br>C) Sto bene</i>"
             ];
         }
         if (hasAny(["ansia", "stress", "depress", "panico", "trauma", "umore", "famiglia", "relazion"])) {
             return [
                 "In quali momenti noti maggiormente questo malessere emotivo?\n<br><i>A) Al mattino/Sera<br>B) Situazioni sociali/Lavoro<br>C) Imprevedibile</i>",
                 "Questi vissuti se riflettono sul tuo corpo (es. respiro affannoso, battito accelerato)?\n<br><i>A) Spesso<br>B) Raramente<br>C) Quasi Mai</i>",
-                "Senti che questo stato sta limitando le tue attivitÃƒÆ’Ã‚Â  quotidiane o il rapporto con gli altri?\n<br><i>A) Molto, mi isolo<br>B) Moderatamente<br>C) Poco o nulla</i>"
+                "Senti che questo stato sta limitando le tue attività quotidiane o il rapporto con gli altri?\n<br><i>A) Molto, mi isolo<br>B) Moderatamente<br>C) Poco o nulla</i>"
             ];
         }
         if (hasAny(["anzian", "nonn", "demenz", "alzheimer", "parkinson", "caduta"])) {
             return [
-                "L'anziano subisce perdita improvvisa della stabilitÃƒÆ’Ã‚Â  o cadute immotivate?\n<br><i>A) SÃƒÆ’Ã‚Â¬, cadute frequenti<br>B) Solo debolezza nel camminare<br>C) Autonomia completa</i>",
-                "Hai notato disorientamento, dimenticanza di volti o smarrimento in luoghi noti?\n<br><i>A) SÃƒÆ’Ã‚Â¬, alterazioni cognitive evidenti<br>B) Piccole dimenticanze senili<br>C) LuciditÃƒÆ’Ã‚Â  totale</i>",
-                "Manifesta tremori a riposo, rigiditÃƒÆ’Ã‚Â  nei movimenti o volto poco espressivo?\n<br><i>A) SÃƒÆ’Ã‚Â¬, tremori e lentezza<br>B) Solo stanchezza muscolare<br>C) Movimenti fluidi</i>"
+                "L'anziano subisce perdita improvvisa della stabilità o cadute immotivate?\n<br><i>A) Sì, cadute frequenti<br>B) Solo debolezza nel camminare<br>C) Autonomia completa</i>",
+                "Hai notato disorientamento, dimenticanza di volti o smarrimento in luoghi noti?\n<br><i>A) Sì, alterazioni cognitive evidenti<br>B) Piccole dimenticanze senili<br>C) Lucidità totale</i>",
+                "Manifesta tremori a riposo, rigidità nei movimenti o volto poco espressivo?\n<br><i>A) Sì, tremori e lentezza<br>B) Solo stanchezza muscolare<br>C) Movimenti fluidi</i>"
             ];
         }
 
@@ -1719,7 +1719,7 @@ class TriageEngine {
                   </div>
                   <div class="triage-result-body">
                     ${searchConfigMissing
-                        ? `<p>Il motore di ricerca degli specialisti non ÃƒÆ’Ã‚Â¨ configurato in questo ambiente. La sintesi clinica ÃƒÆ’Ã‚Â¨ stata generata, ma l'elenco di specialisti e strutture richiede una chiave Google Places o Google Custom Search/SerpApi.</p>
+                        ? `<p>Il motore di ricerca degli specialisti non è configurato in questo ambiente. La sintesi clinica è stata generata, ma l'elenco di specialisti e strutture richiede una chiave Google Places o Google Custom Search/SerpApi.</p>
                            <p>Configura almeno una tra <strong>GOOGLE_PLACES_API_KEY</strong>, <strong>GOOGLE_MAPS_API_KEY</strong>, oppure <strong>GOOGLE_CSE_API_KEY</strong> con <strong>GOOGLE_CSE_ID</strong>, o <strong>SERPAPI_API_KEY</strong>.</p>`
                         : `<p>Non sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.</p>
                            <p>Puoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.</p>`}
@@ -1748,7 +1748,7 @@ class TriageEngine {
             const errDetail = err && err.message ? err.message : String(err);
             console.warn("Dettaglio errore Gemini:", errDetail);
             await this._waitForMinimumResearchTime(45000);
-            this._showResearchFailure(`La ricerca non ÃƒÆ’Ã‚Â¨ disponibile in questo momento (Errore: ${errDetail}). Riprova tra poco.`);
+            this._showResearchFailure(`La ricerca non è disponibile in questo momento (Errore: ${errDetail}). Riprova tra poco.`);
         }
     }
 
@@ -1837,7 +1837,7 @@ class TriageEngine {
                 indirizzo_modalita: "Online in tutta Italia",
                 contatti: "3479847838 | gretadevoli@gmail.com",
                 fonte: "Scheda curata",
-                info: "Disponibile online a livello nazionale per le specialitÃƒÂ  e sotto-specialitÃƒÂ  indicate."
+                info: "Disponibile online a livello nazionale per le specialità e sotto-specialità indicate."
             });
         }
 
@@ -1949,11 +1949,11 @@ class TriageEngine {
 
         try {
             const userZonaStr = String(this.userData.zona || "").trim();
-            const systemPrompt = `Sei un esperto di orientamento medico di Aiutodoc.it. Il tuo obiettivo ÃƒÂ¨ fornire una sintesi clinica accurata basata sull'intervista effettuata con l'utente e suggerire la specializzazione medica corretta.
+            const systemPrompt = `Sei un esperto di orientamento medico di Aiutodoc.it. Il tuo obiettivo è fornire una sintesi clinica accurata basata sull'intervista effettuata con l'utente e suggerire la specializzazione medica corretta.
             
             Dati utente:
-            - Fascia di etÃƒÂ  iniziale: ${this._ageRangeLabel(this.userData.age_range) || "non specificata"}
-            - Et? puntuale, se clinicamente necessaria e raccolta: ${this.userData.exact_age ?? this.userData.age ?? "non raccolta"}
+            - Fascia di età iniziale: ${this._ageRangeLabel(this.userData.age_range) || "non specificata"}
+            - Età puntuale, se clinicamente necessaria e raccolta: ${this.userData.exact_age ?? this.userData.age ?? "non raccolta"}
             - Peso, se clinicamente necessario e raccolto: ${this.userData.weight_kg ? `${this.userData.weight_kg} kg` : "non raccolto"}
             - Sesso biologico: ${this._sexAtBirthLabel(this.userData.sex_at_birth)} (${this.userData.sex_at_birth || "not_specified"})
             - Zona: ${userZonaStr}
@@ -1967,7 +1967,7 @@ class TriageEngine {
             Restituisci ESCLUSIVAMENTE un oggetto JSON puro con questa struttura:
             {
               "sintesi_anamnestica": "Una sintesi dettagliata e professionale dei sintomi e dell'intervista in italiano.",
-              "specialista_indicato": "La singola specializzazione medica piÃƒÂ¹ adatta (es. Cardiologo, Neurologo, Ortopedico, ecc. - usa solo il nome della branca, es. 'Cardiologo')",
+              "specialista_indicato": "La singola specializzazione medica più adatta (es. Cardiologo, Neurologo, Ortopedico, ecc. - usa solo il nome della branca, es. 'Cardiologo')",
               "preparazione_visita": "Guida al comportamento e consigli pratici per l'utente in preparazione alla visita medica.",
               "impegnativa_medico": "Una nota clinica chiara e sintetica da suggerire al Medico di Medicina Generale (MMG) per la compilazione della ricetta/impegnativa."
             }`;
@@ -2009,7 +2009,7 @@ class TriageEngine {
         if (doctorPrefix.test(value)) {
             const tokens = value
                 .replace(doctorPrefix, "")
-                .replace(/[^A-Za-zÃƒÆ’Ã¢â€šÂ¬-ÃƒÆ’Ã‚Â¿'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢\-\s]/g, " ")
+                .replace(/[^A-Za-zÀ-ÿ'’\-\s]/g, " ")
                 .split(/\s+/)
                 .filter(Boolean)
                 .filter((token) => !/^(di|de|del|della|da|d'|de')$/i.test(token));
@@ -2022,7 +2022,7 @@ class TriageEngine {
         if (/^(?:dottori|medici|specialisti)(?:\b|$)/i.test(value)) return false;
         if (/\b(?:prenota|migliori|elenco|lista|trova|cerca|visita specialistica)\b/i.test(value)) return false;
 
-        return facilityTerms.test(value) && value.replace(/[^A-Za-zÃƒÆ’Ã¢â€šÂ¬-ÃƒÆ’Ã‚Â¿\s]/g, " ").trim().split(/\s+/).filter(Boolean).length >= 2;
+        return facilityTerms.test(value) && value.replace(/[^A-Za-zÀ-ÿ\s]/g, " ").trim().split(/\s+/).filter(Boolean).length >= 2;
     }
 
     _normalizeDisplayResultName(name) {
@@ -2034,7 +2034,7 @@ class TriageEngine {
 
         const tokens = value
             .replace(doctorPrefix, "")
-            .replace(/[^A-Za-zÃƒÆ’Ã¢â€šÂ¬-ÃƒÆ’Ã‚Â¿'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢\-\s]/g, " ")
+            .replace(/[^A-Za-zÀ-ÿ'’\-\s]/g, " ")
             .split(/\s+/)
             .filter(Boolean);
         const firstGenericIndex = tokens.findIndex((token) => genericDoctorTerms.test(token));
@@ -2081,7 +2081,7 @@ class TriageEngine {
       </div>
       <div class="triage-result-body">
         <p><strong>Specializzazione:</strong> ${escapeHTML(resultSpec)}</p>
-        <p><strong>Indirizzo/ModalitÃƒÆ’Ã‚Â :</strong> ${escapeHTML(resultAddress)}</p>
+        <p><strong>Indirizzo/Modalità:</strong> ${escapeHTML(resultAddress)}</p>
         <p><strong>Contatti:</strong> ${escapeHTML(resultContacts)}</p>
         <p><strong>Info:</strong> ${escapeHTML(resultInfo)}</p>
       </div>

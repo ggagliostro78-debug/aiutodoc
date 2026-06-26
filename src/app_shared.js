@@ -46,31 +46,59 @@ function normalizeMedicalText(value) {
     let text = String(value ?? "");
     if (!text) return "";
 
-    const mojibakeReplacements = [
-        ["\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00ac", "\u00ec"],
-        ["\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00b2", "\u00f2"],
-        ["\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00b9", "\u00f9"],
-        ["\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2 ", "\u00e0"],
-        ["\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00a9", "\u00e9"],
-        ["\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00a8", "\u00e8"],
-        ["\u00c3\u0192\u00c2\u00ac", "\u00ec"],
-        ["\u00c3\u0192\u00c2\u00b2", "\u00f2"],
-        ["\u00c3\u0192\u00c2\u00b9", "\u00f9"],
-        ["\u00c3\u0192 ", "\u00e0"],
-        ["\u00c3\u0192\u00c2\u00a9", "\u00e9"],
-        ["\u00c3\u0192\u00c2\u00a8", "\u00e8"],
-        ["\u00c3\u00ac", "\u00ec"],
-        ["\u00c3\u00b2", "\u00f2"],
-        ["\u00c3\u00b9", "\u00f9"],
-        ["\u00c3\u00a0", "\u00e0"],
-        ["\u00c3\u00a9", "\u00e9"],
-        ["\u00c3\u00a8", "\u00e8"],
-        ["\u00c2", ""]
-    ];
+    // Repair text that was UTF-8-decoded as Windows-1252 one or more times.
+    const cp1252Bytes = {
+        "\u20ac": 0x80, "\u201a": 0x82, "\u0192": 0x83, "\u201e": 0x84, "\u2026": 0x85,
+        "\u2020": 0x86, "\u2021": 0x87, "\u02c6": 0x88, "\u2030": 0x89, "\u0160": 0x8a,
+        "\u2039": 0x8b, "\u0152": 0x8c, "\u017d": 0x8e, "\u2018": 0x91, "\u2019": 0x92,
+        "\u201c": 0x93, "\u201d": 0x94, "\u2022": 0x95, "\u2013": 0x96, "\u2014": 0x97,
+        "\u02dc": 0x98, "\u2122": 0x99, "\u0161": 0x9a, "\u203a": 0x9b, "\u0153": 0x9c,
+        "\u017e": 0x9e, "\u0178": 0x9f
+    };
+    const mojibakeMarker = /(?:Ã|Â|â|Æ|ƒ)/g;
+    const markerCount = (input) => (input.match(mojibakeMarker) || []).length;
+    const decodeCp1252AsUtf8 = (input) => {
+        const bytes = [];
+        for (const char of input) {
+            const code = char.charCodeAt(0);
+            if (code <= 0xff) bytes.push(code);
+            else if (Object.prototype.hasOwnProperty.call(cp1252Bytes, char)) bytes.push(cp1252Bytes[char]);
+            else return input;
+        }
+        return new TextDecoder("utf-8", { fatal: true }).decode(new Uint8Array(bytes));
+    };
 
-    mojibakeReplacements.forEach(([from, to]) => {
-        text = text.split(from).join(to);
-    });
+    for (let attempt = 0; attempt < 4 && markerCount(text); attempt += 1) {
+        try {
+            const repaired = decodeCp1252AsUtf8(text);
+            if (repaired === text || markerCount(repaired) >= markerCount(text)) break;
+            text = repaired;
+        } catch (_) {
+            break;
+        }
+    }
+
+    // A sentence can contain both valid accented text and a damaged word. Repair
+    // those words independently when decoding the complete sentence is not possible.
+    for (let attempt = 0; attempt < 4 && markerCount(text); attempt += 1) {
+        let changed = false;
+        text = text.replace(/[^\t\r\n <>&]*[ÃÂâÆƒ][^\t\r\n <>&]*/g, (token) => {
+            try {
+                const repaired = decodeCp1252AsUtf8(token);
+                if (repaired !== token && markerCount(repaired) < markerCount(token)) {
+                    changed = true;
+                    return repaired;
+                }
+            } catch (_) {
+                // Keep the original token when it is not a valid encoded byte sequence.
+            }
+            return token;
+        });
+        if (!changed) break;
+    }
+
+    // Avoid showing serialized HTML entities in plain-text answer choices.
+    text = text.replace(/&nbsp;|&#160;|&#xA0;/gi, " ");
 
     const finocchioForms = {
         finocchio: "ginocchio",
@@ -243,13 +271,13 @@ const DISCLAIMER = "Questo servizio fornisce informazioni di orientamento sanita
 const URGENCY_WARNING = "In presenza di sintomi gravi o improvvisi contatta il 112 o recati immediatamente al Pronto Soccorso.";
 
 const DOMANDE_CONOSCITIVE = [
-    "Da quanto tempo Ã¨ presente il disturbo?\n<br><i>A) Da qualche ora/giorno<br>B) Da alcune settimane<br>C) Da mesi/anni</i>",
-    "La comparsa del sintomo Ã¨ stata improvvisa o graduale?\n<br><i>A) Improvvisa e acuta<br>B) Graduale ma in peggioramento<br>C) Alterna momenti buoni e cattivi</i>",
+    "Da quanto tempo è presente il disturbo?\n<br><i>A) Da qualche ora/giorno<br>B) Da alcune settimane<br>C) Da mesi/anni</i>",
+    "La comparsa del sintomo è stata improvvisa o graduale?\n<br><i>A) Improvvisa e acuta<br>B) Graduale ma in peggioramento<br>C) Alterna momenti buoni e cattivi</i>",
     "Hai altre patologie note o assumi farmaci regolarmente?\n<br><i>A) Nessuna patologia/farmaco<br>B) Assumo farmaci di base (es. pressione, sciroppi)<br>C) Patologie croniche note</i>"
 ];
 
 const DOMANDE_ANAMNESTICHE = [
-    "Il dolore o fastidio peggiora con il movimento o in determinate posizioni?\n<br><i>A) SÃ¬<br>B) No<br>C) A volte</i>",
-    "Il riposo notturno Ã¨ disturbato da questo problema?\n<br><i>A) SÃ¬, spesso mi sveglia<br>B) No, dormo bene<br>C) DifficoltÃ  solo nell'addormentamento</i>",
+    "Il dolore o fastidio peggiora con il movimento o in determinate posizioni?\n<br><i>A) Sì<br>B) No<br>C) A volte</i>",
+    "Il riposo notturno è disturbato da questo problema?\n<br><i>A) Sì, spesso mi sveglia<br>B) No, dormo bene<br>C) Difficoltà solo nell'addormentamento</i>",
     "Senti che questo disturbo sta impattando significativamente la tua vita quotidiana o il tuo benessere emotivo?\n<br><i>A) Moltissimo<br>B) Abbastanza<br>C) Poco o nulla</i>"
 ];
