@@ -965,6 +965,13 @@ class TriageEngine {
                 const cleanDisturbo = input.trim();
                 const dtl = cleanDisturbo.toLowerCase();
 
+                // Do not let a generic symptom term validate a non-anatomical target.
+                // The user must provide a real body area before clinical triage can start.
+                if (/\bfinocchi(?:o|a|i)?\b/i.test(cleanDisturbo)) {
+                    this.onMessage("Errore: <strong>finocchio</strong> non indica una parte del corpo. Verifica la sede del dolore e descrivila con un termine anatomico corretto, ad esempio <strong>ginocchio</strong> se intendevi quello.", "system-msg danger");
+                    return;
+                }
+
                 // 1) Funzione Euristica Anti-Gibberish e Blacklist
                 const dHasNoVowels = !/[aeiouy]/.test(dtl);
                 const dHasTooManyConsonants = /[bcdfghjklmnpqrstvwxz]{5,}/.test(dtl);

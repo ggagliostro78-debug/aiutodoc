@@ -100,24 +100,6 @@ function normalizeMedicalText(value) {
     // Avoid showing serialized HTML entities in plain-text answer choices.
     text = text.replace(/&nbsp;|&#160;|&#xA0;/gi, " ");
 
-    const finocchioForms = {
-        finocchio: "ginocchio",
-        finocchia: "ginocchia",
-        finocchi: "ginocchi",
-        finocchii: "ginocchii"
-    };
-
-    text = text.replace(/\bfinocchi(?:o|a|i|ii)\b/gi, (match, offset, source) => {
-        const context = source.slice(Math.max(0, offset - 80), Math.min(source.length, offset + 80)).toLowerCase();
-        const hasMedicalContext = /(dolor|fastid|gonfior|cediment|blocco|articolar|trauma|disturb|cammin|scala|rotula|menisc|crociat|localizz|regione|arto|sintom)/.test(context);
-        if (!hasMedicalContext) return match;
-
-        const replacement = finocchioForms[match.toLowerCase()] || "ginocchio";
-        if (match === match.toUpperCase()) return replacement.toUpperCase();
-        if (match[0] === match[0].toUpperCase()) return replacement[0].toUpperCase() + replacement.slice(1);
-        return replacement;
-    });
-
     return text.replace(/\s{2,}/g, " ").trim();
 }
 
