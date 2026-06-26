@@ -42,6 +42,57 @@ function sanitizeHTML(html) {
     return template.innerHTML;
 }
 
+function normalizeMedicalText(value) {
+    let text = String(value ?? "");
+    if (!text) return "";
+
+    const mojibakeReplacements = [
+        ["\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00ac", "\u00ec"],
+        ["\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00b2", "\u00f2"],
+        ["\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00b9", "\u00f9"],
+        ["\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2 ", "\u00e0"],
+        ["\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00a9", "\u00e9"],
+        ["\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00a8", "\u00e8"],
+        ["\u00c3\u0192\u00c2\u00ac", "\u00ec"],
+        ["\u00c3\u0192\u00c2\u00b2", "\u00f2"],
+        ["\u00c3\u0192\u00c2\u00b9", "\u00f9"],
+        ["\u00c3\u0192 ", "\u00e0"],
+        ["\u00c3\u0192\u00c2\u00a9", "\u00e9"],
+        ["\u00c3\u0192\u00c2\u00a8", "\u00e8"],
+        ["\u00c3\u00ac", "\u00ec"],
+        ["\u00c3\u00b2", "\u00f2"],
+        ["\u00c3\u00b9", "\u00f9"],
+        ["\u00c3\u00a0", "\u00e0"],
+        ["\u00c3\u00a9", "\u00e9"],
+        ["\u00c3\u00a8", "\u00e8"],
+        ["\u00c2", ""]
+    ];
+
+    mojibakeReplacements.forEach(([from, to]) => {
+        text = text.split(from).join(to);
+    });
+
+    const finocchioForms = {
+        finocchio: "ginocchio",
+        finocchia: "ginocchia",
+        finocchi: "ginocchi",
+        finocchii: "ginocchii"
+    };
+
+    text = text.replace(/\bfinocchi(?:o|a|i|ii)\b/gi, (match, offset, source) => {
+        const context = source.slice(Math.max(0, offset - 80), Math.min(source.length, offset + 80)).toLowerCase();
+        const hasMedicalContext = /(dolor|fastid|gonfior|cediment|blocco|articolar|trauma|disturb|cammin|scala|rotula|menisc|crociat|localizz|regione|arto|sintom)/.test(context);
+        if (!hasMedicalContext) return match;
+
+        const replacement = finocchioForms[match.toLowerCase()] || "ginocchio";
+        if (match === match.toUpperCase()) return replacement.toUpperCase();
+        if (match[0] === match[0].toUpperCase()) return replacement[0].toUpperCase() + replacement.slice(1);
+        return replacement;
+    });
+
+    return text.replace(/\s{2,}/g, " ").trim();
+}
+
 let GoogleGenerativeAI = true; // Placeholder per indicare che il motore è pronto (non usiamo più l'SDK esterno)
 
 let db = null;
@@ -192,13 +243,13 @@ const DISCLAIMER = "Questo servizio fornisce informazioni di orientamento sanita
 const URGENCY_WARNING = "In presenza di sintomi gravi o improvvisi contatta il 112 o recati immediatamente al Pronto Soccorso.";
 
 const DOMANDE_CONOSCITIVE = [
-    "Da quanto tempo è presente il disturbo?\n<br><i>A) Da qualche ora/giorno<br>B) Da alcune settimane<br>C) Da mesi/anni</i>",
-    "La comparsa del sintomo è stata improvvisa o graduale?\n<br><i>A) Improvvisa e acuta<br>B) Graduale ma in peggioramento<br>C) Alterna momenti buoni e cattivi</i>",
+    "Da quanto tempo Ã¨ presente il disturbo?\n<br><i>A) Da qualche ora/giorno<br>B) Da alcune settimane<br>C) Da mesi/anni</i>",
+    "La comparsa del sintomo Ã¨ stata improvvisa o graduale?\n<br><i>A) Improvvisa e acuta<br>B) Graduale ma in peggioramento<br>C) Alterna momenti buoni e cattivi</i>",
     "Hai altre patologie note o assumi farmaci regolarmente?\n<br><i>A) Nessuna patologia/farmaco<br>B) Assumo farmaci di base (es. pressione, sciroppi)<br>C) Patologie croniche note</i>"
 ];
 
 const DOMANDE_ANAMNESTICHE = [
-    "Il dolore o fastidio peggiora con il movimento o in determinate posizioni?\n<br><i>A) Sì<br>B) No<br>C) A volte</i>",
-    "Il riposo notturno è disturbato da questo problema?\n<br><i>A) Sì, spesso mi sveglia<br>B) No, dormo bene<br>C) Difficoltà solo nell'addormentamento</i>",
+    "Il dolore o fastidio peggiora con il movimento o in determinate posizioni?\n<br><i>A) SÃ¬<br>B) No<br>C) A volte</i>",
+    "Il riposo notturno Ã¨ disturbato da questo problema?\n<br><i>A) SÃ¬, spesso mi sveglia<br>B) No, dormo bene<br>C) DifficoltÃ  solo nell'addormentamento</i>",
     "Senti che questo disturbo sta impattando significativamente la tua vita quotidiana o il tuo benessere emotivo?\n<br><i>A) Moltissimo<br>B) Abbastanza<br>C) Poco o nulla</i>"
 ];

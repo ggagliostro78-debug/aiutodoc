@@ -300,24 +300,24 @@ class ChatInterface {
 
         <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">
             <h3 style="color: var(--primary); margin-top: 0;">Sintesi Anamnestica</h3>
-            <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(saved.result.sintesi_anamnestica || saved.result.patologia_presunta)}</p>
+            <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(normalizeMedicalText(saved.result.sintesi_anamnestica || saved.result.patologia_presunta))}</p>
             
             <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div style="background: #f0f7f7; padding: 15px; border-radius: 10px;">
                     <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #0F5464; font-weight: bold; margin-bottom: 5px;">Specialista Consigliato</span>
-                    <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(saved.result.specialista_indicato)}</strong>
+                    <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(normalizeMedicalText(saved.result.specialista_indicato))}</strong>
                 </div>
                 <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
                     <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">Guida al Comportamento</span>
-                    <p style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(saved.result.preparazione_visita)}</p>
+                    <p style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(normalizeMedicalText(saved.result.preparazione_visita))}</p>
                 </div>
             </div>
             
             <div style="margin-top: 20px; background: #fef2f2; padding: 15px; border-radius: 10px; border: 1px dashed #f87171;">
                 <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #b91c1c; font-weight: bold; margin-bottom: 5px;">Nota per l'Impegnativa (MMG)</span>
-                <p style="margin: 0; font-style: italic; color: #374151;">"${escapeHTML(saved.result.impegnativa_medico)}"</p>
+                <p style="margin: 0; font-style: italic; color: #374151;">"${escapeHTML(normalizeMedicalText(saved.result.impegnativa_medico))}"</p>
             </div>
         </div>
         `;
@@ -376,7 +376,7 @@ class ChatInterface {
         if (type === 'user-msg') {
             bubble.textContent = content;
         } else {
-            bubble.innerHTML = sanitizeHTML(content);
+            bubble.innerHTML = sanitizeHTML(normalizeMedicalText(content));
             this._enhanceMultipleChoiceBubble(bubble);
         }
 
