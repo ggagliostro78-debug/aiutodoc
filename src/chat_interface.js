@@ -217,7 +217,14 @@ class ChatInterface {
             : (this.recoveryInput ? this.recoveryInput.value : '');
         const id = String(sourceValue || '').trim();
         if (!id) return;
+        const recoverySource = typeof idOverride === 'string'
+            ? 'recovery_page_redirect'
+            : 'manual_input';
         console.log("Recovery: avviato recupero per ID", id);
+
+        trackEvent('recovery_requested', {
+            recovery_source: recoverySource
+        });
 
         const cleanID = normalizeTriageID(id);
         const allResults = getStoredTriages();
@@ -232,6 +239,9 @@ class ChatInterface {
         }
 
         if (saved) {
+            trackEvent('recovery_success', {
+                retrieval_mode: saved === allResults[cleanID] ? 'local' : 'cloud'
+            });
             const chatBtn = document.querySelector('.nav-btn[data-target="chat-section"]');
             if (chatBtn && !chatBtn.classList.contains('active')) {
                 chatBtn.click();
@@ -249,6 +259,9 @@ class ChatInterface {
                 this.recoveryInput.value = '';
             }
         } else {
+            trackEvent('recovery_failed', {
+                retrieval_mode: 'unknown'
+            });
             alert("ID non trovato. Controlla il numero e riprova (gli ID sono universali se salvati online).");
         }
     }

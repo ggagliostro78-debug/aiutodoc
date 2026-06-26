@@ -136,6 +136,52 @@ function setupInstallPrompt() {
     });
 }
 
+function setupNavigationTracking() {
+    document.querySelectorAll('[data-target]').forEach((el) => {
+        el.addEventListener('click', () => {
+            const targetId = String(el.getAttribute('data-target') || '').trim();
+            if (!targetId) return;
+            trackEvent('nav_page_open', {
+                destination_section: targetId
+            });
+        });
+    });
+}
+
+function setupMailtoTracking() {
+    document.addEventListener('click', (event) => {
+        const mailtoLink = event.target.closest('a[href^="mailto:"]');
+        if (!mailtoLink) return;
+
+        const href = String(mailtoLink.getAttribute('href') || '');
+        const label = String(mailtoLink.textContent || '').trim().toLowerCase();
+        let contact_type = 'generic';
+
+        if (href.includes('Opportunita investimento istituzionale AIutoDoc')) {
+            contact_type = 'investor';
+        } else if (href.includes('Collaborazione AIutoDoc')) {
+            contact_type = 'collaboration';
+        } else if (href.includes('Informazioni servizi specialisti AIutoDoc')) {
+            contact_type = 'specialist_services';
+        } else if (label.includes('contattaci')) {
+            contact_type = 'contact';
+        }
+
+        trackEvent('mailto_click', {
+            contact_type
+        });
+    });
+
+    const investorBtn = document.getElementById('investor-btn');
+    if (investorBtn) {
+        investorBtn.addEventListener('click', () => {
+            trackEvent('mailto_click', {
+                contact_type: 'investor'
+            });
+        });
+    }
+}
+
 function registerServiceWorker() {
     if (!('serviceWorker' in navigator)) return;
     if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') return;
@@ -181,6 +227,8 @@ function initApp() {
     setupMobileMenu();
     setupBannerReload();
     setupInstallPrompt();
+    setupNavigationTracking();
+    setupMailtoTracking();
     registerServiceWorker();
 
     const chatUI = new ChatInterface('app', (userText) => {

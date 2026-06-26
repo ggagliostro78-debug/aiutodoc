@@ -425,6 +425,11 @@ const recoveryPageScript = `
           input.focus();
           return;
         }
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'recovery_requested', {
+            recovery_source: 'recovery_page_submit'
+          });
+        }
         try {
           localStorage.setItem('aiutodoc_pending_recovery_id', id);
         } catch (error) {

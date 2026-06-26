@@ -196,6 +196,10 @@ class TriageEngine {
             window.chatUI.addMessage(`Fascia di età: ${ageRangeLabel}. Sesso biologico: ${sexLabel}.`, 'user-msg');
         }
 
+        trackEvent('triage_started', {
+            entry_point: 'initial_medical_form'
+        });
+
         this.state = '2_ZONA';
         this.onMessage(`Perfetto, ho registrato le informazioni essenziali nel rispetto della minimizzazione dei dati.<br><br><strong>Qual è la tua zona geografica?</strong><br>Puoi indicare Comune, Provincia o scrivere <strong>Italia</strong> per una ricerca nazionale.`);
         this._updatePlaceholder();
@@ -523,6 +527,10 @@ class TriageEngine {
         window._currentTriageData = pendingData;
         window._pendingTriageSave = null;
 
+        trackEvent('recovery_code_generated', {
+            storage_mode: storageMode
+        });
+
         const copyHint = storageMode === "cloud"
             ? "Usa questo codice per tornare ai risultati senza rifare le domande. Non condividerlo."
             : "Usa questo codice su questo dispositivo per tornare ai risultati senza rifare le domande. Il recupero da altri dispositivi sara disponibile quando l'archivio cloud verra configurato.";
@@ -587,6 +595,10 @@ class TriageEngine {
         }
         const cleanID = normalizeTriageID(id);
 
+        trackEvent('recovery_requested', {
+            recovery_source: 'engine_direct'
+        });
+
         this.onMessage("Recupero: Recupero ricerca in corso per ID: " + cleanID + "...", "system-msg");
 
         try {
@@ -609,6 +621,9 @@ class TriageEngine {
             const payload = await response.json();
             const data = payload.triage;
             saveStoredTriage(data);
+            trackEvent('recovery_success', {
+                retrieval_mode: 'cloud'
+            });
             this.onMessage("OK: Ricerca recuperata con successo!", "system-msg success");
             
             // Switch alla tab chat se necessario
@@ -622,6 +637,9 @@ class TriageEngine {
 
         } catch (err) {
             console.error("Errore recupero cloud:", err);
+            trackEvent('recovery_failed', {
+                retrieval_mode: 'cloud'
+            });
             this.onMessage("Attenzione: Errore durante il recupero. Riprova.", "system-msg danger");
         }
     }
@@ -1711,12 +1729,16 @@ class TriageEngine {
             out += resultsHTML + `</div>`;
             this.onMessage(out);
 
+            trackEvent('specialist_search_result_shown', {
+                results_count: resultObj.risultati.length
+            });
+
             this.state = '7_FINE';
             this._updatePlaceholder();
             trackEvent('triage_completed', {
                 method: 'api',
-                specialista: resultObj.specialista_indicato,
-                zona: this.userData.zona
+                results_count: resultObj.risultati.length,
+                recovery_code_offered: true
             });
 
         } catch (err) {
