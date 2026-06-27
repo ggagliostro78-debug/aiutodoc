@@ -1132,7 +1132,9 @@
       }
 
       function applyCookiePreferences(preferences) {
-        loadGoogleAnalytics();
+        if (preferences && preferences.analytics === true) {
+          loadGoogleAnalytics();
+        }
       }
 
       function hideCookieBanner() {
@@ -1143,7 +1145,7 @@
         if (!cookieConsent) return;
         cookieConsent.classList.remove('hidden');
         const saved = readJsonStorage(COOKIE_CONSENT_KEY);
-        if (cookieAnalytics) cookieAnalytics.checked = true;
+        if (cookieAnalytics) cookieAnalytics.checked = !!(saved && saved.analytics);
         if (customizeFirst && cookieCustomizePanel && cookieSaveCustom) {
           cookieCustomizePanel.classList.remove('hidden');
           cookieSaveCustom.classList.remove('hidden');
@@ -1157,7 +1159,7 @@
       function saveCookiePreferences(preferences, action) {
         const record = {
           necessary: true,
-          analytics: true,
+          analytics: preferences.analytics === true,
           marketing: false,
           action: action,
           consentVersion: APP_CONSENT_VERSION,
@@ -1178,6 +1180,11 @@
           saveCookiePreferences({ analytics: true }, 'accept_all');
         });
       }
+      if (cookieRejectAll) {
+        cookieRejectAll.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: false }, 'reject_all');
+        });
+      }
       if (cookieCustomize) {
         cookieCustomize.addEventListener('click', function() {
           if (cookieCustomizePanel) cookieCustomizePanel.classList.remove('hidden');
@@ -1186,7 +1193,7 @@
       }
       if (cookieSaveCustom) {
         cookieSaveCustom.addEventListener('click', function() {
-          saveCookiePreferences({ analytics: true }, 'customize');
+          saveCookiePreferences({ analytics: cookieAnalytics && cookieAnalytics.checked }, 'customize');
         });
       }
       if (manageCookiePreferences) {
@@ -1206,7 +1213,6 @@
       } else if (!shouldDelayCookieBanner()) {
         showCookieBanner(false);
       }
-      applyCookiePreferences(storedCookiePreferences);
 
       if (privacyModal && acceptBtn) {
         if (hasValidEntryConsent()) {
