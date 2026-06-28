@@ -17,6 +17,7 @@
   <link rel="apple-touch-icon" href="/assets/favicon-192.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="stylesheet" href="/src/style.css?v=4.1.0">
+  <script src="/src/ga_bootstrap.js?v=4.2.0"></script>
 </head>
 <body>
   <div id="app-splash" class="app-splash">
@@ -132,7 +133,6 @@
     </footer>
   </div>
 
-  <script src="/src/ga_bootstrap.js?v=4.1.1"></script>
   <script>
     (function() {
       const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
@@ -177,7 +177,9 @@
       }
 
       function applyCookiePreferences(preferences) {
-        if (preferences && preferences.analytics === true) {
+        if (typeof window.aiutodocSetAnalyticsConsent === 'function') {
+          window.aiutodocSetAnalyticsConsent(!!(preferences && preferences.analytics === true));
+        } else if (preferences && preferences.analytics === true) {
           loadGoogleAnalytics();
         }
       }

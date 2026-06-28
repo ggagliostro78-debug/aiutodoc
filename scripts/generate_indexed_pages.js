@@ -113,7 +113,9 @@ function pageTemplate({ title, description, canonicalPath, bodyContent, extraScr
       }
 
       function applyCookiePreferences(preferences) {
-        if (preferences && preferences.analytics === true) {
+        if (typeof window.aiutodocSetAnalyticsConsent === 'function') {
+          window.aiutodocSetAnalyticsConsent(!!(preferences && preferences.analytics === true));
+        } else if (preferences && preferences.analytics === true) {
           loadGoogleAnalytics();
         }
       }
@@ -278,7 +280,7 @@ function pageTemplate({ title, description, canonicalPath, bodyContent, extraScr
   <link rel="apple-touch-icon" href="/assets/favicon-192.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="stylesheet" href="/src/style.css?v=4.1.0">
-  <script src="/src/ga_bootstrap.js?v=4.1.1"></script>
+  <script src="/src/ga_bootstrap.js?v=4.2.0"></script>
 </head>
 <body>
   ${appSplash}
