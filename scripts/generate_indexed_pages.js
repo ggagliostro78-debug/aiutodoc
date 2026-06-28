@@ -72,7 +72,6 @@ function pageTemplate({ title, description, canonicalPath, bodyContent, extraScr
   <script>
     (function() {
       const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
-      const GA_MEASUREMENT_ID = 'G-9C1TRG2K0X';
       const cookieConsent = document.getElementById('cookie-consent');
       const cookieCustomizePanel = document.getElementById('cookie-customize-panel');
       const cookieAnalytics = document.getElementById('cookie-analytics');
@@ -108,17 +107,9 @@ function pageTemplate({ title, description, canonicalPath, bodyContent, extraScr
       }
 
       function loadGoogleAnalytics() {
-        if (window.__aiutodocGaLoaded) return;
-        window.__aiutodocGaLoaded = true;
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function(){ window.dataLayer.push(arguments); };
-        window.gtag('js', new Date());
-        window.gtag('config', GA_MEASUREMENT_ID, { anonymize_ip: true });
-
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_MEASUREMENT_ID);
-        document.head.appendChild(script);
+        if (typeof window.aiutodocApplyAnalyticsConsent === 'function') {
+          window.aiutodocApplyAnalyticsConsent();
+        }
       }
 
       function applyCookiePreferences(preferences) {
@@ -287,6 +278,7 @@ function pageTemplate({ title, description, canonicalPath, bodyContent, extraScr
   <link rel="apple-touch-icon" href="/assets/favicon-192.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="stylesheet" href="/src/style.css?v=4.1.0">
+  <script src="/src/ga_bootstrap.js?v=4.1.1"></script>
 </head>
 <body>
   ${appSplash}
