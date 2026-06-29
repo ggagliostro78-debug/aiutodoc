@@ -187,9 +187,10 @@ function registerServiceWorker() {
     if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') return;
 
     window.addEventListener('load', () => {
+        const hadController = Boolean(navigator.serviceWorker.controller);
         let refreshing = false;
         navigator.serviceWorker.addEventListener('controllerchange', () => {
-            if (refreshing) return;
+            if (!hadController || refreshing) return;
             refreshing = true;
             window.location.reload();
         });
