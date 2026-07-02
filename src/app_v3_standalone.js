@@ -735,9 +735,42 @@ class TriageEngine {
         }
     }
 
+    async _validateSymptomWithBackend(symptom) {
+        const API_URL = (typeof CONFIG !== 'undefined' && CONFIG.GEMINI_API_URL)
+            ? CONFIG.GEMINI_API_URL
+            : "/api/gemini";
+
+        if (window.location.protocol === 'file:' && API_URL.startsWith('/')) {
+            throw new Error("Il proxy Gemini richiede un server locale o un deploy serverless.");
+        }
+
+        const response = await this._fetchWithTimeout(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                action: 'validate_symptom',
+                symptom
+            })
+        }, 12000);
+
+        if (!response.ok) {
+            throw new Error(`Validazione sintomo non disponibile (${response.status}).`);
+        }
+
+        const data = await response.json();
+        const result = data && data.result;
+        if (!result || typeof result.is_medical_request !== 'boolean' || typeof result.is_possible_emergency !== 'boolean') {
+            throw new Error("Risposta di validazione sintomo non valida.");
+        }
+
+        return result;
+    }
+
     async processUserInput(text) {
         const input = text.trim();
-        console.log("Engine: elaborazione input ->", input, "| Stato attuale:", this.state);
+        console.log("Engine: elaborazione input", { state: this.state, inputLength: input.length });
         if (!input) return;
 
         if (this._detectUrgency(input)) {
@@ -1000,6 +1033,11 @@ class TriageEngine {
                 const cleanDisturbo = input.trim();
                 const dtl = cleanDisturbo.toLowerCase();
 
+                if (cleanDisturbo.length > 500) {
+                    this.onMessage("Errore: La descrizione è troppo lunga. Riassumi il disturbo principale in massimo 500 caratteri.", "system-msg danger");
+                    return;
+                }
+
                 // Do not let a generic symptom term validate a non-anatomical target.
                 // The user must provide a real body area before clinical triage can start.
                 if (/\bfinocchi(?:o|a|i)?\b/i.test(cleanDisturbo)) {
@@ -1041,13 +1079,13 @@ class TriageEngine {
                 }
 
                 try {
-                    // 2) Whitelist diretta per Supporto Psicologico e Sintomatico Generale (bypassa la validità testuale enciclopedica Wikipedia garantendo l'accesso)
+                    // 2) Whitelist locale usata come segnale prudente soltanto se la validazione backend non è disponibile.
                     const directValidationWhitelist = [
                         // --- Psicologia & Relazioni ---
                         'ansia', 'stress', 'depress', 'panico', 'dialogo', 'parlare', 'sfogo', 'tristezza', 'paura', 'angoscia', 'trauma', 'lutto', 'ossession', 'solitudine', 'mentale', 'psicolog', 'psichiatr', 'umore', 'emozion', 'mente', 
                         'partner', 'coppia', 'socio', 'relazione', 'conflitto', 'comunicazione', 'sessual', 'erezi', 'eiacula', 'libido', 'desiderio', 'intimità', 'lavoro', 'genitori', 'figli', 'scuola', 'bullismo', 'autostima', 'personalità', 'fobia', 'attacchi', 'delir', 'allucin', 'pensier', 'comportament', 'terapia', 'psicotera',
                         // --- Sintomi Generali & Branche ---
-                        'dolor', 'brucior', 'prurit', 'fastidi', 'febbre', 'tosse', 'macchi', 'neo', 'nevo', 'nei', 'lesion cutanea', 'melanom', 'verruca', 'brufol', 'foruncol', 'orticaria', 'ponfo', 'nausea', 'vomit', 'vertigin', 'capogir', 'debolezz', 'stanch', 'sangue', 'visita', 'mal di', 'male', 'gonfior', 'occhi', 'testa', 'schiena', 'pancia', 'gamba', 'braccio', 'mano', 'piede', 'ginocchi', 'spalla', 'fiato', 'respiro', 'battito', 'formicol', 'udito', 'vista', 'memoria', 'peso', 'diabete', 'tiroid',
+                        'dolor', 'brucior', 'prurit', 'fastidi', 'febbre', 'tosse', 'macchi', 'neo', 'nevo', 'nei', 'lesion cutanea', 'melanom', 'verruca', 'brufol', 'foruncol', 'orticaria', 'ponfo', 'nausea', 'vomit', 'vertigin', 'capogir', 'debolezz', 'stanch', 'sangue', 'sanguin', 'pressione alta', 'ipertension', 'visita', 'mal di', 'male', 'gonfior', 'occhi', 'testa', 'schiena', 'pancia', 'gamba', 'braccio', 'mano', 'piede', 'ginocchi', 'spalla', 'fiato', 'respiro', 'battito', 'formicol', 'udito', 'vista', 'memoria', 'peso', 'diabete', 'tiroid',
                         'ortoped', 'neurol', 'cardiol', 'gastro', 'dermatol', 'ginecol', 'urol', 'androl', 'prostat', 'pene', 'testicol', 'vescica', 'otorino', 'oculist', 'chirurg', 'dentist', 'odontoi', 'endocr', 'diabet', 'pneumo', 'emato', 'infettiv', 'reumatol', 'geriatr', 'dietol', 'nutriz', 'pediatr',
                         // --- Glossario Esteso (A-Z) ---
                         'acufen', 'otite', 'rinite', 'ipoacusia', 'faringite', 'epistassi', 'sinusite', 'disfonia', 'laringite', 'raucedine', 'otalgia', 'labirintite', 'meniere', 'colesteatoma',
@@ -1069,42 +1107,41 @@ class TriageEngine {
                     const isDirectValid = directValidationWhitelist.some(word => dtl.includes(word));
 
                     let isValidMedicalTerm = false;
+                    let validationUnavailable = false;
 
-                    if (isDirectValid) {
-                        isValidMedicalTerm = true;
-                    } else {
-                        // 3) Validazione Scientifica / Enciclopedica sul web per disturbi fisici sconosciuti/rari
-                        const response = await fetch(`https://it.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleanDisturbo)}&utf8=&format=json&origin=*`);
-                        const data = await response.json();
-
-                        // Strict Verification: Non basta che Wikipedia trovi la parola. Dobbiamo assicurarci che nei risultati compaiano lemmi associati alla salute.
-                        if (data && data.query && data.query.search && data.query.search.length > 0) {
-                            const medicalKeywords = ['malattia', 'sindrome', 'medicina', 'medico', 'sintomo', 'dolore', 'patologia', 'terapia', 'infiammazione', 'disturbo', 'cura', 'salute', 'infezione', 'paziente', 'ospedale', 'clinica', 'farmaco', 'intervento', 'cronico', 'corpo', 'muscolo', 'osso', 'sangue', 'nerv', 'organo'];
-
-                            // Scansioniamo i titoli e gli snippet dei primi risultati per trovare il match clinico
-                            for (let i = 0; i < Math.min(3, data.query.search.length); i++) {
-                                const combinedText = (data.query.search[i].title + " " + data.query.search[i].snippet).toLowerCase();
-                                if (medicalKeywords.some(keyword => combinedText.includes(keyword))) {
-                                    isValidMedicalTerm = true;
-                                    break;
-                                }
-                            }
+                    // 3) Validazione server-side tramite il fornitore AI già configurato.
+                    // Viene eseguita anche per la whitelist affinché possa aggiungere un avviso di possibile urgenza.
+                    try {
+                        const validation = await this._validateSymptomWithBackend(cleanDisturbo);
+                        if (validation.is_possible_emergency) {
+                            this.onMessage(URGENCY_WARNING, 'system-msg danger');
+                            return;
                         }
+                        isValidMedicalTerm = validation.is_medical_request;
+                    } catch (validationError) {
+                        validationUnavailable = true;
+                        // Fallback non clinico: il testo ha già superato i controlli locali anti-abuso.
+                        // La whitelist resta un segnale locale, ma non viene presentata come validazione medica.
+                        isValidMedicalTerm = isDirectValid || this._isValidFreeText(cleanDisturbo);
+                        console.warn("Validazione automatica sintomo non disponibile; applicato fallback prudente.");
                     }
 
                     if (isValidMedicalTerm) {
                         this.userData.disturbo = cleanDisturbo;
                         this.userData.domandeAnamnesticheDinamiche = this._generaDomandeAnamnestiche(cleanDisturbo);
                         this.state = '4_CONOSCITIVE';
-                        this.onMessage("<strong>OK: Sintomo convalidato dai database scientifici/letteratura.</strong><br><br>Ho preso nota del tuo disturbo. Per inquadrarlo meglio, ti porrò ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
+                        const validationNotice = validationUnavailable
+                            ? "<strong>Nota:</strong> la validazione automatica non è disponibile in questo momento; puoi comunque proseguire con l'orientamento informativo.<br><br>"
+                            : "";
+                        this.onMessage(`${validationNotice}<strong>Descrizione acquisita.</strong><br><br>Ho preso nota del disturbo riferito. Per comprenderne meglio il contesto, ti porrò ora <strong>3 domande conoscitive.</strong><br><br>1. ${DOMANDE_CONOSCITIVE[0]}`);
                         this._updatePlaceholder();
                     } else {
                         this.onMessage(`Errore: Il testo "<strong>${cleanDisturbo}</strong>" non sembra descrivere un disturbo riconoscibile. Inserisci un problema reale o una necessità sanitaria concreta (es. "cefalea", "vertigini", "dolore alla schiena") e riprova.`, "system-msg danger");
                         return;
                     }
                 } catch (error) {
-                    console.error("Errore validazione sintomo:", error);
-                    this.onMessage("Attenzione: Non riesco a convalidare il sintomo tramite le fonti online in questo momento. Riprova tra poco o descrivi il disturbo con termini più comuni.", "system-msg danger");
+                    console.error("Errore interno durante la validazione del sintomo.");
+                    this.onMessage("Attenzione: Non riesco a elaborare la descrizione in questo momento. Riprova tra poco.", "system-msg danger");
                     return;
                 }
                 break;
