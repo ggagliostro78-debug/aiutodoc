@@ -10,6 +10,7 @@ class TriageEngine {
             age_range: null,
             exact_age: null,
             weight_kg: null,
+            height_cm: null,
             sex_at_birth: null,
             initialMedicalData: null,
             sessoEta: null,
@@ -83,9 +84,13 @@ class TriageEngine {
                 placeholder = "Scegli Si o No";
                 break;
             case '5C_DETTAGLIO_CONDIZIONATO':
-                placeholder = this.currentConditionalDetail === "weight_kg"
-                    ? "Inserisci il peso in kg. Es. 72"
-                    : "Inserisci l'età precisa. Es. 47";
+                if (this.currentConditionalDetail === "weight_kg") {
+                    placeholder = "Inserisci il peso in kg. Es. 72";
+                } else if (this.currentConditionalDetail === "height_cm") {
+                    placeholder = "Inserisci l'altezza in cm. Es. 170";
+                } else {
+                    placeholder = "Inserisci l'età precisa. Es. 47";
+                }
                 break;
             case '4B_NOTA_CONOSCITIVA':
             case '5B_NOTA_ANAMNESTICA':
@@ -253,10 +258,20 @@ class TriageEngine {
             || /\b(peso|bmi|massa corporea|nutriz|diet|obes|sovrappeso|sottopeso|endocrin|diabet|glicem|metabolic|cardiometabolic|cardio metabol|disidrata|vomit|diarrea|farmac|dosagg|dose)\w*/i.test(text);
     }
 
+    _needsHeight() {
+        const text = this._clinicalContextText();
+        const pediatricRanges = ["0_2", "3_5", "6_12", "13_17"];
+        return this._needsWeight() && (
+            pediatricRanges.includes(this.userData.age_range)
+            || /\b(altezza|bmi|imc|indice di massa corporea|crescita|nutriz|diet|obes|sovrappeso|sottopeso|endocrin|diabet|metabolic|cardiometabolic|cardio metabol)\w*/i.test(text)
+        );
+    }
+
     _prepareConditionalDetailsQueue() {
         const queue = [];
         if (this._needsPreciseAge() && !this.userData.exact_age) queue.push("exact_age");
         if (this._needsWeight() && !this.userData.weight_kg) queue.push("weight_kg");
+        if (this._needsHeight() && !this.userData.height_cm) queue.push("height_cm");
         this.conditionalDetailsQueue = queue;
         this.currentConditionalDetail = null;
         return queue;
@@ -274,9 +289,12 @@ class TriageEngine {
 
         this.currentConditionalDetail = next;
         this.state = '5C_DETTAGLIO_CONDIZIONATO';
-        const message = next === "weight_kg"
-            ? "Per questo percorso il peso può essere clinicamente rilevante. Indica il peso in kg, ad esempio <strong>72</strong>."
-            : "Per questo percorso serve anche l'età puntuale. Indica l'età precisa in anni, ad esempio <strong>47</strong>.";
+        let message = "Per questo percorso serve anche l'età puntuale. Indica l'età precisa in anni, ad esempio <strong>47</strong>.";
+        if (next === "weight_kg") {
+            message = "Per questo percorso il peso può essere clinicamente rilevante. Indica il peso in kg, ad esempio <strong>72</strong>.";
+        } else if (next === "height_cm") {
+            message = "Per questo percorso anche l'altezza può essere clinicamente rilevante. Indicala in centimetri, ad esempio <strong>170</strong>.";
+        }
         this.onMessage(message);
         this._updatePlaceholder();
     }
@@ -299,6 +317,12 @@ class TriageEngine {
                 return;
             }
             this.userData.weight_kg = Math.round(numberValue * 10) / 10;
+        } else if (this.currentConditionalDetail === "height_cm") {
+            if (!Number.isFinite(numberValue) || numberValue < 30 || numberValue > 250) {
+                this.onMessage("Errore: inserisci un'altezza valida in centimetri, compresa tra 30 e 250.", "system-msg danger");
+                return;
+            }
+            this.userData.height_cm = Math.round(numberValue * 10) / 10;
         }
 
         this._askNextConditionalDetailOrFinalNote();
@@ -412,10 +436,13 @@ class TriageEngine {
 
     _saveTriageResult(resultObj, source = 'api', options = {}) {
         const triageID = this._generateTriageID();
+        const storedUserData = JSON.parse(JSON.stringify(this.userData));
+        // L'altezza serve solo all'elaborazione corrente e non viene resa persistente.
+        delete storedUserData.height_cm;
         const dataToSave = {
             id: triageID,
             date: new Date().toISOString(),
-            userData: JSON.parse(JSON.stringify(this.userData)),
+            userData: storedUserData,
             result: resultObj,
             source: source,
             userRegistration: null
@@ -1673,6 +1700,7 @@ class TriageEngine {
                             SPECIALISTA CONSIGLIATO
                         </span>
                         <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(resultObj.specialista_indicato)}</strong>
+                        ${buildSpecialtyEvidenceHTML(resultObj.specialista_indicato)}
                     </div>
                     <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
                         <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">
@@ -1962,6 +1990,7 @@ class TriageEngine {
             - Fascia di età iniziale: ${this._ageRangeLabel(this.userData.age_range) || "non specificata"}
             - Età puntuale, se clinicamente necessaria e raccolta: ${this.userData.exact_age ?? this.userData.age ?? "non raccolta"}
             - Peso, se clinicamente necessario e raccolto: ${this.userData.weight_kg ? `${this.userData.weight_kg} kg` : "non raccolto"}
+            - Altezza, se clinicamente necessaria e raccolta: ${this.userData.height_cm ? `${this.userData.height_cm} cm` : "non raccolta"}
             - Sesso biologico: ${this._sexAtBirthLabel(this.userData.sex_at_birth)} (${this.userData.sex_at_birth || "not_specified"})
             - Zona: ${userZonaStr}
             - Disturbo: ${this.userData.disturbo}

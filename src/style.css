@@ -3235,6 +3235,51 @@ body {
   border-radius: 8px;
 }
 
+.specialty-evidence {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #cfe3e6;
+  color: #2d3748;
+}
+
+.specialty-evidence h4 {
+  margin: 0 0 4px;
+  color: #0f5464;
+  font-size: 0.94rem;
+}
+
+.specialty-evidence p,
+.specialty-evidence small {
+  display: block;
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.specialty-evidence ul {
+  margin: 8px 0;
+  padding-left: 19px;
+}
+
+.specialty-evidence li {
+  margin-bottom: 7px;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.specialty-evidence a {
+  color: #0f5464;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.specialty-evidence li span {
+  display: block;
+  color: #52636a;
+  font-size: 0.74rem;
+}
+
 .triage-result {
   page-break-inside: avoid;
   margin-bottom: 10px;

@@ -312,6 +312,7 @@ class ChatInterface {
                 <div style="background: #f0f7f7; padding: 15px; border-radius: 10px;">
                     <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #0F5464; font-weight: bold; margin-bottom: 5px;">Specialista Consigliato</span>
                     <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(normalizeMedicalText(saved.result.specialista_indicato))}</strong>
+                    ${buildSpecialtyEvidenceHTML(saved.result.specialista_indicato)}
                 </div>
                 <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
                     <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">Guida al Comportamento</span>

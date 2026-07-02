@@ -17,6 +17,64 @@ function escapeHTML(value) {
         .replace(/'/g, "&#39;");
 }
 
+const SPECIALTY_EVIDENCE_COMMON = Object.freeze([
+    {
+        title: "Referral interventions from primary to specialist care: a systematic review",
+        detail: "Blank et al., British Journal of General Practice, 2014 (abstract PubMed)",
+        url: "https://pubmed.ncbi.nlm.nih.gov/25452541/"
+    },
+    {
+        title: "Defining a framework for a quality referral: systematic scoping review",
+        detail: "Osman et al., British Journal of General Practice, 2026 (abstract PubMed)",
+        url: "https://pubmed.ncbi.nlm.nih.gov/41494776/"
+    }
+]);
+
+const SPECIALTY_EVIDENCE_CATALOG = Object.freeze([
+    { match: /neurolog|neurochirurg/i, source: { title: "Suspected neurological conditions: recognition and referral", detail: "NICE guideline NG127", url: "https://www.nice.org.uk/guidance/ng127" } },
+    { match: /cardiolog/i, source: { title: "Recent-onset chest pain of suspected cardiac origin", detail: "NICE clinical guideline CG95", url: "https://www.nice.org.uk/guidance/cg95" } },
+    { match: /ortoped|fisiatr|reumatolog/i, source: { title: "Low back pain and sciatica: assessment and management", detail: "NICE guideline NG59", url: "https://www.nice.org.uk/guidance/ng59" } },
+    { match: /dermatolog/i, source: { title: "Melanoma: assessment and management", detail: "NICE guideline NG14", url: "https://www.nice.org.uk/guidance/ng14" } },
+    { match: /oculist|oftalmolog/i, source: { title: "Glaucoma: diagnosis and management", detail: "NICE guideline NG81", url: "https://www.nice.org.uk/guidance/ng81" } },
+    { match: /ginecolog|ostetric/i, source: { title: "Heavy menstrual bleeding: assessment and management", detail: "NICE guideline NG88", url: "https://www.nice.org.uk/guidance/ng88" } },
+    { match: /pediatr/i, source: { title: "Fever in under 5s: assessment and initial management", detail: "NICE guideline NG143", url: "https://www.nice.org.uk/guidance/ng143" } },
+    { match: /gastroenterolog/i, source: { title: "Gastro-oesophageal reflux disease and dyspepsia in adults", detail: "NICE clinical guideline CG184", url: "https://www.nice.org.uk/guidance/cg184" } },
+    { match: /pneumolog/i, source: { title: "Chronic obstructive pulmonary disease in over 16s", detail: "NICE guideline NG115", url: "https://www.nice.org.uk/guidance/ng115" } },
+    { match: /psicolog|psicoterap|psichiatr/i, source: { title: "Common mental health problems: identification and pathways to care", detail: "NICE clinical guideline CG123", url: "https://www.nice.org.uk/guidance/cg123" } },
+    { match: /urolog|androlog/i, source: { title: "Lower urinary tract symptoms in men: management", detail: "NICE clinical guideline CG97", url: "https://www.nice.org.uk/guidance/cg97" } },
+    { match: /endocrinolog|diabetolog/i, source: { title: "Type 2 diabetes in adults: management", detail: "NICE guideline NG28", url: "https://www.nice.org.uk/guidance/ng28" }, italianSource: { title: "Linea guida della Società Italiana di Diabetologia e AMD", detail: "Linea guida SNLG validata dall’Istituto Superiore di Sanità — fonte in italiano", url: "https://www.iss.it/documents/20126/8331678/LG_379_diabete_tipo2_ed2022.pdf/9193e1fd-5d16-6baa-6513-ac385467ec64?t=167880775394886&version=1.1" } },
+    { match: /nefrolog/i, source: { title: "Chronic kidney disease: assessment and management", detail: "NICE guideline NG203", url: "https://www.nice.org.uk/guidance/ng203" } },
+    { match: /otorino|otorinolaringoiatr/i, source: { title: "Hearing loss in adults: assessment and management", detail: "NICE guideline NG98", url: "https://www.nice.org.uk/guidance/ng98" } },
+    { match: /oncolog|ematolog/i, source: { title: "Suspected cancer: recognition and referral", detail: "NICE guideline NG12", url: "https://www.nice.org.uk/guidance/ng12" }, italianSource: { title: "Terapia del dolore in oncologia", detail: "Linea guida AIOM pubblicata nel SNLG dell’Istituto Superiore di Sanità — fonte in italiano", url: "https://www.iss.it/-/snlg-terapia-dolore-oncologia" } },
+    { match: /medico di medicina generale|medico general|internist/i, source: { title: "Multimorbidity: clinical assessment and management", detail: "NICE guideline NG56", url: "https://www.nice.org.uk/guidance/ng56" } }
+]);
+
+function buildSpecialtyEvidenceHTML(specialty) {
+    if (typeof CONFIG !== "undefined" && CONFIG.SHOW_SPECIALTY_EVIDENCE === false) return "";
+
+    const normalizedSpecialty = normalizeMedicalText(specialty || "");
+    const matched = SPECIALTY_EVIDENCE_CATALOG.find((entry) => entry.match.test(normalizedSpecialty));
+    const sources = matched
+        ? [matched.source, ...(matched.italianSource ? [matched.italianSource] : []), ...SPECIALTY_EVIDENCE_COMMON]
+        : SPECIALTY_EVIDENCE_COMMON;
+
+    const items = sources.slice(0, 4).map((source) => `
+        <li>
+            <a href="${escapeHTML(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(source.title)}</a>
+            <span>${escapeHTML(source.detail)}</span>
+        </li>`).join("");
+
+    return `
+        <section class="specialty-evidence" aria-label="Fonti scientifiche dell'orientamento">
+            <h4>Fonti a supporto dell’orientamento</h4>
+            <p>${matched
+                ? "Riferimenti clinici e metodologici consultabili, pertinenti alla branca indicata."
+                : "Riferimenti metodologici sulla qualità dell’invio allo specialista; il catalogo specifico per questa branca è in aggiornamento."}</p>
+            <ul>${items}</ul>
+            <small>Le fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.</small>
+        </section>`;
+}
+
 function sanitizeHTML(html) {
     const template = document.createElement('template');
     template.innerHTML = String(html ?? "");

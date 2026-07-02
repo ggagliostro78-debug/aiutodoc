@@ -6,6 +6,9 @@ const CONFIG = {
     TRIAGE_SAVE_API_URL: "/api/triage-save",
     TRIAGE_RECOVER_API_URL: "/api/triage-recover",
 
+    // Catalogo bibliografico locale: disattivare per ripristinare la UI precedente.
+    SHOW_SPECIALTY_EVIDENCE: true,
+
     // Firebase e' opzionale. Lasciarlo vuoto evita che Netlify blocchi il deploy
     // con il secrets scanner. Il recupero locale degli ID continua a funzionare.
     FIREBASE_CONFIG: {
