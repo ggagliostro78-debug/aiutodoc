@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aiutodoc-static-v20260629-consent-mode-v2-1';
+const CACHE_NAME = 'aiutodoc-static-v20260702-compliance-v1';
 const ASSETS = [
   './',
   './index.html',

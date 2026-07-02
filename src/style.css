@@ -1906,6 +1906,7 @@ body {
 }
 
 .cookie-consent-panel {
+  position: relative;
   max-width: 940px;
   margin: 0 auto;
   display: grid;
@@ -1919,10 +1920,30 @@ body {
   box-shadow: 0 18px 50px rgba(15, 45, 53, 0.18);
 }
 
+.cookie-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--primary);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
 .cookie-consent-copy h2 {
   margin: 0 0 6px;
   font-size: 1rem;
   color: var(--text-main);
+}
+
+.cookie-consent-copy {
+  padding-right: 34px;
 }
 
 .cookie-consent-copy p {
@@ -1970,6 +1991,24 @@ body {
 
 .cookie-actions button:hover {
   background: #f0fafa;
+}
+
+.cookie-actions button,
+.cookie-actions button:first-child,
+.cookie-actions button:not(:first-child) {
+  min-width: 136px;
+  background: var(--secondary) !important;
+  color: #fff !important;
+  border-color: var(--secondary) !important;
+  font-weight: 700 !important;
+}
+
+.cookie-actions button:hover,
+.cookie-actions button:first-child:hover,
+.cookie-actions button:not(:first-child):hover {
+  background: var(--primary) !important;
+  color: #fff !important;
+  border-color: var(--primary) !important;
 }
 
 .install-app-btn {
@@ -3483,6 +3522,13 @@ button,
   letter-spacing: -0.01em !important;
   color: var(--primary) !important;
   border-color: var(--primary) !important;
+}
+
+.cookie-actions button:not(:first-child) {
+  background: var(--secondary) !important;
+  color: #FFFFFF !important;
+  border-color: var(--secondary) !important;
+  font-weight: 700 !important;
 }
 
 label,

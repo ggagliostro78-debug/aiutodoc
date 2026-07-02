@@ -157,23 +157,24 @@
 
   <section id="cookie-consent" class="cookie-consent hidden" aria-labelledby="cookie-consent-title" role="dialog" aria-modal="false">
     <div class="cookie-consent-panel">
+      <button type="button" id="cookie-close" class="cookie-close" aria-label="Chiudi e rifiuta i cookie non necessari">&times;</button>
       <div class="cookie-consent-copy">
         <h2 id="cookie-consent-title">Preferenze cookie</h2>
-        <p>Usiamo cookie tecnici necessari al funzionamento del sito. I cookie analytics vengono attivati solo con il tuo consenso.</p>
-        <a href="/cookie-policy/" target="_blank" rel="noopener">Maggiori informazioni</a>
+        <p>Usiamo cookie tecnici, necessari al funzionamento del sito, che non richiedono il tuo consenso. Utilizziamo anche cookie analitici di terze parti (Google Analytics) per statistiche aggregate sull'uso del sito: questi vengono attivati solo con il tuo consenso. Non usiamo cookie di profilazione o marketing.</p>
+        <a href="/cookie-policy/" target="_blank" rel="noopener">Maggiori informazioni: Cookie Policy</a>
       </div>
       <div id="cookie-customize-panel" class="cookie-customize-panel hidden">
         <label class="cookie-toggle">
           <input type="checkbox" checked disabled>
-          <span>Cookie tecnici necessari, sempre attivi</span>
+          <span>Cookie tecnici necessari - Sempre attivi (non disattivabili)</span>
         </label>
         <label class="cookie-toggle">
           <input type="checkbox" id="cookie-analytics">
-          <span>Cookie analytics facoltativi per statistiche aggregate</span>
+          <span>Cookie analitici (Google Analytics)</span>
         </label>
         <label class="cookie-toggle">
           <input type="checkbox" id="cookie-marketing" disabled>
-          <span>Cookie marketing/profilazione non utilizzati</span>
+          <span>Cookie marketing/profilazione - Non utilizzati</span>
         </label>
       </div>
       <div class="cookie-actions">
@@ -1035,7 +1036,7 @@
     // Rescue UI Script (Standard Script for Max Availability)
     (function() {
       console.log("Rescue UI Script loading...");
-      const APP_CONSENT_VERSION = '2026-05-gdpr-v1';
+      const APP_CONSENT_VERSION = '2026-07-02-compliance-v1';
       const ENTRY_CONSENT_KEY = 'aiutodoc_entry_consents';
       const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
       const privacyModal = document.getElementById('privacy-modal');
@@ -1049,6 +1050,7 @@
       const cookieRejectAll = document.getElementById('cookie-reject-all');
       const cookieCustomize = document.getElementById('cookie-customize');
       const cookieSaveCustom = document.getElementById('cookie-save-custom');
+      const cookieClose = document.getElementById('cookie-close');
       const manageCookiePreferences = document.getElementById('manage-cookie-preferences');
       const ageRadios = document.querySelectorAll('input[name="age-confirmation"]');
       const consentInputs = [
@@ -1101,9 +1103,9 @@
           consentVersion: APP_CONSENT_VERSION,
           documentVersions: {
             privacy: '2026-05-29-v1',
-            cookie: '2026-05-29-v1',
+            cookie: '2026-07-02-v1.2',
             disclaimer: '2026-05-29-v1',
-            terms: '2026-05-29-v1'
+            terms: '2026-07-02-v1.1'
           },
           consents: consents,
           textSnapshot: extra && extra.textSnapshot ? extra.textSnapshot : '',
@@ -1180,6 +1182,11 @@
       if (cookieRejectAll) {
         cookieRejectAll.addEventListener('click', function() {
           saveCookiePreferences({ analytics: false }, 'reject_all');
+        });
+      }
+      if (cookieClose) {
+        cookieClose.addEventListener('click', function() {
+          saveCookiePreferences({ analytics: false }, 'close_reject');
         });
       }
       if (cookieCustomize) {

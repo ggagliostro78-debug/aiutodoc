@@ -37,43 +37,46 @@
     document.head.appendChild(script);
   }
 
-  ensureGtagStub();
-
   let analyticsConsentGranted = hasValidAnalyticsConsent();
+  let analyticsConfigured = false;
 
-  // The tag is always detectable, but measurement remains disabled until consent.
-  window.gtag('consent', 'default', {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: analyticsConsentGranted ? 'granted' : 'denied',
-    wait_for_update: analyticsConsentGranted ? 0 : 500
-  });
-  window.gtag('set', 'ads_data_redaction', true);
-  window.gtag('js', new Date());
-  window.gtag('config', GA_MEASUREMENT_ID, {
-    anonymize_ip: true,
-    send_page_view: analyticsConsentGranted
-  });
-  ensureGoogleTagScript();
+  function initializeGoogleAnalytics() {
+    if (analyticsConfigured) return;
 
-  window.__aiutodocGaConfigured = true;
-  window.__aiutodocGaLoaded = true;
+    ensureGtagStub();
+    window.gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'granted'
+    });
+    window.gtag('set', 'ads_data_redaction', true);
+    window.gtag('js', new Date());
+    window.gtag('config', GA_MEASUREMENT_ID, {
+      anonymize_ip: true,
+      send_page_view: true
+    });
+    ensureGoogleTagScript();
+
+    analyticsConfigured = true;
+    window.__aiutodocGaConfigured = true;
+    window.__aiutodocGaLoaded = true;
+  }
+
+  window.__aiutodocGaConfigured = false;
+  window.__aiutodocGaLoaded = false;
 
   window.aiutodocSetAnalyticsConsent = function(granted) {
     const shouldGrant = granted === true;
 
-    window.gtag('consent', 'update', {
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      analytics_storage: shouldGrant ? 'granted' : 'denied'
-    });
-
-    if (shouldGrant && !analyticsConsentGranted) {
-      window.gtag('event', 'page_view', {
-        page_location: window.location.href,
-        page_title: document.title
+    if (shouldGrant) {
+      initializeGoogleAnalytics();
+    } else if (analyticsConfigured && typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied'
       });
     }
 
@@ -83,4 +86,8 @@
   window.aiutodocApplyAnalyticsConsent = function() {
     window.aiutodocSetAnalyticsConsent(true);
   };
+
+  if (analyticsConsentGranted) {
+    initializeGoogleAnalytics();
+  }
 })();

@@ -165,7 +165,7 @@ let GoogleGenerativeAI = true; // Placeholder per indicare che il motore è pron
 
 let db = null;
 const AI_FINAL_NOTICE = "Questa è un'indicazione informativa. Confermala sempre con il tuo medico curante.";
-const APP_CONSENT_VERSION = "2026-05-gdpr-v1";
+const APP_CONSENT_VERSION = "2026-07-02-compliance-v1";
 const REGISTERED_USER_KEY = "aiutodoc_registered_user";
 const ENTRY_CONSENT_KEY = "aiutodoc_entry_consents";
 const TRIAGE_STORAGE_KEY = "aiutodoc_triages";
