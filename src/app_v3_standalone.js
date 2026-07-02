@@ -300,8 +300,16 @@ class TriageEngine {
     }
 
     _handleConditionalDetailInput(input) {
-        const value = String(input || "").replace(",", ".").match(/\d+(?:\.\d+)?/);
-        const numberValue = value ? Number(value[0]) : NaN;
+        const rawValue = String(input || "").trim().replace(",", ".");
+        const unitPatterns = {
+            exact_age: /^(\d+(?:\.\d+)?)\s*(?:anni?|years?)?$/i,
+            weight_kg: /^(\d+(?:\.\d+)?)\s*(?:kg|chilogrammi?)?$/i,
+            height_cm: /^(\d+(?:\.\d+)?)\s*(?:cm|centimetri?)?$/i
+        };
+        const valueMatch = unitPatterns[this.currentConditionalDetail]
+            ? rawValue.match(unitPatterns[this.currentConditionalDetail])
+            : null;
+        const numberValue = valueMatch ? Number(valueMatch[1]) : NaN;
 
         if (this.currentConditionalDetail === "exact_age") {
             if (!Number.isInteger(numberValue) || numberValue < 0 || numberValue > 120) {
@@ -345,7 +353,7 @@ class TriageEngine {
     }
 
     _isAffirmativeChoice(input) {
-        return /^(si|s\u00EC|ok|certo|aggiungo|voglio aggiungere)\\b/i.test(normalizeMedicalText(input).toLowerCase());
+        return /^(si|s\u00EC|ok|certo|aggiungo|voglio aggiungere)(?:\s|[.!?,;:]|$)/i.test(normalizeMedicalText(input).toLowerCase());
     }
 
     _isNegativeChoice(input) {
