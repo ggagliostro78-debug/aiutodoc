@@ -64,6 +64,18 @@ Esito clinico reale: 0 PASS, 2 WARNING, 4 FAIL. La produzione attuale mostra fal
 
 Il branch parallelo, con mock deterministici, ha superato 12/12 esecuzioni sugli stessi sei casi.
 
+## Validazione reale del main parallelo in staging
+
+- URL staging separato: `http://127.0.0.1:4273`
+- Backend: server locale del branch parallelo con proxy Gemini reale.
+- Mock/intercettazioni `/api/gemini`: nessuna.
+- Produzione interrogata: no.
+- Casi: i sei casi critici approvati, senza estensione ai 75 casi.
+
+Il run finale desktop ha superato 6/6 test. Le verifiche mobile hanno confermato i tre casi urgenti; due richieste complete hanno inoltre evidenziato timeout intermittenti del servizio esterno, conservati come limite operativo e non come regressione grafica.
+
+Report clinico staging finale: 4 PASS CLINICO-FUNZIONALE, 2 WARNING, 0 FAIL. Tutti i criteri minimi richiesti sui sei casi risultano presenti negli output acquisiti.
+
 ## Comandi di sicurezza
 
 - `npm run check:clinical-validation`

@@ -157,7 +157,8 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
       const sources = hasClinicalEmergency || inputRejected ? '' : (await sourcesLocator.first().innerText()).trim();
       const questionCount = await page.locator('[data-testid="orientation-question"], .mcq-options').count();
 
-      const screenshotDir = path.join(root, 'artifacts', realEngine ? 'screenshots-live' : 'screenshots-mocked');
+      const screenshotFolder = environment === 'staging' ? 'screenshots-staging' : environment === 'live' ? 'screenshots-live' : 'screenshots-mocked';
+      const screenshotDir = path.join(root, 'artifacts', screenshotFolder);
       const rawDir = path.join(root, 'artifacts', 'raw-output');
       fs.mkdirSync(screenshotDir, { recursive: true });
       fs.mkdirSync(rawDir, { recursive: true });

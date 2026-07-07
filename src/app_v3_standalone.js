@@ -700,18 +700,32 @@ class TriageEngine {
             .filter(Number.isFinite);
         const signals = saturationValues
             .filter((value) => value <= 93)
-            .map((value) => `Saturazione riferita ${value}%`);
+            .map((value) => `Saturazione ${value}% riferita`);
         const emergencyPatterns = [
             { pattern: /\b(?:fiato corto|fatica a respirare|difficolta respiratoria|dispnea|non riesc[oe] a respirare)\b/, label: "Difficoltà respiratoria o dispnea riferita" },
             { pattern: /\b(?:dolore (?:al )?torace|dolore toracico)\b/, label: "Dolore toracico riferito" },
-            { pattern: /\b(?:feci (?:nere|molto scure)|melena|emorragia)\b/, label: "Possibile sanguinamento o feci molto scure riferite" },
+            { pattern: /\b(?:feci (?:nere|molto scure)|melena|emorragia)\b/, label: "Possibile sanguinamento o feci scure/molto scure riferite" },
             { pattern: /\b(?:perdita di coscienza|privo di coscienza|svenimento improvviso|infarto)\b/, label: "Perdita di coscienza o evento acuto riferito" },
             { pattern: /\b(?:suicid|uccider|ammazzar|farla finita)\w*/, label: "Rischio immediato per la sicurezza personale" },
             { pattern: /\b(?:112|118|pronto soccorso|emergenza)\b/, label: "Richiamo esplicito a un'emergenza" }
         ];
+        const contextualPatterns = [
+            { pattern: /\b(?:tachicardia|battito accelerato|palpitazioni)\b/, label: "Tachicardia o battito accelerato riferito" },
+            { pattern: /\b(?:capogiri|vertigini marcate)\b/, label: "Capogiri riferiti" },
+            { pattern: /\b(?:bpco)\b/, label: "BPCO riferita" },
+            { pattern: /\b(?:febbre\D{0,5}39)\b/, label: "Febbre 39°C riferita" },
+            { pattern: /\b(?:diabete)\b/, label: "Diabete riferito" },
+            { pattern: /\b(?:insufficienza cardiaca)\b/, label: "Insufficienza cardiaca riferita" },
+            { pattern: /\b(?:7[5-9]|8\d|9\d) anni\b/, label: "Età avanzata riferita" }
+        ];
         emergencyPatterns.forEach(({ pattern, label }) => {
             if (pattern.test(withoutNegatedSymptoms)) signals.push(label);
         });
+        if (signals.length > 0) {
+            contextualPatterns.forEach(({ pattern, label }) => {
+                if (pattern.test(withoutNegatedSymptoms)) signals.push(label);
+            });
+        }
         return [...new Set(signals)];
     }
 
@@ -2033,6 +2047,8 @@ class TriageEngine {
             - Nota libera anamnestica: ${this.userData.notaAnamnestica || "Nessuna nota aggiuntiva"}
 
             REGOLE DI OUTPUT:
+            - Nei quadri non urgenti con stanchezza, fragilità di unghie/capelli e mestruazioni abbondanti, senza diagnosi ematologica confermata né red flag attuali, indica come primo riferimento il Medico di Medicina Generale o l'Internista, non l'Ematologo.
+            - Distingui sempre il primo inquadramento nelle cure primarie dall'eventuale invio specialistico successivo.
             Restituisci ESCLUSIVAMENTE un oggetto JSON puro con questa struttura:
             {
               "sintesi_anamnestica": "Una sintesi dettagliata e professionale dei sintomi e dell'intervista in italiano.",

@@ -93,7 +93,13 @@ export function buildReport(results: CapturedResult[], expectedById: Record<stri
     const previous = latestByCase.get(key);
     if (!previous || previous.timestamp <= result.timestamp) latestByCase.set(key, result);
   }
-  const selected = [...latestByCase.values()].filter((result) => reportKind === 'technical' ? result.environment === 'mocked-local' : result.environment !== 'mocked-local');
+  const available = [...latestByCase.values()];
+  const realResults = available.filter((result) => result.environment !== 'mocked-local');
+  const selected = reportKind === 'technical'
+    ? available.filter((result) => result.environment === 'mocked-local')
+    : realResults.some((result) => result.environment === 'staging')
+      ? realResults.filter((result) => result.environment === 'staging')
+      : realResults.filter((result) => result.environment === 'live');
   const scored = selected.map((result) => ({ result, expected: expectedById[result.id], score: scoreResult(result, expectedById[result.id]) }));
   const counts = { pass: 0, warning: 0, fail: 0 };
   scored.forEach(({ score }) => { if (score.status.startsWith('PASS')) counts.pass++; else if (score.status === 'WARNING') counts.warning++; else counts.fail++; });
