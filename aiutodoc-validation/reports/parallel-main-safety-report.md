@@ -1,5 +1,17 @@
 # Report sicurezza main parallelo AIutoDoc
 
+## Aggiornamento correzione WARNING - 7 luglio 2026
+
+- Branch validato: `aiutodoc-clinical-validation`, commit `7e52867f72665c6ddabd34fa750509bcf2a3a65a`.
+- `main` invariato: `f776bae225406bd05df9bbb95828ebefe0e16e81`.
+- Merge, push, pull request e deploy produzione: nessuno.
+- File CSS, layout, colori, font, header, footer e responsive: non modificati.
+- Modifiche: livello urgenza strutturato, indicatori negativi ANEMIA_01, indicatori pediatrici CELIACHIA_02, fonte NICE NG20 contestuale e asserzioni desktop/mobile.
+- Verifica tecnica ANEMIA_01/CELIACHIA_02: PASS TECNICO desktop e mobile; non conteggiata come validazione clinica.
+- Verifica staging reale: 3/3 casi urgenti PASS CLINICO-FUNZIONALE su desktop e mobile; i tre casi dipendenti da Gemini non valutabili per `HTTP 503`, non trasformati in PASS.
+
+Questa sezione sostituisce, per l'ultimo run, le sintesi numeriche storiche riportate piu avanti nel documento.
+
 ## Identificazione ambiente
 
 - Branch parallelo: `aiutodoc-clinical-validation`

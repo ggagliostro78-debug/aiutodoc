@@ -1,5 +1,18 @@
 # Evidenza sicurezza Git
 
+## Evidenza aggiornata - 7 luglio 2026
+
+- Branch corrente: `aiutodoc-clinical-validation`
+- Commit `main` di partenza e attuale: `f776bae225406bd05df9bbb95828ebefe0e16e81`
+- Commit branch parallelo: `7e52867f72665c6ddabd34fa750509bcf2a3a65a`
+- Commit funzionale precedente: `43bdb88505e9a1dace268e47bc615732cbf9224e`
+- Main modificato: **no**
+- Deploy produzione: **nessuno**
+- Merge, push o pull request: **nessuno**
+- Diff summary `main...7e52867`: **21 file, 1770 inserimenti, 58 eliminazioni**
+
+File modificati dall'ultima correzione: `src/app_shared.js`, `src/app_v3_standalone.js`, `aiutodoc-validation/expected-results.json`, `aiutodoc-validation/playwright.config.ts`, `aiutodoc-validation/tests/aiutodoc-orientation.spec.ts` e i report generati. Nessun CSS, file legale, configurazione Netlify, API serverless, database o regola Firestore e stato modificato.
+
 - Branch corrente: `aiutodoc-clinical-validation`
 - Commit `main` di partenza: `f776bae225406bd05df9bbb95828ebefe0e16e81`
 - Commit funzionale branch parallelo validato: `43bdb88505e9a1dace268e47bc615732cbf9224e`

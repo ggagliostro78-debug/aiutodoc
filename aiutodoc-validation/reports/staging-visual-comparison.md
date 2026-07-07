@@ -12,6 +12,8 @@ Il confronto finale delle schermate iniziali e del flusso consensi non evidenzia
 
 Le differenze del branch sono funzionali e semantiche (`data-testid`, validazione input, classificazione urgenza e output strutturati) e non alterano il design del main.
 
+Nel commit `7e52867` non sono stati modificati file CSS o asset. L'unica variazione nel markup visibile e l'aggiunta testuale del livello di urgenza nella card gia esistente, senza nuove classi, regole CSS, componenti o variazioni di griglia. Il confronto desktop/Pixel 7 della cornice UI resta valido; nessuna differenza e stata applicata a header, footer, colori, font o responsive.
+
 ## Screenshot desktop
 
 - Baseline: `artifacts/visual-comparison/staging-main-baseline-desktop.png`
