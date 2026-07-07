@@ -10,6 +10,8 @@ const environment = (process.env.AIUTODOC_ENV || 'mocked-local') as CapturedResu
 const realEngine = environment !== 'mocked-local';
 const ageValues: Record<string, string> = { '3-5': '3_5', '6-12': '6_12', '18-39': '18_39', '40-64': '40_64', '65-74': '65_74', '75+': '75_plus' };
 const sexValues: Record<string, string> = { Femmina: 'female', Maschio: 'male' };
+const normalizeText = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+const matchesAny = (value: string, terms: string[]) => terms.some((term) => normalizeText(value).includes(normalizeText(term)));
 
 function syntheticResult(id: string, expected: ExpectedResult) {
   const urgent = !/non pronto soccorso|non urgente/i.test(expected.urgency) && /alta|urgente|prioritaria/i.test(expected.urgency);
@@ -72,6 +74,11 @@ async function engineState(page: Page): Promise<string> {
   return page.evaluate(() => (window as any).triageEngine?.state || 'unknown');
 }
 
+async function semanticLocator(page: Page, testId: string, fallback: string) {
+  const semantic = page.getByTestId(testId);
+  return await semantic.count() ? semantic : page.locator(fallback);
+}
+
 async function answerChoice(page: Page, value: 'C' | 'No') {
   const choice = value === 'C'
     ? page.locator('.mcq-options:not(.is-locked) .mcq-option[data-reply^="C)"]')
@@ -93,7 +100,8 @@ async function completeInterview(page: Page) {
       await send(page, value);
     }
     else if (state === '6_RICERCA_SCIENTIFICA') {
-      await expect(page.getByTestId('aiutodoc-output')).toBeVisible({ timeout: realEngine ? 120_000 : 20_000 });
+      const result = await semanticLocator(page, 'aiutodoc-output', '#printable-area');
+      await expect(result).toBeVisible({ timeout: realEngine ? 120_000 : 20_000 });
       return;
     }
     else return;
@@ -119,7 +127,7 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
       await send(page, 'Italia');
       await send(page, testCase.input);
 
-      const clinicalEmergency = page.getByTestId('clinical-emergency-output');
+      const clinicalEmergency = await semanticLocator(page, 'clinical-emergency-output', '#chat-messages .message.system-msg.danger');
       const randomRejection = page.getByText(/descrizione inserita non è valida.*casualmente/i);
       await expect.poll(async () => ({
         state: await engineState(page),
@@ -134,24 +142,22 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
         ? clinicalEmergency
         : inputRejected
           ? randomRejection
-          : page.getByTestId('aiutodoc-output');
+          : await semanticLocator(page, 'aiutodoc-output', '#printable-area');
       await expect(outputLocator).toBeVisible({ timeout: realEngine ? 120_000 : 20_000 });
       const output = (await outputLocator.innerText()).trim();
-      const specialist = hasClinicalEmergency || inputRejected ? '' : (await page.getByTestId('specialist-output').innerText()).trim();
-      const urgency = hasClinicalEmergency ? (await clinicalEmergency.innerText()).trim() : inputRejected ? '' : (await page.getByTestId('urgency-output').innerText()).trim();
-      const redFlagsText = hasClinicalEmergency ? output : inputRejected ? '' : (await page.getByTestId('red-flags-output').innerText()).trim();
-      const disclaimer = (await page.getByTestId('medical-disclaimer').first().innerText()).trim();
-      const sources = hasClinicalEmergency || inputRejected ? '' : (await page.getByTestId('orientation-sources').innerText()).trim();
-      const questionCount = await page.getByTestId('orientation-question').count();
+      const specialistLocator = await semanticLocator(page, 'specialist-output', '#printable-area .result-card-main > div:nth-of-type(1) strong');
+      const urgencyLocator = await semanticLocator(page, 'urgency-output', '#printable-area .result-card-main > div:nth-of-type(1) > div:nth-child(2) p');
+      const redFlagsLocator = await semanticLocator(page, 'red-flags-output', '#printable-area .result-card-main > p');
+      const disclaimerLocator = await semanticLocator(page, 'medical-disclaimer', '#medical-disclaimer-start, .medical-disclaimer-card');
+      const sourcesLocator = await semanticLocator(page, 'orientation-sources', '.specialty-evidence');
+      const specialist = hasClinicalEmergency || inputRejected ? '' : (await specialistLocator.first().innerText()).trim();
+      const urgency = hasClinicalEmergency ? (await clinicalEmergency.last().innerText()).trim() : inputRejected ? '' : (await urgencyLocator.first().innerText()).trim();
+      const redFlagsText = hasClinicalEmergency ? output : inputRejected ? '' : (await redFlagsLocator.first().innerText()).trim();
+      const disclaimer = (await disclaimerLocator.first().innerText()).trim();
+      const sources = hasClinicalEmergency || inputRejected ? '' : (await sourcesLocator.first().innerText()).trim();
+      const questionCount = await page.locator('[data-testid="orientation-question"], .mcq-options').count();
 
-      if (['CELIACHIA_02', 'INFLUENZA_02', 'COVID_02'].includes(testCase.id)) {
-        expect(inputRejected, `${testCase.id} non deve essere respinto come testo casuale`).toBe(false);
-      }
-      if (['INFLUENZA_02', 'COVID_02'].includes(testCase.id)) {
-        expect(hasClinicalEmergency, `${testCase.id} deve produrre un segnale clinico d'urgenza distinto`).toBe(true);
-      }
-
-      const screenshotDir = path.join(root, 'artifacts', 'screenshots');
+      const screenshotDir = path.join(root, 'artifacts', realEngine ? 'screenshots-live' : 'screenshots-mocked');
       const rawDir = path.join(root, 'artifacts', 'raw-output');
       fs.mkdirSync(screenshotDir, { recursive: true });
       fs.mkdirSync(rawDir, { recursive: true });
@@ -171,6 +177,16 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
       await testInfo.attach('output-aiutodoc', { body: output, contentType: 'text/plain' });
       await testInfo.attach('score', { body: JSON.stringify(score, null, 2), contentType: 'application/json' });
 
+      if (['CELIACHIA_02', 'INFLUENZA_02', 'COVID_02'].includes(testCase.id)) {
+        expect(inputRejected, `${testCase.id} non deve essere respinto come testo casuale`).toBe(false);
+      }
+      if (['ANEMIA_02', 'INFLUENZA_02', 'COVID_02'].includes(testCase.id)) {
+        expect(hasClinicalEmergency, `${testCase.id} deve produrre un segnale clinico d'urgenza distinto`).toBe(true);
+        if (realEngine) {
+          expect(matchesAny(redFlagsText, expected.redFlags), `${testCase.id}: red flag specifiche assenti dall'output reale`).toBe(true);
+          expect(/motivazione|perch[eé]|a causa|segnal/i.test(captured.urgencyReason || ''), `${testCase.id}: motivazione dell'urgenza assente`).toBe(true);
+        }
+      }
       expect(score.criticalErrors, score.criticalErrors.join('; ')).toEqual([]);
       expect(score.total).toBeGreaterThanOrEqual(6);
     });

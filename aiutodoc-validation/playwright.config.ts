@@ -14,7 +14,7 @@ export default defineConfig({
   workers: 1,
   timeout: realEngine ? 150_000 : 45_000,
   expect: { timeout: 10_000 },
-  retries: realEngine ? 1 : 0,
+  retries: 0,
   reporter: [
     ['list'],
     ['html', { outputFolder: 'artifacts/html-report', open: 'never' }],

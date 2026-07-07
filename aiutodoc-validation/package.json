@@ -5,10 +5,12 @@
   "description": "Suite Playwright isolata per la validazione clinico-funzionale di AIutoDoc",
   "license": "UNLICENSED",
   "scripts": {
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
-    "test:staging": "cross-env AIUTODOC_ENV=staging playwright test",
-    "test:live": "cross-env AIUTODOC_ENV=live playwright test",
+    "guard": "node scripts/assert-parallel-branch.cjs",
+    "test": "npm run guard && playwright test",
+    "test:headed": "npm run guard && playwright test --headed",
+    "test:staging": "npm run guard && cross-env AIUTODOC_ENV=staging playwright test",
+    "test:live": "npm run guard && cross-env AIUTODOC_ENV=live AIUTODOC_BASE_URL=https://aiutodoc.it playwright test --grep \"ANEMIA_01|ANEMIA_02|CELIACHIA_02|COVID_01|COVID_02|INFLUENZA_02\"",
+    "test:live:all": "npm run guard && cross-env AIUTODOC_ENV=live AIUTODOC_BASE_URL=https://aiutodoc.it playwright test",
     "report": "tsx scripts/score-results.ts",
     "install:browsers": "playwright install chromium"
   },
