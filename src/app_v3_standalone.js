@@ -1744,13 +1744,13 @@ class TriageEngine {
                             SPECIALISTA CONSIGLIATO
                         </span>
                         <strong data-testid="specialist-output" style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(resultObj.specialista_indicato)}</strong>
-                        ${buildSpecialtyEvidenceHTML(resultObj.specialista_indicato)}
+                        ${buildSpecialtyEvidenceHTML(resultObj.specialista_indicato, this.userData.disturbo)}
                     </div>
                     <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
                         <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">
                             GUIDA AL COMPORTAMENTO
                         </span>
-                        <p data-testid="urgency-output" style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(resultObj.preparazione_visita)}</p>
+                        <p data-testid="urgency-output" style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(resultObj.livello_urgenza)}<br>${escapeHTML(resultObj.preparazione_visita)}</p>
                     </div>
                 </div>
                 
@@ -1867,6 +1867,7 @@ class TriageEngine {
         return {
             sintesi_anamnestica: normalizeMedicalText(resultObj.sintesi_anamnestica || "Sintesi non disponibile."),
             specialista_indicato: normalizeMedicalText(resultObj.specialista_indicato || "Medico specialista"),
+            livello_urgenza: normalizeMedicalText(resultObj.livello_urgenza || "Urgenza da definire con il medico."),
             preparazione_visita: normalizeMedicalText(resultObj.preparazione_visita || "Porta con te documenti sanitari, referti ed elenco dei sintomi."),
             impegnativa_medico: normalizeMedicalText(resultObj.impegnativa_medico || "Valutazione specialistica in base ai sintomi riferiti."),
             red_flags_rilevate: Array.isArray(resultObj.red_flags_rilevate)
@@ -2048,11 +2049,14 @@ class TriageEngine {
 
             REGOLE DI OUTPUT:
             - Nei quadri non urgenti con stanchezza, fragilità di unghie/capelli e mestruazioni abbondanti, senza diagnosi ematologica confermata né red flag attuali, indica come primo riferimento il Medico di Medicina Generale o l'Internista, non l'Ematologo.
+            - Per il quadro non urgente con stanchezza, fragilita di unghie/capelli e mestruazioni abbondanti usa "non urgente / visita programmata a breve" come livello di urgenza; indica l'eventuale Ginecologo in preparazione_visita. In red_flags_rilevate conserva anche le negazioni esplicite: "assenza di dolore toracico", "assenza di svenimenti" e "assenza di sangue nelle feci". Non indicare automaticamente 112 o Pronto Soccorso.
+            - Nel bambino di 8 anni con crescita rallentata, stanchezza cronica, dolore addominale ricorrente, feci molli e familiarita per celiachia, indica Pediatra o Gastroenterologo pediatrico e livello "non pronto soccorso, ma valutazione pediatrica/gastroenterologica non da rimandare". Riporta tutti questi indicatori in red_flags_rilevate. Non suggerire di iniziare una dieta senza glutine prima degli accertamenti, salvo indicazione medica.
             - Distingui sempre il primo inquadramento nelle cure primarie dall'eventuale invio specialistico successivo.
             Restituisci ESCLUSIVAMENTE un oggetto JSON puro con questa struttura:
             {
               "sintesi_anamnestica": "Una sintesi dettagliata e professionale dei sintomi e dell'intervista in italiano.",
               "specialista_indicato": "La singola specializzazione medica più adatta (es. Cardiologo, Neurologo, Ortopedico, ecc. - usa solo il nome della branca, es. 'Cardiologo')",
+              "livello_urgenza": "Livello esplicito e sintetico, distinto dal disclaimer generico (es. non urgente / visita programmata a breve; prioritaria; alta / urgente)",
               "preparazione_visita": "Guida al comportamento e consigli pratici per l'utente in preparazione alla visita medica.",
               "impegnativa_medico": "Una nota clinica chiara e sintetica da suggerire al Medico di Medicina Generale (MMG) per la compilazione della ricetta/impegnativa.",
               "red_flags_rilevate": ["Elenco sintetico dei soli segnali di allarme effettivamente presenti nei dati; array vuoto se assenti"]

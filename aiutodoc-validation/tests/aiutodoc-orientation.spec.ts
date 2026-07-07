@@ -16,10 +16,14 @@ const matchesAny = (value: string, terms: string[]) => terms.some((term) => norm
 function syntheticResult(id: string, expected: ExpectedResult) {
   const urgent = !/non pronto soccorso|non urgente/i.test(expected.urgency) && /alta|urgente|prioritaria/i.test(expected.urgency);
   const specialist = expected.primary.find((x) => !/112|pronto soccorso|urgenza|medico urgente/i.test(x)) || expected.secondary[0] || expected.primary[0];
+  const redFlags = id === 'ANEMIA_01'
+    ? ['assenza di dolore toracico', 'assenza di svenimenti', 'assenza di sangue nelle feci']
+    : expected.redFlags;
   return {
     sintesi_anamnestica: `I sintomi descritti richiedono orientamento prudente. Segnali da riferire al medico: ${expected.redFlags.join(', ')}. Non è una diagnosi.`,
-    red_flags_rilevate: expected.redFlags,
+    red_flags_rilevate: redFlags,
     specialista_indicato: specialist,
+    livello_urgenza: expected.urgency,
     preparazione_visita: urgent
       ? `Valutazione urgente: contattare subito il 112 o il Pronto Soccorso. ${expected.urgency}`
       : `Parlarne con il medico per una valutazione ${expected.urgency}. ${expected.mustContain?.join(' e ') || ''}`,
@@ -170,7 +174,7 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
         disclaimer, sources, clinicalEmergency: hasClinicalEmergency ? output : '',
         urgencyReason: hasClinicalEmergency ? output : urgency, questionCount,
         url: page.url(), environment, timestamp: new Date().toISOString(),
-        screenshot: `../artifacts/screenshots/${screenshotName}`
+        screenshot: `../artifacts/${screenshotFolder}/${screenshotName}`
       };
       fs.writeFileSync(path.join(rawDir, `${environment}-${testInfo.project.name}-${testCase.id}.json`), JSON.stringify(captured, null, 2));
       const expected = expectedById[testCase.id as keyof typeof expectedById] as ExpectedResult;
@@ -180,6 +184,24 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
 
       if (['CELIACHIA_02', 'INFLUENZA_02', 'COVID_02'].includes(testCase.id)) {
         expect(inputRejected, `${testCase.id} non deve essere respinto come testo casuale`).toBe(false);
+      }
+      if (testCase.id === 'ANEMIA_01') {
+        expect(hasClinicalEmergency, 'ANEMIA_01 non deve generare 112/PS automatico').toBe(false);
+        expect(matchesAny(urgency, ['non urgente', 'visita programmata a breve'])).toBe(true);
+        expect(matchesAny(specialist, ['medico di medicina generale', 'internista', 'medicina interna'])).toBe(true);
+        for (const indicator of ['assenza di dolore toracico', 'assenza di svenimenti', 'assenza di sangue nelle feci']) {
+          expect(matchesAny(redFlagsText, [indicator]), `ANEMIA_01: indicatore negativo mancante: ${indicator}`).toBe(true);
+        }
+      }
+      if (testCase.id === 'CELIACHIA_02') {
+        expect(matchesAny(urgency, ['non pronto soccorso', 'non da rimandare'])).toBe(true);
+        expect(matchesAny(specialist, ['pediatra', 'gastroenterologo pediatrico'])).toBe(true);
+        for (const indicator of ['crescita rallentata', 'stanchezza cronica', 'dolore addominale', 'feci molli', 'familiarit']) {
+          expect(matchesAny(redFlagsText, [indicator]), `CELIACHIA_02: indicatore mancante: ${indicator}`).toBe(true);
+        }
+        expect(normalizeText(sources)).not.toContain('fever in under 5s');
+        expect(matchesAny(sources, ['coeliac disease', 'NG20'])).toBe(true);
+        expect(normalizeText(`${output} ${urgency}`)).not.toMatch(/inizia(re)? (una )?dieta senza glutine/);
       }
       if (['ANEMIA_02', 'INFLUENZA_02', 'COVID_02'].includes(testCase.id)) {
         expect(hasClinicalEmergency, `${testCase.id} deve produrre un segnale clinico d'urgenza distinto`).toBe(true);

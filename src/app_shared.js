@@ -37,6 +37,7 @@ const SPECIALTY_EVIDENCE_CATALOG = Object.freeze([
     { match: /dermatolog/i, source: { title: "Melanoma: assessment and management", detail: "NICE guideline NG14", url: "https://www.nice.org.uk/guidance/ng14" } },
     { match: /oculist|oftalmolog/i, source: { title: "Glaucoma: diagnosis and management", detail: "NICE guideline NG81", url: "https://www.nice.org.uk/guidance/ng81" } },
     { match: /ginecolog|ostetric/i, source: { title: "Heavy menstrual bleeding: assessment and management", detail: "NICE guideline NG88", url: "https://www.nice.org.uk/guidance/ng88" } },
+    { match: /celiach|coeliac|gastroenterolog.*pediatr|pediatr.*gastroenterolog/i, source: { title: "Coeliac disease: recognition, assessment and management", detail: "NICE guideline NG20", url: "https://www.nice.org.uk/guidance/ng20" } },
     { match: /pediatr/i, source: { title: "Fever in under 5s: assessment and initial management", detail: "NICE guideline NG143", url: "https://www.nice.org.uk/guidance/ng143" } },
     { match: /gastroenterolog/i, source: { title: "Gastro-oesophageal reflux disease and dyspepsia in adults", detail: "NICE clinical guideline CG184", url: "https://www.nice.org.uk/guidance/cg184" } },
     { match: /pneumolog/i, source: { title: "Chronic obstructive pulmonary disease in over 16s", detail: "NICE guideline NG115", url: "https://www.nice.org.uk/guidance/ng115" } },
@@ -49,10 +50,10 @@ const SPECIALTY_EVIDENCE_CATALOG = Object.freeze([
     { match: /medico di medicina generale|medico general|internist/i, source: { title: "Multimorbidity: clinical assessment and management", detail: "NICE guideline NG56", url: "https://www.nice.org.uk/guidance/ng56" } }
 ]);
 
-function buildSpecialtyEvidenceHTML(specialty) {
+function buildSpecialtyEvidenceHTML(specialty, clinicalContext = "") {
     if (typeof CONFIG !== "undefined" && CONFIG.SHOW_SPECIALTY_EVIDENCE === false) return "";
 
-    const normalizedSpecialty = normalizeMedicalText(specialty || "");
+    const normalizedSpecialty = normalizeMedicalText(`${specialty || ""} ${clinicalContext || ""}`);
     const matched = SPECIALTY_EVIDENCE_CATALOG.find((entry) => entry.match.test(normalizedSpecialty));
     const sources = matched
         ? [matched.source, ...(matched.italianSource ? [matched.italianSource] : []), ...SPECIALTY_EVIDENCE_COMMON]
