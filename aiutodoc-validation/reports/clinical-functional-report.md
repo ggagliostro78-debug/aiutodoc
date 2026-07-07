@@ -14,9 +14,9 @@
 
 ## Limite del mini-run del 7 luglio 2026
 
-Il mini-run ha tentato tutti i sei casi previsti senza mock e senza intercettare `/api/gemini`. L'endpoint reale dello staging ha restituito `HTTP 503` (codice applicativo 20) per `ANEMIA_01`, `CELIACHIA_02` e `COVID_01`, anche dopo un retry. Questi casi non compaiono come PASS, WARNING o output clinici: non hanno prodotto una risposta reale valutabile. La sonda diretta allo stesso endpoint ha confermato il 503.
+Il mini-run ha tentato tutti i sei casi previsti senza mock e senza intercettare `/api/gemini`. La chiave configurata e valida: una sonda minima ha ricevuto `HTTP 200`. Le richieste cliniche complete per `ANEMIA_01`, `CELIACHIA_02` e `COVID_01` hanno pero ricevuto `HTTP 429 RESOURCE_EXHAUSTED`, quota gratuita giornaliera esaurita (20 richieste per progetto/modello `gemini-2.5-flash`); il proxy ha restituito correttamente `503 GEMINI_UNAVAILABLE` alla UI.
 
-I tre casi urgenti hanno invece prodotto output reali su desktop e mobile: 6/6 esecuzioni Playwright superate, consolidate nei tre casi unici riportati sotto. Il criterio richiesto di almeno 5/6 PASS clinico-funzionali non e quindi raggiunto in questo run per indisponibilita del motore esterno. Separatamente, `ANEMIA_01` e `CELIACHIA_02` hanno superato i controlli UI/struttura in mocked-local come **PASS TECNICO**, senza essere conteggiati qui.
+I tre casi urgenti hanno prodotto output reali su desktop e mobile: 6/6 esecuzioni Playwright superate, consolidate nei tre casi unici riportati sotto. Il criterio di almeno 5/6 PASS clinico-funzionali non e raggiunto finche la quota non viene ripristinata o aumentata. Separatamente, `ANEMIA_01` e `CELIACHIA_02` hanno superato i controlli UI/struttura in mocked-local come **PASS TECNICO**, senza essere conteggiati qui.
 
 ## ANEMIA_02
 
