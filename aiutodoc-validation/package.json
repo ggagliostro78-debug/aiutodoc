@@ -1,0 +1,21 @@
+{
+  "name": "aiutodoc-clinical-validation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Suite Playwright isolata per la validazione clinico-funzionale di AIutoDoc",
+  "license": "UNLICENSED",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:staging": "cross-env AIUTODOC_ENV=staging playwright test",
+    "test:live": "cross-env AIUTODOC_ENV=live playwright test",
+    "report": "tsx scripts/score-results.ts",
+    "install:browsers": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1",
+    "cross-env": "7.0.3",
+    "tsx": "4.20.3",
+    "typescript": "5.8.3"
+  }
+}

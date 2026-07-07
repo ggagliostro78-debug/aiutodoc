@@ -65,7 +65,7 @@ function buildSpecialtyEvidenceHTML(specialty) {
         </li>`).join("");
 
     return `
-        <section class="specialty-evidence" aria-label="Fonti scientifiche dell'orientamento">
+        <section class="specialty-evidence" data-testid="orientation-sources" aria-label="Fonti scientifiche dell'orientamento">
             <h4>Fonti a supporto dell’orientamento</h4>
             <p>${matched
                 ? "Riferimenti clinici e metodologici consultabili, pertinenti alla branca indicata."
@@ -309,6 +309,7 @@ function trackEvent(eventName, params = {}) {
 
 const DISCLAIMER = "Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.";
 const URGENCY_WARNING = "In presenza di sintomi gravi o improvvisi contatta il 112 o recati immediatamente al Pronto Soccorso.";
+const CLINICAL_URGENCY_WARNING = "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.";
 
 const DOMANDE_CONOSCITIVE = [
     "Da quanto tempo è presente il disturbo?\n<br><i>A) Da qualche ora/giorno<br>B) Da alcune settimane<br>C) Da mesi/anni</i>",

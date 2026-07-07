@@ -1,0 +1,42 @@
+[
+  {
+    "id": "ANEMIA_01", "age_band": "18-39", "sex": "Femmina",
+    "input": "Sono una donna di 34 anni. Da circa 2 mesi mi sento molto stanca, faccio fatica a concentrarmi, ho le unghie fragili e mi sembra di perdere più capelli del solito. Ho mestruazioni abbondanti. Non ho dolore al petto, non ho svenimenti, non ho sangue nelle feci."
+  },
+  {
+    "id": "ANEMIA_02", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 62 anni. Da alcune settimane sono molto debole, ho fiato corto anche facendo pochi passi, battito accelerato e negli ultimi giorni ho notato feci molto scure. Ieri ho avuto capogiri forti."
+  },
+  {
+    "id": "CELIACHIA_01", "age_band": "18-39", "sex": "Femmina",
+    "input": "Ho 28 anni. Da mesi ho gonfiore addominale, diarrea alternata a stitichezza, molta stanchezza e ho perso 4 kg senza volerlo. Mia sorella è celiaca. Ho iniziato da sola a togliere il glutine e sto un po’ meglio."
+  },
+  {
+    "id": "CELIACHIA_02", "age_band": "6-12", "sex": "Maschio",
+    "input": "Bambino di 8 anni. Da un anno cresce poco, è spesso stanco, ha mal di pancia ricorrente e feci molli. La pediatra ha detto che potrebbe essere stress, ma in famiglia c’è una zia con celiachia."
+  },
+  {
+    "id": "COVID_01", "age_band": "40-64", "sex": "Maschio",
+    "input": "Ho 41 anni, febbre 37,8, mal di gola, naso chiuso, tosse leggera e dolori muscolari da ieri. Ho fatto un tampone ed è positivo al COVID. Respiro bene, saturazione 98, non ho patologie importanti."
+  },
+  {
+    "id": "COVID_02", "age_band": "75+", "sex": "Femmina",
+    "input": "Donna di 78 anni, positiva al COVID. Ha diabete e insufficienza cardiaca. Febbre 38,8 da due giorni, tosse, molta debolezza e saturazione 92-93. Dice di fare fatica a respirare quando va in bagno."
+  },
+  {
+    "id": "NEUROMUSCOLARE_01", "age_band": "3-5", "sex": "Maschio",
+    "input": "Bambino maschio di 5 anni. Cade spesso, fa fatica a correre, sale le scale con difficoltà e quando si alza da terra si aiuta con le mani sulle gambe. I polpacci sembrano molto grossi. Non ha dolore."
+  },
+  {
+    "id": "NEUROMUSCOLARE_02", "age_band": "18-39", "sex": "Maschio",
+    "input": "Uomo di 32 anni. Da 2 anni noto debolezza progressiva alle spalle e alle braccia. Faccio fatica ad alzare oggetti sopra la testa. Mio padre aveva problemi muscolari non ben diagnosticati. Non ho formicolii."
+  },
+  {
+    "id": "INFLUENZA_01", "age_band": "18-39", "sex": "Femmina",
+    "input": "Ho 25 anni. Da ieri febbre 38,5 comparsa all’improvviso, brividi, dolori muscolari, mal di testa, tosse secca e naso che cola. Non ho difficoltà respiratoria. Sono sana."
+  },
+  {
+    "id": "INFLUENZA_02", "age_band": "65-74", "sex": "Maschio",
+    "input": "Uomo di 69 anni con BPCO. Da 4 giorni febbre 39, tosse peggiorata, catarro giallo-verde, fiato corto e dolore al torace quando tossisce. La saturazione è 91-92."
+  }
+]

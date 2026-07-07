@@ -113,6 +113,7 @@ class ChatInterface {
 
             const list = document.createElement('div');
             list.className = 'mcq-options';
+            list.dataset.testid = 'orientation-question';
 
             options.forEach((option) => {
                 const row = document.createElement('div');
@@ -375,6 +376,9 @@ class ChatInterface {
     addMessage(content, type = 'system-msg') {
         const msgDiv = document.createElement('div');
         msgDiv.className = `message ${type}`;
+        if (type.includes('clinical-emergency')) {
+            msgDiv.dataset.testid = 'clinical-emergency-output';
+        }
 
         const bubble = document.createElement('div');
         bubble.className = 'msg-bubble';

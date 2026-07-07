@@ -692,12 +692,31 @@ class TriageEngine {
         // (Verrà implementata meglio nel chunk successivo inserendo il bottone PDF)
     }
 
-    _detectUrgency(text) {
-        const dangerWords = [
-            'petto', 'cuore', 'respir', 'infarto', 'coscienza', 'svvenut', 'sangue', 'emorragia', 
-            'suicid', 'uccider', 'mazzar', 'farla finita', 'emergenza', '118', '112', 'soccorso'
+    _detectUrgencySignals(text) {
+        const normalized = String(text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const withoutNegatedSymptoms = normalized.replace(/\b(?:non ho|non ha|non presenta|senza)\b[^.!?;]{0,120}(?=[.!?;]|$)/g, " ");
+        const saturationValues = [...withoutNegatedSymptoms.matchAll(/saturazione\D{0,8}(\d{2,3})/g)]
+            .map((match) => Number(match[1]))
+            .filter(Number.isFinite);
+        const signals = saturationValues
+            .filter((value) => value <= 93)
+            .map((value) => `Saturazione riferita ${value}%`);
+        const emergencyPatterns = [
+            { pattern: /\b(?:fiato corto|fatica a respirare|difficolta respiratoria|dispnea|non riesc[oe] a respirare)\b/, label: "Difficoltà respiratoria o dispnea riferita" },
+            { pattern: /\b(?:dolore (?:al )?torace|dolore toracico)\b/, label: "Dolore toracico riferito" },
+            { pattern: /\b(?:feci (?:nere|molto scure)|melena|emorragia)\b/, label: "Possibile sanguinamento o feci molto scure riferite" },
+            { pattern: /\b(?:perdita di coscienza|privo di coscienza|svenimento improvviso|infarto)\b/, label: "Perdita di coscienza o evento acuto riferito" },
+            { pattern: /\b(?:suicid|uccider|ammazzar|farla finita)\w*/, label: "Rischio immediato per la sicurezza personale" },
+            { pattern: /\b(?:112|118|pronto soccorso|emergenza)\b/, label: "Richiamo esplicito a un'emergenza" }
         ];
-        return dangerWords.some(w => text.toLowerCase().includes(w));
+        emergencyPatterns.forEach(({ pattern, label }) => {
+            if (pattern.test(withoutNegatedSymptoms)) signals.push(label);
+        });
+        return [...new Set(signals)];
+    }
+
+    _detectUrgency(text) {
+        return this._detectUrgencySignals(text).length > 0;
     }
 
     _isValidFreeText(text) {
@@ -740,9 +759,11 @@ class TriageEngine {
         console.log("Engine: elaborazione input ->", input, "| Stato attuale:", this.state);
         if (!input) return;
 
-        if (this._detectUrgency(input)) {
+        const urgencySignals = this._detectUrgencySignals(input);
+        if (urgencySignals.length > 0) {
             console.log("Engine: Urgenza rilevata!");
-            this.onMessage(URGENCY_WARNING, 'system-msg danger');
+            const signalsHTML = urgencySignals.map((signal) => `<li>${escapeHTML(signal)}</li>`).join("");
+            this.onMessage(`${CLINICAL_URGENCY_WARNING}<br><strong>Motivazione dell'urgenza:</strong><ul>${signalsHTML}</ul>`, 'system-msg danger clinical-emergency');
             return;
         }
 
@@ -1009,7 +1030,6 @@ class TriageEngine {
 
                 // 1) Funzione Euristica Anti-Gibberish e Blacklist
                 const dHasNoVowels = !/[aeiouy]/.test(dtl);
-                const dHasTooManyConsonants = /[bcdfghjklmnpqrstvwxz]{5,}/.test(dtl);
                 const dHasKeyboardPatterns = /(asd|qwe|zxc|fgh|jkl|123)+/.test(dtl);
 
                 // Blacklist di stringhe inappropriate
@@ -1017,20 +1037,20 @@ class TriageEngine {
                 const hasBadWords = badWordsPattern.test(dtl);
 
                 // Esamina stringhe composite (es: "dolore caca", "dolore asdasd")
-                const words = dtl.split(/\s+/);
-                let hasGibberishWord = false;
-                for (let w of words) {
-                    // Se una singola parola sopra i 3 caratteri non ha vocali, ha consonanti eccessive o la stessa lettera ripetuta
-                    if (w.length > 2 && (!/[aeiouy]/.test(w) || /[bcdfghjklmnpqrstvwxz]{4,}/.test(w) || /^(.)\1{2,}$/.test(w))) {
-                        hasGibberishWord = true;
-                        break;
-                    }
-                }
+                const normalizedWords = dtl
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .split(/[^a-z0-9]+/)
+                    .filter(Boolean);
+                const hasGibberishWord = normalizedWords.some((word) => {
+                    if (/^\d+(?:\d+)?$/.test(word) || word.length <= 2) return false;
+                    if (/^(?:bpco|hiv|hcv|tac|rmn|psa|pcr|ves|covid)$/.test(word)) return false;
+                    return /^(.)\1{2,}$/.test(word) || (!/[aeiouy]/.test(word) && word.length >= 6);
+                });
 
                 if (dtl.length < 3 || 
                     !this._isValidFreeText(cleanDisturbo) ||
                     /^(.)\1+$/.test(dtl) ||
-                    dHasTooManyConsonants ||
                     (dHasNoVowels && cleanDisturbo.length > 3) ||
                     dHasKeyboardPatterns ||
                     hasBadWords ||
@@ -1069,42 +1089,38 @@ class TriageEngine {
                     const isDirectValid = directValidationWhitelist.some(word => dtl.includes(word));
 
                     let isValidMedicalTerm = false;
+                    let validationUnavailable = false;
 
-                    if (isDirectValid) {
-                        isValidMedicalTerm = true;
-                    } else {
-                        // 3) Validazione Scientifica / Enciclopedica sul web per disturbi fisici sconosciuti/rari
-                        const response = await fetch(`https://it.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleanDisturbo)}&utf8=&format=json&origin=*`);
-                        const data = await response.json();
-
-                        // Strict Verification: Non basta che Wikipedia trovi la parola. Dobbiamo assicurarci che nei risultati compaiano lemmi associati alla salute.
-                        if (data && data.query && data.query.search && data.query.search.length > 0) {
-                            const medicalKeywords = ['malattia', 'sindrome', 'medicina', 'medico', 'sintomo', 'dolore', 'patologia', 'terapia', 'infiammazione', 'disturbo', 'cura', 'salute', 'infezione', 'paziente', 'ospedale', 'clinica', 'farmaco', 'intervento', 'cronico', 'corpo', 'muscolo', 'osso', 'sangue', 'nerv', 'organo'];
-
-                            // Scansioniamo i titoli e gli snippet dei primi risultati per trovare il match clinico
-                            for (let i = 0; i < Math.min(3, data.query.search.length); i++) {
-                                const combinedText = (data.query.search[i].title + " " + data.query.search[i].snippet).toLowerCase();
-                                if (medicalKeywords.some(keyword => combinedText.includes(keyword))) {
-                                    isValidMedicalTerm = true;
-                                    break;
-                                }
-                            }
+                    // La validazione resta server-side: nessun testo sanitario viene inviato a Wikipedia dal client.
+                    try {
+                        const validation = await this._validateSymptomWithBackend(cleanDisturbo);
+                        if (validation.is_possible_emergency) {
+                            this.onMessage(`${CLINICAL_URGENCY_WARNING}<br><strong>Motivazione dell'urgenza:</strong> il controllo server-side ha rilevato possibili segnali urgenti nel testo inserito.`, 'system-msg danger clinical-emergency');
+                            return;
                         }
+                        isValidMedicalTerm = validation.is_medical_request;
+                    } catch (validationError) {
+                        validationUnavailable = true;
+                        isValidMedicalTerm = isDirectValid || this._isValidFreeText(cleanDisturbo);
+                        console.warn("Validazione automatica sintomo non disponibile; applicato fallback prudente.");
                     }
 
                     if (isValidMedicalTerm) {
                         this.userData.disturbo = cleanDisturbo;
                         this.userData.domandeAnamnesticheDinamiche = this._generaDomandeAnamnestiche(cleanDisturbo);
                         this.state = '4_CONOSCITIVE';
-                        this.onMessage("<strong>OK: Sintomo convalidato dai database scientifici/letteratura.</strong><br><br>Ho preso nota del tuo disturbo. Per inquadrarlo meglio, ti porrò ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
+                        const validationNotice = validationUnavailable
+                            ? "<strong>Nota:</strong> la validazione automatica non è disponibile in questo momento; puoi comunque proseguire con l'orientamento informativo.<br><br>"
+                            : "";
+                        this.onMessage(`${validationNotice}<strong>Descrizione acquisita.</strong><br><br>Ho preso nota del disturbo riferito. Per comprenderne meglio il contesto, ti porrò ora <strong>3 domande conoscitive.</strong><br><br>1. ${DOMANDE_CONOSCITIVE[0]}`);
                         this._updatePlaceholder();
                     } else {
                         this.onMessage(`Errore: Il testo "<strong>${cleanDisturbo}</strong>" non sembra descrivere un disturbo riconoscibile. Inserisci un problema reale o una necessità sanitaria concreta (es. "cefalea", "vertigini", "dolore alla schiena") e riprova.`, "system-msg danger");
                         return;
                     }
                 } catch (error) {
-                    console.error("Errore validazione sintomo:", error);
-                    this.onMessage("Attenzione: Non riesco a convalidare il sintomo tramite le fonti online in questo momento. Riprova tra poco o descrivi il disturbo con termini più comuni.", "system-msg danger");
+                    console.error("Errore interno durante la validazione del sintomo.");
+                    this.onMessage("Attenzione: Non riesco a elaborare la descrizione in questo momento. Riprova tra poco.", "system-msg danger");
                     return;
                 }
                 break;
@@ -1689,8 +1705,8 @@ class TriageEngine {
 
             // Mostriamo i risultati
             let outInitial = `
-            <div id="printable-area">
-            <div id="medical-disclaimer-start" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
+            <div id="printable-area" data-testid="aiutodoc-output">
+            <div id="medical-disclaimer-start" data-testid="medical-disclaimer" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
               Attenzione: ${escapeHTML(DISCLAIMER)}
             </div>
             
@@ -1699,6 +1715,12 @@ class TriageEngine {
                     Sintesi Anamnestica
                 </h3>
                 <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(resultObj.sintesi_anamnestica)}</p>
+                <div data-testid="red-flags-output" style="line-height: 1.6; color: #4a5568;">
+                    <strong>Segnali rilevanti da riferire al medico:</strong>
+                    ${resultObj.red_flags_rilevate.length
+                        ? `<ul>${resultObj.red_flags_rilevate.map((flag) => `<li>${escapeHTML(flag)}</li>`).join("")}</ul>`
+                        : "<span> Nessuno esplicitamente rilevato nell'output.</span>"}
+                </div>
                 
                 <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
                 
@@ -1707,14 +1729,14 @@ class TriageEngine {
                         <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #0F5464; font-weight: bold; margin-bottom: 5px;">
                             SPECIALISTA CONSIGLIATO
                         </span>
-                        <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(resultObj.specialista_indicato)}</strong>
+                        <strong data-testid="specialist-output" style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(resultObj.specialista_indicato)}</strong>
                         ${buildSpecialtyEvidenceHTML(resultObj.specialista_indicato)}
                     </div>
                     <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
                         <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">
                             GUIDA AL COMPORTAMENTO
                         </span>
-                        <p style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(resultObj.preparazione_visita)}</p>
+                        <p data-testid="urgency-output" style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(resultObj.preparazione_visita)}</p>
                     </div>
                 </div>
                 
@@ -1833,6 +1855,9 @@ class TriageEngine {
             specialista_indicato: normalizeMedicalText(resultObj.specialista_indicato || "Medico specialista"),
             preparazione_visita: normalizeMedicalText(resultObj.preparazione_visita || "Porta con te documenti sanitari, referti ed elenco dei sintomi."),
             impegnativa_medico: normalizeMedicalText(resultObj.impegnativa_medico || "Valutazione specialistica in base ai sintomi riferiti."),
+            red_flags_rilevate: Array.isArray(resultObj.red_flags_rilevate)
+                ? resultObj.red_flags_rilevate.map((value) => normalizeMedicalText(value)).filter(Boolean).slice(0, 10)
+                : [],
             risultati: Array.isArray(resultObj.risultati) ? resultObj.risultati : []
         };
     }
@@ -2013,7 +2038,8 @@ class TriageEngine {
               "sintesi_anamnestica": "Una sintesi dettagliata e professionale dei sintomi e dell'intervista in italiano.",
               "specialista_indicato": "La singola specializzazione medica più adatta (es. Cardiologo, Neurologo, Ortopedico, ecc. - usa solo il nome della branca, es. 'Cardiologo')",
               "preparazione_visita": "Guida al comportamento e consigli pratici per l'utente in preparazione alla visita medica.",
-              "impegnativa_medico": "Una nota clinica chiara e sintetica da suggerire al Medico di Medicina Generale (MMG) per la compilazione della ricetta/impegnativa."
+              "impegnativa_medico": "Una nota clinica chiara e sintetica da suggerire al Medico di Medicina Generale (MMG) per la compilazione della ricetta/impegnativa.",
+              "red_flags_rilevate": ["Elenco sintetico dei soli segnali di allarme effettivamente presenti nei dati; array vuoto se assenti"]
             }`;
 
             const response = await fetch(API_URL, {
