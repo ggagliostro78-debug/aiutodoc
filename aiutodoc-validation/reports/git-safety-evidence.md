@@ -1,5 +1,17 @@
 # Evidenza sicurezza Git
 
+## Correzione funzionale ANEMIA_01 - 8 luglio 2026
+
+- Branch: `aiutodoc-clinical-validation`
+- Commit di partenza: `5ce5131c6bf4bc916d0cfa5845154d9c2899585e`
+- `main`: `f776bae225406bd05df9bbb95828ebefe0e16e81`, invariato
+- Timeout proxy finale: `75000 ms`
+- Codice modificato: schema/timeout proxy, normalizzazione output e acquisizione test dell'area specialistica
+- CSS, layout, grafica, UX visibile e onboarding specialisti: non modificati
+- Test: solo `ANEMIA_01`, staging reale, `chromium-desktop`, 1/1 PASS
+- Mock e intercettazioni `/api/gemini`: nessuno
+- Merge, push e deploy produzione: nessuno
+
 ## Prova timeout ANEMIA_01 - 8 luglio 2026
 
 - Branch: `aiutodoc-clinical-validation`

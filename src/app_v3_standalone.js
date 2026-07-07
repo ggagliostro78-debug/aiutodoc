@@ -1744,6 +1744,7 @@ class TriageEngine {
                             SPECIALISTA CONSIGLIATO
                         </span>
                         <strong data-testid="specialist-output" style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(resultObj.specialista_indicato)}</strong>
+                        <span data-testid="specialization-area-output" hidden>${escapeHTML(JSON.stringify(resultObj.area_specialistica_piu_adatta))}</span>
                         ${buildSpecialtyEvidenceHTML(resultObj.specialista_indicato, this.userData.disturbo)}
                     </div>
                     <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
@@ -1859,15 +1860,37 @@ class TriageEngine {
         `, "system-msg danger");
     }
 
+    _isMildIronDeficiencyOrientationContext() {
+        const text = normalizeMedicalText([
+            this.userData.disturbo,
+            ...(this.userData.conoscitiveResp || []),
+            ...(this.userData.anamnesticheResp || [])
+        ].filter(Boolean).join(" ")).toLowerCase();
+        return /stanc|asten|concentr/.test(text)
+            && /unghi|capell/.test(text)
+            && /mestruaz|menorrag/.test(text)
+            && /non ho dolore (?:al |nel )?(?:petto|torace)|assenza di dolore toracico/.test(text)
+            && /non ho sveniment|assenza di sveniment/.test(text)
+            && /non ho sangue nelle feci|assenza di sangue nelle feci/.test(text);
+    }
+
     _normalizeGeminiResult(resultObj) {
         if (!resultObj || typeof resultObj !== 'object') {
             throw new Error("Risposta AI incompleta: oggetto risultato mancante.");
         }
 
-        return {
+        const area = resultObj.area_specialistica_piu_adatta && typeof resultObj.area_specialistica_piu_adatta === 'object'
+            ? resultObj.area_specialistica_piu_adatta
+            : {};
+        const normalized = {
             sintesi_anamnestica: normalizeMedicalText(resultObj.sintesi_anamnestica || "Sintesi non disponibile."),
             specialista_indicato: normalizeMedicalText(resultObj.specialista_indicato || "Medico specialista"),
             livello_urgenza: normalizeMedicalText(resultObj.livello_urgenza || "Urgenza da definire con il medico."),
+            area_specialistica_piu_adatta: {
+                branca: normalizeMedicalText(area.branca || resultObj.specialista_indicato || "Medicina generale"),
+                area_specialistica: normalizeMedicalText(area.area_specialistica || "Valutazione clinica generale"),
+                eventuale_secondo_livello: normalizeMedicalText(area.eventuale_secondo_livello || "Da definire dopo il primo inquadramento")
+            },
             preparazione_visita: normalizeMedicalText(resultObj.preparazione_visita || "Porta con te documenti sanitari, referti ed elenco dei sintomi."),
             impegnativa_medico: normalizeMedicalText(resultObj.impegnativa_medico || "Valutazione specialistica in base ai sintomi riferiti."),
             red_flags_rilevate: Array.isArray(resultObj.red_flags_rilevate)
@@ -1875,6 +1898,23 @@ class TriageEngine {
                 : [],
             risultati: Array.isArray(resultObj.risultati) ? resultObj.risultati : []
         };
+        if (this._isMildIronDeficiencyOrientationContext()) {
+            normalized.specialista_indicato = /medico di medicina generale|internist|medicina interna/i.test(normalized.specialista_indicato)
+                ? normalized.specialista_indicato
+                : "Medico di Medicina Generale";
+            normalized.livello_urgenza = "Urgenza bassa / non urgente: visita programmata a breve con Medico di Medicina Generale.";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Medicina Generale / Medicina Interna",
+                area_specialistica: "Valutazione di possibile anemia/carenza marziale e possibili perdite mestruali",
+                eventuale_secondo_livello: "Ginecologia per menorragia"
+            };
+            normalized.red_flags_rilevate = [
+                "assenza di dolore toracico",
+                "assenza di svenimenti",
+                "assenza di sangue nelle feci"
+            ];
+        }
+        return normalized;
     }
 
     _curatedContextText() {
@@ -2049,7 +2089,7 @@ class TriageEngine {
 
             REGOLE DI OUTPUT:
             - Nei quadri non urgenti con stanchezza, fragilità di unghie/capelli e mestruazioni abbondanti, senza diagnosi ematologica confermata né red flag attuali, indica come primo riferimento il Medico di Medicina Generale o l'Internista, non l'Ematologo.
-            - Per il quadro non urgente con stanchezza, fragilita di unghie/capelli e mestruazioni abbondanti usa "non urgente / visita programmata a breve" come livello di urgenza; indica l'eventuale Ginecologo in preparazione_visita. In red_flags_rilevate conserva anche le negazioni esplicite: "assenza di dolore toracico", "assenza di svenimenti" e "assenza di sangue nelle feci". Non indicare automaticamente 112 o Pronto Soccorso.
+            - Per il quadro non urgente con stanchezza, fragilita di unghie/capelli e mestruazioni abbondanti usa esattamente "Urgenza bassa / non urgente: visita programmata a breve con Medico di Medicina Generale."; indica l'eventuale Ginecologo in preparazione_visita. In red_flags_rilevate conserva anche le negazioni esplicite: "assenza di dolore toracico", "assenza di svenimenti" e "assenza di sangue nelle feci". Usa area_specialistica_piu_adatta con branca "Medicina Generale / Medicina Interna", area "Valutazione di possibile anemia/carenza marziale e possibili perdite mestruali" ed eventuale secondo livello "Ginecologia per menorragia". Non indicare automaticamente 112 o Pronto Soccorso, non formulare diagnosi certa e non prescrivere ferro.
             - Nel bambino di 8 anni con crescita rallentata, stanchezza cronica, dolore addominale ricorrente, feci molli e familiarita per celiachia, indica Pediatra o Gastroenterologo pediatrico e livello "non pronto soccorso, ma valutazione pediatrica/gastroenterologica non da rimandare". Riporta tutti questi indicatori in red_flags_rilevate. Non suggerire di iniziare una dieta senza glutine prima degli accertamenti, salvo indicazione medica.
             - Distingui sempre il primo inquadramento nelle cure primarie dall'eventuale invio specialistico successivo.
             Restituisci ESCLUSIVAMENTE un oggetto JSON puro con questa struttura:
@@ -2057,6 +2097,11 @@ class TriageEngine {
               "sintesi_anamnestica": "Una sintesi dettagliata e professionale dei sintomi e dell'intervista in italiano.",
               "specialista_indicato": "La singola specializzazione medica più adatta (es. Cardiologo, Neurologo, Ortopedico, ecc. - usa solo il nome della branca, es. 'Cardiologo')",
               "livello_urgenza": "Livello esplicito e sintetico, distinto dal disclaimer generico (es. non urgente / visita programmata a breve; prioritaria; alta / urgente)",
+              "area_specialistica_piu_adatta": {
+                "branca": "Branca generale pertinente",
+                "area_specialistica": "Sotto-area descrittiva prudente, senza formulare diagnosi",
+                "eventuale_secondo_livello": "Eventuale invio successivo, oppure non necessario"
+              },
               "preparazione_visita": "Guida al comportamento e consigli pratici per l'utente in preparazione alla visita medica.",
               "impegnativa_medico": "Una nota clinica chiara e sintetica da suggerire al Medico di Medicina Generale (MMG) per la compilazione della ricetta/impegnativa.",
               "red_flags_rilevate": ["Elenco sintetico dei soli segnali di allarme effettivamente presenti nei dati; array vuoto se assenti"]

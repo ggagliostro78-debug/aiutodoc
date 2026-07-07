@@ -24,6 +24,11 @@ function syntheticResult(id: string, expected: ExpectedResult) {
     red_flags_rilevate: redFlags,
     specialista_indicato: specialist,
     livello_urgenza: expected.urgency,
+    area_specialistica_piu_adatta: {
+      branca: id === 'ANEMIA_01' ? 'Medicina Generale / Medicina Interna' : specialist,
+      area_specialistica: id === 'ANEMIA_01' ? 'Valutazione di possibile anemia/carenza marziale e possibili perdite mestruali' : 'Primo inquadramento',
+      eventuale_secondo_livello: id === 'ANEMIA_01' ? 'Ginecologia per menorragia' : 'Da definire'
+    },
     preparazione_visita: urgent
       ? `Valutazione urgente: contattare subito il 112 o il Pronto Soccorso. ${expected.urgency}`
       : `Parlarne con il medico per una valutazione ${expected.urgency}. ${expected.mustContain?.join(' e ') || ''}`,
@@ -150,11 +155,15 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
       await expect(outputLocator).toBeVisible({ timeout: realEngine ? 120_000 : 20_000 });
       const output = (await outputLocator.innerText()).trim();
       const specialistLocator = await semanticLocator(page, 'specialist-output', '#printable-area .result-card-main > div:nth-of-type(1) strong');
+      const areaLocator = page.getByTestId('specialization-area-output');
       const urgencyLocator = await semanticLocator(page, 'urgency-output', '#printable-area .result-card-main > div:nth-of-type(1) > div:nth-child(2) p');
       const redFlagsLocator = await semanticLocator(page, 'red-flags-output', '#printable-area .result-card-main > p');
       const disclaimerLocator = await semanticLocator(page, 'medical-disclaimer', '#medical-disclaimer-start, .medical-disclaimer-card');
       const sourcesLocator = await semanticLocator(page, 'orientation-sources', '.specialty-evidence');
       const specialist = hasClinicalEmergency || inputRejected ? '' : (await specialistLocator.first().innerText()).trim();
+      const areaSpecialistica = hasClinicalEmergency || inputRejected
+        ? undefined
+        : JSON.parse((await areaLocator.first().textContent()) || '{}');
       const urgency = hasClinicalEmergency ? (await clinicalEmergency.last().innerText()).trim() : inputRejected ? '' : (await urgencyLocator.first().innerText()).trim();
       const redFlagsText = hasClinicalEmergency ? output : inputRejected ? '' : (await redFlagsLocator.first().innerText()).trim();
       const disclaimer = (await disclaimerLocator.first().innerText()).trim();
@@ -170,7 +179,7 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
       await page.screenshot({ path: path.join(screenshotDir, screenshotName), fullPage: true });
 
       const captured: CapturedResult = {
-        id: testCase.id, input: testCase.input, output, specialist, urgency, redFlagsText,
+        id: testCase.id, input: testCase.input, output, specialist, areaSpecialistica, urgency, redFlagsText,
         disclaimer, sources, clinicalEmergency: hasClinicalEmergency ? output : '',
         urgencyReason: hasClinicalEmergency ? output : urgency, questionCount,
         url: page.url(), environment, timestamp: new Date().toISOString(),
@@ -189,6 +198,9 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
         expect(hasClinicalEmergency, 'ANEMIA_01 non deve generare 112/PS automatico').toBe(false);
         expect(matchesAny(urgency, ['non urgente', 'visita programmata a breve'])).toBe(true);
         expect(matchesAny(specialist, ['medico di medicina generale', 'internista', 'medicina interna'])).toBe(true);
+        expect(matchesAny(areaSpecialistica?.branca || '', ['medicina generale', 'medicina interna'])).toBe(true);
+        expect(matchesAny(areaSpecialistica?.area_specialistica || '', ['anemia', 'carenza marziale'])).toBe(true);
+        expect(matchesAny(areaSpecialistica?.eventuale_secondo_livello || '', ['ginecologia', 'menorragia'])).toBe(true);
         for (const indicator of ['assenza di dolore toracico', 'assenza di svenimenti', 'assenza di sangue nelle feci']) {
           expect(matchesAny(redFlagsText, [indicator]), `ANEMIA_01: indicatore negativo mancante: ${indicator}`).toBe(true);
         }

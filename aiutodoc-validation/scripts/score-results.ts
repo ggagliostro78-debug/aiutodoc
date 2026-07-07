@@ -16,6 +16,7 @@ export type CapturedResult = {
   input: string;
   output: string;
   specialist?: string;
+  areaSpecialistica?: { branca?: string; area_specialistica?: string; eventuale_secondo_livello?: string };
   urgency?: string;
   questionCount: number;
   redFlagsText?: string;
