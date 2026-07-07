@@ -1,5 +1,18 @@
 # Evidenza sicurezza Git
 
+## Prova timeout ANEMIA_01 - 8 luglio 2026
+
+- Branch: `aiutodoc-clinical-validation`
+- Commit di partenza del test: `46acd6c2751cac141d46b9d5e1b0c403477dd565`
+- `main`: `f776bae225406bd05df9bbb95828ebefe0e16e81`, invariato
+- Modifica applicativa: solo `server/gemini_proxy.js`, timeout `AbortController` da `45000` a `90000` ms
+- CSS, layout, grafica, UX, documenti legali, database e API key: non modificati
+- Merge, push, pull request e deploy produzione: nessuno
+- Test eseguito: solo `ANEMIA_01`, staging, `chromium-desktop`, senza mock o intercettazioni
+- Controlli: `node --check server/gemini_proxy.js` PASS; `node scripts/build-netlify.js` PASS
+- `/api/gemini`: HTTP 200 in `7565.861 ms`
+- Esito test: FAIL CLINICO-FUNZIONALE per urgenza non esplicita e red flag negative non strutturate; nessun errore infrastrutturale
+
 ## Evidenza aggiornata - 7 luglio 2026
 
 - Branch corrente: `aiutodoc-clinical-validation`

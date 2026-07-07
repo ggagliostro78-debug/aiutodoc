@@ -110,7 +110,7 @@ async function callGemini(prompt, fetchImpl) {
     }
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 45000);
+    const timeoutId = setTimeout(() => controller.abort(), 90000);
 
     try {
         const response = await fetchImpl(`${GOOGLE_API_URL}?key=${apiKey}`, {
