@@ -38,5 +38,25 @@
   {
     "id": "INFLUENZA_02", "age_band": "65-74", "sex": "Maschio",
     "input": "Uomo di 69 anni con BPCO. Da 4 giorni febbre 39, tosse peggiorata, catarro giallo-verde, fiato corto e dolore al torace quando tossisce. La saturazione è 91-92."
+  },
+  {
+    "id": "CARDIO_01_DOLOR_TORACICO_SFORZO_LIEVE", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 54 anni. Da circa 3 settimane quando cammino in salita o faccio le scale sento un peso al centro del petto che passa dopo qualche minuto di riposo. Non ho dolore a riposo, non ho svenimenti, non ho sudorazione fredda, non ho nausea. Sono iperteso e fumo."
+  },
+  {
+    "id": "CARDIO_02_DOLOR_TORACICO_URGENTE", "age_band": "40-64", "sex": "Femmina",
+    "input": "Donna di 63 anni. Da 30 minuti ho un forte peso al petto che non passa, dolore che si irradia al braccio sinistro e alla mandibola, sudo freddo, ho nausea e faccio fatica a respirare. Ho diabete."
+  },
+  {
+    "id": "CARDIO_03_PALPITAZIONI_RICORRENTI", "age_band": "18-39", "sex": "Femmina",
+    "input": "Donna di 38 anni. Da alcuni mesi avverto episodi di battito accelerato e irregolare, soprattutto la sera. Durano pochi minuti e poi passano. Non ho dolore al petto, non sono svenuta, respiro bene. Bevo molto caffe e sono in un periodo di stress."
+  },
+  {
+    "id": "CARDIO_04_IPERTENSIONE_SEVERA_CON_SINTOMI", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 59 anni. Ho misurato la pressione piu volte oggi ed e circa 190/115. Ho forte mal di testa, vista offuscata e senso di confusione. Non ho dolore al petto, ma mi sento molto agitato. Prendo farmaci per la pressione ma oggi non hanno fatto effetto."
+  },
+  {
+    "id": "CARDIO_05_SCOMPENSO_POSSIBILE", "age_band": "65-74", "sex": "Maschio",
+    "input": "Uomo di 72 anni. Da circa 2 settimane ho fiato corto quando cammino, di notte dormo con due cuscini perche mi manca l'aria, ho caviglie gonfie e negli ultimi giorni ho preso 3 kg. Ho avuto un infarto anni fa."
   }
 ]

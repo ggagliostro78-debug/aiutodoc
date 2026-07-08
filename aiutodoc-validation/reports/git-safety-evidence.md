@@ -1,5 +1,18 @@
 # Evidenza sicurezza Git
 
+## Batch 01 Cardiologia - 8 luglio 2026
+
+- Branch: `aiutodoc-clinical-validation`
+- Commit applicativo testato: `49540a7be0b8475990873e2a08941624ffe38091`
+- `main`: `f776bae225406bd05df9bbb95828ebefe0e16e81`, invariato
+- Fixture aggiunte: esclusivamente i cinque casi cardiologici ufficiali del Batch 01 e relativi risultati attesi
+- Modifiche al motore, prompt, proxy, CSS, UX, legali, database o produzione: nessuna
+- Browser/ambiente: solo `chromium-desktop`, staging locale `http://127.0.0.1:4273`
+- Timeout proxy verificato: `75000 ms`
+- Mock, fallback e route interception: nessuno
+- Casi tentati: 5/5; Playwright 3 PASS e 2 FAIL
+- Merge, push, PR e deploy: nessuno
+
 ## Correzione validatore CELIACHIA_02 - 8 luglio 2026
 
 - Branch: `aiutodoc-clinical-validation`
