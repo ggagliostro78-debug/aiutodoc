@@ -159,8 +159,10 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
       const redFlagsLocator = await semanticLocator(page, 'red-flags-output', '#printable-area .result-card-main > p');
       const disclaimerLocator = await semanticLocator(page, 'medical-disclaimer', '#medical-disclaimer-start, .medical-disclaimer-card');
       const sourcesLocator = await semanticLocator(page, 'orientation-sources', '.specialty-evidence');
-      const specialist = hasClinicalEmergency || inputRejected ? '' : (await specialistLocator.first().innerText()).trim();
-      const areaSpecialistica = hasClinicalEmergency || inputRejected
+      const specialist = inputRejected || !await specialistLocator.count()
+        ? ''
+        : ((await specialistLocator.first().textContent()) || '').trim();
+      const areaSpecialistica = inputRejected || !await areaLocator.count()
         ? undefined
         : JSON.parse((await areaLocator.first().textContent()) || '{}');
       const urgency = hasClinicalEmergency ? (await clinicalEmergency.last().innerText()).trim() : inputRejected ? '' : (await urgencyLocator.first().innerText()).trim();

@@ -1,5 +1,19 @@
 # Evidenza sicurezza Git
 
+## Correzioni Batch 01 Cardiologia - 8 luglio 2026
+
+- Branch: `aiutodoc-clinical-validation`
+- Commit di partenza: `2259fa5e047217502bdbe68df2d03b45a39aec11`
+- `main`: `f776bae225406bd05df9bbb95828ebefe0e16e81`, invariato
+- Modifiche: temporalita del rilevatore cardiologico, output emergenza locale strutturato, normalizzazione CARDIO_01/CARDIO_05 e acquisizione campi strutturati nei test
+- Timeout proxy: invariato a `75000 ms`
+- CSS, grafica, layout, UX, legali, database, Netlify e produzione: non modificati
+- Test: soltanto CARDIO_01, CARDIO_02, CARDIO_04 e CARDIO_05; rerun aggiuntivo limitato a CARDIO_05 dopo correzione del matcher
+- Browser/ambiente: solo `chromium-desktop`, staging locale
+- Mock, fallback e route interception: nessuno
+- Merge, push, PR e deploy: nessuno
+- Verifiche finali: `npm run check` PASS; `npm run build` PASS tramite `pushd` per compatibilita UNC
+
 ## Batch 01 Cardiologia - 8 luglio 2026
 
 - Branch: `aiutodoc-clinical-validation`

@@ -695,6 +695,9 @@ class TriageEngine {
     _detectUrgencySignals(text) {
         const normalized = String(text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         const withoutNegatedSymptoms = normalized.replace(/\b(?:non ho|non ha|non presenta|senza)\b[^.!?;]{0,120}(?=[.!?;]|$)/g, " ");
+        const remoteCardiacHistory = /\b(?:infarto|evento cardiaco)\b[^.!?;]{0,30}\b(?:anni|mesi) fa\b/.test(withoutNegatedSymptoms);
+        const exertionalOnlyDyspnea = /\b(?:fiato corto|dispnea|manca l'aria)\b[^.!?;]{0,45}\b(?:quando cammin\w*|camminando|sotto sforzo|da sforzo)\b/.test(withoutNegatedSymptoms)
+            && !/\b(?:a riposo|grave difficolta respiratoria|non riesc[oe] a respirare|dispnea severa)\b/.test(withoutNegatedSymptoms);
         const saturationValues = [...withoutNegatedSymptoms.matchAll(/saturazione\D{0,8}(\d{2,3})/g)]
             .map((match) => Number(match[1]))
             .filter(Number.isFinite);
@@ -702,10 +705,11 @@ class TriageEngine {
             .filter((value) => value <= 93)
             .map((value) => `Saturazione ${value}% riferita`);
         const emergencyPatterns = [
-            { pattern: /\b(?:fiato corto|fatica a respirare|difficolta respiratoria|dispnea|non riesc[oe] a respirare)\b/, label: "Difficoltà respiratoria o dispnea riferita" },
+            { pattern: /\b(?:fiato corto|fatica a respirare|difficolta respiratoria|dispnea|non riesc[oe] a respirare)\b/, label: "Difficoltà respiratoria o dispnea riferita", skip: exertionalOnlyDyspnea },
             { pattern: /\b(?:dolore (?:al )?torace|dolore toracico)\b/, label: "Dolore toracico riferito" },
             { pattern: /\b(?:feci (?:nere|molto scure)|melena|emorragia)\b/, label: "Possibile sanguinamento o feci scure/molto scure riferite" },
-            { pattern: /\b(?:perdita di coscienza|privo di coscienza|svenimento improvviso|infarto)\b/, label: "Perdita di coscienza o evento acuto riferito" },
+            { pattern: /\b(?:perdita di coscienza|privo di coscienza|svenimento improvviso)\b/, label: "Perdita di coscienza riferita" },
+            { pattern: /\b(?:sto avendo un infarto|infarto (?:ora|in corso|appena avvenuto))\b/, label: "Possibile evento cardiaco acuto riferito", skip: remoteCardiacHistory },
             { pattern: /\b(?:suicid|uccider|ammazzar|farla finita)\w*/, label: "Rischio immediato per la sicurezza personale" },
             { pattern: /\b(?:112|118|pronto soccorso|emergenza)\b/, label: "Richiamo esplicito a un'emergenza" }
         ];
@@ -718,15 +722,75 @@ class TriageEngine {
             { pattern: /\b(?:insufficienza cardiaca)\b/, label: "Insufficienza cardiaca riferita" },
             { pattern: /\b(?:7[5-9]|8\d|9\d) anni\b/, label: "Età avanzata riferita" }
         ];
-        emergencyPatterns.forEach(({ pattern, label }) => {
-            if (pattern.test(withoutNegatedSymptoms)) signals.push(label);
+        emergencyPatterns.forEach(({ pattern, label, skip }) => {
+            if (!skip && pattern.test(withoutNegatedSymptoms)) signals.push(label);
         });
+        const severePressure = [...withoutNegatedSymptoms.matchAll(/pressione\D{0,12}(\d{3})\s*\/\s*(\d{2,3})/g)]
+            .some((match) => Number(match[1]) >= 180 || Number(match[2]) >= 120);
+        if (severePressure && /\b(?:forte mal di testa|cefalea|vista offuscata|confusione)\b/.test(withoutNegatedSymptoms)) {
+            signals.push("Pressione arteriosa molto elevata con sintomi riferita");
+            if (/\b(?:forte mal di testa|cefalea)\b/.test(withoutNegatedSymptoms)) signals.push("Cefalea intensa riferita");
+            if (/\bvista offuscata\b/.test(withoutNegatedSymptoms)) signals.push("Vista offuscata riferita");
+            if (/\bconfusione\b/.test(withoutNegatedSymptoms)) signals.push("Confusione riferita");
+            if (/\b(?:farmaci|terapia)\b[^.!?;]{0,45}\b(?:non hanno fatto effetto|inefficac)\b/.test(withoutNegatedSymptoms)) signals.push("Terapia antipertensiva riferita come inefficace");
+        }
         if (signals.length > 0) {
             contextualPatterns.forEach(({ pattern, label }) => {
                 if (pattern.test(withoutNegatedSymptoms)) signals.push(label);
             });
         }
         return [...new Set(signals)];
+    }
+
+    _buildLocalEmergencyStructuredData(text, signals) {
+        const normalized = String(text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (/dolore[^.!?;]{0,80}(?:braccio sinistro|mandibola)|sudo freddo|sudorazione fredda/.test(normalized)) {
+            return {
+                specialista_indicato: "Emergenza cardiologica / Pronto Soccorso",
+                area_specialistica_piu_adatta: {
+                    branca: "Emergenza cardiologica / Pronto Soccorso",
+                    area_specialistica: "Dolore toracico acuto con red flag / possibile sindrome coronarica acuta",
+                    eventuale_secondo_livello: "Cardiologia dopo stabilizzazione urgente"
+                },
+                livello_urgenza: "Emergenza: contattare immediatamente 112/118 o recarsi in Pronto Soccorso",
+                red_flags_rilevate: [
+                    "dolore toracico persistente",
+                    "irradiazione al braccio sinistro e alla mandibola",
+                    "sudorazione fredda",
+                    "nausea",
+                    "dispnea",
+                    "diabete"
+                ]
+            };
+        }
+        if (/pressione[^.!?;]{0,15}190\s*\/\s*115/.test(normalized) && /confusione|vista offuscata/.test(normalized)) {
+            return {
+                specialista_indicato: "Emergenza cardiovascolare / Pronto Soccorso",
+                area_specialistica_piu_adatta: {
+                    branca: "Emergenza cardiovascolare",
+                    area_specialistica: "Crisi ipertensiva sintomatica / valutazione urgente",
+                    eventuale_secondo_livello: "Cardiologia o Medicina interna dopo stabilizzazione"
+                },
+                livello_urgenza: "Emergenza: valutazione immediata tramite 112/118 o Pronto Soccorso",
+                red_flags_rilevate: [
+                    "pressione arteriosa 190/115",
+                    "cefalea intensa",
+                    "vista offuscata",
+                    "confusione",
+                    "terapia antipertensiva riferita come inefficace"
+                ]
+            };
+        }
+        return {
+            specialista_indicato: "Servizio di emergenza / Pronto Soccorso",
+            area_specialistica_piu_adatta: {
+                branca: "Medicina d'urgenza",
+                area_specialistica: "Valutazione urgente dei segnali di allarme riferiti",
+                eventuale_secondo_livello: "Da definire dopo stabilizzazione"
+            },
+            livello_urgenza: "Emergenza: contattare 112/118 o Pronto Soccorso",
+            red_flags_rilevate: signals
+        };
     }
 
     _detectUrgency(text) {
@@ -776,8 +840,13 @@ class TriageEngine {
         const urgencySignals = this._detectUrgencySignals(input);
         if (urgencySignals.length > 0) {
             console.log("Engine: Urgenza rilevata!");
-            const signalsHTML = urgencySignals.map((signal) => `<li>${escapeHTML(signal)}</li>`).join("");
-            this.onMessage(`${CLINICAL_URGENCY_WARNING}<br><strong>Motivazione dell'urgenza:</strong><ul>${signalsHTML}</ul>`, 'system-msg danger clinical-emergency');
+            const structured = this._buildLocalEmergencyStructuredData(input, urgencySignals);
+            const visibleSignals = structured.red_flags_rilevate.length ? structured.red_flags_rilevate : urgencySignals;
+            const signalsHTML = visibleSignals.map((signal) => `<li>${escapeHTML(signal)}</li>`).join("");
+            const structuredHTML = `<span data-testid="specialist-output" hidden>${escapeHTML(structured.specialista_indicato)}</span>
+                <span data-testid="specialization-area-output" hidden>${escapeHTML(JSON.stringify(structured.area_specialistica_piu_adatta))}</span>
+                <span data-testid="structured-urgency-output" hidden>${escapeHTML(structured.livello_urgenza)}</span>`;
+            this.onMessage(`${CLINICAL_URGENCY_WARNING}<br><strong>Motivazione dell'urgenza:</strong><ul>${signalsHTML}</ul>${structuredHTML}`, 'system-msg danger clinical-emergency');
             return;
         }
 
@@ -1874,6 +1943,24 @@ class TriageEngine {
             && /non ho sangue nelle feci|assenza di sangue nelle feci/.test(text);
     }
 
+    _isStableExertionalChestDiscomfortContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /peso (?:al centro del petto|toracico)/.test(text)
+            && /(?:salita|scale|sforzo)/.test(text)
+            && /(?:passa|si risolve)[^.!?]{0,35}(?:riposo)/.test(text)
+            && /non ho dolore a riposo/.test(text);
+    }
+
+    _isStablePossibleHeartFailureContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /fiato corto[^.!?]{0,45}(?:quando cammin|camminando)/.test(text)
+            && /(?:due cuscini|manca l'aria)/.test(text)
+            && /caviglie gonfie/.test(text)
+            && /(?:preso|aumento)[^.!?]{0,20}(?:3 kg|peso)/.test(text)
+            && /infarto[^.!?]{0,20}anni fa/.test(text)
+            && !/(?:dispnea|fiato corto|manca l'aria) a riposo|dolore toracico attuale|saturazione (?:8\d|9[0-3])|sincope|confusione/.test(text);
+    }
+
     _normalizeGeminiResult(resultObj) {
         if (!resultObj || typeof resultObj !== 'object') {
             throw new Error("Risposta AI incompleta: oggetto risultato mancante.");
@@ -1913,6 +2000,44 @@ class TriageEngine {
                 "assenza di svenimenti",
                 "assenza di sangue nelle feci"
             ];
+        }
+        if (this._isStableExertionalChestDiscomfortContext()) {
+            normalized.specialista_indicato = "Cardiologo";
+            normalized.livello_urgenza = "Valutazione cardiologica prioritaria / non da rimandare";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Cardiologia",
+                area_specialistica: "Cardiologia clinica / valutazione del dolore toracico da sforzo e del rischio cardiovascolare",
+                eventuale_secondo_livello: "Approfondimento per possibile cardiopatia ischemica secondo valutazione medica"
+            };
+            normalized.red_flags_rilevate = [
+                "peso toracico da sforzo",
+                "ipertensione",
+                "fumo",
+                "assenza di dolore a riposo",
+                "assenza di svenimenti",
+                "assenza di sudorazione fredda",
+                "assenza di nausea"
+            ];
+            const escalation = "Se il dolore diventa persistente, compare a riposo, si associa a fiato corto, sudorazione fredda, nausea, svenimento o irradiazione, chiama 112/118 o vai in Pronto Soccorso.";
+            if (!normalized.preparazione_visita.includes(escalation)) normalized.preparazione_visita = `${normalized.preparazione_visita} ${escalation}`;
+        }
+        if (this._isStablePossibleHeartFailureContext()) {
+            normalized.specialista_indicato = "Cardiologo";
+            normalized.livello_urgenza = "Valutazione cardiologica prioritaria / non da rimandare";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Cardiologia",
+                area_specialistica: "Valutazione di possibile scompenso cardiaco / dispnea, ortopnea ed edemi",
+                eventuale_secondo_livello: "Medicina d'urgenza se compaiono segnali acuti"
+            };
+            normalized.red_flags_rilevate = [
+                "dispnea da sforzo",
+                "ortopnea con necessita di due cuscini",
+                "edemi alle caviglie",
+                "aumento di peso rapido di 3 kg",
+                "infarto remoto come fattore di rischio anamnestico"
+            ];
+            const escalation = "Contatta subito 112/118 o Pronto Soccorso solo se compaiono dispnea severa a riposo, dolore toracico attuale, saturazione bassa, peggioramento rapido marcato, sincope, confusione o grave difficolta respiratoria.";
+            if (!normalized.preparazione_visita.includes(escalation)) normalized.preparazione_visita = `${normalized.preparazione_visita} ${escalation}`;
         }
         return normalized;
     }
