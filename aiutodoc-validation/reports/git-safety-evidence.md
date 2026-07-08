@@ -1,5 +1,17 @@
 # Evidenza sicurezza Git
 
+## Run CELIACHIA_02 / COVID_01 - 8 luglio 2026
+
+- Branch: `aiutodoc-clinical-validation`
+- Commit applicativo testato: `95dc46fec5cc1cfb0c90775c77c8b4bdda47b5f5`
+- `main`: `f776bae225406bd05df9bbb95828ebefe0e16e81`, invariato
+- Timeout proxy verificato: `75000 ms`
+- Test eseguiti: soltanto `CELIACHIA_02` e `COVID_01`, staging reale, `chromium-desktop`
+- Mock, route interception e healthcheck aggiuntivi: nessuno
+- Modifiche a codice, CSS, grafica o UX durante questo run: nessuna
+- Merge, push e deploy produzione: nessuno
+- Risultato: COVID_01 PASS Playwright; CELIACHIA_02 output clinico conforme ma FAIL tecnico per sinonimo non riconosciuto
+
 ## Correzione funzionale ANEMIA_01 - 8 luglio 2026
 
 - Branch: `aiutodoc-clinical-validation`
