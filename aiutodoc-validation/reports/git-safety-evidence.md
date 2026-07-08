@@ -1,5 +1,16 @@
 # Evidenza sicurezza Git
 
+## Correzione validatore CELIACHIA_02 - 8 luglio 2026
+
+- Branch: `aiutodoc-clinical-validation`
+- Commit di partenza: `60af367595fb45d4edbeb1ec0ad2ba7141f6c52c`
+- `main`: `f776bae225406bd05df9bbb95828ebefe0e16e81`, invariato
+- Modifiche limitate alla suite Playwright: matcher controllato e test offline sul raw salvato
+- Motore AiutoDoc, prompt, proxy, CSS, grafica e UX: non modificati
+- Gemini call, test clinici e mock: nessuno
+- Esito Playwright offline: 1/1 PASS
+- Merge, push e deploy produzione: nessuno
+
 ## Run CELIACHIA_02 / COVID_01 - 8 luglio 2026
 
 - Branch: `aiutodoc-clinical-validation`

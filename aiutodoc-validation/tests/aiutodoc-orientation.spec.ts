@@ -4,14 +4,13 @@ import path from 'node:path';
 import cases from '../test-cases.json';
 import expectedById from '../expected-results.json';
 import { buildReport, scoreResult, type CapturedResult, type ExpectedResult } from '../scripts/score-results';
+import { matchesAny, normalizeText } from '../scripts/clinical-text-matcher';
 
 const root = path.resolve(__dirname, '..');
 const environment = (process.env.AIUTODOC_ENV || 'mocked-local') as CapturedResult['environment'];
 const realEngine = environment !== 'mocked-local';
 const ageValues: Record<string, string> = { '3-5': '3_5', '6-12': '6_12', '18-39': '18_39', '40-64': '40_64', '65-74': '65_74', '75+': '75_plus' };
 const sexValues: Record<string, string> = { Femmina: 'female', Maschio: 'male' };
-const normalizeText = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-const matchesAny = (value: string, terms: string[]) => terms.some((term) => normalizeText(value).includes(normalizeText(term)));
 
 function syntheticResult(id: string, expected: ExpectedResult) {
   const urgent = !/non pronto soccorso|non urgente/i.test(expected.urgency) && /alta|urgente|prioritaria/i.test(expected.urgency);
