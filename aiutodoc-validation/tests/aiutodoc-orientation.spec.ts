@@ -9,7 +9,7 @@ import { matchesAny, normalizeText } from '../scripts/clinical-text-matcher';
 const root = path.resolve(__dirname, '..');
 const environment = (process.env.AIUTODOC_ENV || 'mocked-local') as CapturedResult['environment'];
 const realEngine = environment !== 'mocked-local';
-const ageValues: Record<string, string> = { '3-5': '3_5', '6-12': '6_12', '18-39': '18_39', '40-64': '40_64', '65-74': '65_74', '75+': '75_plus' };
+const ageValues: Record<string, string> = { '3-5': '3_5', '6-12': '6_12', '13-17': '13_17', '18-39': '18_39', '40-64': '40_64', '65-74': '65_74', '75+': '75_plus' };
 const sexValues: Record<string, string> = { Femmina: 'female', Maschio: 'male' };
 
 function syntheticResult(id: string, expected: ExpectedResult) {

@@ -78,5 +78,25 @@
   {
     "id": "NEURO_05_PRIMA_CRISI_CONVULSIVA_RISOLTA", "age_band": "18-39", "sex": "Maschio",
     "input": "Ragazzo di 24 anni. Ieri sera, per la prima volta, ho avuto un episodio in cui ho perso conoscenza, sono caduto e chi era con me dice che ho avuto scosse alle braccia e alle gambe per circa un minuto. Dopo ero confuso per alcuni minuti. Ora sto bene, non ho febbre, non ho mal di testa forte, non ho debolezza e non ho avuto traumi importanti."
+  },
+  {
+    "id": "PSY_01_ATTACCHI_PANICO_NON_URGENTE", "age_band": "18-39", "sex": "Femmina",
+    "input": "Donna di 32 anni. Da circa 2 mesi ho episodi improvvisi di forte ansia con battito accelerato, tremori, sudorazione, nodo alla gola e paura di perdere il controllo. Durano circa 10 minuti e poi passano. Sono gia capitati 4 volte, spesso in periodi di stress. Non ho dolore toracico persistente, non ho svenimenti, non ho difficolta respiratoria grave, non ho pensieri di farmi del male."
+  },
+  {
+    "id": "PSY_02_DEPRESSIONE_MODERATA_SENZA_IDEAZIONE_SUICIDARIA", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 45 anni. Da circa 3 mesi mi sento triste quasi tutti i giorni, ho perso interesse per molte cose, dormo male e faccio fatica a concentrarmi al lavoro. Mi sento stanco e ho poca motivazione. Non ho pensieri di farmi del male, non ho pensieri di suicidio, non sento voci, non vedo cose che altri non vedono."
+  },
+  {
+    "id": "PSY_03_IDEAZIONE_SUICIDARIA_ATTIVA", "age_band": "18-39", "sex": "Femmina",
+    "input": "Donna di 28 anni. Da settimane sto molto male, ma oggi ho deciso che non voglio piu vivere. Ho pensato di prendere tutte le pastiglie che ho in casa questa sera. Sono sola in casa e non ho detto niente a nessuno."
+  },
+  {
+    "id": "PSY_04_ESORDIO_PSICOTICO_POSSIBILE", "age_band": "18-39", "sex": "Maschio",
+    "input": "Uomo di 22 anni. Da circa 3 settimane sento voci che gli altri non sentono e sono convinto che alcune persone mi stiano controllando attraverso il telefono. Dormo pochissimo, sono molto agitato e ho smesso di andare all'universita. Non ho pensieri di farmi del male, ma ieri ho urlato contro mio fratello perche pensavo fosse coinvolto."
+  },
+  {
+    "id": "PSY_05_DISTURBO_ALIMENTARE_POSSIBILE", "age_band": "13-17", "sex": "Femmina",
+    "input": "Ragazza di 17 anni. Da 6 mesi mangio sempre meno perche ho paura di ingrassare. Ho perso molto peso, mi vedo comunque grassa e salto spesso i pasti. A volte mi gira la testa quando mi alzo. Non vomito, non uso lassativi, non ho dolore al petto e non ho pensieri di farmi del male."
   }
 ]

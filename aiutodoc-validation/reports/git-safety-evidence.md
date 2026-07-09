@@ -1,5 +1,25 @@
 # Evidenza sicurezza Git
 
+## Batch 03 Psicologia/Psichiatria - 9 luglio 2026
+
+- Branch: `aiutodoc-clinical-validation`
+- Commit `main`: `f776bae225406bd05df9bbb95828ebefe0e16e81`, invariato
+- Ambiente: staging locale `http://127.0.0.1:4273`
+- Browser: solo `chromium-desktop`
+- Timeout proxy: `75000 ms`
+- Casi eseguiti: solo `PSY_01_ATTACCHI_PANICO_NON_URGENTE`, `PSY_02_DEPRESSIONE_MODERATA_SENZA_IDEAZIONE_SUICIDARIA`, `PSY_03_IDEAZIONE_SUICIDARIA_ATTIVA`, `PSY_04_ESORDIO_PSICOTICO_POSSIBILE`, `PSY_05_DISTURBO_ALIMENTARE_POSSIBILE`
+- Modifiche applicative/motore/prompt: nessuna durante il batch
+- Modifiche suite: aggiunte fixture PSY e mapping tecnico `13-17 -> 13_17` nel validatore Playwright per eseguire PSY_05
+- CSS, grafica, layout, UX, documenti legali, database, Netlify e produzione: non modificati
+- Mock, route interception `/api/gemini`, fallback clinico locale: nessuno
+- Produzione/live pubblico: non testati
+- Mobile, 75 casi, Ortopedia e Dermatologia: non eseguiti
+- Merge, push, PR e deploy produzione: nessuno
+- Esito Playwright finale consolidato: 5/5 PASS
+- Esito clinico-funzionale: 4 PASS, 1 WARNING (`PSY_01` per urgenza sovrastimata)
+- Errori infrastrutturali: 0
+- Verifiche: JSON fixture PASS; `npm run check` PASS; `npm run build` PASS tramite `pushd` per compatibilita UNC
+
 ## NEURO_04 sospetto ictus / FAST positivo - 9 luglio 2026
 
 - Branch: `aiutodoc-clinical-validation`
