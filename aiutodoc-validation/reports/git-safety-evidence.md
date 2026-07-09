@@ -1,5 +1,24 @@
 # Evidenza sicurezza Git
 
+## CARDIO_04 crisi ipertensiva sintomatica - 9 luglio 2026
+
+- Branch: `aiutodoc-clinical-validation`
+- Commit base del branch al momento della correzione: `29e240f47acd1e6455694c746f2ba8d8a54d81af`
+- Commit finale della correzione: commit corrente del branch `aiutodoc-clinical-validation` contenente questo report
+- Commit `main`: `f776bae225406bd05df9bbb95828ebefe0e16e81`, invariato
+- File applicativo modificato: `src/app_v3_standalone.js`
+- Report generato: `aiutodoc-validation/reports/cardio04-hypertensive-crisis-fix.md`
+- Artefatti generati: `aiutodoc-validation/artifacts/raw-output/staging-chromium-desktop-CARDIO_04_IPERTENSIONE_SEVERA_CON_SINTOMI.json`, `aiutodoc-validation/artifacts/playwright-results.json`
+- Modifica clinico-funzionale: riconoscimento locale strutturato di pressione severa associata a sintomi neurologici/cardiorespiratori, con indicazione 112/118 o Pronto Soccorso.
+- Timeout proxy: invariato a `75000 ms`
+- CSS, grafica, layout, UX, documenti legali, database, Netlify e produzione: non modificati
+- Test eseguito: solo `CARDIO_04_IPERTENSIONE_SEVERA_CON_SINTOMI`, staging locale `http://127.0.0.1:4273`, solo `chromium-desktop`
+- Mock, fallback clinico e intercettazione `/api/gemini`: nessuno
+- `/api/gemini`: non chiamata perche il rilevatore locale ha bloccato correttamente come emergenza strutturata completa
+- Esito: Playwright PASS; clinico-funzionale PASS
+- Merge, push, PR e deploy produzione: nessuno
+- Verifiche: `npm run check` PASS; `npm run build` PASS tramite `pushd` per compatibilita UNC
+
 ## Correzioni Batch 01 Cardiologia - 8 luglio 2026
 
 - Branch: `aiutodoc-clinical-validation`

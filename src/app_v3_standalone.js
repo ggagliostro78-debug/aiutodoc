@@ -725,9 +725,10 @@ class TriageEngine {
         emergencyPatterns.forEach(({ pattern, label, skip }) => {
             if (!skip && pattern.test(withoutNegatedSymptoms)) signals.push(label);
         });
-        const severePressure = [...withoutNegatedSymptoms.matchAll(/pressione\D{0,12}(\d{3})\s*\/\s*(\d{2,3})/g)]
+        const severePressure = [...withoutNegatedSymptoms.matchAll(/(?:pressione[^.!?;]{0,90})?(\d{3})\s*\/\s*(\d{2,3})/g)]
             .some((match) => Number(match[1]) >= 180 || Number(match[2]) >= 120);
-        if (severePressure && /\b(?:forte mal di testa|cefalea|vista offuscata|confusione)\b/.test(withoutNegatedSymptoms)) {
+        const severePressureAlarmSymptoms = /\b(?:forte mal di testa|cefalea|vista offuscata|confusione|dolore toracico|dolore al torace|dispnea|difficolta respiratoria|fiato corto|sincope|svenimento|deficit neurologic|peggioramento)\b/.test(withoutNegatedSymptoms);
+        if (severePressure && severePressureAlarmSymptoms) {
             signals.push("Pressione arteriosa molto elevata con sintomi riferita");
             if (/\b(?:forte mal di testa|cefalea)\b/.test(withoutNegatedSymptoms)) signals.push("Cefalea intensa riferita");
             if (/\bvista offuscata\b/.test(withoutNegatedSymptoms)) signals.push("Vista offuscata riferita");
@@ -763,17 +764,21 @@ class TriageEngine {
                 ]
             };
         }
-        if (/pressione[^.!?;]{0,15}190\s*\/\s*115/.test(normalized) && /confusione|vista offuscata/.test(normalized)) {
+        const severePressureMatch = normalized.match(/(?:pressione[^.!?;]{0,90})?(\d{3})\s*\/\s*(\d{2,3})/);
+        const severePressure = severePressureMatch && (Number(severePressureMatch[1]) >= 180 || Number(severePressureMatch[2]) >= 120);
+        const alarmSymptoms = /forte mal di testa|cefalea|vista offuscata|confusione|dolore toracico|dolore al torace|dispnea|difficolta respiratoria|fiato corto|sincope|svenimento|deficit neurologic|peggioramento/.test(normalized);
+        if (severePressure && alarmSymptoms) {
+            const pressureValue = `${severePressureMatch[1]}/${severePressureMatch[2]}`;
             return {
                 specialista_indicato: "Emergenza cardiovascolare / Pronto Soccorso",
                 area_specialistica_piu_adatta: {
-                    branca: "Emergenza cardiovascolare",
-                    area_specialistica: "Crisi ipertensiva sintomatica / valutazione urgente",
+                    branca: "Emergenza cardiovascolare / emergenza medica",
+                    area_specialistica: "Crisi ipertensiva sintomatica / possibile emergenza ipertensiva",
                     eventuale_secondo_livello: "Cardiologia o Medicina interna dopo stabilizzazione"
                 },
                 livello_urgenza: "Emergenza: valutazione immediata tramite 112/118 o Pronto Soccorso",
                 red_flags_rilevate: [
-                    "pressione arteriosa 190/115",
+                    `pressione arteriosa ${pressureValue}`,
                     "cefalea intensa",
                     "vista offuscata",
                     "confusione",
