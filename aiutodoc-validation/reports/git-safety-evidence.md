@@ -1,5 +1,24 @@
 # Evidenza sicurezza Git
 
+## PSY_01 attacchi di panico non urgente - 9 luglio 2026
+
+- Branch: `aiutodoc-clinical-validation`
+- Commit base del branch al momento della correzione: `17e49f303c530246cba9408d613d2a97932e63b5`
+- Commit `main`: `f776bae225406bd05df9bbb95828ebefe0e16e81`, invariato
+- File applicativo modificato: `src/app_v3_standalone.js`
+- Report generato: `aiutodoc-validation/reports/psy01-panic-urgency-fix.md`
+- Artefatti generati: `aiutodoc-validation/artifacts/raw-output/staging-chromium-desktop-PSY_01_ATTACCHI_PANICO_NON_URGENTE.json`, `aiutodoc-validation/artifacts/playwright-results.json`
+- Modifica clinico-funzionale: normalizzazione circoscritta del quadro ansia/attacchi di panico ricorrenti, brevi e risolti, con assenza esplicita di red flag cardiopolmonari/autolesive.
+- Output richiesto ottenuto: branca `Psicologia / Psichiatria`, area `Ansia / attacchi di panico / disturbi d'ansia`, urgenza `bassa / visita psicologica o psichiatrica programmata`, nessun 112/PS automatico.
+- Timeout proxy: invariato a `75000 ms`
+- CSS, grafica, layout, UX, documenti legali, database, Netlify e produzione: non modificati
+- Test eseguito: solo `PSY_01_ATTACCHI_PANICO_NON_URGENTE`, staging locale `http://127.0.0.1:4273`, solo `chromium-desktop`
+- Mock, fallback clinico improprio e intercettazione `/api/gemini`: nessuno
+- `/api/gemini`: HTTP 200, durata `10551.245 ms`
+- Esito: Playwright PASS; clinico-funzionale PASS
+- Merge, push, PR e deploy produzione: nessuno
+- Verifiche: `npm run check` PASS; `npm run build` PASS tramite `pushd` per compatibilita UNC
+
 ## Batch 03 Psicologia/Psichiatria - 9 luglio 2026
 
 - Branch: `aiutodoc-clinical-validation`

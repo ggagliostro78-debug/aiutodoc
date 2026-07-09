@@ -2001,6 +2001,19 @@ class TriageEngine {
             && !/(?:dispnea|fiato corto|manca l'aria) a riposo|dolore toracico attuale|saturazione (?:8\d|9[0-3])|sincope|confusione/.test(text);
     }
 
+    _isStablePanicAnxietyContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /(?:ansia|panico)/.test(text)
+            && /(?:battito accelerato|tachicard|tremor|sudorazione|paura di perdere il controllo)/.test(text)
+            && /(?:durano|dura)[^.!?]{0,30}(?:10 minuti|pochi minuti)/.test(text)
+            && /(?:passano|passa)/.test(text)
+            && /(?:2 mesi|settimane|mesi)/.test(text)
+            && /non ho dolore toracico persistente/.test(text)
+            && /non ho sveniment/.test(text)
+            && /non ho difficolta respiratoria grave/.test(text)
+            && /non ho pensieri di farmi del male/.test(text);
+    }
+
     _normalizeGeminiResult(resultObj) {
         if (!resultObj || typeof resultObj !== 'object') {
             throw new Error("Risposta AI incompleta: oggetto risultato mancante.");
@@ -2077,6 +2090,28 @@ class TriageEngine {
                 "infarto remoto come fattore di rischio anamnestico"
             ];
             const escalation = "Contatta subito 112/118 o Pronto Soccorso solo se compaiono dispnea severa a riposo, dolore toracico attuale, saturazione bassa, peggioramento rapido marcato, sincope, confusione o grave difficolta respiratoria.";
+            if (!normalized.preparazione_visita.includes(escalation)) normalized.preparazione_visita = `${normalized.preparazione_visita} ${escalation}`;
+        }
+        if (this._isStablePanicAnxietyContext()) {
+            normalized.specialista_indicato = "Psicologo o Psicoterapeuta; Psichiatra se sintomi frequenti, invalidanti o per valutazione farmacologica";
+            normalized.livello_urgenza = "Urgenza bassa / visita psicologica o psichiatrica programmata";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Psicologia / Psichiatria",
+                area_specialistica: "Ansia / attacchi di panico / disturbi d'ansia",
+                eventuale_secondo_livello: "Psichiatria se sintomi frequenti, invalidanti o per valutazione farmacologica"
+            };
+            normalized.red_flags_rilevate = [
+                "ansia intensa ricorrente",
+                "tachicardia / battito accelerato",
+                "tremori",
+                "sudorazione",
+                "paura di perdere il controllo",
+                "assenza di dolore toracico persistente",
+                "assenza di svenimenti",
+                "assenza di difficolta respiratoria grave",
+                "assenza di ideazione autolesiva"
+            ];
+            const escalation = "Chiama 112/118 o vai in Pronto Soccorso solo se compaiono dolore toracico persistente, difficolta respiratoria grave, svenimento, confusione, rischio autolesivo o suicidario, oppure peggioramento improvviso.";
             if (!normalized.preparazione_visita.includes(escalation)) normalized.preparazione_visita = `${normalized.preparazione_visita} ${escalation}`;
         }
         return normalized;
