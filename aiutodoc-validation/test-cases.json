@@ -58,5 +58,25 @@
   {
     "id": "CARDIO_05_SCOMPENSO_POSSIBILE", "age_band": "65-74", "sex": "Maschio",
     "input": "Uomo di 72 anni. Da circa 2 settimane ho fiato corto quando cammino, di notte dormo con due cuscini perche mi manca l'aria, ho caviglie gonfie e negli ultimi giorni ho preso 3 kg. Ho avuto un infarto anni fa."
+  },
+  {
+    "id": "NEURO_01_CEFALEA_RICORRENTE_NON_URGENTE", "age_band": "18-39", "sex": "Femmina",
+    "input": "Donna di 29 anni. Da circa 6 mesi ho mal di testa 2 o 3 volte al mese, spesso dopo giornate stressanti o poco sonno. Il dolore e pulsante, a volte con fastidio alla luce, ma passa con riposo. Non ho febbre, non ho rigidita del collo, non ho debolezza a braccia o gambe, non ho difficolta a parlare, non ho confusione, non ho avuto traumi."
+  },
+  {
+    "id": "NEURO_02_CEFALEA_RED_FLAG_URGENTE", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 46 anni. Da circa 20 minuti ho il peggior mal di testa della mia vita, iniziato all'improvviso. Ho vomitato, mi sento confuso e faccio fatica a tenere gli occhi aperti. Non ho mai avuto un mal di testa cosi forte."
+  },
+  {
+    "id": "NEURO_03_PARESTESIE_RICORRENTI_NON_URGENTI", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 41 anni. Da circa 3 mesi ho formicolii intermittenti alle mani e ai piedi, soprattutto la sera. Non ho perdita di forza, cammino normalmente, non ho difficolta a parlare, non ho visione doppia, non ho perdita di controllo di urine o feci. Ho dolore cervicale ogni tanto e lavoro molte ore al computer."
+  },
+  {
+    "id": "NEURO_04_SOSPETTO_ICTUS_FAST", "age_band": "65-74", "sex": "Femmina",
+    "input": "Donna di 72 anni. Da circa 40 minuti ha la bocca storta da un lato, non riesce a sollevare bene il braccio destro e parla in modo confuso. Prima stava bene. Ha pressione alta e fibrillazione atriale."
+  },
+  {
+    "id": "NEURO_05_PRIMA_CRISI_CONVULSIVA_RISOLTA", "age_band": "18-39", "sex": "Maschio",
+    "input": "Ragazzo di 24 anni. Ieri sera, per la prima volta, ho avuto un episodio in cui ho perso conoscenza, sono caduto e chi era con me dice che ho avuto scosse alle braccia e alle gambe per circa un minuto. Dopo ero confuso per alcuni minuti. Ora sto bene, non ho febbre, non ho mal di testa forte, non ho debolezza e non ho avuto traumi importanti."
   }
 ]

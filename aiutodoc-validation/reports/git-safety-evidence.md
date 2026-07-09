@@ -1,5 +1,25 @@
 # Evidenza sicurezza Git
 
+## Batch 02 Neurologia - 9 luglio 2026
+
+- Branch: `aiutodoc-clinical-validation`
+- Commit `main`: `f776bae225406bd05df9bbb95828ebefe0e16e81`, invariato
+- Ambiente: staging locale `http://127.0.0.1:4273`
+- Browser: solo `chromium-desktop`
+- Timeout proxy: `75000 ms`
+- Casi eseguiti: solo `NEURO_01_CEFALEA_RICORRENTE_NON_URGENTE`, `NEURO_02_CEFALEA_RED_FLAG_URGENTE`, `NEURO_03_PARESTESIE_RICORRENTI_NON_URGENTI`, `NEURO_04_SOSPETTO_ICTUS_FAST`, `NEURO_05_PRIMA_CRISI_CONVULSIVA_RISOLTA`
+- Modifiche applicative/motore/prompt: nessuna durante il batch
+- Modifiche suite: aggiunte fixture neurologiche e telemetria non invasiva status/durata `/api/gemini`
+- CSS, grafica, layout, UX, documenti legali, database, Netlify e produzione: non modificati
+- Mock, route interception `/api/gemini`, fallback clinico locale: nessuno
+- Produzione/live pubblico: non testati
+- Mobile, 75 casi e altri batch: non eseguiti
+- Merge, push, PR e deploy produzione: nessuno
+- Esito Playwright: 5/5 PASS
+- Esito clinico-funzionale: 4 PASS, 1 WARNING (`NEURO_04` per assenza di `112/118` esplicito e `stroke unit`)
+- Errori infrastrutturali: 0
+- Verifiche: JSON fixture PASS; `npm run check` PASS; `npm run build` PASS tramite `pushd` per compatibilita UNC
+
 ## CARDIO_04 crisi ipertensiva sintomatica - 9 luglio 2026
 
 - Branch: `aiutodoc-clinical-validation`

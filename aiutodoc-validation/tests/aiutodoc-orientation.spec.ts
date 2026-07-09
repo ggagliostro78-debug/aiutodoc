@@ -121,6 +121,41 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
   for (const testCase of cases) {
     test(`${testCase.id} - orientamento e sicurezza`, async ({ page }, testInfo) => {
       await installMocks(page, testCase);
+      const geminiStarts = new Map<any, number>();
+      const geminiCalls: Array<{ status?: number; durationMs?: number; action?: string; error?: string }> = [];
+      page.on('request', (request) => {
+        if (!request.url().includes('/api/gemini')) return;
+        geminiStarts.set(request, performance.now());
+      });
+      page.on('response', async (response) => {
+        const request = response.request();
+        if (!request.url().includes('/api/gemini')) return;
+        let action: string | undefined;
+        try {
+          action = (request.postDataJSON() as { action?: string })?.action;
+        } catch {
+          action = undefined;
+        }
+        geminiCalls.push({
+          status: response.status(),
+          durationMs: Number((performance.now() - (geminiStarts.get(request) || performance.now())).toFixed(3)),
+          action
+        });
+      });
+      page.on('requestfailed', (request) => {
+        if (!request.url().includes('/api/gemini')) return;
+        let action: string | undefined;
+        try {
+          action = (request.postDataJSON() as { action?: string })?.action;
+        } catch {
+          action = undefined;
+        }
+        geminiCalls.push({
+          durationMs: Number((performance.now() - (geminiStarts.get(request) || performance.now())).toFixed(3)),
+          action,
+          error: request.failure()?.errorText
+        });
+      });
       await page.goto('/');
       if (!realEngine) {
         await page.evaluate(() => {
@@ -183,6 +218,9 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
         id: testCase.id, input: testCase.input, output, specialist, areaSpecialistica, urgency, redFlagsText,
         disclaimer, sources, clinicalEmergency: hasClinicalEmergency ? output : '',
         urgencyReason: hasClinicalEmergency ? output : urgency, questionCount,
+        geminiCalls,
+        geminiHttpStatus: [...geminiCalls].reverse().find((call) => call.action !== 'validate_symptom')?.status ?? null,
+        geminiDurationMs: [...geminiCalls].reverse().find((call) => call.action !== 'validate_symptom')?.durationMs ?? null,
         url: page.url(), environment, timestamp: new Date().toISOString(),
         screenshot: `../artifacts/${screenshotFolder}/${screenshotName}`
       };

@@ -24,6 +24,9 @@ export type CapturedResult = {
   sources?: string;
   clinicalEmergency?: string;
   urgencyReason?: string;
+  geminiCalls?: Array<{ status?: number; durationMs?: number; action?: string; error?: string }>;
+  geminiHttpStatus?: number | null;
+  geminiDurationMs?: number | null;
   url: string;
   environment: 'mocked-local' | 'staging' | 'live';
   timestamp: string;
