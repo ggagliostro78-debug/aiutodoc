@@ -725,6 +725,18 @@ class TriageEngine {
         emergencyPatterns.forEach(({ pattern, label, skip }) => {
             if (!skip && pattern.test(withoutNegatedSymptoms)) signals.push(label);
         });
+        const fastFace = /\b(?:bocca storta|viso storto|faccia storta|asimmetria facciale)\b/.test(withoutNegatedSymptoms);
+        const fastArm = /\b(?:non riesc[eo] a sollevare[^.!?;]{0,45}braccio|braccio[^.!?;]{0,45}(?:debole|non si solleva|non riesce|cadente)|debolezza[^.!?;]{0,45}braccio|deficit[^.!?;]{0,45}braccio)\b/.test(withoutNegatedSymptoms);
+        const fastSpeech = /\b(?:parla[^.!?;]{0,35}confus[oa]|linguaggio confuso|difficolta a parlare|afasia|disartria)\b/.test(withoutNegatedSymptoms);
+        const fastRecent = /\b(?:da circa \d{1,3} minuti|da \d{1,3} minuti|minuti|improvvis[oa]|all'improvviso|prima stava bene|esordio)\b/.test(withoutNegatedSymptoms);
+        if (fastFace && fastArm && fastSpeech && fastRecent) {
+            signals.push("FAST positivo: bocca/viso storto riferito");
+            signals.push("FAST positivo: difficolta a sollevare un braccio riferita");
+            signals.push("FAST positivo: linguaggio confuso riferito");
+            signals.push("Esordio improvviso o recente riferito");
+            if (/\b(?:pressione alta|ipertensione)\b/.test(withoutNegatedSymptoms)) signals.push("Ipertensione riferita");
+            if (/\bfibrillazione atriale\b/.test(withoutNegatedSymptoms)) signals.push("Fibrillazione atriale riferita");
+        }
         const severePressure = [...withoutNegatedSymptoms.matchAll(/(?:pressione[^.!?;]{0,90})?(\d{3})\s*\/\s*(\d{2,3})/g)]
             .some((match) => Number(match[1]) >= 180 || Number(match[2]) >= 120);
         const severePressureAlarmSymptoms = /\b(?:forte mal di testa|cefalea|vista offuscata|confusione|dolore toracico|dolore al torace|dispnea|difficolta respiratoria|fiato corto|sincope|svenimento|deficit neurologic|peggioramento)\b/.test(withoutNegatedSymptoms);
@@ -745,6 +757,29 @@ class TriageEngine {
 
     _buildLocalEmergencyStructuredData(text, signals) {
         const normalized = String(text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const fastFace = /\b(?:bocca storta|viso storto|faccia storta|asimmetria facciale)\b/.test(normalized);
+        const fastArm = /\b(?:non riesc[eo] a sollevare[^.!?;]{0,45}braccio|braccio[^.!?;]{0,45}(?:debole|non si solleva|non riesce|cadente)|debolezza[^.!?;]{0,45}braccio|deficit[^.!?;]{0,45}braccio)\b/.test(normalized);
+        const fastSpeech = /\b(?:parla[^.!?;]{0,35}confus[oa]|linguaggio confuso|difficolta a parlare|afasia|disartria)\b/.test(normalized);
+        const fastRecent = /\b(?:da circa \d{1,3} minuti|da \d{1,3} minuti|minuti|improvvis[oa]|all'improvviso|prima stava bene|esordio)\b/.test(normalized);
+        if (fastFace && fastArm && fastSpeech && fastRecent) {
+            return {
+                specialista_indicato: "112/118, Pronto Soccorso, stroke unit",
+                area_specialistica_piu_adatta: {
+                    branca: "Emergenza neurologica / ictus",
+                    area_specialistica: "Sospetto ictus/TIA acuto / stroke unit",
+                    eventuale_secondo_livello: "Neurologia/stroke unit dopo stabilizzazione urgente"
+                },
+                livello_urgenza: "Emergenza tempo-dipendente: contattare subito 112/118 o Pronto Soccorso",
+                red_flags_rilevate: [
+                    "bocca storta da un lato",
+                    "deficit del braccio destro / difficolta a sollevarlo",
+                    "linguaggio confuso",
+                    "esordio improvviso o recente",
+                    "ipertensione riferita",
+                    "fibrillazione atriale riferita"
+                ]
+            };
+        }
         if (/dolore[^.!?;]{0,80}(?:braccio sinistro|mandibola)|sudo freddo|sudorazione fredda/.test(normalized)) {
             return {
                 specialista_indicato: "Emergenza cardiologica / Pronto Soccorso",

@@ -1,5 +1,24 @@
 # Evidenza sicurezza Git
 
+## NEURO_04 sospetto ictus / FAST positivo - 9 luglio 2026
+
+- Branch: `aiutodoc-clinical-validation`
+- Commit base del branch al momento della correzione: `d69fe83dac161cd1df8fd8b6ee4f9483f214639d`
+- Commit `main`: `f776bae225406bd05df9bbb95828ebefe0e16e81`, invariato
+- File applicativo modificato: `src/app_v3_standalone.js`
+- Report generato: `aiutodoc-validation/reports/neuro04-stroke-fast-fix.md`
+- Artefatti generati: `aiutodoc-validation/artifacts/raw-output/staging-chromium-desktop-NEURO_04_SOSPETTO_ICTUS_FAST.json`, `aiutodoc-validation/artifacts/playwright-results.json`
+- Modifica clinico-funzionale: riconoscimento locale strutturato di FAST positivo con bocca/viso storto, difficolta a sollevare un braccio, linguaggio confuso ed esordio recente/improvviso.
+- Output richiesto ottenuto: `112/118`, `Pronto Soccorso`, `stroke unit`, branca `Emergenza neurologica / ictus`, area `Sospetto ictus/TIA acuto / stroke unit`.
+- Timeout proxy: invariato a `75000 ms`
+- CSS, grafica, layout, UX, documenti legali, database, Netlify e produzione: non modificati
+- Test eseguito: solo `NEURO_04_SOSPETTO_ICTUS_FAST`, staging locale `http://127.0.0.1:4273`, solo `chromium-desktop`
+- Mock, fallback clinico improprio e intercettazione `/api/gemini`: nessuno
+- `/api/gemini`: non chiamata perche il rilevatore locale ha bloccato correttamente come emergenza strutturata completa
+- Esito: Playwright PASS; clinico-funzionale PASS
+- Merge, push, PR e deploy produzione: nessuno
+- Verifiche: `npm run check` PASS; `npm run build` PASS tramite `pushd` per compatibilita UNC
+
 ## Batch 02 Neurologia - 9 luglio 2026
 
 - Branch: `aiutodoc-clinical-validation`
