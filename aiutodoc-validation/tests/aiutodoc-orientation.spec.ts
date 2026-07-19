@@ -167,6 +167,10 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
       await page.locator(`input[name="age_range"][value="${ageValues[testCase.age_band]}"]`).check();
       await page.locator(`input[name="sex_at_birth"][value="${sexValues[testCase.sex]}"]`).check();
       await page.locator('#initial-medical-form button[type="submit"]').click();
+      const chatMessages = page.locator('#chat-messages');
+      await expect(chatMessages).toContainText('Qual è la tua zona geografica?');
+      await expect(chatMessages).not.toContainText('Qual ?');
+      await expect(chatMessages).not.toContainText('\uFFFD');
       await send(page, 'Italia');
       await send(page, testCase.input);
 
