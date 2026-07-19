@@ -46,20 +46,47 @@
   },
   {
     "id": "VALIDATOR_10_BYPASS_FECI_SCURE",
-    "sourceRaw": "../artifacts/raw-output/staging-chromium-desktop-P0_POS_02_FECI_SCURE_URGENTE.json",
-    "data": { "branchCorrect": true, "questionsPertinent": true, "urgencyAppropriate": true, "offBranchTerms": ["112", "118", "Pronto Soccorso"] },
+    "data": {
+      "input": "Da stamattina ho feci molto scure, debolezza e capogiri. Prendo un anticoagulante.",
+      "emergencyBypass": true,
+      "emergencyText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.",
+      "motivations": ["feci nere o molto scure", "debolezza riferita", "capogiri riferiti", "terapia anticoagulante riferita"],
+      "branchCorrect": true,
+      "questionsPertinent": true,
+      "urgencyAppropriate": true,
+      "offBranchTerms": ["112", "118", "Pronto Soccorso"]
+    },
     "expected": { "status": "BYPASS URGENZA DOCUMENTATO", "diagnosticViolations": 0, "offBranch": 0, "unfaithfulMotivations": 0 }
   },
   {
     "id": "VALIDATOR_11_VERTIGINI_NON_URGENTI",
-    "sourceRaw": "../artifacts/raw-output/staging-chromium-desktop-REGRESSION_NEG_01_VERTIGINI_NON_URGENTI.json",
-    "data": { "branchCorrect": true, "questionsPertinent": true, "urgencyAppropriate": false },
+    "data": {
+      "input": "Da diversi mesi ogni tanto ho una lieve sensazione di testa leggera quando mi alzo velocemente. Non vedo doppio, cammino normalmente, non ho debolezza, vomito o difficoltà a parlare.",
+      "questions": [
+        "I sintomi sono iniziati all'improvviso o da poco e sono ancora presenti o ricorrenti?",
+        "Ci sono visione doppia, difficoltà a camminare, perdita di equilibrio, problemi di coordinazione, parola, volto, forza o sensibilità?",
+        "Sono presenti vomito, fibrillazione atriale, anticoagulanti, peggioramento o sintomi ancora in corso tali da richiedere valutazione urgente?"
+      ],
+      "branchCorrect": true,
+      "questionsPertinent": true,
+      "urgencyAppropriate": false
+    },
     "expected": { "status": "PASS ROUTING", "falsePositiveUrgency": false }
   },
   {
     "id": "VALIDATOR_12_LOMBALGIA_BORDERLINE",
-    "sourceRaw": "../artifacts/raw-output/staging-chromium-desktop-REGRESSION_BOUND_04_LOMBALGIA_CON_FORMICOLIO_GAMBA.json",
-    "data": { "branchCorrect": true, "questionsPertinent": true, "expectedCoverage": ["forza", "urinario", "fecale"], "coverageCompleteness": "complete" },
+    "data": {
+      "input": "Dopo aver sollevato un peso ho dolore lombare che scende lungo una gamba e formicolio al piede. Non ho formicolio tra le gambe, problemi urinari o fecali, perdita di sensibilità genitale o debolezza importante.",
+      "questions": [
+        "Formicolii o perdita di sensibilità sono localizzati, bilaterali o progressivi nel tempo?",
+        "Hai perdita di forza, difficoltà a camminare, disturbi del linguaggio, vista doppia o problemi urinari/fecali?",
+        "Il sintomo è iniziato improvvisamente oppure è graduale o ricorrente da settimane o mesi?"
+      ],
+      "branchCorrect": true,
+      "questionsPertinent": true,
+      "expectedCoverage": ["forza", "urinario", "fecale"],
+      "coverageCompleteness": "complete"
+    },
     "expected": { "status": "PASS ROUTING", "coverage": { "forza": true, "urinario": true, "fecale": true } }
   }
 ]

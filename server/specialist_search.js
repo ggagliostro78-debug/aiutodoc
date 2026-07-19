@@ -384,12 +384,13 @@ function splitByCareType(results) {
 
 async function searchSpecialists(payload, fetchImpl) {
     const specialista = cleanText(payload.specialista, "medico specialista");
-    const disturbo = cleanText(payload.disturbo);
     const zona = cleanText(payload.zona, "Italia");
     const provincia = cleanText(payload.provincia, zona);
     const regione = cleanText(payload.regione, zona);
 
-    const clinicalTerms = [specialista, disturbo].filter(Boolean).join(" ");
+    // Data minimization: external search providers receive only the requested
+    // specialty and geographic scope, never the symptom narrative or full chat.
+    const clinicalTerms = specialista;
     const negations = "-miodottore -doctolib -idoctors -paginegialle -paginebianche -cup -qsalute -guidasalute -topdoctors";
     const localPublicQuery = `${clinicalTerms} ${provincia} ospedale pubblico reparto telefono indirizzo ${negations}`.trim();
     const localClinicQuery = `${clinicalTerms} ${provincia} clinica privata convenzionata centro specialistico telefono indirizzo ${negations}`.trim();
@@ -506,7 +507,9 @@ async function handleSpecialistSearch({ method, body, fetchImpl = fetch, context
         return buildResponse(502, {
             error: "Errore ricerca specialisti.",
             code: isMissingConfig ? "GOOGLE_SEARCH_CONFIG_MISSING" : "GOOGLE_SEARCH_ERROR",
-            detail: error instanceof Error ? error.message : String(error)
+            detail: isMissingConfig
+                ? "Il provider di ricerca non è configurato nel backend."
+                : "Il provider di ricerca non è temporaneamente disponibile."
         }, corsHeaders);
     }
 }

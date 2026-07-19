@@ -3621,7 +3621,7 @@ class TriageEngine {
                 "assenza di difficolta respiratoria, che non riduce l'urgenza infettiva"
             ];
             normalized.preparazione_visita = "Richiedi una valutazione medica urgente oggi. Vai in Pronto Soccorso o contatta 112/118 se compaiono peggioramento rapido, confusione, pressione bassa, febbre alta persistente, strie rosse estese, immunodepressione importante, coinvolgimento di volto o occhio, dolore sproporzionato o segni di sepsi. Non rimandare a visita programmata.";
-            normalized.impegnativa_medico = "Valutazione urgente per possibile infezione cutanea acuta in paziente diabetico con febbre, brividi e debolezza, senza diagnosi certa di cellulite o erisipela e senza prescrizioni.";
+            normalized.impegnativa_medico = "Valutazione urgente dei sintomi cutanei acuti riferiti in paziente diabetico con febbre, brividi e debolezza, senza formulare diagnosi di cellulite o erisipela e senza prescrizioni.";
         }
         if (this._isPossibleAnaphylaxisContext()) {
             normalized.specialista_indicato = "112/118, Pronto Soccorso, emergenza allergologica";
