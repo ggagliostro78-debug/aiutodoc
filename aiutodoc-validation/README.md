@@ -53,6 +53,29 @@ Ogni caso riceve 0–2 punti per branca, urgenza, domande, red flag e linguaggio
 
 Disclaimer e urgenza clinica sono segnali distinti. Il testo legale generico non partecipa allo scoring dell'urgenza; solo `clinical-emergency-output` oppure `urgency-output` vengono valutati.
 
+## Vincolo medico-legale AiutoDoc
+
+AiutoDoc non deve formulare diagnosi, diagnosi probabili, diagnosi presunte, diagnosi compatibili o sospetti diagnostici verso l'utente.
+
+AiutoDoc deve limitarsi a:
+
+- descrivere i sintomi riferiti dall'utente;
+- evidenziare segnali rilevanti e segnali di urgenza;
+- indicare la branca piu appropriata;
+- indicare lo specialista o il servizio sanitario piu appropriato;
+- indicare il livello di urgenza;
+- invitare alla conferma con medico, specialista, 112/118 o Pronto Soccorso quando appropriato.
+
+Obiettivo della piattaforma: indirizzare l'utente allo specialista o al servizio sanitario piu appropriato, non formulare diagnosi.
+
+Sono vietate formulazioni utente come "diagnosi di", "probabile diagnosi", "presunta diagnosi", "quadro compatibile con", "sospetta [patologia]", "possibile [patologia]" quando viene presentata come conclusione clinica, "si tratta di" ed "e verosimile che sia".
+
+Sono ammesse formulazioni orientative come "sintomi da valutare in ambito cardiologico", "quadro da valutazione pneumologica urgente", "segni riferiti che richiedono valutazione in Pronto Soccorso", "orientamento verso specialista gastroenterologo", "area specialistica consigliata" e "servizio piu appropriato".
+
+Ogni `git-safety-evidence.md` futuro deve dichiarare esplicitamente: nessuna diagnosi formulata, nessuna diagnosi presunta formulata, nessun sospetto diagnostico formulato come conclusione verso l'utente, nessuna prescrizione, nessun dosaggio, nessuna terapia operativa e output limitato a orientamento verso specialista/branca/servizio.
+
+Nei prossimi batch, un caso deve diventare `WARNING` o `FAIL` se l'output utente formula diagnosi, diagnosi presunta o sospetto diagnostico come conclusione, anche se la branca e l'urgenza sono corrette.
+
 ## Contratti `data-testid`
 
 La suite usa i seguenti contratti semantici del frontend:

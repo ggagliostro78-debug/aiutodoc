@@ -31,10 +31,21 @@ const SPECIALTY_EVIDENCE_COMMON = Object.freeze([
 ]);
 
 const SPECIALTY_EVIDENCE_CATALOG = Object.freeze([
+    { match: /pielonefrit|upper uti|infezione urinaria alta|infezione renale|febbre 39|brividi[^.!?]{0,80}(?:urin|fianco)/i, source: { title: "Pyelonephritis - acute", detail: "NICE Clinical Knowledge Summary", url: "https://cks.nice.org.uk/topics/pyelonephritis-acute/" } },
+    { match: /cistit|lower uti|infezione urinaria bassa|sintomi urinari bassi|bruciore (?:quando )?urin|aumento della frequenza urinaria|devo andare spesso in bagno/i, source: { title: "Urinary tract infection (lower) - women", detail: "NICE Clinical Knowledge Summary", url: "https://cks.nice.org.uk/topics/urinary-tract-infection-lower-women/" } },
     { match: /neurolog|neurochirurg/i, source: { title: "Suspected neurological conditions: recognition and referral", detail: "NICE guideline NG127", url: "https://www.nice.org.uk/guidance/ng127" } },
     { match: /cardiolog/i, source: { title: "Recent-onset chest pain of suspected cardiac origin", detail: "NICE clinical guideline CG95", url: "https://www.nice.org.uk/guidance/cg95" } },
-    { match: /ortoped|fisiatr|reumatolog/i, source: { title: "Low back pain and sciatica: assessment and management", detail: "NICE guideline NG59", url: "https://www.nice.org.uk/guidance/ng59" } },
-    { match: /dermatolog/i, source: { title: "Melanoma: assessment and management", detail: "NICE guideline NG14", url: "https://www.nice.org.uk/guidance/ng14" } },
+    { match: /neo|lesion[ei] pigmentat|dermatoscop|melanom|asimmetri|bordi irregolari|colori diversi|marrone scuro|nero/i, source: { title: "Melanoma: assessment and management", detail: "NICE guideline NG14", url: "https://www.nice.org.uk/guidance/ng14" } },
+    { match: /dermatite|eczema|chiazze rosse|detergenti|guanti|screpolat|hand eczema|patch test/i, source: { title: "Dermatitis - contact", detail: "NICE Clinical Knowledge Summary", url: "https://cks.nice.org.uk/topics/dermatitis-contact/" } },
+    { match: /cellulit|erisipel|infezione cutanea|zona rossa|calda|gonfia|dolorosa|allargars|brividi/i, source: { title: "Cellulitis - acute", detail: "NICE Clinical Knowledge Summary", url: "https://cks.nice.org.uk/topics/cellulitis-acute/" } },
+    { match: /anafil|orticaria|angioedema|frutta secca|gola che si chiude|respiro difficile|gonfiore (?:alle )?(?:labbra|lingua)/i, source: { title: "Angio-oedema and anaphylaxis", detail: "NICE Clinical Knowledge Summary", url: "https://cks.nice.org.uk/topics/angio-oedema-anaphylaxis/" } },
+    { match: /impetig|crosticine|croste giallastre|giallastre|perioral|perinasal|naso e alla bocca|contatti scolastici/i, source: { title: "Impetigo", detail: "NICE Clinical Knowledge Summary", url: "https://cks.nice.org.uk/topics/impetigo/" } },
+    { match: /lombalg|lombar|rachide|sciatalg|sciatica|schiena/i, source: { title: "Low back pain and sciatica: assessment and management", detail: "NICE guideline NG59", url: "https://www.nice.org.uk/guidance/ng59" } },
+    { match: /cavigl|frattur|lussazion|compromissione neurovascolare|dita fredde|pallide/i, source: { title: "Fractures (non-complex): assessment and management", detail: "NICE guideline NG38", url: "https://www.nice.org.uk/guidance/ng38" } },
+    { match: /ginocch|menisc|legament|crociat|distorsion|traumatologia sportiva|crack/i, source: { title: "Knee Pain in Adults and Adolescents: The Initial Evaluation", detail: "American Family Physician, 2018", url: "https://www.aafp.org/pubs/afp/issues/2018/1101/p576.html" } },
+    { match: /spalla|cuffia|rotator|impingement|tendinopatia/i, source: { title: "Shoulder pain: Management", detail: "NICE Clinical Knowledge Summary", url: "https://cks.nice.org.uk/topics/shoulder-pain/management/" } },
+    { match: /ortoped|fisiatr|reumatolog/i, source: { title: "Fractures (non-complex): assessment and management", detail: "NICE guideline NG38", url: "https://www.nice.org.uk/guidance/ng38" } },
+    { match: /dermatolog/i, source: { title: "Skin conditions: general dermatology referral context", detail: "NICE Clinical Knowledge Summaries", url: "https://cks.nice.org.uk/specialities/skin-and-nail/" } },
     { match: /oculist|oftalmolog/i, source: { title: "Glaucoma: diagnosis and management", detail: "NICE guideline NG81", url: "https://www.nice.org.uk/guidance/ng81" } },
     { match: /ginecolog|ostetric/i, source: { title: "Heavy menstrual bleeding: assessment and management", detail: "NICE guideline NG88", url: "https://www.nice.org.uk/guidance/ng88" } },
     { match: /celiach|coeliac|gastroenterolog.*pediatr|pediatr.*gastroenterolog/i, source: { title: "Coeliac disease: recognition, assessment and management", detail: "NICE guideline NG20", url: "https://www.nice.org.uk/guidance/ng20" } },

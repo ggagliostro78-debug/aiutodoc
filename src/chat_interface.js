@@ -52,7 +52,7 @@ class ChatInterface {
 
     _shouldShowQuickReplies() {
         const placeholder = this.userInput ? this.userInput.placeholder : '';
-        return /A,\s*B\s*o\s*C/i.test(placeholder) || Boolean(this._extractLatestChoices());
+        return /A,\s*B(?:,\s*C)?\s*o\s*[CD]/i.test(placeholder) || Boolean(this._extractLatestChoices());
     }
 
     _hasLatestDetailChoicePrompt() {
@@ -71,7 +71,7 @@ class ChatInterface {
             const choices = {};
             optionRows.forEach((row) => {
                 const reply = row.dataset.reply || '';
-                const match = reply.match(/^([ABC])\)\s*(.+)$/i);
+                const match = reply.match(/^([ABCD])\)\s*(.+)$/i);
                 if (match) choices[match[1].toUpperCase()] = reply;
             });
             if (['A', 'B', 'C'].every((letter) => choices[letter])) return choices;
@@ -80,7 +80,7 @@ class ChatInterface {
         const text = latest.innerText || latest.textContent || '';
         const choices = {};
         text.split(/\n+/).forEach((line) => {
-            const match = line.trim().match(/^([ABC])\)\s*(.+)$/i);
+            const match = line.trim().match(/^([ABCD])\)\s*(.+)$/i);
             if (match) {
                 const letter = match[1].toUpperCase();
                 choices[letter] = `${letter}) ${match[2].trim()}`;
@@ -93,7 +93,7 @@ class ChatInterface {
     _enhanceMultipleChoiceBubble(bubble) {
         bubble.querySelectorAll('i').forEach((italicBlock) => {
             // Convert <br> nodes into real line breaks before reading text. innerText is
-            // inconsistent on mobile and can merge A/B/C choices into a single line.
+            // inconsistent on mobile and can merge A/B/C/D choices into a single line.
             const optionContent = italicBlock.cloneNode(true);
             optionContent.querySelectorAll('br').forEach((breakEl) => {
                 breakEl.replaceWith(document.createTextNode('\n'));
@@ -105,7 +105,7 @@ class ChatInterface {
                 .filter(Boolean);
 
             const options = lines.map((line) => {
-                const match = line.match(/^([ABC])\)\s*(.+)$/i);
+                const match = line.match(/^([ABCD])\)\s*(.+)$/i);
                 return match ? { letter: match[1].toUpperCase(), text: match[2].trim() } : null;
             });
 
@@ -197,7 +197,7 @@ class ChatInterface {
             const letterEl = button.querySelector('.quick-choice-letter');
             const textEl = button.querySelector('.quick-choice-text');
             if (letterEl) letterEl.textContent = letter;
-            if (textEl) textEl.textContent = reply.replace(/^[ABC]\)\s*/, '');
+            if (textEl) textEl.textContent = reply.replace(/^[ABCD]\)\s*/, '');
         });
     }
 
