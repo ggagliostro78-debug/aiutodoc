@@ -1,0 +1,65 @@
+[
+  {
+    "id": "VALIDATOR_01_DISCLAIMER",
+    "data": { "input": "", "finalOutput": "Questo avviso non è una diagnosi.", "branchCorrect": true, "questionsPertinent": true },
+    "expected": { "status": "PASS ROUTING", "diagnosticViolations": 0 }
+  },
+  {
+    "id": "VALIDATOR_02_DIAGNOSI_REALE",
+    "data": { "input": "", "finalOutput": "Il quadro è compatibile con una possibile patologia cardiaca.", "branchCorrect": true, "questionsPertinent": true },
+    "expected": { "status": "FAIL ROUTING", "diagnosticViolations": 1 }
+  },
+  {
+    "id": "VALIDATOR_03_DOMANDA_URGENZA",
+    "data": { "input": "Sintomi non urgenti.", "questions": ["I sintomi sono ancora in corso e richiedono una valutazione urgente?"], "emergencyBypass": false, "finalOutput": "", "urgencyAppropriate": false, "branchCorrect": true, "questionsPertinent": true },
+    "expected": { "status": "PASS ROUTING", "falsePositiveUrgency": false }
+  },
+  {
+    "id": "VALIDATOR_04_BYPASS_APPROPRIATO",
+    "data": { "input": "Feci molto scure, debolezza, capogiri e terapia anticoagulante.", "emergencyBypass": true, "emergencyText": "Contatta 112/118 o recati al Pronto Soccorso.", "motivations": ["feci molto scure", "debolezza", "capogiri", "terapia anticoagulante"], "offBranchTerms": ["112", "118", "Pronto Soccorso"], "urgencyAppropriate": true, "branchCorrect": true, "questionsPertinent": true },
+    "expected": { "status": "BYPASS URGENZA DOCUMENTATO", "offBranch": 0, "bypassDocumented": true }
+  },
+  {
+    "id": "VALIDATOR_05_MOTIVAZIONE_INVENTATA",
+    "data": { "input": "Feci scure. Non ho debolezza e non prendo anticoagulanti.", "emergencyBypass": true, "emergencyText": "Valutazione urgente.", "motivations": ["debolezza", "terapia anticoagulante"], "urgencyAppropriate": true, "branchCorrect": true, "questionsPertinent": true },
+    "expected": { "status": "FAIL ROUTING", "unfaithfulMotivations": 2, "negationsIgnored": true }
+  },
+  {
+    "id": "VALIDATOR_06_COPERTURA_URINARIA",
+    "data": { "input": "", "questions": ["Hai difficoltà a urinare o problemi nel controllo delle urine e delle feci?"], "expectedCoverage": ["urinario", "fecale"], "branchCorrect": true, "questionsPertinent": true },
+    "expected": { "status": "PASS ROUTING", "coverage": { "urinario": true, "fecale": true } }
+  },
+  {
+    "id": "VALIDATOR_07_WARNING",
+    "data": { "input": "Disturbo gastroenterologico non urgente.", "questions": ["Il problema cambia dopo i pasti?", "Come sta andando il disturbo?"], "branchCorrect": true, "questionsPertinent": true, "coverageCompleteness": "partial" },
+    "expected": { "status": "WARNING ROUTING" }
+  },
+  {
+    "id": "VALIDATOR_08_FAIL_FUORI_RAMO",
+    "data": { "input": "Dopo un alimento ho prurito diffuso e labbra gonfie.", "questions": ["Il neo ha cambiato colore?", "I margini sono irregolari?"], "offBranchTerms": ["neo", "colore", "margini"], "branchCorrect": false, "questionsPertinent": false },
+    "expected": { "status": "FAIL ROUTING", "offBranch": 3 }
+  },
+  {
+    "id": "VALIDATOR_09_PASS",
+    "data": { "input": "Dolore lombare senza red flag.", "questions": ["Il dolore peggiora con i movimenti?", "Sono presenti problemi urinari o debolezza?"], "expectedCoverage": ["urinario", "forza"], "branchCorrect": true, "questionsPertinent": true, "coverageCompleteness": "complete", "urgencyAppropriate": true },
+    "expected": { "status": "PASS ROUTING" }
+  },
+  {
+    "id": "VALIDATOR_10_BYPASS_FECI_SCURE",
+    "sourceRaw": "../artifacts/raw-output/staging-chromium-desktop-P0_POS_02_FECI_SCURE_URGENTE.json",
+    "data": { "branchCorrect": true, "questionsPertinent": true, "urgencyAppropriate": true, "offBranchTerms": ["112", "118", "Pronto Soccorso"] },
+    "expected": { "status": "BYPASS URGENZA DOCUMENTATO", "diagnosticViolations": 0, "offBranch": 0, "unfaithfulMotivations": 0 }
+  },
+  {
+    "id": "VALIDATOR_11_VERTIGINI_NON_URGENTI",
+    "sourceRaw": "../artifacts/raw-output/staging-chromium-desktop-REGRESSION_NEG_01_VERTIGINI_NON_URGENTI.json",
+    "data": { "branchCorrect": true, "questionsPertinent": true, "urgencyAppropriate": false },
+    "expected": { "status": "PASS ROUTING", "falsePositiveUrgency": false }
+  },
+  {
+    "id": "VALIDATOR_12_LOMBALGIA_BORDERLINE",
+    "sourceRaw": "../artifacts/raw-output/staging-chromium-desktop-REGRESSION_BOUND_04_LOMBALGIA_CON_FORMICOLIO_GAMBA.json",
+    "data": { "branchCorrect": true, "questionsPertinent": true, "expectedCoverage": ["forza", "urinario", "fecale"], "coverageCompleteness": "complete" },
+    "expected": { "status": "PASS ROUTING", "coverage": { "forza": true, "urinario": true, "fecale": true } }
+  }
+]

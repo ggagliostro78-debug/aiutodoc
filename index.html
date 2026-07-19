@@ -229,17 +229,17 @@
               <div class="welcome-title">Trova più facilmente lo specialista adatto alle tue esigenze.</div>
               <p style="text-align: center; margin-bottom: 10px; font-size: 0.95rem;">AIutoDoc è un sistema di supporto che si basa sull’utilizzo dell’intelligenza artificiale per lo scopo più umano che ci sia: <strong>la cura</strong>. Attraverso poche e semplici domande ti aiuta ad <strong>accedere alle figure specialistiche più adatte a te</strong>, sulla base dei sintomi e delle informazioni che condividi.</p>
               
-              <div class="medical-disclaimer-card" role="note" aria-label="Avviso medico importante">
+              <div class="medical-disclaimer-card" role="note" aria-label="Avviso medico importante" data-testid="medical-disclaimer">
                 <strong>Importante</strong>
                 <p>AIutoDoc non fornisce diagnosi, prescrizioni o pareri medici e non sostituisce una visita sanitaria.</p>
                 <p>In caso di urgenza, sintomi gravi o peggioramento improvviso, chiama il 112/118 o rivolgiti al Pronto Soccorso.</p>
               </div>
 
-              <form id="initial-medical-form" class="initial-intake-card" novalidate>
+              <form id="initial-medical-form" class="initial-intake-card" data-testid="initial-medical-form" novalidate>
                 <h3>Prima di iniziare</h3>
                 <p>Per orientarti meglio verso lo specialista più appropriato, seleziona una fascia di età e indica il sesso biologico.</p>
 
-                <fieldset class="initial-fieldset" aria-describedby="initial-age-error">
+                <fieldset class="initial-fieldset" data-testid="age-band-select" aria-describedby="initial-age-error">
                   <legend>Fascia di età</legend>
                   <div class="age-range-options">
                     <label class="age-range-card">
@@ -278,7 +278,7 @@
                 </fieldset>
                 <p class="initial-error" id="initial-age-error" aria-live="polite" role="alert"></p>
 
-                <fieldset class="initial-fieldset" aria-describedby="initial-sex-help initial-sex-error">
+                <fieldset class="initial-fieldset" data-testid="sex-select" aria-describedby="initial-sex-help initial-sex-error">
                   <legend>Sesso biologico</legend>
                   <p id="initial-sex-help">Useremo questi dati solo quando clinicamente rilevanti e solo per migliorare l’orientamento sanitario.</p>
                   <div class="sex-at-birth-options">
@@ -297,7 +297,7 @@
                   </div>
                 </fieldset>
                 <p class="initial-error" id="initial-sex-error" aria-live="polite" role="alert"></p>
-                <button type="submit" class="btn-primary-wide">Clicca per iniziare</button>
+                <button type="submit" class="btn-primary-wide" data-testid="start-button">Clicca per iniziare</button>
               </form>
             </div>
             <div class="msg-time">Ora</div>
@@ -307,8 +307,8 @@
           <span></span><span></span><span></span>
         </div>
         <div class="chat-input-area onboarding-hidden" aria-hidden="true">
-          <textarea id="user-input" placeholder="Inserisci Comune o Provincia. Es. Milano, Roma, RC oppure Italia" rows="1" enterkeyhint="send" autocapitalize="sentences" autocomplete="on" spellcheck="true"></textarea>
-          <button id="send-btn" class="btn-primary" aria-label="Invia">
+          <textarea id="user-input" data-testid="symptom-input" placeholder="Inserisci Comune o Provincia. Es. Milano, Roma, RC oppure Italia" rows="1" enterkeyhint="send" autocapitalize="sentences" autocomplete="on" spellcheck="true"></textarea>
+          <button id="send-btn" data-testid="submit-symptoms" class="btn-primary" aria-label="Invia">
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
               stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
               <line x1="22" y1="2" x2="11" y2="13"></line>

@@ -1,0 +1,26 @@
+{
+  "name": "aiutodoc-clinical-validation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Suite Playwright isolata per la validazione clinico-funzionale di AIutoDoc",
+  "license": "UNLICENSED",
+  "scripts": {
+    "guard": "node scripts/assert-parallel-branch.cjs",
+    "test": "npm run guard && playwright test",
+    "test:headed": "npm run guard && playwright test --headed",
+    "test:staging": "npm run guard && cross-env AIUTODOC_ENV=staging playwright test",
+    "staging:serve": "npm run guard && node scripts/start-local-staging.cjs",
+    "test:staging:local": "npm run guard && cross-env AIUTODOC_ENV=staging AIUTODOC_BASE_URL=http://127.0.0.1:4273 playwright test --grep \"ANEMIA_01|ANEMIA_02|CELIACHIA_02|COVID_01|COVID_02|INFLUENZA_02\"",
+    "test:validator": "npm run guard && cross-env AIUTODOC_ENV=staging AIUTODOC_BASE_URL=http://127.0.0.1:4273 playwright test tests/anamnesis-routing-validator.spec.ts --project=chromium-desktop",
+    "test:live": "npm run guard && cross-env AIUTODOC_ENV=live AIUTODOC_BASE_URL=https://aiutodoc.it playwright test --grep \"ANEMIA_01|ANEMIA_02|CELIACHIA_02|COVID_01|COVID_02|INFLUENZA_02\"",
+    "test:live:all": "npm run guard && cross-env AIUTODOC_ENV=live AIUTODOC_BASE_URL=https://aiutodoc.it playwright test",
+    "report": "tsx scripts/score-results.ts",
+    "install:browsers": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1",
+    "cross-env": "7.0.3",
+    "tsx": "4.20.3",
+    "typescript": "5.8.3"
+  }
+}

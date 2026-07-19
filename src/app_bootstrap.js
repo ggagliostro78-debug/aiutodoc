@@ -42,6 +42,7 @@ function setupMobileMenu() {
         mainNav.classList.toggle('open', isOpen);
         document.body.classList.toggle('menu-open', isOpen);
         menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        menuToggle.setAttribute('aria-label', isOpen ? 'Chiudi il menu di navigazione' : 'Apri il menu di navigazione');
         menuToggle.textContent = isOpen ? 'Chiudi' : 'Menu';
     };
 
@@ -58,8 +59,16 @@ function setupMobileMenu() {
 
     document.addEventListener('click', (event) => {
         if (!mainNav.classList.contains('open')) return;
-        if (mainNav.contains(event.target) || menuToggle.contains(event.target)) return;
+        if (menuToggle.contains(event.target)) return;
+        if (mainNav.contains(event.target) && event.target !== mainNav) return;
         syncMenuState(false);
+        menuToggle.focus();
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape' || !mainNav.classList.contains('open')) return;
+        syncMenuState(false);
+        menuToggle.focus();
     });
 
     window.addEventListener('resize', () => {

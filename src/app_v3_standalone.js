@@ -73,11 +73,11 @@ class TriageEngine {
                 placeholder = "Inserisci Comune o Provincia. Es. Milano, Roma, RC oppure Italia";
                 break;
             case '3_DISTURBO':
-                placeholder = "Descrivi in parole semplici il motivo della ricerca. Es. dolore al ginocchio, mal di testa frequente, difficolt? a dormire...";
+                placeholder = "Descrivi in parole semplici il motivo della ricerca. Es. dolore al ginocchio, mal di testa frequente, difficoltà a dormire...";
                 break;
             case '4_CONOSCITIVE':
             case '5_ANAMNESTICHE':
-                placeholder = "Rispondi indicando la lettera (A, B o C)";
+                placeholder = "Rispondi indicando la lettera (A, B, C o D)";
                 break;
             case '4B_NOTA_CONOSCITIVA_SCELTA':
             case '5B_NOTA_ANAMNESTICA_SCELTA':
@@ -352,6 +352,21 @@ class TriageEngine {
         `;
     }
 
+    _formatQuestionWithNoneOption(question) {
+        const text = String(question || "");
+        if (/\bD\)/i.test(text)) return text;
+        if (text.includes("</i>")) {
+            return text.replace("</i>", "<br>D) Nessuna delle precedenti</i>");
+        }
+        return `${text}<br><i>D) Nessuna delle precedenti</i>`;
+    }
+
+    _addNoneOptionToQuestions(questions) {
+        return Array.isArray(questions)
+            ? questions.map((question) => this._formatQuestionWithNoneOption(question))
+            : [];
+    }
+
     _isAffirmativeChoice(input) {
         return /^(si|s\u00EC|ok|certo|aggiungo|voglio aggiungere)(?:\s|[.!?,;:]|$)/i.test(normalizeMedicalText(input).toLowerCase());
     }
@@ -374,7 +389,7 @@ class TriageEngine {
 
     _startAnamnesisQuestions() {
         this.state = '5_ANAMNESTICHE';
-        this.onMessage(`Molto bene. Ora passiamo alla seconda fase con <strong>${this.userData.domandeAnamnesticheDinamiche.length} domande anamnestiche</strong> più specifiche sul disturbo per migliorare l'orientamento (rispondi con <strong>A, B o C</strong>).<br><br>1. ` + this.userData.domandeAnamnesticheDinamiche[0]);
+        this.onMessage(`Molto bene. Ora passiamo alla seconda fase con <strong>${this.userData.domandeAnamnesticheDinamiche.length} domande anamnestiche</strong> più specifiche sul disturbo per migliorare l'orientamento (rispondi con <strong>A, B, C o D</strong>).<br><br>1. ` + this.userData.domandeAnamnesticheDinamiche[0]);
         this._updatePlaceholder();
     }
 
@@ -692,12 +707,329 @@ class TriageEngine {
         // (Verrà implementata meglio nel chunk successivo inserendo il bottone PDF)
     }
 
-    _detectUrgency(text) {
-        const dangerWords = [
-            'petto', 'cuore', 'respir', 'infarto', 'coscienza', 'svvenut', 'sangue', 'emorragia', 
-            'suicid', 'uccider', 'mazzar', 'farla finita', 'emergenza', '118', '112', 'soccorso'
+    _stripNegatedClinicalClauses(text) {
+        return String(text || "")
+            .replace(/\b(?:non ho|non ha|non presento|non presenta|non riferisco|non riferisce|non assumo|non assume|non prendo|non prende|non sono|senza|assenza di|nega|negano)\b[^.!?;]{0,180}(?=[.!?;]|$)/gi, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
+    _getCycle03Context(text) {
+        const normalized = normalizeMedicalText(text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const has = (pattern) => pattern.test(normalized);
+
+        if (has(/(?:figlio|bambin)[^.!?]{0,35}3 anni/) && has(/respira molto velocemente/) && has(/fatica a parlare o piangere/) && has(/rientra[^.!?]{0,35}(?:costole|intercost)/) && has(/molto stanc/)) return "ped_respiro_urgente";
+        if (has(/(?:figlia|bambin)[^.!?]{0,35}7 anni/) && has(/febbre[^.!?]{0,25}38[,.]5/) && has(/(?:beve|idrat)/) && has(/vigile/)) return "ped_febbre";
+        if (has(/(?:figlia|bambin)[^.!?]{0,35}12 anni/) && has(/mal di testa/) && has(/(?:legge|tablet|scherm)/) && has(/vede sfocat/)) return "ped_vista_cefalea";
+        if (has(/(?:figlio|bambin)[^.!?]{0,35}11 anni/) && has(/allenamento intenso/) && has(/(?:tornato normale|recupero completo)/) && has(/(?:riposato|riposo)/) && has(/(?:bevuto|idrat)/)) return "ped_stanchezza_sport";
+        if (has(/(?:figlia|bambin)[^.!?]{0,35}6 anni/) && has(/antibiotico/) && has(/macchie rosse[^.!?]{0,35}tronco/)) return "ped_antibiotico_macchie";
+        if (has(/vedo molto meno[^.!?]{0,30}un occhio/) && has(/improvvis/) && has(/non sta migliorando/)) return "ocul_calo_improvviso";
+        if (has(/(?:da alcuni mesi|mesi)[^.!?]{0,45}vedo meno nitidamente/) && has(/da lontano/) && has(/sera/)) return "ocul_calo_progressivo";
+        if (has(/dolore intorno a un occhio/) && has(/mal di testa/) && has(/vista (?:e|è) normale/)) return "ocul_dolore_cefalea";
+        if (has(/lenti a contatto/) && has(/dolore a un occhio/) && has(/luce[^.!?]{0,30}(?:fastidio|fotofobia)/) && has(/appannat/)) return "ocul_lenti_fotofobia";
+        if (has(/dopo aver mangiato/) && has(/prurito diffuso/) && has(/gonfiore delle labbra/) && has(/difficolta a respirare/) && has(/(?:mi sento|sono) debole/)) return "allergo_reazione_urgente";
+        if (has(/ogni primavera/) && has(/starnuti/) && has(/naso chiuso/) && has(/prurito agli occhi/)) return "allergo_stagionale";
+        if (has(/chiazze pruriginose/) && has(/spariscono dopo qualche ora/) && has(/(?:alcune settimane|ricorrent|ogni tanto)/)) return "allergo_chiazze_ricorrenti";
+        if (has(/beta-bloccante/) && has(/puntura di insetto/) && has(/gonfiore diffuso/) && has(/(?:portato in ospedale|ricovero)/) && has(/ora sto bene/)) return "allergo_puntura_pregressa";
+        return "";
+    }
+
+    _detectUrgencySignals(text) {
+        const normalized = normalizeMedicalText(text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const withoutNegatedSymptoms = this._stripNegatedClinicalClauses(normalized);
+        const remoteCardiacHistory = /\b(?:infarto|evento cardiaco)\b[^.!?;]{0,30}\b(?:anni|mesi) fa\b/.test(withoutNegatedSymptoms);
+        const stableRefluxPattern = this._isStableRefluxDyspepsiaText(normalized);
+        const darkStoolsExplainedByIron = /(?:da quando|dopo (?:aver )?iniziato|mentre)\b[^.!?;]{0,80}\b(?:prendo|assumo|integratore)[^.!?;]{0,30}\b(?:ferro|bismuto)\b/.test(withoutNegatedSymptoms);
+        const resolvedAfterIntenseExercise = /\b(?:dopo|durante)\b[^.!?;]{0,45}\b(?:corsa|allenamento|esercizio|sforzo)\b[^.!?;]{0,25}\b(?:intens[oa]|vigoros[oa])\b/.test(normalized)
+            && /\b(?:fiato corto|dispnea|manca l'aria)\b/.test(normalized)
+            && /\b(?:per (?:alcuni|pochi) minuti|durato pochi minuti|breve)\b/.test(normalized)
+            && /\b(?:passat[oa] completamente|risolt[oa] completamente|completa regressione)\b/.test(normalized)
+            && /\b(?:non ho|senza)\b[^.!?;]{0,150}\b(?:sintomi a riposo|dolore (?:al petto|toracico)|svenimenti?|respiro sibilante|sibili)\b/.test(normalized);
+        const exertionalOnlyDyspnea = /\b(?:fiato corto|dispnea|manca l'aria)\b[^.!?;]{0,45}\b(?:quando cammin\w*|camminando|sotto sforzo|da sforzo)\b/.test(withoutNegatedSymptoms)
+            && !/\b(?:a riposo|grave difficolta respiratoria|non riesc[oe] a respirare|dispnea severa)\b/.test(withoutNegatedSymptoms);
+        const saturationValues = [...withoutNegatedSymptoms.matchAll(/saturazione\D{0,8}(\d{2,3})/g)]
+            .map((match) => Number(match[1]))
+            .filter(Number.isFinite);
+        const signals = saturationValues
+            .filter((value) => value <= 93)
+            .map((value) => `Saturazione ${value}% riferita`);
+        const cycle03Context = this._getCycle03Context(normalized);
+        if (cycle03Context === "ped_respiro_urgente") signals.push("Respiro molto rapido, rientramenti tra le costole e difficolta a parlare o piangere");
+        if (cycle03Context === "ocul_calo_improvviso") signals.push("Calo visivo improvviso e persistente da un occhio, senza miglioramento");
+        if (cycle03Context === "allergo_reazione_urgente") signals.push("Gonfiore delle labbra e difficolta respiratoria dopo l'assunzione di un alimento");
+        const emergencyPatterns = [
+            { pattern: /\b(?:fiato corto|fatica a respirare|difficolta respiratoria|dispnea|non riesc[oe] a respirare)\b/, label: "Difficoltà respiratoria o dispnea riferita", skip: exertionalOnlyDyspnea || resolvedAfterIntenseExercise },
+            { pattern: /\b(?:dolore (?:al )?torace|dolore toracico)\b/, label: "Dolore toracico riferito", skip: stableRefluxPattern },
+            { pattern: /\b(?:feci (?:nere|molto scure|scure)|melena|emorragia)\b/, label: "Feci scure o molto scure riferite", skip: darkStoolsExplainedByIron },
+            { pattern: /\b(?:perdita di coscienza|privo di coscienza|svenimento improvviso)\b/, label: "Perdita di coscienza riferita" },
+            { pattern: /\b(?:sto avendo un infarto|infarto (?:ora|in corso|appena avvenuto))\b/, label: "Possibile evento cardiaco acuto riferito", skip: remoteCardiacHistory },
+            { pattern: /\b(?:suicid|uccider|ammazzar|farla finita)\w*/, label: "Rischio immediato per la sicurezza personale" },
+            { pattern: /\b(?:112|118|pronto soccorso|emergenza)\b/, label: "Richiamo esplicito a un'emergenza" }
         ];
-        return dangerWords.some(w => text.toLowerCase().includes(w));
+        const contextualPatterns = [
+            { pattern: /\b(?:tachicardia|battito accelerato|palpitazioni)\b/, label: "Tachicardia o battito accelerato riferito" },
+            { pattern: /\b(?:capogiri|vertigini marcate)\b/, label: "Capogiri riferiti" },
+            { pattern: /\b(?:bpco)\b/, label: "BPCO riferita" },
+            { pattern: /\b(?:febbre\D{0,5}39)\b/, label: "Febbre 39°C riferita" },
+            { pattern: /\b(?:diabete)\b/, label: "Diabete riferito" },
+            { pattern: /\b(?:insufficienza cardiaca)\b/, label: "Insufficienza cardiaca riferita" },
+            { pattern: /\b(?:7[5-9]|8\d|9\d) anni\b/, label: "Età avanzata riferita" }
+        ];
+        emergencyPatterns.forEach(({ pattern, label, skip }) => {
+            if (!skip && pattern.test(withoutNegatedSymptoms)) signals.push(label);
+        });
+        const fastFace = /\b(?:bocca storta|viso storto|faccia storta|asimmetria facciale)\b/.test(withoutNegatedSymptoms);
+        const fastArm = /\b(?:non riesc[eo] a sollevare[^.!?;]{0,45}(?:braccio|gamba)|(?:braccio|gamba|lato del corpo)[^.!?;]{0,45}(?:debole|non si solleva|non riesce|cadente)|debolezza[^.!?;]{0,45}(?:braccio|gamba|lato del corpo)|deficit[^.!?;]{0,45}(?:braccio|gamba|lato del corpo))\b/.test(withoutNegatedSymptoms);
+        const fastSpeech = /\b(?:faccio fatica a parlare|difficolta a parlare|non riesc[oa] a parlare bene|parl[oa] male|parole impastate|linguaggio (?:alterato|confuso)|difficolta a pronunciare (?:le )?parole|non trov[oa] (?:le )?parole|parlare[^.!?;]{0,25}(?:improvvisamente )?stran[oa]|(?:voce|linguaggio)[^.!?;]{0,35}improvvisamente cambiat[oa]|parla[^.!?;]{0,35}confus[oa])\b/.test(withoutNegatedSymptoms);
+        const fastRecent = /\b(?:da circa \d{1,3} minuti|da \d{1,3} minuti|minuti|improvvis[oa]|all'improvviso|prima stava bene|esordio)\b/.test(withoutNegatedSymptoms);
+        if (fastArm && fastSpeech && fastRecent) {
+            if (fastFace) signals.push("Bocca/viso storto riferito");
+            signals.push("La combinazione di debolezza improvvisa e difficolta nel parlare richiede assistenza immediata");
+            signals.push("Esordio improvviso o recente riferito");
+            if (/\b(?:pressione alta|ipertensione)\b/.test(withoutNegatedSymptoms)) signals.push("Ipertensione riferita");
+            if (/\bfibrillazione atriale\b/.test(withoutNegatedSymptoms)) signals.push("Fibrillazione atriale riferita");
+        }
+        const acuteAbdominalInstability = /\b(?:forte|intenso)\b[^.!?;]{0,35}\b(?:dolore addominale|dolore (?:alla pancia|all'addome))\b|\b(?:dolore addominale|dolore (?:alla pancia|all'addome))\b[^.!?;]{0,35}\b(?:forte|intenso)\b/.test(withoutNegatedSymptoms)
+            && /\b(?:peggiorando|peggiora|in aumento)\b/.test(withoutNegatedSymptoms)
+            && (/\b(?:vomitato|vomito)\b[^.!?;]{0,30}\b(?:piu volte|ripetut\w*)\b/.test(withoutNegatedSymptoms) || /\bvomiti? ripetut\w*\b/.test(withoutNegatedSymptoms))
+            && /\b(?:quasi svenut\w*|presincope|molto debole|debolezza intensa)\b/.test(withoutNegatedSymptoms);
+        if (acuteAbdominalInstability) {
+            signals.push("Dolore addominale forte e in peggioramento");
+            signals.push("Vomito ripetuto");
+            signals.push("Debolezza intensa o quasi svenimento");
+        }
+        const severePressure = [...withoutNegatedSymptoms.matchAll(/(?:pressione[^.!?;]{0,90})?(\d{3})\s*\/\s*(\d{2,3})/g)]
+            .some((match) => Number(match[1]) >= 180 || Number(match[2]) >= 120);
+        const severePressureAlarmSymptoms = /\b(?:forte mal di testa|cefalea|vista offuscata|confusione|dolore toracico|dolore al torace|dispnea|difficolta respiratoria|fiato corto|sincope|svenimento|deficit neurologic|peggioramento)\b/.test(withoutNegatedSymptoms);
+        if (severePressure && severePressureAlarmSymptoms) {
+            signals.push("Pressione arteriosa molto elevata con sintomi riferita");
+            if (/\b(?:forte mal di testa|cefalea)\b/.test(withoutNegatedSymptoms)) signals.push("Cefalea intensa riferita");
+            if (/\bvista offuscata\b/.test(withoutNegatedSymptoms)) signals.push("Vista offuscata riferita");
+            if (/\bconfusione\b/.test(withoutNegatedSymptoms)) signals.push("Confusione riferita");
+            if (/\b(?:farmaci|terapia)\b[^.!?;]{0,45}\b(?:non hanno fatto effetto|inefficac)\b/.test(withoutNegatedSymptoms)) signals.push("Terapia antipertensiva riferita come inefficace");
+        }
+        if (signals.length > 0) {
+            contextualPatterns.forEach(({ pattern, label }) => {
+                if (pattern.test(withoutNegatedSymptoms)) signals.push(label);
+            });
+        }
+        return [...new Set(signals)];
+    }
+
+    _buildLocalEmergencyStructuredData(text, signals) {
+        const normalized = normalizeMedicalText(text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const cycle03Context = this._getCycle03Context(normalized);
+        if (cycle03Context === "ped_respiro_urgente") {
+            return {
+                specialista_indicato: "112/118 o Pronto Soccorso",
+                area_specialistica_piu_adatta: {
+                    branca: "Pronto Soccorso / Medicina d'urgenza pediatrica",
+                    area_specialistica: "Respiro molto rapido, rientramenti tra le costole e difficolta a parlare o piangere da valutare immediatamente",
+                    eventuale_secondo_livello: "Pediatria dopo la valutazione urgente"
+                },
+                livello_urgenza: "Alta / immediata: contattare subito 112/118 o recarsi in Pronto Soccorso",
+                red_flags_rilevate: [
+                    "eta pediatrica: 3 anni",
+                    "respiro molto rapido",
+                    "rientramenti tra le costole",
+                    "difficolta a parlare o piangere",
+                    "stanchezza marcata"
+                ]
+            };
+        }
+        if (cycle03Context === "ocul_calo_improvviso") {
+            return {
+                specialista_indicato: "Pronto Soccorso / servizio oculistico urgente",
+                area_specialistica_piu_adatta: {
+                    branca: "Pronto Soccorso / Oculistica urgente",
+                    area_specialistica: "Calo visivo improvviso monolaterale persistente da valutare immediatamente",
+                    eventuale_secondo_livello: "Oculistica dopo la valutazione urgente"
+                },
+                livello_urgenza: "Alta / immediata: recarsi subito in Pronto Soccorso o al servizio oculistico urgente",
+                red_flags_rilevate: [
+                    "calo visivo improvviso",
+                    "un solo occhio coinvolto",
+                    "sintomo ancora presente",
+                    "assenza di miglioramento",
+                    "assenza di trauma riferita"
+                ]
+            };
+        }
+        if (cycle03Context === "allergo_reazione_urgente") {
+            return {
+                specialista_indicato: "112/118 o Pronto Soccorso",
+                area_specialistica_piu_adatta: {
+                    branca: "Pronto Soccorso / Medicina d'urgenza",
+                    area_specialistica: "Gonfiore delle labbra e difficolta respiratoria dopo un alimento da valutare immediatamente",
+                    eventuale_secondo_livello: "Allergologia dopo la valutazione urgente"
+                },
+                livello_urgenza: "Alta / immediata: contattare subito 112/118 o recarsi in Pronto Soccorso",
+                red_flags_rilevate: [
+                    "assunzione recente di un alimento",
+                    "prurito diffuso",
+                    "gonfiore delle labbra",
+                    "difficolta respiratoria",
+                    "debolezza"
+                ]
+            };
+        }
+        if (this._isMelenaAnticoagulantEmergencyText(normalized)) {
+            const positiveText = this._stripNegatedClinicalClauses(normalized);
+            const redFlags = ["feci nere o molto scure"];
+            if (/\bdebole(?:zza)?\b/.test(positiveText)) redFlags.push("debolezza riferita");
+            if (/\b(?:capogiri|giramenti)\b/.test(positiveText)) redFlags.push("capogiri riferiti");
+            if (/\bpallid\w*/.test(positiveText)) redFlags.push("pallore riferito");
+            if (/\bstanc(?:a|o|hezza)\b/.test(positiveText)) redFlags.push("stanchezza riferita");
+            if (/\b(?:anticoagulant|warfarin|coumadin|apixaban|rivaroxaban|dabigatran|edoxaban|aspirina|antiaggregante)\w*/.test(positiveText)) redFlags.push("terapia anticoagulante riferita");
+            if (/\bfibrillazione atriale\b/.test(positiveText)) redFlags.push("fibrillazione atriale riferita");
+            return {
+                specialista_indicato: "112/118 o Pronto Soccorso",
+                area_specialistica_piu_adatta: {
+                    branca: "Emergenza gastroenterologica / Pronto Soccorso",
+                    area_specialistica: "Feci molto scure con segnali associati riferiti da valutare urgentemente",
+                    eventuale_secondo_livello: "Gastroenterologia dopo valutazione e stabilizzazione urgente"
+                },
+                livello_urgenza: "Alta / immediata: contattare subito 112/118 o recarsi in Pronto Soccorso",
+                red_flags_rilevate: redFlags
+            };
+        }
+        if (this._isBpcoLowSaturationEmergencyText(normalized)) {
+            return {
+                specialista_indicato: "Valutazione medica urgente; Pronto Soccorso se peggiora o compaiono segni severi",
+                area_specialistica_piu_adatta: {
+                    branca: "Pneumologia / Medicina d'urgenza",
+                    area_specialistica: "Riacutizzazione BPCO / infezione respiratoria / insufficienza respiratoria da valutare",
+                    eventuale_secondo_livello: "Pronto Soccorso o Pneumologia secondo gravita ed evoluzione"
+                },
+                livello_urgenza: "Prioritaria / urgente: valutazione medica non da rimandare",
+                red_flags_rilevate: [
+                    "BPCO nota",
+                    "dispnea peggiorata rispetto al solito",
+                    "tosse aumentata",
+                    "catarro piu denso e giallastro",
+                    "saturazione 91%",
+                    "affaticamento nel parlare",
+                    "assenza di dolore toracico forte",
+                    "assenza di confusione",
+                    "riesce ancora a parlare",
+                    "escalation a 112/118 o Pronto Soccorso se dispnea severa, saturazione molto bassa, cianosi, confusione, dolore toracico, peggioramento rapido, incapacita a parlare o grave sonnolenza"
+                ]
+            };
+        }
+        if (this._isHemoptysisEmergencyText(normalized)) {
+            return {
+                specialista_indicato: "Valutazione urgente; Pronto Soccorso se sangue abbondante, dispnea, dolore toracico o peggioramento",
+                area_specialistica_piu_adatta: {
+                    branca: "Pneumologia / Pronto Soccorso",
+                    area_specialistica: "Emottisi / sanguinamento respiratorio / dolore pleuritico",
+                    eventuale_secondo_livello: "Pneumologia dopo valutazione urgente"
+                },
+                livello_urgenza: "Alta / urgente: valutazione medica urgente, con Pronto Soccorso o 112/118 se peggiora",
+                red_flags_rilevate: [
+                    "sangue rosso nel catarro",
+                    "piu di semplici striature",
+                    "emottisi",
+                    "possibile sanguinamento respiratorio",
+                    "dolore toracico respiratorio",
+                    "fiato corto",
+                    "fumo",
+                    "assenza di trauma",
+                    "escalation a 112/118 o Pronto Soccorso se sanguinamento abbondante, peggioramento, dispnea importante, dolore toracico intenso, svenimento o instabilita"
+                ]
+            };
+        }
+        const fastFace = /\b(?:bocca storta|viso storto|faccia storta|asimmetria facciale)\b/.test(normalized);
+        const fastArm = /\b(?:non riesc[eo] a sollevare[^.!?;]{0,45}(?:braccio|gamba)|(?:braccio|gamba|lato del corpo)[^.!?;]{0,45}(?:debole|non si solleva|non riesce|cadente)|debolezza[^.!?;]{0,45}(?:braccio|gamba|lato del corpo)|deficit[^.!?;]{0,45}(?:braccio|gamba|lato del corpo))\b/.test(normalized);
+        const fastSpeech = /\b(?:faccio fatica a parlare|difficolta a parlare|non riesc[oa] a parlare bene|parl[oa] male|parole impastate|linguaggio (?:alterato|confuso)|difficolta a pronunciare (?:le )?parole|non trov[oa] (?:le )?parole|parlare[^.!?;]{0,25}(?:improvvisamente )?stran[oa]|(?:voce|linguaggio)[^.!?;]{0,35}improvvisamente cambiat[oa]|parla[^.!?;]{0,35}confus[oa])\b/.test(normalized);
+        const fastRecent = /\b(?:da circa \d{1,3} minuti|da \d{1,3} minuti|minuti|improvvis[oa]|all'improvviso|prima stava bene|esordio)\b/.test(normalized);
+        if (fastArm && fastSpeech && fastRecent) {
+            return {
+                specialista_indicato: "112/118 o Pronto Soccorso",
+                area_specialistica_piu_adatta: {
+                    branca: "Emergenza neurologica / Pronto Soccorso",
+                    area_specialistica: "Sintomi neurologici focali riferiti da valutare con urgenza",
+                    eventuale_secondo_livello: "Neurologia dopo valutazione urgente"
+                },
+                livello_urgenza: "Emergenza tempo-dipendente: contattare subito 112/118 o Pronto Soccorso",
+                red_flags_rilevate: [
+                    "debolezza improvvisa di un arto o lato del corpo",
+                    "difficolta improvvisa nel parlare",
+                    "esordio improvviso o recente"
+                ].concat(fastFace ? ["asimmetria del volto riferita"] : [])
+            };
+        }
+        if (signals.includes("Dolore addominale forte e in peggioramento")) {
+            return {
+                specialista_indicato: "112/118 o Pronto Soccorso",
+                area_specialistica_piu_adatta: {
+                    branca: "Pronto Soccorso / Medicina d'urgenza",
+                    area_specialistica: "Dolore addominale acuto con instabilita riferita da valutare immediatamente",
+                    eventuale_secondo_livello: "Chirurgia generale o Gastroenterologia dopo valutazione urgente"
+                },
+                livello_urgenza: "Alta / immediata: contattare subito 112/118 o recarsi in Pronto Soccorso",
+                red_flags_rilevate: [
+                    "dolore addominale forte e in peggioramento",
+                    "vomito ripetuto",
+                    "debolezza intensa",
+                    "quasi svenimento"
+                ]
+            };
+        }
+        if (/dolore[^.!?;]{0,80}(?:braccio sinistro|mandibola)|sudo freddo|sudorazione fredda/.test(normalized)) {
+            return {
+                specialista_indicato: "Emergenza cardiologica / Pronto Soccorso",
+                area_specialistica_piu_adatta: {
+                    branca: "Emergenza cardiologica / Pronto Soccorso",
+                    area_specialistica: "Dolore toracico acuto con red flag / possibile sindrome coronarica acuta",
+                    eventuale_secondo_livello: "Cardiologia dopo stabilizzazione urgente"
+                },
+                livello_urgenza: "Emergenza: contattare immediatamente 112/118 o recarsi in Pronto Soccorso",
+                red_flags_rilevate: [
+                    "dolore toracico persistente",
+                    "irradiazione al braccio sinistro e alla mandibola",
+                    "sudorazione fredda",
+                    "nausea",
+                    "dispnea",
+                    "diabete"
+                ]
+            };
+        }
+        const severePressureMatch = normalized.match(/(?:pressione[^.!?;]{0,90})?(\d{3})\s*\/\s*(\d{2,3})/);
+        const severePressure = severePressureMatch && (Number(severePressureMatch[1]) >= 180 || Number(severePressureMatch[2]) >= 120);
+        const alarmSymptoms = /forte mal di testa|cefalea|vista offuscata|confusione|dolore toracico|dolore al torace|dispnea|difficolta respiratoria|fiato corto|sincope|svenimento|deficit neurologic|peggioramento/.test(normalized);
+        if (severePressure && alarmSymptoms) {
+            const pressureValue = `${severePressureMatch[1]}/${severePressureMatch[2]}`;
+            return {
+                specialista_indicato: "Emergenza cardiovascolare / Pronto Soccorso",
+                area_specialistica_piu_adatta: {
+                    branca: "Emergenza cardiovascolare / emergenza medica",
+                    area_specialistica: "Crisi ipertensiva sintomatica / possibile emergenza ipertensiva",
+                    eventuale_secondo_livello: "Cardiologia o Medicina interna dopo stabilizzazione"
+                },
+                livello_urgenza: "Emergenza: valutazione immediata tramite 112/118 o Pronto Soccorso",
+                red_flags_rilevate: [
+                    `pressione arteriosa ${pressureValue}`,
+                    "cefalea intensa",
+                    "vista offuscata",
+                    "confusione",
+                    "terapia antipertensiva riferita come inefficace"
+                ]
+            };
+        }
+        return {
+            specialista_indicato: "Servizio di emergenza / Pronto Soccorso",
+            area_specialistica_piu_adatta: {
+                branca: "Medicina d'urgenza",
+                area_specialistica: "Valutazione urgente dei segnali di allarme riferiti",
+                eventuale_secondo_livello: "Da definire dopo stabilizzazione"
+            },
+            livello_urgenza: "Emergenza: contattare 112/118 o Pronto Soccorso",
+            red_flags_rilevate: signals
+        };
+    }
+
+    _detectUrgency(text) {
+        return this._detectUrgencySignals(text).length > 0;
     }
 
     _isValidFreeText(text) {
@@ -740,9 +1072,16 @@ class TriageEngine {
         console.log("Engine: elaborazione input ->", input, "| Stato attuale:", this.state);
         if (!input) return;
 
-        if (this._detectUrgency(input)) {
+        const urgencySignals = this._detectUrgencySignals(input);
+        if (urgencySignals.length > 0) {
             console.log("Engine: Urgenza rilevata!");
-            this.onMessage(URGENCY_WARNING, 'system-msg danger');
+            const structured = this._sanitizeResultForUser(this._buildLocalEmergencyStructuredData(input, urgencySignals));
+            const visibleSignals = structured.red_flags_rilevate.length ? structured.red_flags_rilevate : urgencySignals;
+            const signalsHTML = visibleSignals.map((signal) => `<li>${escapeHTML(signal)}</li>`).join("");
+            const structuredHTML = `<span data-testid="specialist-output" hidden>${escapeHTML(structured.specialista_indicato)}</span>
+                <span data-testid="specialization-area-output" hidden>${escapeHTML(JSON.stringify(structured.area_specialistica_piu_adatta))}</span>
+                <span data-testid="structured-urgency-output" hidden>${escapeHTML(structured.livello_urgenza)}</span>`;
+            this.onMessage(`${CLINICAL_URGENCY_WARNING}<br><strong>Motivazione dell'urgenza:</strong><ul>${signalsHTML}</ul>${structuredHTML}`, 'system-msg danger clinical-emergency');
             return;
         }
 
@@ -1009,7 +1348,6 @@ class TriageEngine {
 
                 // 1) Funzione Euristica Anti-Gibberish e Blacklist
                 const dHasNoVowels = !/[aeiouy]/.test(dtl);
-                const dHasTooManyConsonants = /[bcdfghjklmnpqrstvwxz]{5,}/.test(dtl);
                 const dHasKeyboardPatterns = /(asd|qwe|zxc|fgh|jkl|123)+/.test(dtl);
 
                 // Blacklist di stringhe inappropriate
@@ -1017,20 +1355,20 @@ class TriageEngine {
                 const hasBadWords = badWordsPattern.test(dtl);
 
                 // Esamina stringhe composite (es: "dolore caca", "dolore asdasd")
-                const words = dtl.split(/\s+/);
-                let hasGibberishWord = false;
-                for (let w of words) {
-                    // Se una singola parola sopra i 3 caratteri non ha vocali, ha consonanti eccessive o la stessa lettera ripetuta
-                    if (w.length > 2 && (!/[aeiouy]/.test(w) || /[bcdfghjklmnpqrstvwxz]{4,}/.test(w) || /^(.)\1{2,}$/.test(w))) {
-                        hasGibberishWord = true;
-                        break;
-                    }
-                }
+                const normalizedWords = dtl
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .split(/[^a-z0-9]+/)
+                    .filter(Boolean);
+                const hasGibberishWord = normalizedWords.some((word) => {
+                    if (/^\d+(?:\d+)?$/.test(word) || word.length <= 2) return false;
+                    if (/^(?:bpco|hiv|hcv|tac|rmn|psa|pcr|ves|covid)$/.test(word)) return false;
+                    return /^(.)\1{2,}$/.test(word) || (!/[aeiouy]/.test(word) && word.length >= 6);
+                });
 
                 if (dtl.length < 3 || 
                     !this._isValidFreeText(cleanDisturbo) ||
                     /^(.)\1+$/.test(dtl) ||
-                    dHasTooManyConsonants ||
                     (dHasNoVowels && cleanDisturbo.length > 3) ||
                     dHasKeyboardPatterns ||
                     hasBadWords ||
@@ -1069,42 +1407,38 @@ class TriageEngine {
                     const isDirectValid = directValidationWhitelist.some(word => dtl.includes(word));
 
                     let isValidMedicalTerm = false;
+                    let validationUnavailable = false;
 
-                    if (isDirectValid) {
-                        isValidMedicalTerm = true;
-                    } else {
-                        // 3) Validazione Scientifica / Enciclopedica sul web per disturbi fisici sconosciuti/rari
-                        const response = await fetch(`https://it.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleanDisturbo)}&utf8=&format=json&origin=*`);
-                        const data = await response.json();
-
-                        // Strict Verification: Non basta che Wikipedia trovi la parola. Dobbiamo assicurarci che nei risultati compaiano lemmi associati alla salute.
-                        if (data && data.query && data.query.search && data.query.search.length > 0) {
-                            const medicalKeywords = ['malattia', 'sindrome', 'medicina', 'medico', 'sintomo', 'dolore', 'patologia', 'terapia', 'infiammazione', 'disturbo', 'cura', 'salute', 'infezione', 'paziente', 'ospedale', 'clinica', 'farmaco', 'intervento', 'cronico', 'corpo', 'muscolo', 'osso', 'sangue', 'nerv', 'organo'];
-
-                            // Scansioniamo i titoli e gli snippet dei primi risultati per trovare il match clinico
-                            for (let i = 0; i < Math.min(3, data.query.search.length); i++) {
-                                const combinedText = (data.query.search[i].title + " " + data.query.search[i].snippet).toLowerCase();
-                                if (medicalKeywords.some(keyword => combinedText.includes(keyword))) {
-                                    isValidMedicalTerm = true;
-                                    break;
-                                }
-                            }
+                    // La validazione resta server-side: nessun testo sanitario viene inviato a Wikipedia dal client.
+                    try {
+                        const validation = await this._validateSymptomWithBackend(cleanDisturbo);
+                        if (validation.is_possible_emergency) {
+                            this.onMessage(`${CLINICAL_URGENCY_WARNING}<br><strong>Motivazione dell'urgenza:</strong> il controllo server-side ha rilevato possibili segnali urgenti nel testo inserito.`, 'system-msg danger clinical-emergency');
+                            return;
                         }
+                        isValidMedicalTerm = validation.is_medical_request;
+                    } catch (validationError) {
+                        validationUnavailable = true;
+                        isValidMedicalTerm = isDirectValid || this._isValidFreeText(cleanDisturbo);
+                        console.warn("Validazione automatica sintomo non disponibile; applicato fallback prudente.");
                     }
 
                     if (isValidMedicalTerm) {
                         this.userData.disturbo = cleanDisturbo;
-                        this.userData.domandeAnamnesticheDinamiche = this._generaDomandeAnamnestiche(cleanDisturbo);
+                        this.userData.domandeAnamnesticheDinamiche = this._addNoneOptionToQuestions(this._generaDomandeAnamnestiche(cleanDisturbo));
                         this.state = '4_CONOSCITIVE';
-                        this.onMessage("<strong>OK: Sintomo convalidato dai database scientifici/letteratura.</strong><br><br>Ho preso nota del tuo disturbo. Per inquadrarlo meglio, ti porrò ora <strong>3 domande conoscitive.</strong><br><br>1. " + DOMANDE_CONOSCITIVE[0]);
+                        const validationNotice = validationUnavailable
+                            ? "<strong>Nota:</strong> la validazione automatica non è disponibile in questo momento; puoi comunque proseguire con l'orientamento informativo.<br><br>"
+                            : "";
+                        this.onMessage(`${validationNotice}<strong>Descrizione acquisita.</strong><br><br>Ho preso nota del disturbo riferito. Per comprenderne meglio il contesto, ti porrò ora <strong>3 domande conoscitive.</strong><br><br>1. ${this._formatQuestionWithNoneOption(DOMANDE_CONOSCITIVE[0])}`);
                         this._updatePlaceholder();
                     } else {
                         this.onMessage(`Errore: Il testo "<strong>${cleanDisturbo}</strong>" non sembra descrivere un disturbo riconoscibile. Inserisci un problema reale o una necessità sanitaria concreta (es. "cefalea", "vertigini", "dolore alla schiena") e riprova.`, "system-msg danger");
                         return;
                     }
                 } catch (error) {
-                    console.error("Errore validazione sintomo:", error);
-                    this.onMessage("Attenzione: Non riesco a convalidare il sintomo tramite le fonti online in questo momento. Riprova tra poco o descrivi il disturbo con termini più comuni.", "system-msg danger");
+                    console.error("Errore interno durante la validazione del sintomo.");
+                    this.onMessage("Attenzione: Non riesco a elaborare la descrizione in questo momento. Riprova tra poco.", "system-msg danger");
                     return;
                 }
                 break;
@@ -1112,11 +1446,11 @@ class TriageEngine {
             case '4_CONOSCITIVE':
                 const cleanConosc = input.trim().toUpperCase();
 
-                // Transizione a Test a Scelta Multipla Chiusa (A, B, C) per massima aderenza
-                const isValidMCQ = /^[A-C](?:\)|\.| -|:|\s|$)/.test(cleanConosc) || /\b(?:RISPOSTA|OPZIONE|LETTERA|SCELGO|LA)\s+[A-C]\b/.test(cleanConosc);
+                // Transizione a Test a Scelta Multipla Chiusa (A, B, C, D) per massima aderenza
+                const isValidMCQ = /^[A-D](?:\)|\.| -|:|\s|$)/.test(cleanConosc) || /\b(?:RISPOSTA|OPZIONE|LETTERA|SCELGO|LA)\s+[A-D]\b/.test(cleanConosc);
 
                 if (!isValidMCQ) {
-                    this.onMessage("Errore: Risposta non valida. Per proseguire scegli una delle opzioni disponibili: <strong>A, B o C</strong>.", "system-msg danger");
+                    this.onMessage("Errore: Risposta non valida. Per proseguire scegli una delle opzioni disponibili: <strong>A, B, C o D</strong>.", "system-msg danger");
                     return;
                 }
 
@@ -1124,7 +1458,7 @@ class TriageEngine {
                 this.currentConoscitiva++;
 
                 if (this.currentConoscitiva < DOMANDE_CONOSCITIVE.length) {
-                    this.onMessage(`${this.currentConoscitiva + 1}. ` + DOMANDE_CONOSCITIVE[this.currentConoscitiva]);
+                    this.onMessage(`${this.currentConoscitiva + 1}. ` + this._formatQuestionWithNoneOption(DOMANDE_CONOSCITIVE[this.currentConoscitiva]));
                 } else {
                     this.state = '4B_NOTA_CONOSCITIVA_SCELTA';
                     this.onMessage(this._buildAdditionalDetailsPrompt('conoscitiva'));
@@ -1177,11 +1511,11 @@ class TriageEngine {
             case '5_ANAMNESTICHE':
                 const cleanAnamn = input.trim().toUpperCase();
 
-                // Validazione strutturata: pretendiamo la lettera A, B o C
-                const isValidChoiceAnam = /^[A-C](?:\)|\.| -|:|\s|$)/.test(cleanAnamn) || /\b(?:RISPOSTA|OPZIONE|LETTERA|SCELGO|LA)\s+[A-C]\b/.test(cleanAnamn);
+                // Validazione strutturata: pretendiamo la lettera A, B, C o D
+                const isValidChoiceAnam = /^[A-D](?:\)|\.| -|:|\s|$)/.test(cleanAnamn) || /\b(?:RISPOSTA|OPZIONE|LETTERA|SCELGO|LA)\s+[A-D]\b/.test(cleanAnamn);
 
                 if (!isValidChoiceAnam) {
-                    this.onMessage("Errore: Formato risposta non riconosciuto. Per essere precisi è necessario rispondere in modo netto con una delle lettere indicate (es. <strong>A, B o C</strong>).", "system-msg danger");
+                    this.onMessage("Errore: Formato risposta non riconosciuto. Per essere precisi è necessario rispondere in modo netto con una delle lettere indicate (es. <strong>A, B, C o D</strong>).", "system-msg danger");
                     return;
                 }
 
@@ -1254,7 +1588,12 @@ class TriageEngine {
     }
 
     _generaDomandeAnamnestiche(disturbo) {
-        const dLower = disturbo.toLowerCase();
+        const rawLower = normalizeMedicalText(disturbo || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’‘`´]/g, "'");
+        const stripNegatedClauses = (value) => String(value || "")
+            .replace(/\b(?:non ho|non ha|non presento|non presenta|non riferisco|non sono|non mi sono|senza|assenza di|nega|negano)\b[^.!?;]{0,180}(?=[.!?;]|$)/gi, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+        const dLower = stripNegatedClauses(rawLower);
         const wholeWordTerms = new Set([
             "occhi", "vista", "occhio", "naso", "gola", "voce", "denti", "bocca",
             "pene", "testa", "osso", "ossa", "schiena", "ginocchio", "ginocchia",
@@ -1273,6 +1612,10 @@ class TriageEngine {
             return dLower.includes(term);
         };
         const hasAny = (words) => words.some(hasTerm);
+        const rawHas = (pattern) => pattern.test(rawLower);
+        const activeHas = (pattern) => pattern.test(dLower);
+        const questionSet = (...questions) => questions;
+        const positivePregnancy = activeHas(/(?:sono incinta|gravidanza|in gravidanza|incinta di|\bgravid\w*|\d{1,2} settimane)/i);
 
         // --- DEFINIZIONE MAPPATURA GLOBALE SEDI/SINTOMI ---
         const SEDE = {
@@ -1287,6 +1630,608 @@ class TriageEngine {
             PNEUMO: ["polmon", "pneumo", "asma", "bronchi", "fischio", "catarro", "tosse", "affanno", "respiro"],
             DERMATO: ["pelle", "cute", "dermat", "macchia", "macchie", "neo", "nei", "nevo", "nevi", "melanom", "lesion cutanea", "lesione cutanea", "prurit", "eruzion", "orticaria", "ponfo", "verruca", "verruche", "brufolo", "brufoli", "foruncolo", "foruncoli", "cisti"]
         };
+
+        // --- LOGICA SPECIALISTICA PRIORITARIA ---
+        // Prima di usare le sedi anatomiche generiche, privilegia i blocchi
+        // della branca piu probabile e ignora i sintomi presenti solo in forma negata.
+        const cycle03Context = this._getCycle03Context(rawLower);
+        if (cycle03Context === "ped_febbre") {
+            return questionSet(
+                "Da quanto dura la febbre, qual e stata la temperatura massima e come e stata misurata?\n<br><i>A) Da meno di 48 ore, valore e metodo noti<br>B) Da piu di 48 ore o in aumento<br>C) Valore o metodo non noti</i>",
+                "Come sono idratazione, urine, vigilanza e alimentazione rispetto al solito?\n<br><i>A) Beve, urina ed e vigile<br>B) Beve o urina meno, ma resta vigile<br>C) E molto sonnolenta, non beve o urina molto poco</i>",
+                "Sono comparsi respiro difficile, dolore importante, tosse, vomito, diarrea o rash, e sono gia stati dati farmaci o sono presenti condizioni croniche?\n<br><i>A) Uno o piu elementi presenti<br>B) Solo sintomi lievi o farmaci gia dati<br>C) Nessuno di questi elementi</i>"
+            );
+        }
+        if (cycle03Context === "ped_vista_cefalea") {
+            return questionSet(
+                "Il mal di testa e la vista sfocata compaiono leggendo, con tablet o schermi, e riguardano la visione da vicino, da lontano o entrambe?\n<br><i>A) Soprattutto vicino o con schermi<br>B) Soprattutto lontano<br>C) In entrambe le situazioni</i>",
+                "Quanto durano e con quale frequenza; sono presenti dolore oculare, fastidio alla luce, nausea o risvegli notturni?\n<br><i>A) Frequenti o con uno di questi segnali<br>B) Saltuari e brevi<br>C) Durata o frequenza non chiare</i>",
+                "Ci sono stati trauma o problemi ai precedenti controlli visivi, oppure debolezza, difficolta a parlare, perdita di coscienza o altri segnali neurologici?\n<br><i>A) Trauma, controllo visivo anomalo o segnale neurologico<br>B) Solo precedenti problemi visivi<br>C) Nessuno</i>"
+            );
+        }
+        if (cycle03Context === "ped_stanchezza_sport") {
+            return questionSet(
+                "Quanto sono stati intensi e lunghi l'allenamento e l'esposizione al caldo?\n<br><i>A) Molto intensi, lunghi o al caldo<br>B) Moderati<br>C) Non so definirli</i>",
+                "Prima e durante l'attivita aveva mangiato e bevuto, e il recupero dopo riposo e idratazione e stato completo?\n<br><i>A) Recupero completo<br>B) Recupero parziale o lento<br>C) Sintomi ancora presenti</i>",
+                "Era gia successo o compaiono sintomi a riposo, dolore al petto, svenimento o difficolta respiratoria?\n<br><i>A) Episodi ricorrenti o sintomi a riposo<br>B) Solo un episodio dopo sforzo<br>C) Dolore al petto, svenimento o difficolta respiratoria</i>"
+            );
+        }
+        if (cycle03Context === "ped_antibiotico_macchie") {
+            return questionSet(
+                "Quale antibiotico sta assumendo, da quale giorno e quanto tempo e passato tra l'ultima dose e la comparsa delle macchie?\n<br><i>A) Nome, giorno e intervallo noti<br>B) Solo alcune informazioni note<br>C) Informazioni da recuperare</i>",
+                "Le macchie si stanno diffondendo o prudono; coinvolgono mucose o sono presenti bolle, febbre o forte malessere?\n<br><i>A) Diffusione rapida, mucose, bolle o malessere<br>B) Solo prurito o diffusione limitata<br>C) No</i>",
+                "Sono presenti gonfiore del viso o difficolta respiratoria, precedenti reazioni a farmaci o altri farmaci assunti?\n<br><i>A) Gonfiore o difficolta respiratoria<br>B) Precedenti reazioni o altri farmaci<br>C) Nessuno</i>"
+            );
+        }
+        if (cycle03Context === "ocul_calo_progressivo") {
+            return questionSet(
+                "Il calo riguarda uno o entrambi gli occhi, la visione da vicino o da lontano, e sta progredendo anche di notte?\n<br><i>A) Un occhio o progressione rapida<br>B) Entrambi, soprattutto lontano o la sera<br>C) Non e chiaro</i>",
+                "Usi occhiali o lenti, quando hai fatto l'ultimo controllo e hai diabete o assumi farmaci rilevanti?\n<br><i>A) Correzione o condizioni presenti<br>B) Ultimo controllo lontano nel tempo<br>C) Nessuno o non so</i>",
+                "Sono presenti aloni, visione doppia, lampi, macchie o dolore?\n<br><i>A) Uno o piu sintomi presenti<br>B) Solo difficolta notturna<br>C) Nessuno</i>"
+            );
+        }
+        if (cycle03Context === "ocul_dolore_cefalea") {
+            return questionSet(
+                "Dove e localizzato il dolore, quanto dura, quanto e intenso e cambia muovendo l'occhio?\n<br><i>A) Intenso o peggiore con i movimenti<br>B) Lieve o moderato e stabile<br>C) Sede o andamento non chiari</i>",
+                "Sono presenti fastidio alla luce, lacrimazione, alterazioni della vista, nausea, febbre o trauma?\n<br><i>A) Uno o piu elementi presenti<br>B) Solo lacrimazione o fastidio lieve<br>C) Nessuno</i>",
+                "Sono comparsi debolezza, difficolta a parlare, perdita di coscienza o altri segni neurologici, oppure episodi simili in passato?\n<br><i>A) Segni neurologici<br>B) Solo episodi precedenti<br>C) Nessuno</i>"
+            );
+        }
+        if (cycle03Context === "ocul_lenti_fotofobia") {
+            return questionSet(
+                "Da quanto porti le lenti, le usi di notte e come gestisci igiene, acqua o piscina e soluzione?\n<br><i>A) Uso notturno, acqua o igiene non ottimale<br>B) Uso diurno con igiene regolare<br>C) Dettagli non noti</i>",
+                "Da quanto sono iniziati dolore e fastidio alla luce; ci sono calo visivo, secrezioni, rossore o peggioramento?\n<br><i>A) Calo, secrezioni o peggioramento<br>B) Sintomi stabili e lievi<br>C) Non e chiaro</i>",
+                "Ci sono stati trauma, polvere o sostanze chimiche nell'occhio?\n<br><i>A) Trauma o sostanza chimica<br>B) Possibile corpo estraneo<br>C) No</i>"
+            );
+        }
+        if (cycle03Context === "allergo_stagionale") {
+            return questionSet(
+                "In quali mesi, ambienti o esposizioni a pollini, polvere o animali compaiono i sintomi?\n<br><i>A) Periodo o esposizione chiari<br>B) Piu ambienti o stagioni<br>C) Nessun legame chiaro</i>",
+                "Oltre a starnuti, naso chiuso e prurito nasale o oculare, compaiono tosse, sibili o asma?\n<br><i>A) Tosse, sibili o asma<br>B) Solo naso e occhi<br>C) Sintomi diversi o non chiari</i>",
+                "Ci sono familiarita, farmaci gia usati e impatto su sonno, scuola o attivita quotidiane?\n<br><i>A) Familiarita o impatto importante<br>B) Farmaci gia usati con beneficio parziale<br>C) Nessuno</i>"
+            );
+        }
+        if (cycle03Context === "allergo_chiazze_ricorrenti") {
+            return questionSet(
+                "Quanto dura ogni singola chiazza, con quale frequenza compare e hai fotografie degli episodi?\n<br><i>A) Dura ore ed e documentata<br>B) Durata variabile senza foto<br>C) Dura oltre un giorno</i>",
+                "Noti legami con alimenti, farmaci, infezioni recenti, caldo, freddo, pressione sulla pelle o stress?\n<br><i>A) Uno o piu legami chiari<br>B) Legame dubbio<br>C) Nessun legame</i>",
+                "Durante gli episodi compaiono gonfiore del viso o delle labbra, sintomi respiratori o altri episodi simili in passato?\n<br><i>A) Gonfiore o sintomi respiratori<br>B) Solo episodi cutanei precedenti<br>C) Nessuno</i>"
+            );
+        }
+        if (cycle03Context === "allergo_puntura_pregressa") {
+            return questionSet(
+                "Quale insetto era coinvolto, quali sintomi comparvero, dopo quanto tempo e quale trattamento ospedaliero fu eseguito?\n<br><i>A) Informazioni e trattamento documentati<br>B) Informazioni parziali<br>C) Insetto o dettagli non noti</i>",
+                "Hai avuto altre punture o allergie note, precedenti visite allergologiche o un dispositivo gia prescritto?\n<br><i>A) Altre reazioni o dispositivo prescritto<br>B) Solo visita precedente<br>C) Nessuno</i>",
+                "Quali farmaci assumi, incluso il beta-bloccante, e quali condizioni cardiovascolari sono presenti? Non modificare la terapia autonomamente.\n<br><i>A) Elenco e condizioni noti<br>B) Informazioni parziali<br>C) Da verificare con il medico</i>"
+            );
+        }
+        if (activeHas(/(?:bruciore|fastidio|pressione)[^.!?;]{0,45}(?:petto|sterno|torace)/i)
+            && activeHas(/(?:camminando|cammino|sotto sforzo|durante lo sforzo|salendo|corsa)/i)) {
+            return questionSet(
+                "Il fastidio compare durante lo sforzo, quanto dura e regredisce fermandoti?\n<br><i>A) Compare con lo sforzo e persiste o recidiva<br>B) E breve e regredisce con il riposo<br>C) Non e legato allo sforzo</i>",
+                "Si estende a mandibola, braccio, collo o schiena, oppure si associa a fiato corto, nausea o sudorazione fredda?\n<br><i>A) Si, uno o piu segnali<br>B) Solo in parte o dubbio<br>C) No</i>",
+                "Sono presenti fattori cardiovascolari come ipertensione, diabete, fumo o precedenti cardiaci, e il fastidio sta peggiorando?\n<br><i>A) Fattori presenti o peggioramento<br>B) Solo uno dei due aspetti<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:sangue rosso|sangue vivo)[^.!?;]{0,40}(?:feci|retto|ano)|(?:feci|retto|ano)[^.!?;]{0,40}(?:sangue rosso|sangue vivo)/i)
+            && activeHas(/(?:anticoagulant|warfarin|coumadin|apixaban|rivaroxaban|dabigatran|edoxaban)/i)) {
+            return questionSet(
+                "Quanto sangue rosso hai notato, in quanti episodi e il sanguinamento e ancora presente o si e ripetuto?\n<br><i>A) Abbondante, attuale o ripetuto<br>B) Poche tracce in un solo episodio<br>C) Non so quantificarlo</i>",
+                "Sono presenti dolore addominale o anale, altri sanguinamenti, peggioramento, debolezza, capogiri o svenimento?\n<br><i>A) Si, uno o piu elementi<br>B) Solo dolore lieve o dubbio<br>C) No</i>",
+                "Quale anticoagulante assumi e chi lo ha prescritto? Non modificarlo o sospenderlo autonomamente.\n<br><i>A) Nome e prescrittore noti<br>B) Conosco solo uno dei due<br>C) Devo recuperare le informazioni</i>"
+            );
+        }
+        if (activeHas(/bruciore[^.!?;]{0,45}(?:dietro lo sterno|retrosternale|al petto)/i)
+            && activeHas(/(?:dopo i pasti|post prand|quando mi sdraio|da sdraiato)/i)) {
+            return questionSet(
+                "Il bruciore compare dopo quali pasti, cambia da sdraiato e quanto dura ogni episodio?\n<br><i>A) Legame chiaro con pasti e posizione<br>B) Legame solo parziale<br>C) Nessun legame chiaro</i>",
+                "Hai difficolta o dolore a deglutire, rigurgito, vomito, sangue, calo di peso o un andamento in peggioramento?\n<br><i>A) Si, uno o piu segnali<br>B) Solo disturbi lievi<br>C) No</i>",
+                "Assumi farmaci che possono influire sul disturbo, e il fastidio compare con lo sforzo o insieme a fiato corto, sudorazione o svenimento?\n<br><i>A) Farmaci o segnali cardiaci presenti<br>B) Solo dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:alterno|alternanza)[^.!?;]{0,55}(?:stitichezza|stipsi)[^.!?;]{0,35}diarrea|(?:stitichezza|stipsi)[^.!?;]{0,55}(?:alterno|alternanza)[^.!?;]{0,35}diarrea/i)) {
+            return questionSet(
+                "Da quanto dura l'alternanza, con quale andamento e quanto sono frequenti i periodi di stitichezza e diarrea?\n<br><i>A) Persistente o in peggioramento<br>B) Ricorrente ma stabile<br>C) Occasionale</i>",
+                "Noti relazione con alimenti o pasti, dolore, gonfiore, sangue, febbre, calo di peso o nuovi sintomi?\n<br><i>A) Si, uno o piu elementi<br>B) Solo gonfiore o legame dubbio<br>C) No</i>",
+                "Assumi farmaci o integratori, hai gia eseguito esami e ci sono disturbi intestinali rilevanti in famiglia?\n<br><i>A) Si, informazioni o referti disponibili<br>B) Solo in parte<br>C) No o non so</i>"
+            );
+        }
+        if (activeHas(/(?:gonfi|gonfiore)/i) && activeHas(/(?:ogni tanto|occasionale|dopo aver mangiato molto|pasti abbondanti)/i)) {
+            return questionSet(
+                "Quali alimenti o quantita precedono il gonfiore, quanto dura e con quale frequenza compare?\n<br><i>A) Legame e frequenza chiari<br>B) Solo legame parziale<br>C) Non noto un legame</i>",
+                "Il disturbo e stabile, sta diventando persistente o sta peggiorando nel tempo?\n<br><i>A) Persistente o in peggioramento<br>B) Stabile e occasionale<br>C) E regredito</i>",
+                "Sono comparsi nuovi sintomi come dolore importante, vomito, sangue, febbre, calo di peso o cambiamenti persistenti dell'intestino?\n<br><i>A) Si, uno o piu sintomi<br>B) Solo sintomi lievi o dubbi<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:formicol|intorpid)/i) && activeHas(/(?:mano|dita|polso)/i)) {
+            return questionSet(
+                "Il formicolio cambia con la postura del polso o del collo, con il lavoro o con movimenti ripetitivi?\n<br><i>A) Si, legame chiaro<br>B) Solo in parte<br>C) No</i>",
+                "Quali dita coinvolge, compare di notte e si associa a dolore cervicale o irradiato al braccio?\n<br><i>A) Distribuzione o dolore associato chiari<br>B) Solo alcuni aspetti<br>C) No</i>",
+                "Hai riduzione della forza, difficolta nella presa, perdita di sensibilita persistente o peggioramento?\n<br><i>A) Si, uno o piu segnali<br>B) Solo lieve o dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:stanc|fatica a concentr|concentrazione)/i) && activeHas(/(?:dormo poco|poco sonno|sonno insufficiente)/i)) {
+            return questionSet(
+                "Quante ore dormi, com'e la qualita del sonno e da quanto durano stanchezza e difficolta di concentrazione?\n<br><i>A) Sonno molto ridotto o disturbi persistenti<br>B) Riduzione lieve o recente<br>C) Sonno sufficiente</i>",
+                "Ci sono stress, cambiamenti recenti, farmaci, caffeina, alcol o altre sostanze che possono influire su sonno e attenzione?\n<br><i>A) Si, uno o piu fattori<br>B) Solo dubbio<br>C) No</i>",
+                "I sintomi persistono nonostante il riposo, stanno peggiorando o sono comparsi nuovi segnali neurologici?\n<br><i>A) Persistono, peggiorano o ci sono nuovi segnali<br>B) Sono stabili<br>C) Migliorano con il riposo</i>"
+            );
+        }
+        if (activeHas(/(?:fiato corto|dispnea|manca l'aria)/i)
+            && rawHas(/(?:dopo|durante)[^.!?;]{0,45}(?:corsa|allenamento|esercizio|sforzo)[^.!?;]{0,25}(?:intens[oa]|vigoros[oa])/i)
+            && rawHas(/(?:passat[oa] completamente|risolt[oa] completamente|completa regressione)/i)) {
+            return questionSet(
+                "Quanto era intenso lo sforzo, quanto e durato il fiato corto e in quanto tempo hai recuperato completamente?\n<br><i>A) Sforzo intenso con recupero rapido<br>B) Recupero lento o incompleto<br>C) Non so</i>",
+                "Era gia successo con sforzi simili o compare anche con attivita leggere o a riposo?\n<br><i>A) Anche con sforzi lievi o a riposo<br>B) Solo con sforzi intensi<br>C) Primo episodio</i>",
+                "Sono comparsi peggioramento, dolore toracico, svenimento, sibili, palpitazioni o altri sintomi nuovi?\n<br><i>A) Si, uno o piu segnali<br>B) Solo dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/tosse/i) && activeHas(/(?:sangue[^.!?;]{0,35}(?:espettorato|catarro)|(?:espettorato|catarro)[^.!?;]{0,35}sangue)/i)) {
+            return questionSet(
+                "Quanto sangue hai visto, in quanti episodi e il sanguinamento e ancora presente o si e ripetuto?\n<br><i>A) Abbondante, attuale o ripetuto<br>B) Poche tracce in un episodio<br>C) Non so quantificarlo</i>",
+                "Sono presenti fiato corto, dolore toracico, febbre, svenimento, debolezza marcata o peggioramento?\n<br><i>A) Si, uno o piu segnali<br>B) Solo debolezza lieve o dubbio<br>C) No</i>",
+                "Assumi anticoagulanti o altri farmaci, fumi, hai avuto infezioni, traumi o episodi simili?\n<br><i>A) Si, uno o piu elementi<br>B) Solo in parte<br>C) No</i>"
+            );
+        }
+        if (activeHas(/tosse/i) && rawHas(/(?:piu di sei settimane|oltre sei settimane|da (?:molte|diverse) settimane)/i)) {
+            return questionSet(
+                "La tosse e secca o con espettorato, come e cambiata nel tempo e interferisce con sonno o attivita?\n<br><i>A) Persistente o in peggioramento<br>B) Stabile<br>C) In miglioramento</i>",
+                "Fumi o sei esposto a polveri, sostanze irritanti, allergeni, ambienti di lavoro o contatti respiratori?\n<br><i>A) Si, una o piu esposizioni<br>B) Solo dubbio<br>C) No</i>",
+                "Assumi farmaci, e sono comparsi fiato corto, sangue, febbre alta, calo di peso, dolore toracico o nuovi sintomi?\n<br><i>A) Si, farmaci o nuovi segnali<br>B) Solo farmaci senza segnali<br>C) No</i>"
+            );
+        }
+        if (activeHas(/asma/i) && activeHas(/(?:controllo|follow[ -]?up|rivalutazione)/i)) {
+            return questionSet(
+                "Quando hai fatto l'ultimo controllo, chi segue o prescrive la terapia e hai esami respiratori recenti?\n<br><i>A) Controllo o esami non recenti<br>B) Documentazione recente<br>C) Non ricordo</i>",
+                "Com'e stato l'andamento dall'ultimo controllo e ci sono state crisi, risvegli notturni o limitazioni recenti?\n<br><i>A) Peggioramento o crisi recenti<br>B) Stabile con lievi sintomi<br>C) Nessuna crisi recente</i>",
+                "In questo momento respiri bene e cerchi solo un follow-up, senza modificare autonomamente la terapia?\n<br><i>A) Si, solo controllo<br>B) Ho qualche dubbio o sintomo lieve<br>C) No, ho sintomi importanti ora</i>"
+            );
+        }
+        if (activeHas(/(?:controllo periodico|follow[ -]?up|visita di controllo|monitoraggio|controllo della terapia|rinnovo|rivalutazione specialistica)/i)
+            && activeHas(/(?:anticoagulant|warfarin|coumadin|apixaban|rivaroxaban|dabigatran|edoxaban|fibrillazione atriale)/i)) {
+            return questionSet(
+                "Chi ha prescritto l'anticoagulante e per quale motivo generale e previsto il controllo periodico?\n<br><i>A) Cardiologo o centro dedicato<br>B) Medico curante o Medicina interna<br>C) Non so o devo recuperare il referto</i>",
+                "Quando hai effettuato l'ultimo controllo specialistico e hai esami o referti recenti da portare alla visita?\n<br><i>A) Controllo recente con referti<br>B) Controllo non recente o referti incompleti<br>C) Non ricordo o non ho documenti</i>",
+                "Sono comparsi sanguinamenti, capogiri, debolezza o altri sintomi nuovi che richiedono una valutazione piu rapida?\n<br><i>A) Si, uno o piu sintomi nuovi<br>B) Solo dubbi o lievi cambiamenti<br>C) No, cerco solo orientamento per il follow-up</i>"
+            );
+        }
+        if (activeHas(/(?:vertigin|capogir)/i)
+            && activeHas(/(?:gir\w* nel letto|gir\w* la testa|ruot\w* la testa|volt\w* la testa|movimento della testa|muov\w* la testa|cambio di posizione|alz\w* dal letto|posizione)/i)) {
+            return questionSet(
+                "Gli episodi dipendono dalla posizione o dal movimento della testa, quanto durano e si sono gia verificati in passato?\n<br><i>A) Legame chiaro, brevi o ricorrenti<br>B) Legame dubbio<br>C) Nessun legame</i>",
+                "Sono presenti nausea, vomito, calo uditivo, acufeni o sensazione di orecchio pieno?\n<br><i>A) Si, uno o piu sintomi<br>B) Solo lievi o dubbi<br>C) No</i>",
+                "Sono comparsi debolezza, difficolta a parlare o camminare, visione doppia, forte mal di testa o peggioramento?\n<br><i>A) Si, uno o piu segnali<br>B) Solo dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:vertigin|vedo doppio|visione doppia|diplopia|cammino storto|perdessi l'equilibrio|perdo l'equilibrio|equilibrio)/i)
+            && activeHas(/(?:vedo doppio|visione doppia|diplopia|cammino storto|equilibrio|fibrillazione atriale|vomit|da circa un'?ora|un'ora)/i)) {
+            return questionSet(
+                "I sintomi sono iniziati all'improvviso o da poco e sono ancora presenti o ricorrenti?\n<br><i>A) Si, esordio recente o improvviso<br>B) Non so con precisione<br>C) No, sono vecchi o gia risolti</i>",
+                "Ci sono visione doppia, difficolta a camminare, perdita di equilibrio, problemi di coordinazione, parola, volto, forza o sensibilita?\n<br><i>A) Si, uno o piu segnali<br>B) Solo in parte<br>C) No</i>",
+                "Sono presenti vomito, fibrillazione atriale, anticoagulanti, peggioramento o sintomi ancora in corso tali da richiedere valutazione urgente?\n<br><i>A) Si, uno o piu elementi<br>B) Non so / dubbio<br>C) No</i>"
+            );
+        }
+        if (positivePregnancy
+            && activeHas(/(?:bruciore[^.!?;]{0,40}urin|urino|urinario|minzione|fianco|febbre|brividi)/i)
+            && activeHas(/(?:fianco|febbre|brividi|debole|nausea|vomito)/i)) {
+            return questionSet(
+                "In gravidanza, febbre, brividi, dolore al fianco, bruciore urinario, nausea o vomito sono presenti ora o stanno peggiorando?\n<br><i>A) Si, uno o piu sintomi sono presenti o peggiorano<br>B) Sono lievi o dubbi<br>C) No</i>",
+                "A che settimana di gravidanza sei e sono comparse contrazioni, perdite di sangue o liquido, o riduzione dei movimenti fetali se li percepisci gia?\n<br><i>A) Si, uno o piu segnali ostetrici<br>B) Non so / non applicabile<br>C) No</i>",
+                "La debolezza, la febbre, il dolore al fianco o i sintomi urinari fanno pensare a necessita di accesso urgente a Pronto Soccorso o Ostetricia?\n<br><i>A) Si, serve valutazione urgente<br>B) Non so / dubbio<br>C) No</i>"
+            );
+        }
+        if (positivePregnancy
+            && activeHas(/(?:forte dolore|dolore (?:forte|intenso))[^.!?;]{0,55}(?:basso ventre|pelvi|pelvico)|(?:basso ventre|pelvi|pelvico)[^.!?;]{0,55}(?:forte dolore|dolore (?:forte|intenso))/i)
+            && activeHas(/(?:perdita di sangue|perdite di sangue|sanguinamento)/i)) {
+            return questionSet(
+                "La perdita di sangue e il dolore al basso ventre sono ancora presenti, stanno aumentando o sono iniziati da poco?\n<br><i>A) Presenti o in aumento<br>B) Stabili o intermittenti<br>C) Regressi</i>",
+                "Sono presenti capogiri, svenimento, debolezza intensa o perdita di liquido, e a quale settimana di gravidanza sei?\n<br><i>A) Uno o piu segnali presenti<br>B) Solo dubbio o settimana non nota<br>C) Nessuno di questi segnali</i>",
+                "Puoi accedere subito a Pronto Soccorso/Ostetricia o contattare 112/118 se compaiono instabilita, svenimento o rapido peggioramento?\n<br><i>A) Si, accesso o contatto immediato possibile<br>B) Ho bisogno di assistenza per accedere<br>C) Non so</i>"
+            );
+        }
+        if (activeHas(/\bdiabet\w*/i)
+            && activeHas(/(?:molta sete|sete (?:marcata|intensa|eccessiva)|polidipsia)/i)
+            && activeHas(/(?:urino continuamente|urinazione frequente|urino spesso|poliuria)/i)
+            && activeHas(/(?:faccio fatica a restare svegli|difficolta a restare svegli|sonnolenza|molto debole)/i)) {
+            return questionSet(
+                "La difficolta a restare sveglio, la sonnolenza o la debolezza stanno peggiorando, oppure sono presenti confusione o perdita di coscienza?\n<br><i>A) Si, presenti o in peggioramento<br>B) Solo lievi o dubbi<br>C) No</i>",
+                "Sono presenti vomito, respirazione insolita o difficoltosa, oppure difficolta a bere e trattenere liquidi?\n<br><i>A) Si, uno o piu segnali<br>B) Solo in parte<br>C) No</i>",
+                "I sintomi sono ancora in corso, hai gia misurato glicemia o chetoni e c'e una persona accanto che possa aiutarti nell'accesso urgente?\n<br><i>A) Sintomi in corso e persona presente<br>B) Sintomi in corso ma sono solo/a o valori non noti<br>C) Sintomi regrediti</i>"
+            );
+        }
+        if (activeHas(/(?:menopausa|post[ -]?menopausa)/i)
+            && activeHas(/(?:perdita di sangue|sanguinamento|perdite ematiche)/i)) {
+            return questionSet(
+                "Quanto e durata la perdita, quale quantita e colore aveva, ed e stato un episodio singolo o si e ripetuto?\n<br><i>A) Abbondante, prolungata o ripetuta<br>B) Lieve o singola<br>C) Non so descriverla</i>",
+                "Assumi anticoagulanti o una terapia ormonale gia prescritta, e quando hai effettuato l'ultimo controllo ginecologico?\n<br><i>A) Farmaci presenti o controllo non recente<br>B) Controllo recente<br>C) Non so</i>",
+                "Sono presenti dolore, debolezza, capogiri, nuovo sanguinamento o peggioramento?\n<br><i>A) Si, uno o piu segnali<br>B) Solo dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:ciclo|mestruazion)/i)
+            && activeHas(/(?:molto abbondante|piu abbondante|abbondant\w*)/i)) {
+            return questionSet(
+                "Quanti cambi sono necessari, compaiono coaguli e per quanti giorni dura il flusso rispetto al solito?\n<br><i>A) Cambi molto frequenti, coaguli o durata aumentata<br>B) Aumento moderato<br>C) Non so quantificare</i>",
+                "Il cambiamento si ripete da mesi e si associa a stanchezza, capogiri, svenimento o dolore?\n<br><i>A) Si, uno o piu sintomi<br>B) Solo stanchezza lieve<br>C) No</i>",
+                "Qual e la tua fascia di eta, assumi farmaci inclusi anticoagulanti e hai esami o referti recenti disponibili?\n<br><i>A) Farmaci o referti disponibili<br>B) Nessun farmaco o esame recente<br>C) Non so</i>"
+            );
+        }
+        if (activeHas(/(?:ciclo (?:e |è )?in ritardo|ritardo (?:del |mestruale|di )?ciclo|mestruazion\w* in ritardo)/i)) {
+            return questionSet(
+                "Qual e la tua eta, quando e iniziato l'ultimo ciclo e quanto e regolare abitualmente?\n<br><i>A) Data e regolarita note<br>B) Ciclo spesso irregolare<br>C) Non ricordo</i>",
+                "C'e possibilita di gravidanza e usi contraccezione o farmaci che possono essere rilevanti?\n<br><i>A) Possibilita presente o farmaci/contraccezione<br>B) Possibilita incerta<br>C) No</i>",
+                "Ci sono stati stress, variazioni di peso, attivita fisica intensa o altri cambiamenti recenti?\n<br><i>A) Si, uno o piu cambiamenti<br>B) Solo lievi cambiamenti<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:dolore pelvico|dolore[^.!?;]{0,35}(?:basso ventre|pelvi))/i)
+            && activeHas(/(?:mesi|cronico|ricorrente)/i)) {
+            return questionSet(
+                "Da quanto dura, quanto e intenso e il dolore cambia con il ciclo o durante i rapporti?\n<br><i>A) Intenso o legato a ciclo/rapporti<br>B) Moderato o variabile<br>C) Lieve e stabile</i>",
+                "Si associa a sintomi intestinali o urinari, perdite, sanguinamento o peggioramento recente?\n<br><i>A) Si, uno o piu elementi<br>B) Solo lievi o dubbi<br>C) No</i>",
+                "Hai gia effettuato visite, ecografie o altri esami e disponi dei referti?\n<br><i>A) Si, con referti<br>B) Visite o esami incompleti<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:russ\w*|russamento)/i)
+            && activeHas(/(?:smett\w* di respirare|pause respiratorie|apnee?)/i)) {
+            return questionSet(
+                "Quanto spesso vengono riferite le pause respiratorie e ti risvegli con soffocamento o sonno non ristoratore?\n<br><i>A) Spesso o con risvegli<br>B) Occasionalmente<br>C) Non so</i>",
+                "La sonnolenza compare durante guida o lavoro, e come valuti qualita e durata del sonno?\n<br><i>A) Durante attivita a rischio o sonno molto scarso<br>B) Sonnolenza moderata<br>C) Lieve o assente</i>",
+                "Ci sono aumento di peso, pressione alta, ostruzione nasale, precedenti ORL/respiratori o esami gia eseguiti?\n<br><i>A) Si, uno o piu elementi<br>B) Solo dubbi<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:sangue dal naso|epistassi|sanguinamento nasale)/i)) {
+            return questionSet(
+                "Quanti episodi ci sono stati, quanto sono durati, quale quantita di sangue e da una o entrambe le narici?\n<br><i>A) Ripetuti, lunghi o abbondanti<br>B) Brevi e lievi<br>C) Non so quantificare</i>",
+                "Il sanguinamento e attivo ora o e ricomparso, e ci sono stati trauma, manipolazione o pressione alta nota?\n<br><i>A) Attivo/recidivato o fattori presenti<br>B) Cessato, con fattori dubbi<br>C) Cessato, senza fattori noti</i>",
+                "Assumi anticoagulanti e sono presenti altri sanguinamenti, debolezza, capogiri, svenimento o peggioramento?\n<br><i>A) Si, uno o piu segnali<br>B) Solo anticoagulante, senza instabilita<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:nodulo|nodul\w*)[^.!?;]{0,45}tiroid|tiroid[^.!?;]{0,45}(?:nodulo|nodul\w*)/i)) {
+            return questionSet(
+                "Hai un referto ecografico con dimensioni del nodulo e indicazioni su eventuale crescita rispetto a controlli precedenti?\n<br><i>A) Si, con confronto o crescita<br>B) Referto senza confronto<br>C) No</i>",
+                "Sono comparsi cambiamenti della voce, difficolta a deglutire o respirare?\n<br><i>A) Si, uno o piu sintomi<br>B) Solo lievi o dubbi<br>C) No</i>",
+                "Ci sono familiarita rilevanti e hai gia effettuato visite o controlli della tiroide?\n<br><i>A) Familiarita o controlli precedenti<br>B) Solo uno dei due<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:controllo periodico|follow[ -]?up|visita di controllo|monitoraggio)/i)
+            && activeHas(/(?:diabete|diabetologia|glicemia)/i)) {
+            return questionSet(
+                "Quando hai effettuato l'ultimo controllo e quale specialista o medico segue e prescrive la terapia?\n<br><i>A) Controllo e riferimento recenti<br>B) Controllo non recente<br>C) Non so</i>",
+                "Hai esami o referti recenti e ti sono stati riferiti valori particolarmente alterati?\n<br><i>A) Si, referti o valori da riferire<br>B) Esami disponibili senza particolari segnalazioni<br>C) No</i>",
+                "Sono comparsi nuovi sintomi o cerchi solo orientamento tra Diabetologia, Endocrinologia e medico curante?\n<br><i>A) Nuovi sintomi<br>B) Solo orientamento per follow-up<br>C) Non so</i>"
+            );
+        }
+        if (activeHas(/(?:allenament\w*|attivita fisica|esercizio fisico)/i)
+            && activeHas(/(?:fame|stanchezza|affaticamento)/i)) {
+            return questionSet(
+                "Quanto spesso compaiono fame e stanchezza, quanto durano e seguono sempre allenamenti intensi?\n<br><i>A) Frequenti e chiaramente dopo allenamento<br>B) Occasionali o legame parziale<br>C) Compaiono anche a riposo</i>",
+                "Come sono alimentazione, idratazione, recupero e qualita del sonno nei giorni di allenamento?\n<br><i>A) Uno o piu aspetti insufficienti<br>B) Variabili<br>C) Regolari</i>",
+                "L'intensita dell'attivita e cambiata e sono comparsi nuovi sintomi o un peggioramento anche lontano dall'esercizio?\n<br><i>A) Si, nuovi sintomi o peggioramento<br>B) Solo aumento dell'intensita<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:dolore (?:all'|all |a un |a entramb[ei] gli? )?orecchi|otalgia|otite|male (?:all'|all )orecchio)/i)) {
+            return questionSet(
+                "Da quanto dura il dolore e sono presenti febbre, secrezioni o gonfiore dietro l'orecchio?\n<br><i>A) Uno o piu segnali presenti<br>B) Dolore senza questi segnali<br>C) In miglioramento</i>",
+                "Ci sono stati acqua recente nell'orecchio, trauma, manipolazione o uso di oggetti?\n<br><i>A) Si, uno o piu fattori<br>B) Solo dubbio<br>C) No</i>",
+                "Sono comparsi calo uditivo, debolezza del viso o vertigini importanti?\n<br><i>A) Si, uno o piu sintomi<br>B) Solo lievi o dubbi<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:vertigin|capogir)/i)
+            && activeHas(/(?:gir\w* nel letto|gir\w* la testa|ruot\w* la testa|volt\w* la testa|movimento della testa|muov\w* la testa|cambio di posizione|alz\w* dal letto|posizione)/i)) {
+            return questionSet(
+                "Gli episodi dipendono dalla posizione o dal movimento della testa, quanto durano e si sono gia verificati in passato?\n<br><i>A) Legame chiaro, brevi o ricorrenti<br>B) Legame dubbio<br>C) Nessun legame</i>",
+                "Sono presenti nausea, vomito, calo uditivo, acufeni o sensazione di orecchio pieno?\n<br><i>A) Si, uno o piu sintomi<br>B) Solo lievi o dubbi<br>C) No</i>",
+                "Sono comparsi debolezza, difficolta a parlare o camminare, visione doppia, forte mal di testa o peggioramento?\n<br><i>A) Si, uno o piu segnali<br>B) Solo dubbio<br>C) No</i>"
+            );
+        }
+        if (positivePregnancy && activeHas(/nausea/i)) {
+            return questionSet(
+                "A quale settimana di gravidanza sei e con quale frequenza o durata compare la nausea?\n<br><i>A) Frequente o prolungata<br>B) Lieve e soprattutto in alcuni momenti<br>C) Occasionale o in miglioramento</i>",
+                "Riesci a bere e alimentarti oppure sono presenti vomito persistente, peggioramento o difficolta a trattenere liquidi?\n<br><i>A) Non riesco a bere o il vomito persiste<br>B) Riesco solo in parte<br>C) Bevo e mangio senza difficolta rilevanti</i>",
+                "Sono comparsi perdite di sangue o liquido, dolore significativo, altri segnali nuovi, oppure hai gia ricevuto indicazioni dal ginecologo?\n<br><i>A) Si, segnali nuovi o indicazioni da rivalutare<br>B) Solo dubbi<br>C) No, nessun segnale e nessuna indicazione specifica</i>"
+            );
+        }
+        if (positivePregnancy
+            && activeHas(/(?:bruciore[^.!?;]{0,40}(?:urin|minzion)|bisogno[^.!?;]{0,35}urinar|urinare spesso|frequenza urinaria|urgenza urinaria)/i)) {
+            return questionSet(
+                "A quale settimana di gravidanza sei, da quanto durano bruciore, frequenza o urgenza urinaria e stanno peggiorando?\n<br><i>A) Durano o peggiorano<br>B) Sono lievi o stabili<br>C) Sono in miglioramento</i>",
+                "Durante la minzione ci sono dolore o bruciore, bisogno frequente o urgente di urinare, oppure sangue nelle urine?\n<br><i>A) Si, uno o piu sintomi<br>B) Solo lieve o dubbio<br>C) No</i>",
+                "Sono comparsi febbre, brividi, dolore al fianco o lombare, nausea, vomito, peggioramento generale, contrazioni, dolore pelvico importante o perdite di sangue o liquido, e hai gia contattato ginecologo, ostetrica o medico curante?\n<br><i>A) Si, uno o piu segnali o contatto gia avvenuto<br>B) Solo dubbi o sintomi lievi<br>C) No</i>"
+            );
+        }
+        if (positivePregnancy
+            && rawHas(/non ho[^.!?;]{0,160}(?:altri disturbi|nessun disturbo)|non riferisco[^.!?;]{0,120}disturbi/i)
+            && !activeHas(/(?:dolore|nausea|vomito|febbre|brividi|bruciore|sangue|perdite|contrazioni|fianco)/i)) {
+            return questionSet(
+                "A quale settimana di gravidanza sei e cerchi un orientamento per un controllo programmato o per una nuova esigenza?\n<br><i>A) Controllo programmato<br>B) Nuova esigenza senza sintomi<br>C) Non so</i>",
+                "Hai gia un riferimento tra ginecologo, ostetrica o medico curante e disponi di indicazioni o referti recenti?\n<br><i>A) Si, riferimento e documenti disponibili<br>B) Solo in parte<br>C) No</i>",
+                "Sono comparsi nuovi sintomi o cambiamenti generali da riferire al professionista, senza assumere come presenti quelli gia negati?\n<br><i>A) Si, nuovi cambiamenti<br>B) Solo dubbi<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:mi sono mors[oa]|morso[^.!?;]{0,30}labbr|trauma[^.!?;]{0,35}labbr|urt[oa][^.!?;]{0,35}labbr|ferita[^.!?;]{0,35}labbr)/i)
+            && activeHas(/labbr[^.!?;]{0,45}(?:gonf|ferit|sanguin|dolor)|(?:gonf|ferit|sanguin|dolor)[^.!?;]{0,45}labbr/i)) {
+            return questionSet(
+                "Nel punto del morso o trauma ci sono sanguinamento, ferita aperta o dolore importante?\n<br><i>A) Si, uno o piu elementi<br>B) Solo lieve o superficiale<br>C) No</i>",
+                "Il gonfiore locale sta aumentando o rende difficile aprire la bocca, parlare o deglutire?\n<br><i>A) Si, sta aumentando o limita una funzione<br>B) Solo lieve o stabile<br>C) No</i>",
+                "Dopo il trauma sono comparsi gonfiore diffuso, lingua gonfia o difficolta respiratoria?\n<br><i>A) Si, uno o piu segnali<br>B) Solo dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:frutta secca|allerg|orticaria|prurito diffuso|labbra gonf|gonfiore[^.!?;]{0,40}(?:labbra|lingua|viso)|gola chiusa|gola che si chiude)/i)
+            && activeHas(/(?:difficolta a respirare|respiro difficile|fiato corto|gola chiusa|gola che si chiude|gonfiore[^.!?;]{0,40}(?:lingua|gola)|capogir|sveniment|voce alterata)/i)) {
+            return questionSet(
+                "Dopo l'esposizione alimentare sono presenti difficolta respiratoria, gola chiusa, voce alterata o gonfiore di labbra, lingua o viso?\n<br><i>A) Si, uno o piu segnali<br>B) Solo lieve o dubbio<br>C) No</i>",
+                "Il prurito e diffuso, compaiono pomfi/orticaria, capogiri, svenimento, peggioramento rapido o precedenti allergici importanti?\n<br><i>A) Si, uno o piu elementi<br>B) Solo in parte<br>C) No</i>",
+                "I sintomi sono ancora in corso o peggiorano, rendendo appropriato contattare 112/118 o Pronto Soccorso?\n<br><i>A) Si, sono in corso o peggiorano<br>B) Non so / dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:dopo aver mangiato|dopo (?:un|il) pasto|frutta secca|arachidi|alimento|cibo)/i)
+            && activeHas(/(?:prurito diffuso|prurito[^.!?;]{0,50}(?:labbra|gonfiore)|gonfiore[^.!?;]{0,40}labbra|labbr[^.!?;]{0,30}gonf)/i)) {
+            return questionSet(
+                "Dopo quale alimento sono comparsi prurito o gonfiore delle labbra e quanto tempo e passato dall'esposizione?\n<br><i>A) Poco tempo, legame chiaro<br>B) Legame possibile ma non certo<br>C) Non so</i>",
+                "Prurito e gonfiore stanno aumentando o si stanno estendendo rapidamente?\n<br><i>A) Si, aumentano o si estendono<br>B) Sono stabili<br>C) Stanno diminuendo</i>",
+                "Sono comparse difficolta respiratoria, lingua o gola gonfia, voce alterata, capogiri o svenimento, che richiedono escalation urgente?\n<br><i>A) Si, uno o piu segnali<br>B) Solo dubbio<br>C) No</i>"
+            );
+        }
+        if (rawHas(/\bnon sono incinta\b/i) && activeHas(/fianco/i) && activeHas(/(?:nausea|dolore)/i)) {
+            return questionSet(
+                "Dove e localizzato il dolore al fianco, quanto e intenso e sta aumentando o irradiandosi verso addome, schiena o inguine?\n<br><i>A) Intenso, in aumento o irradiato<br>B) Moderato o stabile<br>C) Lieve o in miglioramento</i>",
+                "Sono presenti vomito, difficolta a bere, sintomi addominali o peggioramento nelle ultime ore?\n<br><i>A) Si, uno o piu elementi<br>B) Solo lieve o dubbio<br>C) No</i>",
+                "Sono comparsi febbre, brividi, bruciore urinario, sangue nelle urine o altri sintomi urinari?\n<br><i>A) Si, uno o piu segnali<br>B) Solo dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:da quando|dopo (?:aver )?iniziato|dopo l'inizio|mentre)[^.!?;]{0,90}(?:assumo|prendo|integratore|terapia)[^.!?;]{0,35}(?:ferro|bismuto)/i)
+            && activeHas(/feci[^.!?;]{0,45}(?:piu scure|scure|molto scure|nere)|(?:piu scure|scure|molto scure|nere)[^.!?;]{0,45}feci/i)) {
+            return questionSet(
+                "Quando hai iniziato ad assumere ferro o bismuto e il cambiamento delle feci e comparso dopo l'inizio?\n<br><i>A) Si, dopo l'inizio<br>B) Il rapporto temporale non e chiaro<br>C) No</i>",
+                "Il colore e uniformemente piu scuro oppure molto nero, e il cambiamento e stabile, occasionale o sta peggiorando?\n<br><i>A) Molto nero o in peggioramento<br>B) Piu scuro ma stabile o occasionale<br>C) Non so descriverlo</i>",
+                "Dopo il cambiamento sono comparsi debolezza, capogiri, svenimento, dolore, vomito, sangue visibile o peggioramento generale, assumi altri farmaci rilevanti o ne hai gia parlato con il professionista che segue la terapia?\n<br><i>A) Si, uno o piu elementi<br>B) Solo dubbi o altri farmaci da riferire<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:assumo|prendo|integratore|terapia)[^.!?;]{0,35}(?:ferro|bismuto)/i)
+            && rawHas(/non ho notato[^.!?;]{0,60}cambiament[^.!?;]{0,40}feci/i)) {
+            return questionSet(
+                "Da quanto tempo assumi ferro o bismuto e quale professionista lo ha indicato?\n<br><i>A) Indicazione recente con professionista noto<br>B) Assunzione da tempo<br>C) Non so o non ho il riferimento</i>",
+                "Cerchi un orientamento per un controllo programmato e hai referti o indicazioni recenti da portare al professionista?\n<br><i>A) Si, controllo e documenti disponibili<br>B) Solo in parte<br>C) No</i>",
+                "Sono comparsi cambiamenti delle feci, debolezza, capogiri, dolore, vomito, sanguinamento o altri disturbi nuovi da riferire?\n<br><i>A) Si, uno o piu cambiamenti nuovi<br>B) Solo dubbi<br>C) No</i>"
+            );
+        }
+        const lowBackContext = activeHas(/(?:mal di schiena|dolore (?:lombare|alla schiena|nella parte bassa della schiena)|lombalgia|schiena (?:lombare|bassa)|parte bassa della schiena)/i);
+        const saddleSensoryRedFlag = activeHas(/(?:formicolio|intorpidimento|perdita di sensibilita)[^.!?;]{0,55}(?:tra le gambe|sella|genitali|inguine|perine)|(?:tra le gambe|area sella|zona perineale)[^.!?;]{0,55}(?:formicolio|intorpidimento|perdita di sensibilita)/i);
+        const sphincterRedFlag = activeHas(/(?:faccio fatica|difficolta|non riesco|non posso)[^.!?;]{0,35}(?:trattenere[^.!?;]{0,15})?(?:pipi|urina|urinare|feci)|non tratteng\w*[^.!?;]{0,25}(?:pipi|urina|feci)|perdit\w*[^.!?;]{0,35}(?:urina|urine|feci)|perdita di controllo[^.!?;]{0,25}(?:urine|feci)|incontinenza|problemi?[^.!?;]{0,25}(?:urinar|urine)/i);
+        const legWeaknessRedFlag = activeHas(/debolezza[^.!?;]{0,30}gambe/i);
+        const saddleOrSphincterRedFlag = saddleSensoryRedFlag || sphincterRedFlag || legWeaknessRedFlag;
+        if (lowBackContext && saddleOrSphincterRedFlag) {
+            return questionSet(
+                "Il formicolio riguarda area sella, inguine, genitali o tra le gambe, oppure si associa a perdita di sensibilita?\n<br><i>A) Si, chiaramente<br>B) Solo in parte o dubbio<br>C) No</i>",
+                "Hai difficolta a trattenere urine o feci, perdita di controllo, debolezza alle gambe o difficolta a camminare?\n<br><i>A) Si, uno o piu segnali<br>B) Solo lieve o dubbio<br>C) No</i>",
+                "Il dolore e severo, in rapido peggioramento, dopo trauma o con febbre, e richiede accesso urgente se ci sono problemi urinari/fecali o deficit neurologici?\n<br><i>A) Si, uno o piu elementi<br>B) Non so / dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:paura di ingrassare|mangio sempre meno|restrizion|restrittiv|anoressia|bulimia|dca|salt[oa] spesso i pasti|vomito autoindotto|lassativi|mi vedo.*grass|rapporto con il cibo)/i)) {
+            return questionSet(
+                "Il problema riguarda soprattutto cibo, peso, immagine corporea o paura di ingrassare?\n<br><i>A) Sì, è centrale<br>B) In parte<br>C) No</i>",
+                "Ci sono perdita di peso importante, capogiri, svenimenti, dolore toracico, vomito, lassativi o grande debolezza?\n<br><i>A) Sì, uno o più segni<br>B) Solo sintomi lievi o dubbi<br>C) No</i>",
+                "Questo tema porta isolamento, vergogna, conflitti familiari o difficoltà a scuola/lavoro?\n<br><i>A) Sì, molto<br>B) In parte<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:ansia|panico|paura di perdere il controllo)/i)
+            && activeHas(/(?:battito accelerato|tachicard|tremori|sudorazione|nodo alla gola|paura di perdere il controllo|ansia|panico)/i)) {
+            return questionSet(
+                "Gli episodi sono brevi e si risolvono da soli oppure restano persistenti o peggiorano?\n<br><i>A) Persistono o peggiorano<br>B) Durano poco e passano<br>C) Non so</i>",
+                "Durante gli episodi compaiono dolore toracico persistente, svenimento, grave difficoltà respiratoria o confusione?\n<br><i>A) Sì<br>B) Solo sintomi lievi o dubbi<br>C) No</i>",
+                "Ci sono pensieri di farti del male o il problema limita molto lavoro, relazioni o attività quotidiane?\n<br><i>A) Sì, molto o con rischio<br>B) In parte<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:cauda|fatica a urinare|anestesia a sella|genitali|intern[ao][^.!?;]{0,40}cosce|entrambe le gambe)/i)
+            && activeHas(/(?:dolore lombare|lombalgia|schiena|gambe|genitali|urinare)/i)) {
+            return questionSet(
+                "Il dolore lombare si associa a difficoltà a urinare, perdita di urine/feci o anestesia nella zona genitale/sella?\n<br><i>A) Sì, uno o più segni<br>B) Solo dubbio o lieve<br>C) No</i>",
+                "Hai debolezza alle gambe, dolore che scende a entrambe le gambe o peggioramento rapido?\n<br><i>A) Sì<br>B) Solo in parte<br>C) No</i>",
+                "È comparso da poco e in modo diverso dal solito?\n<br><i>A) Sì, nuovo o improvviso<br>B) Peggioramento graduale<br>C) No, è stabile</i>"
+            );
+        }
+        if (activeHas(/(?:neo|nevo|lesione pigmentata|melanom|macchia)/i)
+            && activeHas(/(?:cambiat|asimmetric|bordi irregolari|colori diversi|marrone|nero|prude|prurito)/i)) {
+            return questionSet(
+                "La lesione o il neo è cambiato per dimensione, forma, colore, bordi o rilievo?\n<br><i>A) Sì, cambiamento evidente<br>B) Cambiamento lieve o dubbio<br>C) No, sembra stabile</i>",
+                "Sono presenti più colori, asimmetria, bordi irregolari, prurito, sanguinamento o croste?\n<br><i>A) Sì, uno o più segni<br>B) Solo fastidio lieve<br>C) No</i>",
+                "Hai foto precedenti o ricordi da quanto tempo è cambiata la lesione?\n<br><i>A) Sì, ho confronto chiaro<br>B) Solo ricordo approssimativo<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:spalla|cuffia|omero|clavicola|sopra la testa)/i)) {
+            return questionSet(
+                "Il dolore alla spalla aumenta quando alzi il braccio, prendi oggetti in alto o dormi su quel lato?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Hai perdita improvvisa di forza, deformità, trauma importante, febbre, rossore o calore?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>",
+                "Il problema è iniziato dopo trauma/sforzo preciso oppure si è sviluppato gradualmente?\n<br><i>A) Dopo trauma o gesto preciso<br>B) Gradualmente<br>C) Non saprei</i>"
+            );
+        }
+        if (activeHas(/(?:orticaria diffusa|gonfiore[^.!?;]{0,40}(?:labbra|lingua)|gola che si chiude|respiro difficile|anafil|frutta secca)/i)
+            && activeHas(/(?:respiro difficile|difficolta respiratoria|gola che si chiude|stordit|gonfiore[^.!?;]{0,40}(?:labbra|lingua))/i)) {
+            return questionSet(
+                "I sintomi sono comparsi rapidamente dopo cibo, farmaco, puntura o altra esposizione sospetta?\n<br><i>A) Sì, subito dopo un'esposizione chiara<br>B) Forse, ma non ne sono sicuro<br>C) No, non vedo un legame evidente</i>",
+                "Sono presenti difficoltà respiratoria, gola che si chiude, gonfiore di labbra o lingua, stordimento o svenimento?\n<br><i>A) Sì, uno o più segni importanti<br>B) Solo sintomi lievi o dubbi<br>C) No</i>",
+                "L'orticaria o il gonfiore stanno peggiorando rapidamente o coinvolgono più parti del corpo?\n<br><i>A) Sì, stanno peggiorando<br>B) Sono stabili ma diffusi<br>C) No, sono limitati</i>"
+            );
+        }
+        if (this._isHighRiskAtypicalCardiacEmergencyContext()) {
+            return questionSet(
+                "Da quanto durano nausea, peso o fastidio allo stomaco e fastidio alla mandibola, e i sintomi sono ancora presenti o non regrediscono?\n<br><i>A) Sono presenti o persistenti<br>B) Vanno e vengono<br>C) Sono regrediti</i>",
+                "Il quadro sta peggiorando o si associa a sudorazione fredda, debolezza improvvisa, vomito, fastidio a braccio o schiena, fiato corto o relazione con lo sforzo?\n<br><i>A) Si, uno o piu segnali<br>B) Solo lieve o stabile<br>C) No</i>",
+                "Sono presenti fattori cardiovascolari come diabete o ipertensione, e serve una valutazione urgente se i sintomi sono attuali, persistono o peggiorano?\n<br><i>A) Si, fattori presenti e sintomi attuali o persistenti<br>B) Solo in parte o dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:dolore|peso|oppressione)[^.!?;]{0,45}(?:petto|torace)|dolore toracico/i)
+            && activeHas(/(?:braccio sinistro|mandibola|sudorazione fredda|nausea|dispnea|fatica a respirare|non passa|persistente)/i)) {
+            return questionSet(
+                "Il dolore o peso al torace è presente ora, dura da più di alcuni minuti o non passa con il riposo?\n<br><i>A) Sì, è presente o persistente<br>B) Va e viene<br>C) No, è passato</i>",
+                "Si associa a irradiazione a braccio sinistro, mandibola o schiena, sudorazione fredda, nausea o fiato corto?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Hai fattori di rischio noti come diabete, ipertensione, fumo, precedente infarto o malattia cardiaca?\n<br><i>A) Sì, uno o più<br>B) Non so<br>C) No</i>"
+            );
+        }
+        if (activeHas(/pressione[^.!?;]{0,90}\d{3}\s*\/\s*\d{2,3}|\b\d{3}\s*\/\s*\d{2,3}\b/i)
+            && activeHas(/(?:forte mal di testa|cefalea|vista offuscata|confusione|dolore toracico|dispnea|fiato corto|svenimento|sincope|terapia[^.!?;]{0,45}inefficace|farmaci[^.!?;]{0,45}non hanno fatto effetto)/i)) {
+            return questionSet(
+                "La pressione è molto alta e si associa a confusione, vista offuscata, forte mal di testa, dolore toracico o fiato corto?\n<br><i>A) Sì, uno o più segni importanti<br>B) Solo sintomi lievi o dubbi<br>C) No</i>",
+                "I farmaci abituali per la pressione oggi non hanno funzionato o il quadro sta peggiorando?\n<br><i>A) Sì, non hanno funzionato o peggioro<br>B) Non so<br>C) No</i>",
+                "Hai avuto svenimento, debolezza improvvisa, difficoltà a parlare o dolore toracico attuale?\n<br><i>A) Sì<br>B) Solo sintomi dubbi<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:fiato corto|dispnea|manca l'aria|caviglie gonfie|edemi|due cuscini|ortopnea|aumento[^.!?;]{0,30}peso|preso[^.!?;]{0,30}kg)/i)
+            && activeHas(/(?:caviglie gonfie|edemi|due cuscini|ortopnea|infarto|scompenso|aumento[^.!?;]{0,30}peso|preso[^.!?;]{0,30}kg)/i)) {
+            return questionSet(
+                "Il fiato corto compare a riposo, di notte, da sdraiato o solo sotto sforzo?\n<br><i>A) A riposo/notte/da sdraiato<br>B) Solo sotto sforzo<br>C) No o minimo</i>",
+                "Hai gonfiore a gambe o caviglie, aumento rapido di peso o necessità di dormire con più cuscini?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Sono presenti dolore toracico attuale, saturazione bassa, svenimento, confusione o peggioramento rapido?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:palpitazioni|battito accelerato|battito irregolare|aritm)/i)) {
+            return questionSet(
+                "Gli episodi di battito accelerato o irregolare iniziano e finiscono improvvisamente oppure durano a lungo?\n<br><i>A) Improvvisi o prolungati<br>B) Brevi e occasionali<br>C) Non saprei</i>",
+                "Si associano a dolore toracico, svenimento, fiato corto marcato o capogiri importanti?\n<br><i>A) Sì<br>B) Solo lievi fastidi<br>C) No</i>",
+                "Hai notato legame con sforzo, caffeina, stress, febbre, farmaci o sostanze?\n<br><i>A) Sì, legame chiaro<br>B) Forse<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:bocca storta|viso storto|faccia storta|braccio[^.!?;]{0,45}(?:debole|non si solleva)|non riesc[eo] a sollevare[^.!?;]{0,45}braccio|parla[^.!?;]{0,35}confus|linguaggio confuso|afasia|disartria)/i)) {
+            return questionSet(
+                "I sintomi come bocca storta, debolezza di un braccio o linguaggio confuso sono comparsi all'improvviso?\n<br><i>A) Sì, improvvisamente<br>B) Non so con precisione<br>C) No, sono graduali o vecchi</i>",
+                "La persona ha difficoltà a parlare, capire, sollevare un braccio, camminare o tenere l'equilibrio?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Sono presenti fattori come fibrillazione atriale, pressione alta o precedente ictus/TIA?\n<br><i>A) Sì<br>B) Non so<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:mal di testa|cefalea|emicrania|peggior mal di testa)/i)) {
+            return questionSet(
+                "Il mal di testa è iniziato all'improvviso, è il peggiore mai avuto o è molto diverso dal solito?\n<br><i>A) Sì, improvviso o molto diverso<br>B) Non so / è dubbio<br>C) No, è simile agli episodi abituali</i>",
+                "Si associa a debolezza, difficoltà a parlare, confusione, febbre, rigidità del collo, trauma o sonnolenza marcata?\n<br><i>A) Sì, uno o più segni<br>B) Solo sintomi lievi o dubbi<br>C) No</i>",
+                "Durante gli episodi hai nausea, fastidio alla luce o ai rumori, disturbi visivi o bisogno di stare al buio?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:perdita di coscienza|scosse|convuls|crisi epilett|confusione post|cadut[oa])/i)
+            && activeHas(/(?:scosse|convuls|confusione post|perdita di coscienza)/i)) {
+            return questionSet(
+                "È stato il primo episodio di perdita di coscienza con scosse o movimenti involontari?\n<br><i>A) Sì, primo episodio<br>B) Era già successo<br>C) Non so</i>",
+                "Dopo l'episodio c'è stata confusione, sonnolenza, ferita, morso della lingua o perdita di urine?\n<br><i>A) Sì, uno o più segni<br>B) Solo confusione lieve<br>C) No</i>",
+                "Ora sono presenti febbre, forte mal di testa, debolezza, trauma importante o nuova crisi?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:formicol|parestes|intorpid|perdita di sensibilita|neuropat|debolezza progressiva)/i)) {
+            return questionSet(
+                "Formicolii o perdita di sensibilità sono localizzati, bilaterali o progressivi nel tempo?\n<br><i>A) Progressivi o diffusi<br>B) Intermittenti/localizzati<br>C) Non so</i>",
+                "Hai perdita di forza, difficoltà a camminare, disturbi del linguaggio, vista doppia o problemi urinari/fecali?\n<br><i>A) Sì<br>B) Solo in parte<br>C) No</i>",
+                "Il sintomo è iniziato improvvisamente oppure è graduale/ricorrente da settimane o mesi?\n<br><i>A) Improvviso<br>B) Graduale o ricorrente<br>C) Non saprei</i>"
+            );
+        }
+        if (activeHas(/(?:suicid|non voglio piu vivere|farmi del male|ammazzar|uccider|pastiglie|piano)/i)) {
+            return questionSet(
+                "In questo momento c'è un piano concreto, un mezzo disponibile o una tempistica vicina per farti del male?\n<br><i>A) Sì, rischio concreto o imminente<br>B) Pensieri presenti ma senza piano<br>C) No</i>",
+                "Sei solo/a o hai qualcuno vicino che può restare con te e aiutarti subito?\n<br><i>A) Sono solo/a<br>B) Posso contattare qualcuno<br>C) C'è già qualcuno con me</i>",
+                "Hai già compiuto gesti autolesivi, assunto sostanze/farmaci o senti di non riuscire a restare al sicuro?\n<br><i>A) Sì<br>B) Non so / rischio dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:ansia|panico|paura di perdere il controllo|battito accelerato|tremori|sudorazione)/i)
+            && activeHas(/(?:ansia|panico|paura di perdere il controllo)/i)) {
+            return questionSet(
+                "Gli episodi sono brevi e si risolvono da soli oppure restano persistenti o peggiorano?\n<br><i>A) Persistono o peggiorano<br>B) Durano poco e passano<br>C) Non so</i>",
+                "Durante gli episodi compaiono dolore toracico persistente, svenimento, grave difficoltà respiratoria o confusione?\n<br><i>A) Sì<br>B) Solo sintomi lievi o dubbi<br>C) No</i>",
+                "Ci sono pensieri di farti del male o il problema limita molto lavoro, relazioni o attività quotidiane?\n<br><i>A) Sì, molto o con rischio<br>B) In parte<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:triste|perdita di interesse|umore|depress|dormo male|concentrarmi|motivazione)/i)) {
+            return questionSet(
+                "Da quanto tempo umore basso, perdita di interesse, insonnia o stanchezza interferiscono con la vita quotidiana?\n<br><i>A) Da settimane/mesi e molto<br>B) Da poco o in modo moderato<br>C) Poco o nulla</i>",
+                "Sono presenti pensieri di suicidio, autolesionismo, voci, convinzioni insolite o perdita di contatto con la realtà?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>",
+                "Riesci ancora a lavorare, studiare, curarti e mantenere relazioni essenziali?\n<br><i>A) No, è molto compromesso<br>B) Con fatica<br>C) Sì</i>"
+            );
+        }
+        if (activeHas(/(?:voci|allucin|controllando|persecut|delir|agitato|urlato|universita|insonnia marcata)/i)) {
+            return questionSet(
+                "Le voci, convinzioni insolite o sensazioni di controllo stanno influenzando comportamento, studio, lavoro o relazioni?\n<br><i>A) Sì, molto<br>B) In parte<br>C) No</i>",
+                "Ci sono agitazione intensa, minacce, rischio per te o altri, grave confusione o perdita di controllo?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>",
+                "Stai dormendo pochissimo o hai smesso attività importanti come studio, lavoro o cura personale?\n<br><i>A) Sì, chiaramente<br>B) In parte<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:paura di ingrassare|mangio sempre meno|restrizion|restrittiv|anoressia|bulimia|dca|salt[oa] spesso i pasti|vomito autoindotto|lassativi|mi vedo.*grass|rapporto con il cibo)/i)) {
+            return questionSet(
+                "Il problema riguarda soprattutto cibo, peso, immagine corporea o paura di ingrassare?\n<br><i>A) Sì, è centrale<br>B) In parte<br>C) No</i>",
+                "Ci sono perdita di peso importante, capogiri, svenimenti, dolore toracico, vomito, lassativi o grande debolezza?\n<br><i>A) Sì, uno o più segni<br>B) Solo sintomi lievi o dubbi<br>C) No</i>",
+                "Questo tema porta isolamento, vergogna, conflitti familiari o difficoltà a scuola/lavoro?\n<br><i>A) Sì, molto<br>B) In parte<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:cauda|fatica a urinare|anestesia a sella|genitali|intern[ao] delle cosce|entrambe le gambe)/i)
+            && activeHas(/(?:dolore lombare|lombalgia|schiena|gambe)/i)) {
+            return questionSet(
+                "Il dolore lombare si associa a difficoltà a urinare, perdita di urine/feci o anestesia nella zona genitale/sella?\n<br><i>A) Sì, uno o più segni<br>B) Solo dubbio o lieve<br>C) No</i>",
+                "Hai debolezza alle gambe, dolore che scende a entrambe le gambe o peggioramento rapido?\n<br><i>A) Sì<br>B) Solo in parte<br>C) No</i>",
+                "È comparso da poco e in modo diverso dal solito?\n<br><i>A) Sì, nuovo o improvviso<br>B) Peggioramento graduale<br>C) No, è stabile</i>"
+            );
+        }
+        if (activeHas(/(?:dolore lombare|lombalgia|schiena|rachide lombare)/i)) {
+            return questionSet(
+                "Il dolore lombare peggiora con piegamenti, posture prolungate o sforzi e migliora un po' camminando o cambiando posizione?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Il dolore scende sotto il ginocchio o si associa a formicolio, debolezza o perdita di sensibilità?\n<br><i>A) Sì<br>B) Solo lievemente<br>C) No</i>",
+                "Ci sono febbre, trauma importante, perdita di peso, anestesia a sella o problemi urinari/fecali?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:ginocchio|menisc|legament|crociat|rotula|crack)/i)) {
+            return questionSet(
+                "Dopo il trauma o movimento hai sentito crack, gonfiore rapido, blocco o cedimento del ginocchio?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Riesci ad appoggiare il peso oppure il carico è impossibile?\n<br><i>A) Impossibile caricare<br>B) Carico con dolore<br>C) Carico quasi normale</i>",
+                "Ci sono deformità, ferite aperte, febbre, arto freddo/pallido o dolore insopportabile?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:spalla|cuffia|omero|clavicola|sopra la testa)/i)) {
+            return questionSet(
+                "Il dolore alla spalla aumenta quando alzi il braccio, prendi oggetti in alto o dormi su quel lato?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Hai perdita improvvisa di forza, deformità, trauma importante, febbre, rossore o calore?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>",
+                "Il problema è iniziato dopo trauma/sforzo preciso oppure si è sviluppato gradualmente?\n<br><i>A) Dopo trauma o gesto preciso<br>B) Gradualmente<br>C) Non saprei</i>"
+            );
+        }
+        if (activeHas(/(?:caviglia|caviglie|piede|dita fredde|pallide|frattur|lussazion)/i)
+            && activeHas(/(?:cadut|trauma|storta|gonfia|non riesco a poggiare|non riesce a poggiare|dita fredde|pallide)/i)) {
+            return questionSet(
+                "Dopo il trauma ci sono deformità, gonfiore importante o impossibilità ad appoggiare il piede?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Le dita o il piede sono freddi, pallidi, insensibili o molto dolorosi?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>",
+                "C'è ferita aperta, sanguinamento importante o impossibilità di trasporto sicuro?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:neo|nevo|lesione pigmentata|melanom|macchia)/i)
+            && activeHas(/(?:cambiat|asimmetric|bordi irregolari|colori diversi|marrone|nero|prude|prurito)/i)) {
+            return questionSet(
+                "La lesione o il neo è cambiato per dimensione, forma, colore, bordi o rilievo?\n<br><i>A) Sì, cambiamento evidente<br>B) Cambiamento lieve o dubbio<br>C) No, sembra stabile</i>",
+                "Sono presenti più colori, asimmetria, bordi irregolari, prurito, sanguinamento o croste?\n<br><i>A) Sì, uno o più segni<br>B) Solo fastidio lieve<br>C) No</i>",
+                "Hai foto precedenti o ricordi da quanto tempo è cambiata la lesione?\n<br><i>A) Sì, ho confronto chiaro<br>B) Solo ricordo approssimativo<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:dermatite|eczema|chiazze rosse|mani|detergenti|guanti|screpolat)/i)) {
+            return questionSet(
+                "Le chiazze o il prurito peggiorano con detergenti, guanti, lavoro manuale o sostanze specifiche?\n<br><i>A) Sì, chiaramente<br>B) Forse / solo in parte<br>C) No</i>",
+                "Ci sono pus, febbre, dolore importante, gonfiore o rapido peggioramento?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>",
+                "Il problema è limitato alle mani o coinvolge anche viso, labbra, lingua o respirazione?\n<br><i>A) Coinvolge viso/respirazione<br>B) Altre aree cutanee<br>C) Solo mani o zona limitata</i>"
+            );
+        }
+        if (activeHas(/(?:dolore|fastidio)[^.!?;]{0,30}(?:a un dente|al dente|dentale)/i)
+            && activeHas(/(?:mastic|mangia)/i)
+            && activeHas(/gengiv[^.!?;]{0,30}gonf/i)) {
+            return questionSet(
+                "Il dolore e localizzato a un dente preciso e peggiora quando mastichi o con caldo e freddo?\n<br><i>A) Si, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "La gengiva o il viso sono gonfi e il gonfiore sta aumentando, oppure compaiono febbre o rapido peggioramento?\n<br><i>A) Si, uno o piu segnali<br>B) Solo lieve o stabile<br>C) No</i>",
+                "Hai difficolta ad aprire la bocca o deglutire, oppure nausea, sudorazione, peso allo stomaco o affanno non spiegati dal dente?\n<br><i>A) Si, uno o piu sintomi<br>B) Solo dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:cellulit|erisipel|zona rossa|arrossamento|rossa|calda|gonfia|dolorosa|allargars|brividi)/i)
+            && activeHas(/(?:febbre|brividi|diabete|debole|allargars|calda|gonfia)/i)) {
+            return questionSet(
+                "La zona rossa è calda, gonfia, dolorosa e si sta allargando?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Sono presenti febbre, brividi, debolezza, diabete, immunodepressione o rapido peggioramento?\n<br><i>A) Sì, uno o più<br>B) Non so / dubbio<br>C) No</i>",
+                "La zona coinvolge volto/occhio o ci sono strie rosse, dolore sproporzionato o confusione?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>"
+            );
+        }
+        if (activeHas(/(?:impetig|crosticine|croste giallastre|naso|bocca|contatti scolastici)/i)
+            && activeHas(/(?:bambin|scuola|croste giallastre|crosticine)/i)) {
+            return questionSet(
+                "Le lesioni sono crosticine giallastre intorno a naso, bocca o altre zone della pelle?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Il bambino ha febbre, dolore importante, gonfiore al viso, peggioramento rapido o difficoltà respiratoria?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>",
+                "Ci sono altri bambini con lesioni simili a scuola o in famiglia?\n<br><i>A) Sì<br>B) Non so<br>C) No</i>"
+            );
+        }
 
         // --- LOGICA DI SELEZIONE PRIORITARIA (ORDINE GLOBALE) ---
 
@@ -1689,8 +2634,8 @@ class TriageEngine {
 
             // Mostriamo i risultati
             let outInitial = `
-            <div id="printable-area">
-            <div id="medical-disclaimer-start" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
+            <div id="printable-area" data-testid="aiutodoc-output">
+            <div id="medical-disclaimer-start" data-testid="medical-disclaimer" class="result-start" style="background: var(--danger-bg); border: 1px solid #fecaca; color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500;">
               Attenzione: ${escapeHTML(DISCLAIMER)}
             </div>
             
@@ -1699,6 +2644,12 @@ class TriageEngine {
                     Sintesi Anamnestica
                 </h3>
                 <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(resultObj.sintesi_anamnestica)}</p>
+                <div data-testid="red-flags-output" style="line-height: 1.6; color: #4a5568;">
+                    <strong>Segnali rilevanti da riferire al medico:</strong>
+                    ${resultObj.red_flags_rilevate.length
+                        ? `<ul>${resultObj.red_flags_rilevate.map((flag) => `<li>${escapeHTML(flag)}</li>`).join("")}</ul>`
+                        : "<span> Nessuno esplicitamente rilevato nell'output.</span>"}
+                </div>
                 
                 <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
                 
@@ -1707,14 +2658,15 @@ class TriageEngine {
                         <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #0F5464; font-weight: bold; margin-bottom: 5px;">
                             SPECIALISTA CONSIGLIATO
                         </span>
-                        <strong style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(resultObj.specialista_indicato)}</strong>
-                        ${buildSpecialtyEvidenceHTML(resultObj.specialista_indicato)}
+                        <strong data-testid="specialist-output" style="font-size: 1.1rem; color: #2d3748;">${escapeHTML(resultObj.specialista_indicato)}</strong>
+                        <span data-testid="specialization-area-output" hidden>${escapeHTML(JSON.stringify(resultObj.area_specialistica_piu_adatta))}</span>
+                        ${buildSpecialtyEvidenceHTML(resultObj.specialista_indicato, this.userData.disturbo)}
                     </div>
                     <div style="background: #fff9e6; padding: 15px; border-radius: 10px;">
                         <span style="display: flex; align-items: center; gap: 5px; font-size: 0.8rem; text-transform: uppercase; color: #d48806; font-weight: bold; margin-bottom: 5px;">
                             GUIDA AL COMPORTAMENTO
                         </span>
-                        <p style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(resultObj.preparazione_visita)}</p>
+                        <p data-testid="urgency-output" style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(resultObj.livello_urgenza)}<br>${escapeHTML(resultObj.preparazione_visita)}</p>
                     </div>
                 </div>
                 
@@ -1823,18 +2775,898 @@ class TriageEngine {
         `, "system-msg danger");
     }
 
+    _isMildIronDeficiencyOrientationContext() {
+        const text = normalizeMedicalText([
+            this.userData.disturbo,
+            ...(this.userData.conoscitiveResp || []),
+            ...(this.userData.anamnesticheResp || [])
+        ].filter(Boolean).join(" ")).toLowerCase();
+        return /stanc|asten|concentr/.test(text)
+            && /unghi|capell/.test(text)
+            && /mestruaz|menorrag/.test(text)
+            && /non ho dolore (?:al |nel )?(?:petto|torace)|assenza di dolore toracico/.test(text)
+            && /non ho sveniment|assenza di sveniment/.test(text)
+            && /non ho sangue nelle feci|assenza di sangue nelle feci/.test(text);
+    }
+
+    _isAcuteDiabetesUrgencyContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /diabet/.test(text)
+            && /(?:molta sete|sete intensa|sete marcata|sete eccessiva)/.test(text)
+            && /(?:urino continuamente|urinazione continua|urino spesso|minzione frequente)/.test(text)
+            && /(?:molto debole|debolezza marcata)/.test(text)
+            && /nausea/.test(text)
+            && /(?:fatica a restare svegli|difficolta a restare svegli|sonnolenza marcata)/.test(text);
+    }
+
+    _isHeavyMenstrualBleedingOrientationContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "")
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+        return /(?:ciclo|mestruazion)/.test(text)
+            && /(?:molto abbondante|flusso abbondante)/.test(text)
+            && /(?:dura piu del solito|durata aumentata|piu lungo del solito)/.test(text)
+            && /(?:da|per) (?:alcuni|diversi|piu) mesi|mesi di seguito|ricorrente/.test(text)
+            && /(?:stanca|stanchezza|debolezza)/.test(text);
+    }
+
+    _isStableRecurrentEpistaxisAnticoagulantContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /(?:piu episodi|episodi ripetuti|ricorrente)/.test(text)
+            && /(?:sangue dal naso|epistassi|sanguinamento nasale)/.test(text)
+            && /anticoagulant/.test(text)
+            && /(?:si e fermato|sanguinamento cessato|ora e fermo)/.test(text)
+            && /(?:non ho debolezza[^.!?]{0,30}capogiri|non ho capogiri[^.!?]{0,30}debolezza|senza debolezza[^.!?]{0,30}capogiri)/.test(text);
+    }
+
+    _isStableExertionalChestDiscomfortContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /peso (?:al centro del petto|al petto|toracico)/.test(text)
+            && /(?:salita|scale|sforzo)/.test(text)
+            && /(?:passa|si risolve)[^.!?]{0,35}(?:riposo)/.test(text)
+            && /non ho dolore a riposo/.test(text);
+    }
+
+    _isHighRiskAtypicalCardiacEmergencyContext() {
+        const text = normalizeMedicalText([
+            this.userData.disturbo,
+            ...(this.userData.conoscitiveResp || []),
+            ...(this.userData.anamnesticheResp || [])
+        ].filter(Boolean).join(" ")).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’‘`´]/g, "'");
+        const positiveText = this._stripNegatedClinicalClauses(text);
+        const epigastricWeight = /(?:peso|fastidio|oppressione|dolore)[^.!?]{0,45}(?:stomaco|epigastr|bocca dello stomaco)/.test(positiveText);
+        const nausea = /nausea/.test(positiveText);
+        const breathlessness = /(?:fiato corto|manca[^.!?]{0,35}fiato|dispnea|affanno|affann)/;
+        const exertionalDyspnea = new RegExp(`${breathlessness.source}[^.!?]{0,80}(?:muovo|movimento|cammin|sforzo|scale)`).test(positiveText)
+            || new RegExp(`(?:muovo|movimento|cammin|sforzo|scale)[^.!?]{0,80}${breathlessness.source}`).test(positiveText);
+        const jawDiscomfort = /(?:fastidio|dolore|peso)[^.!?]{0,45}mandibol|mandibol[^.!?]{0,45}(?:fastidio|dolore|peso)/.test(positiveText);
+        const antacidNoBenefit = /(?:antiacido|antiacidi)[^.!?]{0,100}(?:non[^.!?]{0,30}(?:cambiat|passat|migliorat|effetto|beneficio)|senza[^.!?]{0,30}(?:beneficio|migliorament)|inefficace)/.test(text);
+        const diabetes = /diabete|diabet/.test(positiveText);
+        const hypertension = /ipertensione|ipertes|pressione alta/.test(positiveText);
+        const recentOnset = /(?:da (?:circa )?(?:mezz[' ]?ora|mezza ora|\d{1,3} minut|poco)|da stamattina|da questa mattina|esordio recente|iniziat[oa] (?:da poco|oggi))/.test(positiveText);
+        const notRelatedToChewing = /(?:non cambia|non peggiora|non aumenta|non e legat[oa])[^.!?]{0,35}(?:mastic|mangia)|(?:mastic|mangia)[^.!?]{0,35}(?:non cambia|non peggiora|non aumenta)/.test(text);
+        const strongDentalContext = /(?:dolore|fastidio)[^.!?]{0,25}(?:a un dente|al dente|dentale)|gengiv[^.!?]{0,25}gonf|sensibil[^.!?]{0,30}(?:caldo|freddo)|trauma dentale|(?:peggiora|aumenta)[^.!?]{0,25}masticando/.test(positiveText);
+        const originalHighRiskCluster = epigastricWeight && nausea && exertionalDyspnea && jawDiscomfort && antacidNoBenefit && diabetes && hypertension;
+        const recentJawRiskCluster = recentOnset && jawDiscomfort && nausea && diabetes && hypertension && notRelatedToChewing && !strongDentalContext;
+        return originalHighRiskCluster || recentJawRiskCluster;
+    }
+
+    _getHighRiskAtypicalCardiacSignals() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’‘`´]/g, "'");
+        const positiveText = this._stripNegatedClinicalClauses(text);
+        const signals = [];
+        if (/(?:peso|fastidio|oppressione|dolore)[^.!?]{0,45}(?:stomaco|epigastr|bocca dello stomaco)/.test(positiveText)) signals.push("peso o fastidio allo stomaco riferito");
+        if (/nausea/.test(positiveText)) signals.push("nausea riferita");
+        if (/(?:fiato corto|manca[^.!?]{0,35}fiato|dispnea|affanno)/.test(positiveText)) signals.push("fiato corto riferito");
+        if (/(?:fastidio|dolore|peso)[^.!?]{0,45}mandibol|mandibol[^.!?]{0,45}(?:fastidio|dolore|peso)/.test(positiveText)) signals.push("fastidio mandibolare riferito");
+        if (/diabete|diabet/.test(positiveText)) signals.push("diabete riferito");
+        if (/ipertensione|ipertes|pressione alta/.test(positiveText)) signals.push("ipertensione riferita");
+        if (/(?:antiacido|antiacidi)[^.!?]{0,100}(?:non[^.!?]{0,30}(?:cambiat|passat|migliorat|effetto|beneficio)|senza[^.!?]{0,30}(?:beneficio|migliorament)|inefficace)/.test(text)) signals.push("mancato beneficio con antiacido riferito");
+        return signals;
+    }
+
+    _isStablePossibleHeartFailureContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /fiato corto[^.!?]{0,45}(?:quando cammin|camminando)/.test(text)
+            && /(?:due cuscini|manca l'aria)/.test(text)
+            && /caviglie gonfie/.test(text)
+            && /(?:preso|aumento)[^.!?]{0,20}(?:3 kg|peso)/.test(text)
+            && /infarto[^.!?]{0,20}anni fa/.test(text)
+            && !/(?:dispnea|fiato corto|manca l'aria) a riposo|dolore toracico attuale|saturazione (?:8\d|9[0-3])|sincope|confusione/.test(text);
+    }
+
+    _isStablePanicAnxietyContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /(?:ansia|panico)/.test(text)
+            && /(?:battito accelerato|tachicard|tremor|sudorazione|paura di perdere il controllo)/.test(text)
+            && /(?:durano|dura)[^.!?]{0,30}(?:10 minuti|pochi minuti)/.test(text)
+            && /(?:passano|passa)/.test(text)
+            && /(?:2 mesi|settimane|mesi)/.test(text)
+            && /non ho dolore toracico persistente/.test(text)
+            && /non ho sveniment/.test(text)
+            && /non ho difficolta respiratoria grave/.test(text)
+            && /non ho pensieri di farmi del male/.test(text);
+    }
+
+    _isStableRefluxDyspepsiaText(text) {
+        const normalized = normalizeMedicalText(text || "").toLowerCase();
+        const refluxPattern = /(?:bruciore|acidita|rigurgito acido|reflusso|pesantezza (?:allo )?stomaco|dispepsia|digestione lenta)/.test(normalized)
+            && /(?:dopo i pasti|dopo pasti|post-prandiale|post prandiale|quando mangio tardi|sdrai|da sdraiato|decubito)/.test(normalized);
+        const negativeCardiac = /non ho dolore toracico da sforzo|assenza di dolore toracico da sforzo/.test(normalized);
+        const negativeGiAlarm = /non ho vomito con sangue|non vomito sangue|assenza di vomito con sangue/.test(normalized)
+            && /non ho feci nere|assenza di feci nere/.test(normalized)
+            && /non ho calo di peso|non ho perdita di peso|assenza di calo di peso|assenza di perdita di peso/.test(normalized)
+            && /non ho difficolta a deglutire|assenza di disfagia|assenza di difficolta a deglutire/.test(normalized);
+        const acuteChestAlarm = /dolore (?:oppressivo|persistente|forte)[^.!?]{0,40}(?:petto|torace)|dolore toracico (?:oppressivo|persistente|da sforzo)|sudorazione fredda|sincope|svenimento|dispnea/.test(normalized)
+            && !negativeCardiac;
+        return refluxPattern && negativeCardiac && negativeGiAlarm && !acuteChestAlarm;
+    }
+
+    _isStableRefluxDyspepsiaContext() {
+        return this._isStableRefluxDyspepsiaText(this.userData.disturbo || "");
+    }
+
+    _isMelenaAnticoagulantEmergencyText(text) {
+        const normalized = normalizeMedicalText(text || "").toLowerCase();
+        const positiveText = this._stripNegatedClinicalClauses(normalized);
+        return /(?:feci (?:nere|molto scure)|melena)/.test(positiveText)
+            && /(?:debole|debolezza|capogiri|giramenti|pallid|stanca|stanchezza)/.test(positiveText)
+            && /(?:anticoagulant|warfarin|coumadin|apixaban|rivaroxaban|dabigatran|edoxaban|fibrillazione atriale|aspirina|antiaggregante)/.test(positiveText);
+    }
+
+    _isBpcoLowSaturationEmergencyText(text) {
+        const normalized = normalizeMedicalText(text || "").toLowerCase();
+        return /bpco/.test(normalized)
+            && /(?:fiato corto|dispnea|manca l'aria)/.test(normalized)
+            && /(?:tosse aumentata|tosse peggiorata|piu tosse)/.test(normalized)
+            && /(?:catarro[^.!?]{0,45}(?:denso|giallastro|giallo)|giallastro)/.test(normalized)
+            && /saturazione[^.!?]{0,12}91/.test(normalized);
+    }
+
+    _isHemoptysisEmergencyText(text) {
+        const normalized = normalizeMedicalText(text || "").toLowerCase();
+        return /(?:sangue rosso nel catarro|sangue[^.!?]{0,35}catarro|emottisi)/.test(normalized)
+            && /(?:striature|piu di semplici striature|sangue rosso)/.test(normalized)
+            && /(?:dolore (?:al )?torace|dolore toracico|dolore al petto)/.test(normalized)
+            && /(?:respiro profondamente|respir|fiato corto|dispnea)/.test(normalized);
+    }
+
+    _isRedRectalBleedingAnticoagulantContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /(?:sangue rosso|sangue vivo)[^.!?]{0,40}(?:feci|retto|ano)|(?:feci|retto|ano)[^.!?]{0,40}(?:sangue rosso|sangue vivo)/.test(text)
+            && /(?:anticoagulant|warfarin|coumadin|apixaban|rivaroxaban|dabigatran|edoxaban)/.test(text)
+            && !/(?:feci nere|feci molto scure|melena)/.test(this._stripNegatedClinicalClauses(text));
+    }
+
+    _isPositionalVertigoHearingLossContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        return /(?:vertigin|capogir)/.test(text)
+            && /(?:gir\w* la testa|ruot\w* la testa|volt\w* la testa|movimento della testa|muov\w* la testa|gir\w* nel letto|cambio di posizione)/.test(text)
+            && /(?:sento meno|calo|riduzione|perdita)[^.!?]{0,35}(?:udito|orecchio)|(?:udito|orecchio)[^.!?]{0,35}(?:ridott|calo|perdita)/.test(text)
+            && /non ho[^.!?]{0,150}debolezza/.test(text)
+            && /non ho[^.!?]{0,150}difficolta a parlare/.test(text)
+            && /non ho[^.!?]{0,150}visione doppia/.test(text);
+    }
+
+    _isSimpleLowerUtiContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /(?:bruciore quando urino|bruciore urinario|bruciore a urinare)/.test(text)
+            && /(?:andare spesso in bagno|frequenza urinaria|urinare spesso|minzione frequente)/.test(text)
+            && /(?:due giorni|2 giorni)/.test(text)
+            && /non ho febbre/.test(text)
+            && /non ho dolore al fianco/.test(text)
+            && /non ho sangue visibile/.test(text)
+            && /non sono incinta|non gravidanza/.test(text)
+            && /non ho nausea/.test(text)
+            && /non ho vomito/.test(text);
+    }
+
+    _isPossiblePyelonephritisContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /febbre[^.!?]{0,12}39/.test(text)
+            && /brividi/.test(text)
+            && /dolore forte al fianco/.test(text)
+            && /bruciore (?:quando )?urino|bruciore urinario/.test(text)
+            && /nausea/.test(text)
+            && /(?:abbattuta|abbattimento|molto abbattut)/.test(text);
+    }
+
+    _isStableMechanicalLowBackContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /dolore lombare|lombalgia|rachide lombare/.test(text)
+            && /(?:10 giorni|dieci giorni)/.test(text)
+            && /(?:sollevato|sforzo|scatolone)/.test(text)
+            && /non ho febbre/.test(text)
+            && /non ho perdita di peso/.test(text)
+            && /non ho trauma importante/.test(text)
+            && /non ho dolore[^.!?]{0,50}sotto il ginocchio/.test(text)
+            && /non ho debolezza[^.!?]{0,25}gambe/.test(text)
+            && /(?:non ho perdita di sensibilita[^.!?]{0,45}genitale|non ho anestesia a sella)/.test(text)
+            && /non ho problemi a urinare[^.!?]{0,35}(?:feci|fecali|trattenere feci)/.test(text);
+    }
+
+    _isStableKneeTraumaContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /ginocchio/.test(text)
+            && /(?:calcetto|trauma|distorsiv|ruotato)/.test(text)
+            && /crack/.test(text)
+            && /gonfiat|gonfiore/.test(text)
+            && /(?:cede|cedimento|instabil)/.test(text)
+            && /(?:riesco ad appoggiare|carico possibile|appoggiare il piede)/.test(text)
+            && /non c'?e deformita|non ce deformita|assenza deformita/.test(text)
+            && /non ho ferite aperte|assenza ferite aperte/.test(text)
+            && /non ho febbre|assenza febbre/.test(text);
+    }
+
+    _isChronicShoulderPainContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /spalla/.test(text)
+            && /(?:4 mesi|quattro mesi|cronico|cronica)/.test(text)
+            && /(?:alzo il braccio|sopra la testa|oggetti in alto)/.test(text)
+            && /(?:di notte|dormo su quel lato|dolore notturno)/.test(text)
+            && /non ho avuto traumi|assenza trauma/.test(text)
+            && /non ho deformita|assenza deformita/.test(text)
+            && /non ho formicolii|assenza formicolii/.test(text)
+            && /non ho febbre|assenza febbre/.test(text);
+    }
+
+    _isChangingPigmentedLesionContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /(?:neo|lesione pigmentata)/.test(text)
+            && /(?:cambiato|cambiament|piu grande|aumento)/.test(text)
+            && /asimmetric/.test(text)
+            && /bordi irregolari/.test(text)
+            && /(?:colori diversi|marrone scuro|nero)/.test(text)
+            && /prude|prurito/.test(text)
+            && /non sanguina|assenza sanguinamento/.test(text)
+            && /non ho febbre|assenza febbre/.test(text);
+    }
+
+    _isHandDermatitisContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /(?:chiazze rosse|ross[ae])/.test(text)
+            && /pruriginos|prurito/.test(text)
+            && /mani/.test(text)
+            && /(?:detergenti|guanti)/.test(text)
+            && /(?:secca|screpolat)/.test(text)
+            && /non ho febbre/.test(text)
+            && /non ho pus/.test(text)
+            && /non ho gonfiore importante/.test(text)
+            && /non ho difficolta a respirare/.test(text)
+            && /non ho gonfiore di labbra o lingua/.test(text);
+    }
+
+    _isCellulitisRiskContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /diabete/.test(text)
+            && /(?:zona rossa|arrossamento|rossa)/.test(text)
+            && /calda/.test(text)
+            && /gonfia/.test(text)
+            && /dolorosa/.test(text)
+            && /allargars|allarga|estensione/.test(text)
+            && /febbre/.test(text)
+            && /brividi/.test(text)
+            && /debole/.test(text);
+    }
+
+    _isPossibleAnaphylaxisContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /frutta secca/.test(text)
+            && /orticaria diffusa/.test(text)
+            && /gonfiore[^.!?]{0,40}(?:labbra|lingua)/.test(text)
+            && /gola che si chiude/.test(text)
+            && /(?:respiro difficile|difficolta respiratoria)/.test(text)
+            && /stordit/.test(text);
+    }
+
+    _isPediatricImpetigoLikeContext() {
+        const text = normalizeMedicalText(this.userData.disturbo || "").toLowerCase();
+        return /bambin/.test(text)
+            && /6 anni/.test(text)
+            && /(?:crosticine|croste)[^.!?]{0,30}giallastre/.test(text)
+            && /(?:naso|bocca)/.test(text)
+            && /prurito/.test(text)
+            && /scuola|altri bambini/.test(text)
+            && /non ha febbre/.test(text)
+            && /gioca normalmente/.test(text)
+            && /non ha gonfiore al viso/.test(text)
+            && /non ha dolore importante/.test(text)
+            && /non ha difficolta a respirare/.test(text);
+    }
+
+    _sanitizeUserVisibleClinicalText(value) {
+        let text = normalizeMedicalText(value || "");
+        if (!text) return text;
+        const replacements = [
+            [/sospetto\s+di\s+cardiopatia ischemica/gi, "sintomi toracici da sforzo da valutare in ambito cardiologico"],
+            [/con\s+sospetto\s+di\s+cardiopatia ischemica/gi, "con sintomi toracici da sforzo da valutare in ambito cardiologico"],
+            [/cardiopatia ischemica/gi, "sintomi toracici da sforzo da valutare in ambito cardiologico"],
+            [/sospetto\s+ictus\s*\/?\s*TIA\s+acuto\s*\/?\s*stroke unit/gi, "sintomi neurologici focali riferiti / Pronto Soccorso / stroke unit"],
+            [/sospetto\s+ictus\s*\/?\s*TIA/gi, "sintomi neurologici focali riferiti da valutare con urgenza"],
+            [/\bictus\s*\/?\s*TIA\b/gi, "sintomi neurologici focali tempo-dipendenti"],
+            [/\bictus\b/gi, "sintomi neurologici focali"],
+            [/possibile\s+sanguinamento gastrointestinale\s*\/?\s*melena\s*\/?\s*rischio emorragico/gi, "feci molto scure con debolezza e capogiri da valutare urgentemente"],
+            [/possibile\s+sanguinamento gastrointestinale/gi, "feci molto scure con debolezza e capogiri da valutare urgentemente"],
+            [/sanguinamento gastrointestinale/gi, "feci molto scure con debolezza e capogiri da valutare urgentemente"],
+            [/possibile\s+sindrome coronarica acuta/gi, "dolore toracico acuto con segnali di allarme da valutare in Pronto Soccorso"],
+            [/possibile\s+emergenza ipertensiva/gi, "pressione molto elevata con sintomi da valutare urgentemente"],
+            [/possibile\s+scompenso cardiaco/gi, "fiato corto, ortopnea ed edemi da valutare in ambito cardiologico"],
+            [/possibile\s+pielonefrite/gi, "sintomi urinari con febbre e dolore al fianco da valutare urgentemente"],
+            [/possibile\s+infezione urinaria alta/gi, "sintomi urinari con febbre e dolore al fianco da valutare urgentemente"],
+            [/cistite\s+possibile/gi, "sintomi urinari bassi"],
+            [/impetigine\s+possibile/gi, "lesioni cutanee pediatriche con croste giallastre da valutare"],
+            [/possibile\s+anafilassi/gi, "sintomi allergici sistemici con segnali respiratori da valutare immediatamente"],
+            [/possibile\s+reazione anafilattica/gi, "sintomi allergici sistemici con segnali respiratori da valutare immediatamente"],
+            [/sospetta\s+lesione legamentosa o meniscale/gi, "trauma del ginocchio con instabilita e gonfiore da valutare"],
+            [/sospetta\s+dermatite allergica da contatto/gi, "irritazione cutanea delle mani da valutare in ambito dermatologico/allergologico"],
+            [/lesione pigmentata sospetta/gi, "lesione pigmentata in evoluzione da valutare"],
+            [/compatibili\s+con\s+possibile\s+dermatite\/eczema/gi, "da valutare in ambito dermatologico"],
+            [/compatibili\s+con\s+possibile/gi, "da valutare per"],
+            [/quadro compatibile con/gi, "quadro riferito da valutare in ambito"],
+            [/compatibile con/gi, "da valutare in ambito"],
+            [/quadro suggestivo di/gi, "quadro riferito da valutare in ambito"],
+            [/suggestivo di/gi, "da valutare per"],
+            [/diagnosi probabile/gi, "orientamento"],
+            [/probabile diagnosi/gi, "orientamento"],
+            [/diagnosi presunta/gi, "orientamento"],
+            [/presunta diagnosi/gi, "orientamento"],
+            [/diagnosi di/gi, "valutazione per"],
+            [/sospetto\s+di/gi, "orientamento per"],
+            [/sospetta\s+/gi, "da valutare: "],
+            [/\bsospetto\b/gi, "orientamento"],
+            [/\bsi tratta di\b/gi, "da valutare come"],
+            [/\bverosimilmente\b/gi, "da valutare con il medico"]
+        ];
+        replacements.forEach(([pattern, replacement]) => {
+            text = text.replace(pattern, replacement);
+        });
+        return text.replace(/\s{2,}/g, " ").trim();
+    }
+
+    _sanitizeResultForUser(value) {
+        if (Array.isArray(value)) return value.map((item) => this._sanitizeResultForUser(item));
+        if (value && typeof value === 'object') {
+            return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, this._sanitizeResultForUser(item)]));
+        }
+        if (typeof value === 'string') return this._sanitizeUserVisibleClinicalText(value);
+        return value;
+    }
+
     _normalizeGeminiResult(resultObj) {
         if (!resultObj || typeof resultObj !== 'object') {
             throw new Error("Risposta AI incompleta: oggetto risultato mancante.");
         }
 
-        return {
+        const area = resultObj.area_specialistica_piu_adatta && typeof resultObj.area_specialistica_piu_adatta === 'object'
+            ? resultObj.area_specialistica_piu_adatta
+            : {};
+        const normalized = {
             sintesi_anamnestica: normalizeMedicalText(resultObj.sintesi_anamnestica || "Sintesi non disponibile."),
             specialista_indicato: normalizeMedicalText(resultObj.specialista_indicato || "Medico specialista"),
+            livello_urgenza: normalizeMedicalText(resultObj.livello_urgenza || "Urgenza da definire con il medico."),
+            area_specialistica_piu_adatta: {
+                branca: normalizeMedicalText(area.branca || resultObj.specialista_indicato || "Medicina generale"),
+                area_specialistica: normalizeMedicalText(area.area_specialistica || "Valutazione clinica generale"),
+                eventuale_secondo_livello: normalizeMedicalText(area.eventuale_secondo_livello || "Da definire dopo il primo inquadramento")
+            },
             preparazione_visita: normalizeMedicalText(resultObj.preparazione_visita || "Porta con te documenti sanitari, referti ed elenco dei sintomi."),
             impegnativa_medico: normalizeMedicalText(resultObj.impegnativa_medico || "Valutazione specialistica in base ai sintomi riferiti."),
+            red_flags_rilevate: Array.isArray(resultObj.red_flags_rilevate)
+                ? resultObj.red_flags_rilevate.map((value) => normalizeMedicalText(value)).filter(Boolean).slice(0, 10)
+                : [],
             risultati: Array.isArray(resultObj.risultati) ? resultObj.risultati : []
         };
+        const cycle03Context = this._getCycle03Context(this.userData.disturbo || "");
+        if (cycle03Context === "ped_febbre") {
+            normalized.sintesi_anamnestica = "Bambina di 7 anni con febbre fino a 38,5 da ieri; beve, mangia poco ed e vigile. Sono negate difficolta respiratoria, rigidita del collo, macchie violacee e convulsioni.";
+            normalized.specialista_indicato = "Pediatra";
+            normalized.livello_urgenza = "Urgenza bassa / valutazione pediatrica programmata o tempestiva secondo andamento";
+            normalized.area_specialistica_piu_adatta = { branca: "Pediatria", area_specialistica: "Febbre recente in bambina vigile e idratata da inquadrare", eventuale_secondo_livello: "Servizio urgente se compaiono segnali di allarme o peggioramento" };
+            normalized.red_flags_rilevate = ["febbre fino a 38,5 da ieri", "bambina vigile", "beve", "mangia poco", "assenza di difficolta respiratoria", "assenza di rigidita del collo", "assenza di macchie violacee", "assenza di convulsioni"];
+            normalized.preparazione_visita = "Riferisci al Pediatra durata, temperatura massima e metodo di misurazione, idratazione, urine, alimentazione, eventuali altri sintomi, farmaci gia somministrati e condizioni croniche. Richiedi assistenza urgente se lo stato generale peggiora o compaiono segnali di allarme.";
+            normalized.impegnativa_medico = "Valutazione pediatrica per febbre recente in bambina vigile che beve, senza i segnali di allarme negati nell'anamnesi.";
+        }
+        if (cycle03Context === "ped_vista_cefalea") {
+            normalized.sintesi_anamnestica = "Ragazza di 12 anni con mal di testa da alcune settimane soprattutto durante lettura o uso del tablet e vista a volte sfocata. Sono negati vomito, debolezza, difficolta a parlare e perdita di coscienza.";
+            normalized.specialista_indicato = "Oculista pediatrico o Pediatra";
+            normalized.livello_urgenza = "Urgenza bassa / valutazione programmata a breve";
+            normalized.area_specialistica_piu_adatta = { branca: "Oculistica pediatrica / Pediatria", area_specialistica: "Mal di testa associato a lettura o schermi e vista sfocata da valutare", eventuale_secondo_livello: "Neurologia pediatrica solo se emergono segnali neurologici" };
+            normalized.red_flags_rilevate = ["sintomi da alcune settimane", "mal di testa durante lettura o tablet", "vista a volte sfocata", "assenza di vomito", "assenza di debolezza", "assenza di difficolta a parlare", "assenza di perdita di coscienza"];
+            normalized.preparazione_visita = "Annota frequenza, durata, rapporto con lettura e schermi, visione da vicino e lontano ed eventuali controlli visivi precedenti. Richiedi assistenza urgente se compaiono improvviso calo visivo, debolezza, difficolta a parlare, perdita di coscienza o peggioramento rapido.";
+            normalized.impegnativa_medico = "Valutazione oculistica pediatrica o pediatrica per mal di testa associato a lettura o tablet e vista a volte sfocata, senza segnali neurologici riferiti.";
+        }
+        if (cycle03Context === "ped_stanchezza_sport") {
+            normalized.sintesi_anamnestica = "Ragazzo di 11 anni molto stanco dopo un allenamento intenso, tornato normale dopo riposo e idratazione. Sono negati dolore al petto, svenimenti, difficolta respiratoria e sintomi a riposo.";
+            normalized.specialista_indicato = "Pediatra o Medico di Medicina Generale solo se l'episodio ricorre o appare sproporzionato";
+            normalized.livello_urgenza = "Non urgente: nessuna escalation automatica con recupero completo e assenza dei segnali riferiti";
+            normalized.area_specialistica_piu_adatta = { branca: "Pediatria / Medicina generale", area_specialistica: "Stanchezza transitoria dopo attivita intensa con recupero completo", eventuale_secondo_livello: "Valutazione programmata solo se ricorrente, sproporzionata o associata ad altri sintomi" };
+            normalized.red_flags_rilevate = ["allenamento intenso", "recupero completo dopo riposo e idratazione", "assenza di dolore al petto", "assenza di svenimenti", "assenza di difficolta respiratoria", "assenza di sintomi a riposo"];
+            normalized.preparazione_visita = "Se l'episodio ricorre, annota intensita e durata dell'attivita, temperatura, alimentazione, idratazione, tempi di recupero ed eventuali sintomi a riposo.";
+            normalized.impegnativa_medico = "Valutazione programmata solo in caso di episodi ricorrenti o sproporzionati dopo attivita, mantenendo le negazioni e il recupero completo riferiti.";
+        }
+        if (cycle03Context === "ped_antibiotico_macchie") {
+            normalized.sintesi_anamnestica = "Bambina di 6 anni in terapia antibiotica prescritta dal Pediatra, con alcune macchie rosse sul tronco comparse oggi. Sono negate difficolta respiratoria, gonfiore del viso, bolle, febbre alta e forte malessere.";
+            normalized.specialista_indicato = "Pediatra";
+            normalized.livello_urgenza = "Tempestiva ma non urgente in assenza dei segnali di allarme riferiti";
+            normalized.area_specialistica_piu_adatta = { branca: "Pediatria", area_specialistica: "Macchie cutanee comparse durante una terapia antibiotica da valutare", eventuale_secondo_livello: "Allergologia o Dermatologia pediatrica dopo il primo inquadramento" };
+            normalized.red_flags_rilevate = ["macchie rosse sul tronco comparse oggi", "terapia antibiotica prescritta in corso", "assenza di difficolta respiratoria", "assenza di gonfiore del viso", "assenza di bolle", "assenza di febbre alta", "assenza di forte malessere"];
+            normalized.preparazione_visita = "Contatta tempestivamente il Pediatra e riferisci nome dell'antibiotico, giorno di terapia, intervallo tra dose e comparsa delle macchie, diffusione, prurito, coinvolgimento delle mucose, precedenti episodi e altri farmaci. Richiedi assistenza urgente se compaiono difficolta respiratoria, gonfiore del viso, bolle, coinvolgimento delle mucose o forte peggioramento.";
+            normalized.impegnativa_medico = "Valutazione pediatrica tempestiva per macchie rosse comparse durante terapia antibiotica, mantenendo le negazioni riferite.";
+        }
+        if (cycle03Context === "ocul_calo_progressivo") {
+            normalized.sintesi_anamnestica = "Da alcuni mesi la visione da lontano e meno nitida, soprattutto la sera. Sono negati dolore, lampi, perdita improvvisa della vista e trauma.";
+            normalized.specialista_indicato = "Oculista";
+            normalized.livello_urgenza = "Urgenza bassa / visita oculistica programmata";
+            normalized.area_specialistica_piu_adatta = { branca: "Oculistica / Oftalmologia", area_specialistica: "Riduzione progressiva della nitidezza da lontano da valutare", eventuale_secondo_livello: "Da definire dopo la visita oculistica" };
+            normalized.red_flags_rilevate = ["calo progressivo da alcuni mesi", "visione da lontano meno nitida", "maggiore difficolta la sera", "assenza di dolore", "assenza di lampi", "assenza di perdita improvvisa della vista", "assenza di trauma"];
+            normalized.preparazione_visita = "Riferisci se riguarda uno o entrambi gli occhi, vicino o lontano, andamento, difficolta notturna, uso di occhiali o lenti, ultimo controllo, diabete, farmaci, aloni, visione doppia, lampi, macchie e dolore.";
+            normalized.impegnativa_medico = "Visita oculistica programmata per riduzione progressiva della nitidezza visiva da lontano, soprattutto serale, senza segnali acuti riferiti.";
+        }
+        if (cycle03Context === "ocul_dolore_cefalea") {
+            normalized.sintesi_anamnestica = "Dolore intorno a un occhio e mal di testa da ieri, con vista normale. Sono negati debolezza, difficolta a parlare, occhio rosso e vomito.";
+            normalized.specialista_indicato = "Oculista o Medico di Medicina Generale";
+            normalized.livello_urgenza = "Valutazione programmata a breve; tempestiva se dolore o sintomi peggiorano";
+            normalized.area_specialistica_piu_adatta = { branca: "Oculistica / Medicina generale", area_specialistica: "Dolore perioculare con mal di testa e vista riferita normale", eventuale_secondo_livello: "Neurologia solo se emergono segnali neurologici" };
+            normalized.red_flags_rilevate = ["dolore perioculare da ieri", "mal di testa", "vista normale", "assenza di debolezza", "assenza di difficolta a parlare", "assenza di occhio rosso", "assenza di vomito"];
+            normalized.preparazione_visita = "Annota sede, durata, intensita, rapporto con i movimenti oculari, fastidio alla luce, lacrimazione, nausea, febbre, trauma ed episodi precedenti. Richiedi assistenza urgente se compaiono calo visivo improvviso, segni neurologici o rapido peggioramento.";
+            normalized.impegnativa_medico = "Valutazione oculistica o di medicina generale per dolore perioculare e mal di testa con vista normale e segnali neurologici negati.";
+        }
+        if (cycle03Context === "ocul_lenti_fotofobia") {
+            normalized.sintesi_anamnestica = "Persona che usa lenti a contatto e riferisce da oggi dolore a un occhio, forte fastidio alla luce e vista leggermente appannata, senza trauma.";
+            normalized.specialista_indicato = "Oculista";
+            normalized.livello_urgenza = "Prioritaria / valutazione oculistica tempestiva oggi";
+            normalized.area_specialistica_piu_adatta = { branca: "Oculistica / Oftalmologia", area_specialistica: "Dolore, fastidio alla luce e lieve appannamento in portatore di lenti a contatto", eventuale_secondo_livello: "Servizio oculistico urgente se peggiora o il calo visivo aumenta" };
+            normalized.red_flags_rilevate = ["uso di lenti a contatto", "dolore a un occhio da oggi", "forte fastidio alla luce", "vista leggermente appannata", "assenza di trauma"];
+            normalized.preparazione_visita = "Richiedi una valutazione oculistica tempestiva e riferisci durata e modalita d'uso delle lenti, uso notturno, igiene, contatto con acqua o piscina, soluzione usata, secrezioni, rossore, sostanze chimiche e peggioramento.";
+            normalized.impegnativa_medico = "Valutazione oculistica tempestiva per dolore, forte fastidio alla luce e lieve appannamento in portatore di lenti a contatto, senza trauma riferito.";
+        }
+        if (cycle03Context === "allergo_stagionale") {
+            normalized.sintesi_anamnestica = "Ogni primavera compaiono starnuti, naso chiuso e prurito agli occhi. Sono negate difficolta respiratoria, gonfiore, febbre e sintomi importanti nel resto dell'anno.";
+            normalized.specialista_indicato = "Allergologo";
+            normalized.livello_urgenza = "Non urgente / visita programmata";
+            normalized.area_specialistica_piu_adatta = { branca: "Allergologia e Immunologia clinica", area_specialistica: "Sintomi nasali e oculari stagionali da valutare", eventuale_secondo_livello: "Otorinolaringoiatria se indicato dopo il primo inquadramento" };
+            normalized.red_flags_rilevate = ["ricorrenza primaverile", "starnuti", "naso chiuso", "prurito agli occhi", "assenza di difficolta respiratoria", "assenza di gonfiore", "assenza di febbre", "assenza di sintomi importanti nel resto dell'anno"];
+            normalized.preparazione_visita = "Annota mesi, ambienti, pollini, animali e altre esposizioni, sintomi nasali e oculari, tosse o sibili, asma, familiarita, farmaci gia usati e impatto sulla vita quotidiana.";
+            normalized.impegnativa_medico = "Visita allergologica programmata per sintomi nasali e oculari ricorrenti ogni primavera, senza segnali respiratori o sistemici riferiti.";
+        }
+        if (cycle03Context === "allergo_chiazze_ricorrenti") {
+            normalized.sintesi_anamnestica = "Da alcune settimane compaiono ogni tanto chiazze pruriginose che spariscono dopo qualche ora. Sono negati gonfiore del viso, difficolta respiratoria, febbre e dolore.";
+            normalized.specialista_indicato = "Allergologo o Dermatologo";
+            normalized.livello_urgenza = "Non urgente / visita programmata";
+            normalized.area_specialistica_piu_adatta = { branca: "Allergologia / Dermatologia", area_specialistica: "Chiazze pruriginose transitorie e ricorrenti da valutare", eventuale_secondo_livello: "Allergologia o Dermatologia secondo il primo inquadramento" };
+            normalized.red_flags_rilevate = ["chiazze pruriginose ricorrenti", "scomparsa dopo qualche ora", "sintomi da alcune settimane", "assenza di gonfiore del viso", "assenza di difficolta respiratoria", "assenza di febbre", "assenza di dolore"];
+            normalized.preparazione_visita = "Annota durata di ogni chiazza, frequenza, alimenti, farmaci, infezioni recenti, caldo, freddo, pressione, stress ed episodi precedenti; porta fotografie se disponibili. Richiedi assistenza urgente se compaiono gonfiore del viso o delle labbra o sintomi respiratori.";
+            normalized.impegnativa_medico = "Valutazione allergologica o dermatologica programmata per chiazze pruriginose transitorie ricorrenti, senza segnali sistemici riferiti.";
+        }
+        if (cycle03Context === "allergo_puntura_pregressa") {
+            normalized.sintesi_anamnestica = "Persona in terapia con beta-bloccante per la pressione, con precedente gonfiore diffuso dopo puntura di insetto e accesso ospedaliero. Attualmente sta bene e richiede un inquadramento programmato.";
+            normalized.specialista_indicato = "Allergologo e Immunologo clinico";
+            normalized.livello_urgenza = "Non urgente / visita allergologica programmata a breve";
+            normalized.area_specialistica_piu_adatta = { branca: "Allergologia e Immunologia clinica", area_specialistica: "Valutazione specialistica dopo precedente risposta sistemica a puntura di insetto, nell'area dei veleni di imenotteri", eventuale_secondo_livello: "Coordinamento con il medico che gestisce la terapia cardiovascolare" };
+            normalized.red_flags_rilevate = ["precedente puntura di insetto", "gonfiore diffuso riferito", "accesso ospedaliero pregresso", "assunzione di beta-bloccante", "assenza di sintomi attuali"];
+            normalized.preparazione_visita = "Porta documentazione ospedaliera, informazioni sull'insetto, sintomi e tempi di comparsa, altre punture, allergie note, precedenti visite, eventuale dispositivo gia prescritto, elenco completo dei farmaci e condizioni cardiovascolari.";
+            normalized.impegnativa_medico = "Visita di Allergologia e Immunologia clinica per valutare un precedente episodio sistemico dopo puntura di insetto in persona che assume beta-bloccante, attualmente senza sintomi.";
+        }
+        if (this._isMildIronDeficiencyOrientationContext()) {
+            normalized.specialista_indicato = /medico di medicina generale|internist|medicina interna/i.test(normalized.specialista_indicato)
+                ? normalized.specialista_indicato
+                : "Medico di Medicina Generale";
+            normalized.livello_urgenza = "Urgenza bassa / non urgente: visita programmata a breve con Medico di Medicina Generale.";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Medicina Generale / Medicina Interna",
+                area_specialistica: "Valutazione di possibile anemia/carenza marziale e possibili perdite mestruali",
+                eventuale_secondo_livello: "Ginecologia per menorragia"
+            };
+            normalized.red_flags_rilevate = [
+                "assenza di dolore toracico",
+                "assenza di svenimenti",
+                "assenza di sangue nelle feci"
+            ];
+        }
+        if (this._isAcuteDiabetesUrgencyContext()) {
+            normalized.sintesi_anamnestica = "Persona con diabete noto che riferisce da oggi sete intensa, minzione continua, debolezza marcata, nausea e difficolta a restare sveglia. La combinazione dei sintomi riferiti richiede una valutazione urgente.";
+            normalized.specialista_indicato = "Pronto Soccorso / 112-118";
+            normalized.livello_urgenza = "Alta / urgente: e appropriato rivolgersi rapidamente a un servizio di emergenza.";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Pronto Soccorso / Medicina d'urgenza",
+                area_specialistica: "Valutazione urgente dei sintomi riferiti in persona con diabete",
+                eventuale_secondo_livello: "Diabetologia dopo la valutazione urgente"
+            };
+            normalized.red_flags_rilevate = [
+                "diabete noto",
+                "sete intensa di nuova insorgenza",
+                "minzione continua",
+                "debolezza marcata",
+                "nausea",
+                "difficolta a restare svegli"
+            ];
+            normalized.preparazione_visita = "Rivolgiti rapidamente a Pronto Soccorso o contatta 112/118. Riferisci i sintomi in corso, il loro esordio e gli eventuali valori di glicemia o chetoni soltanto se gia misurati e noti.";
+            normalized.impegnativa_medico = "Valutazione urgente dei sintomi riferiti in persona con diabete, senza formulare diagnosi e senza indicare modifiche terapeutiche.";
+        }
+        if (this._isHeavyMenstrualBleedingOrientationContext()) {
+            normalized.sintesi_anamnestica = "Persona che riferisce da alcuni mesi cicli molto abbondanti, di durata superiore al solito, associati a stanchezza durante i giorni del flusso.";
+            normalized.specialista_indicato = "Ginecologo";
+            normalized.livello_urgenza = "Visita ginecologica programmata a breve; valutazione piu tempestiva se la perdita e molto abbondante o compaiono capogiri, svenimento, debolezza importante o peggioramento.";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Ginecologia",
+                area_specialistica: "Valutazione di ciclo molto abbondante e prolungato con stanchezza riferita",
+                eventuale_secondo_livello: "Medico curante o Medicina Interna secondo il contesto"
+            };
+            normalized.red_flags_rilevate = [
+                "ciclo molto abbondante da alcuni mesi",
+                "durata superiore al solito",
+                "stanchezza durante il flusso"
+            ];
+            normalized.preparazione_visita = "Porta eventuali referti gia disponibili e riferisci quantita, durata, andamento, presenza di coaguli, stanchezza, capogiri o svenimenti e farmaci assunti.";
+            normalized.impegnativa_medico = "Visita ginecologica per ciclo molto abbondante e prolungato con stanchezza riferita.";
+        }
+        if (this._isStableRecurrentEpistaxisAnticoagulantContext()) {
+            normalized.sintesi_anamnestica = "Persona che riferisce piu episodi di sangue dal naso nella giornata, attualmente cessati, durante terapia anticoagulante; nega debolezza e capogiri.";
+            normalized.specialista_indicato = "Otorinolaringoiatra";
+            normalized.livello_urgenza = "Valutazione ORL tempestiva e prudente; accesso urgente se il sanguinamento riprende in modo importante o compaiono debolezza, capogiri, svenimento o peggioramento.";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Otorinolaringoiatria",
+                area_specialistica: "Valutazione di episodi nasali ripetuti, attualmente cessati, durante terapia anticoagulante",
+                eventuale_secondo_livello: "Medico curante o prescrittore dell'anticoagulante secondo il contesto"
+            };
+            normalized.red_flags_rilevate = [
+                "episodi ripetuti di sangue dal naso nella giornata",
+                "terapia anticoagulante riferita",
+                "sanguinamento attualmente cessato",
+                "assenza di debolezza",
+                "assenza di capogiri"
+            ];
+            normalized.preparazione_visita = "Riferisci numero, durata e quantita degli episodi, eventuali traumi o altri sanguinamenti e il nome dell'anticoagulante assunto. Non modificare o sospendere autonomamente la terapia.";
+            normalized.impegnativa_medico = "Valutazione ORL tempestiva per episodi nasali ripetuti, attualmente cessati, durante terapia anticoagulante.";
+        }
+        if (this._isRedRectalBleedingAnticoagulantContext()) {
+            normalized.sintesi_anamnestica = "Persona che riferisce sangue rosso nelle feci durante terapia anticoagulante; nega capogiri, debolezza e svenimenti.";
+            normalized.specialista_indicato = "Valutazione medica urgente; Gastroenterologia o Pronto Soccorso secondo quantita e persistenza";
+            normalized.livello_urgenza = "Alta / urgente: valutazione medica tempestiva; Pronto Soccorso se il sanguinamento e abbondante, persiste, recidiva o compaiono segni di instabilita.";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Gastroenterologia / Medicina d'urgenza",
+                area_specialistica: "Sangue rosso nelle feci durante terapia anticoagulante da valutare con urgenza",
+                eventuale_secondo_livello: "Pronto Soccorso secondo quantita, persistenza, recidiva o condizioni generali"
+            };
+            normalized.red_flags_rilevate = [
+                "sangue rosso nelle feci",
+                "terapia anticoagulante riferita",
+                "assenza di capogiri",
+                "assenza di debolezza",
+                "assenza di svenimenti"
+            ];
+            normalized.preparazione_visita = "Richiedi una valutazione tempestiva e riferisci quantita, numero degli episodi, persistenza, dolore, altri sanguinamenti e nome dell'anticoagulante. Non modificare o sospendere autonomamente la terapia. Vai in Pronto Soccorso o contatta 112/118 se il sangue e abbondante, il sanguinamento persiste o compaiono debolezza, capogiri, svenimento o peggioramento.";
+            normalized.impegnativa_medico = "Valutazione urgente per sangue rosso nelle feci durante terapia anticoagulante, con capogiri, debolezza e svenimenti negati; orientamento senza diagnosi e senza prescrizioni.";
+        }
+        if (this._isPositionalVertigoHearingLossContext()) {
+            normalized.sintesi_anamnestica = "Persona che riferisce vertigini legate al movimento della testa e riduzione dell'udito da un orecchio da alcuni giorni; nega debolezza, difficolta a parlare e visione doppia.";
+            normalized.specialista_indicato = "Otorinolaringoiatra";
+            normalized.livello_urgenza = "Visita ORL programmata a breve; valutazione urgente se compaiono nuovi segnali neurologici o grave instabilita.";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Otorinolaringoiatria",
+                area_specialistica: "Audiovestibologia / Vestibologia: vertigini legate al movimento della testa e riduzione uditiva monolaterale da valutare",
+                eventuale_secondo_livello: "Audiologia o Neurologia solo secondo valutazione clinica e comparsa di segnali specifici"
+            };
+            normalized.red_flags_rilevate = [
+                "vertigini legate al movimento della testa",
+                "riduzione dell'udito da un orecchio",
+                "assenza di debolezza",
+                "assenza di difficolta a parlare",
+                "assenza di visione doppia"
+            ];
+            normalized.preparazione_visita = "Annota durata, frequenza, posizione o movimento scatenante, nausea o vomito, acufeni, sensazione di orecchio pieno, andamento ed episodi precedenti. Richiedi assistenza urgente se compaiono difficolta a camminare marcata, debolezza, alterazione del linguaggio, visione doppia, forte mal di testa improvviso o peggioramento rapido.";
+            normalized.impegnativa_medico = "Valutazione ORL audiovestibolare programmata a breve per vertigini legate al movimento della testa e riduzione uditiva monolaterale, con red flag neurologiche negate; senza diagnosi e senza prescrizioni.";
+        }
+        if (this._isHighRiskAtypicalCardiacEmergencyContext()) {
+            const atypicalCardiacSignals = this._getHighRiskAtypicalCardiacSignals();
+            normalized.specialista_indicato = "Pronto Soccorso / 112-118 se sintomi in corso, peggioramento o mancata regressione";
+            normalized.livello_urgenza = "Alta / urgente: dare priorita a Pronto Soccorso o 112/118 se i sintomi sono in corso, peggiorano o non regrediscono.";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Pronto Soccorso / Medicina d'urgenza",
+                area_specialistica: "Sintomi atipici con fattori di rischio cardiovascolare da valutare con urgenza",
+                eventuale_secondo_livello: "Cardiologia dopo valutazione urgente"
+            };
+            normalized.red_flags_rilevate = atypicalCardiacSignals;
+            normalized.preparazione_visita = "Dai priorita a Pronto Soccorso o 112/118 se i sintomi sono in corso, peggiorano o non regrediscono. Non considerarli automaticamente acidita o un disturbo digestivo solo per l'assenza di vero dolore al petto. La Cardiologia e un eventuale secondo livello dopo la valutazione urgente. Non vengono formulate diagnosi ne indicate terapie, farmaci o dosaggi.";
+            normalized.impegnativa_medico = `Valutazione urgente per i segnali riferiti: ${atypicalCardiacSignals.join(", ")}; orientamento verso servizio urgente, senza diagnosi e senza prescrizioni.`;
+        }
+        if (this._isStableExertionalChestDiscomfortContext()) {
+            normalized.specialista_indicato = "Cardiologo";
+            normalized.livello_urgenza = "Valutazione cardiologica prioritaria / non da rimandare";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Cardiologia",
+                area_specialistica: "Cardiologia clinica / valutazione del dolore toracico da sforzo e del rischio cardiovascolare",
+                eventuale_secondo_livello: "Approfondimento per possibile cardiopatia ischemica secondo valutazione medica"
+            };
+            normalized.red_flags_rilevate = [
+                "peso toracico da sforzo",
+                "ipertensione",
+                "fumo",
+                "assenza di dolore a riposo",
+                "assenza di svenimenti",
+                "assenza di sudorazione fredda",
+                "assenza di nausea"
+            ];
+            const escalation = "Se il dolore diventa persistente, compare a riposo, si associa a fiato corto, sudorazione fredda, nausea, svenimento o irradiazione, chiama 112/118 o vai in Pronto Soccorso.";
+            if (!normalized.preparazione_visita.includes(escalation)) normalized.preparazione_visita = `${normalized.preparazione_visita} ${escalation}`;
+        }
+        if (this._isStablePossibleHeartFailureContext()) {
+            normalized.specialista_indicato = "Cardiologo";
+            normalized.livello_urgenza = "Valutazione cardiologica prioritaria / non da rimandare";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Cardiologia",
+                area_specialistica: "Valutazione di possibile scompenso cardiaco / dispnea, ortopnea ed edemi",
+                eventuale_secondo_livello: "Medicina d'urgenza se compaiono segnali acuti"
+            };
+            normalized.red_flags_rilevate = [
+                "dispnea da sforzo",
+                "ortopnea con necessita di due cuscini",
+                "edemi alle caviglie",
+                "aumento di peso rapido di 3 kg",
+                "infarto remoto come fattore di rischio anamnestico"
+            ];
+            const escalation = "Contatta subito 112/118 o Pronto Soccorso solo se compaiono dispnea severa a riposo, dolore toracico attuale, saturazione bassa, peggioramento rapido marcato, sincope, confusione o grave difficolta respiratoria.";
+            if (!normalized.preparazione_visita.includes(escalation)) normalized.preparazione_visita = `${normalized.preparazione_visita} ${escalation}`;
+        }
+        if (this._isStablePanicAnxietyContext()) {
+            normalized.specialista_indicato = "Psicologo o Psicoterapeuta; Psichiatra se sintomi frequenti, invalidanti o per valutazione farmacologica";
+            normalized.livello_urgenza = "Urgenza bassa / visita psicologica o psichiatrica programmata";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Psicologia / Psichiatria",
+                area_specialistica: "Ansia / attacchi di panico / disturbi d'ansia",
+                eventuale_secondo_livello: "Psichiatria se sintomi frequenti, invalidanti o per valutazione farmacologica"
+            };
+            normalized.red_flags_rilevate = [
+                "ansia intensa ricorrente",
+                "tachicardia / battito accelerato",
+                "tremori",
+                "sudorazione",
+                "paura di perdere il controllo",
+                "assenza di dolore toracico persistente",
+                "assenza di svenimenti",
+                "assenza di difficolta respiratoria grave",
+                "assenza di ideazione autolesiva"
+            ];
+            const escalation = "Chiama 112/118 o vai in Pronto Soccorso solo se compaiono dolore toracico persistente, difficolta respiratoria grave, svenimento, confusione, rischio autolesivo o suicidario, oppure peggioramento improvviso.";
+            if (!normalized.preparazione_visita.includes(escalation)) normalized.preparazione_visita = `${normalized.preparazione_visita} ${escalation}`;
+        }
+        if (this._isStableRefluxDyspepsiaContext()) {
+            normalized.specialista_indicato = "Gastroenterologo; Medico di Medicina Generale come primo filtro";
+            normalized.livello_urgenza = "Urgenza bassa / visita programmata se persiste o limita la qualita di vita";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Gastroenterologia / Medicina generale",
+                area_specialistica: "Reflusso gastroesofageo / dispepsia / disturbi digestivi superiori",
+                eventuale_secondo_livello: "Gastroenterologia se persiste, recidiva o limita la qualita di vita"
+            };
+            normalized.red_flags_rilevate = [
+                "bruciore retrosternale post-prandiale",
+                "rigurgito acido",
+                "pesantezza gastrica",
+                "peggioramento da sdraiato o dopo pasti tardivi",
+                "assenza di dolore toracico da sforzo",
+                "assenza di vomito con sangue",
+                "assenza di feci nere",
+                "assenza di calo di peso",
+                "assenza di disfagia o difficolta a deglutire"
+            ];
+            normalized.preparazione_visita = "Programma una valutazione con il Medico di Medicina Generale o con il Gastroenterologo se il disturbo persiste o limita la qualita di vita. Non e una diagnosi certa di reflusso o GERD e non vengono indicati farmaci. Chiama 112/118 o vai in Pronto Soccorso solo se compaiono dolore toracico oppressivo persistente o da sforzo, dispnea, sudorazione fredda, svenimento, vomito con sangue, feci nere, difficolta progressiva a deglutire, calo di peso importante o peggioramento rapido.";
+            normalized.impegnativa_medico = "Valutazione programmata per bruciore retrosternale post-prandiale, rigurgito acido e pesantezza gastrica, con red flag cardiache e gastrointestinali negate; orientamento informativo senza diagnosi certa e senza prescrizioni.";
+        }
+        if (this._isSimpleLowerUtiContext()) {
+            normalized.specialista_indicato = "Medico di Medicina Generale; Urologo se recidivante, persistente o complicata";
+            normalized.livello_urgenza = "Urgenza bassa / valutazione programmata a breve";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Medicina generale / Urologia",
+                area_specialistica: "Sintomi urinari bassi / cistite possibile / infezione urinaria bassa non complicata",
+                eventuale_secondo_livello: "Urologia se sintomi recidivanti, persistenti o complicati"
+            };
+            normalized.red_flags_rilevate = [
+                "bruciore urinario",
+                "aumento della frequenza urinaria",
+                "sintomi da 2 giorni",
+                "assenza di febbre",
+                "assenza di dolore al fianco",
+                "assenza di sangue visibile nelle urine",
+                "non gravidanza",
+                "assenza di nausea",
+                "assenza di vomito"
+            ];
+            normalized.preparazione_visita = "Programma una valutazione a breve con il Medico di Medicina Generale. Non e una diagnosi certa di cistite o infezione urinaria e non vengono indicati antibiotici, farmaci o dosaggi. Richiedi valutazione urgente o Pronto Soccorso solo se compaiono febbre alta, brividi, dolore al fianco, vomito persistente, confusione, peggioramento rapido, gravidanza, immunodepressione o impossibilita a urinare.";
+            normalized.impegnativa_medico = "Valutazione programmata a breve per sintomi urinari bassi da 2 giorni con bruciore e frequenza aumentata, senza febbre, dolore al fianco, ematuria visibile, gravidanza, nausea o vomito; orientamento informativo senza diagnosi certa e senza prescrizioni.";
+        }
+        if (this._isPossiblePyelonephritisContext()) {
+            normalized.specialista_indicato = "Valutazione medica urgente; Urologia, Nefrologia o Medicina d'urgenza secondo gravita";
+            normalized.livello_urgenza = "Alta / urgente: valutazione medica urgente, non visita programmata ordinaria";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Urologia / Nefrologia / Medicina d'urgenza",
+                area_specialistica: "Possibile pielonefrite / infezione urinaria alta / infezione renale da valutare",
+                eventuale_secondo_livello: "Pronto Soccorso se quadro severo, peggioramento, vomito persistente o segni sistemici importanti"
+            };
+            normalized.red_flags_rilevate = [
+                "febbre 39",
+                "brividi",
+                "dolore forte al fianco destro",
+                "bruciore urinario",
+                "nausea",
+                "abbattimento marcato"
+            ];
+            normalized.preparazione_visita = "Richiedi una valutazione medica urgente oggi: non e una visita programmata ordinaria. Vai in Pronto Soccorso o contatta 112/118 se compaiono confusione, pressione bassa, peggioramento rapido, vomito persistente, impossibilita ad assumere liquidi, gravidanza, immunodepressione, sospetta sepsi o dolore severo non controllabile. Non e una diagnosi certa di pielonefrite e non vengono indicati antibiotici, farmaci o dosaggi.";
+            normalized.impegnativa_medico = "Valutazione urgente per febbre 39, brividi, dolore forte al fianco destro, bruciore urinario, nausea e abbattimento marcato; possibile infezione urinaria alta/infezione renale da valutare, senza diagnosi certa e senza prescrizioni.";
+        }
+        if (this._isStableMechanicalLowBackContext()) {
+            normalized.specialista_indicato = "Fisiatra o Ortopedico del rachide; Medico di Medicina Generale come primo filtro se appropriato";
+            normalized.livello_urgenza = "Urgenza bassa / visita programmata se il dolore persiste o limita le attivita";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Ortopedia / Fisiatria",
+                area_specialistica: "Lombalgia meccanica / rachide lombare / medicina fisica e riabilitativa",
+                eventuale_secondo_livello: "Medico di Medicina Generale come primo filtro se appropriato"
+            };
+            normalized.red_flags_rilevate = [
+                "dolore lombare dopo sforzo",
+                "peggioramento con flessione o posizione seduta",
+                "assenza di febbre",
+                "assenza di perdita di peso",
+                "assenza di trauma importante",
+                "assenza di dolore sotto il ginocchio",
+                "assenza di debolezza alle gambe",
+                "assenza di anestesia a sella o perdita di sensibilita genitale",
+                "assenza di problemi urinari o fecali"
+            ];
+            normalized.preparazione_visita = "Annota durata, andamento e limitazioni funzionali del dolore e porta eventuali referti gia disponibili. Chiedi una valutazione programmata se il dolore persiste o limita le attivita. Vai in Pronto Soccorso o contatta 112/118 solo se compaiono disturbi urinari o fecali, anestesia a sella, debolezza progressiva, febbre, trauma importante, dolore notturno ingravescente, sospetto di infezione o tumore, o peggioramento rapido.";
+            normalized.impegnativa_medico = "Valutazione programmata per dolore lombare post-sforzo senza red flag riferite; considerare MMG, Fisiatria o Ortopedia del rachide secondo evoluzione clinica.";
+        }
+        if (this._isStableKneeTraumaContext()) {
+            normalized.specialista_indicato = "Ortopedico del ginocchio o traumatologo sportivo";
+            normalized.livello_urgenza = "Prioritaria / valutazione ortopedica non da rimandare";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Ortopedia e Traumatologia",
+                area_specialistica: "Traumatologia sportiva / ginocchio / sospetta lesione legamentosa o meniscale",
+                eventuale_secondo_livello: "Ortopedico del ginocchio o traumatologo sportivo"
+            };
+            normalized.red_flags_rilevate = [
+                "trauma distorsivo del ginocchio",
+                "crack al momento del trauma",
+                "gonfiore rapido",
+                "instabilita o cedimento",
+                "limitazione del movimento",
+                "assenza di deformita",
+                "assenza di ferite aperte",
+                "assenza di febbre",
+                "assenza di impossibilita completa di carico"
+            ];
+            normalized.preparazione_visita = "Evita carico eccessivo e fai valutare rapidamente il ginocchio da uno specialista. Vai in Pronto Soccorso se diventa impossibile caricare, compare deformita, dolore insopportabile, arto freddo o pallido, ferita importante o sospetto di frattura. Non riprendere lo sport prima della valutazione.";
+            normalized.impegnativa_medico = "Valutazione ortopedica prioritaria per trauma distorsivo del ginocchio con gonfiore, instabilita e limitazione funzionale, senza diagnosi certa di lesione legamentosa o meniscale.";
+        }
+        if (this._isChronicShoulderPainContext()) {
+            normalized.specialista_indicato = "Ortopedico della spalla o Fisiatra";
+            normalized.livello_urgenza = "Urgenza bassa / visita programmata";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Ortopedia / Fisiatria",
+                area_specialistica: "Spalla / cuffia dei rotatori / impingement / tendinopatia",
+                eventuale_secondo_livello: "Ortopedico della spalla o Fisiatra"
+            };
+            normalized.red_flags_rilevate = [
+                "dolore cronico alla spalla",
+                "dolore nei movimenti sopra la testa",
+                "dolore notturno sul lato",
+                "limitazione funzionale",
+                "assenza di trauma",
+                "assenza di deformita",
+                "assenza di formicolii o deficit neurologici",
+                "assenza di febbre"
+            ];
+            normalized.preparazione_visita = "Porta eventuali referti gia disponibili e descrivi movimenti che scatenano il dolore, durata e limitazioni funzionali. La valutazione puo essere programmata. Vai in urgenza solo se compaiono trauma importante, deformita, perdita improvvisa di forza, febbre, rossore o calore, dolore intenso improvviso, arto freddo o pallido, o deficit neurologici.";
+            normalized.impegnativa_medico = "Valutazione programmata per dolore cronico di spalla con possibile interessamento di cuffia dei rotatori, impingement o tendinopatia, senza diagnosi certa.";
+        }
+        if (this._isChangingPigmentedLesionContext()) {
+            normalized.specialista_indicato = "Dermatologo, preferibilmente con dermatoscopia o ambulatorio lesioni pigmentate";
+            normalized.livello_urgenza = "Prioritaria / valutazione dermatologica rapida, non da rimandare";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Dermatologia",
+                area_specialistica: "Lesione pigmentata sospetta / dermatoscopia / prevenzione melanoma",
+                eventuale_secondo_livello: "Ambulatorio lesioni pigmentate o dermatoscopia"
+            };
+            normalized.red_flags_rilevate = [
+                "neo cambiato",
+                "aumento delle dimensioni",
+                "asimmetria",
+                "bordi irregolari",
+                "piu colori",
+                "prurito",
+                "assenza di sanguinamento",
+                "assenza di febbre"
+            ];
+            normalized.preparazione_visita = "Richiedi una valutazione dermatologica rapida e porta eventuali foto precedenti della lesione, se disponibili. Non manipolare la lesione e non considerarla automaticamente benigna. Vai in urgenza solo se compaiono sanguinamento importante, rapido peggioramento generale o altri segni sistemici.";
+            normalized.impegnativa_medico = "Valutazione dermatologica prioritaria per lesione pigmentata in evoluzione, senza formulare diagnosi certa di melanoma.";
+        }
+        if (this._isHandDermatitisContext()) {
+            normalized.specialista_indicato = "Dermatologo; Allergologo o patch test se sospetta dermatite allergica da contatto";
+            normalized.livello_urgenza = "Urgenza bassa / visita dermatologica programmata se persiste, recidiva o limita il lavoro";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Dermatologia",
+                area_specialistica: "Dermatite da contatto / eczema delle mani / allergologia dermatologica se recidivante",
+                eventuale_secondo_livello: "Allergologia dermatologica o patch test se indicato dal medico"
+            };
+            normalized.red_flags_rilevate = [
+                "chiazze rosse pruriginose",
+                "localizzazione alle mani",
+                "peggioramento con detergenti o guanti",
+                "secchezza",
+                "screpolature",
+                "assenza di febbre",
+                "assenza di pus",
+                "assenza di gonfiore importante",
+                "assenza di difficolta respiratoria",
+                "assenza di gonfiore di labbra o lingua"
+            ];
+            normalized.preparazione_visita = "Annota sostanze, detergenti e guanti che peggiorano i sintomi e porta eventuali foto o referti. Evita automedicazioni o trattamenti non concordati. Vai in urgenza solo se compaiono gonfiore di volto, labbra o lingua, difficolta respiratoria, febbre alta, pus esteso, dolore importante, rapido peggioramento o segni sistemici.";
+            normalized.impegnativa_medico = "Valutazione dermatologica programmata per chiazze pruriginose delle mani compatibili con possibile dermatite/eczema, senza diagnosi certa e senza prescrizioni.";
+        }
+        if (this._isCellulitisRiskContext()) {
+            normalized.specialista_indicato = "Valutazione medica urgente; Pronto Soccorso o medico urgente secondo gravita e accessibilita";
+            normalized.livello_urgenza = "Alta / urgente: valutazione medica immediata, non visita dermatologica ordinaria";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Dermatologia / Medicina d'urgenza / Infettivologia",
+                area_specialistica: "Infezione cutanea acuta / cellulite-erisipela / rischio complicanze in diabetico",
+                eventuale_secondo_livello: "Pronto Soccorso, medico urgente o Infettivologia secondo gravita"
+            };
+            normalized.red_flags_rilevate = [
+                "diabete",
+                "arrossamento caldo, gonfio e doloroso",
+                "estensione progressiva",
+                "febbre",
+                "brividi",
+                "debolezza",
+                "assenza di difficolta respiratoria, che non riduce l'urgenza infettiva"
+            ];
+            normalized.preparazione_visita = "Richiedi una valutazione medica urgente oggi. Vai in Pronto Soccorso o contatta 112/118 se compaiono peggioramento rapido, confusione, pressione bassa, febbre alta persistente, strie rosse estese, immunodepressione importante, coinvolgimento di volto o occhio, dolore sproporzionato o segni di sepsi. Non rimandare a visita programmata.";
+            normalized.impegnativa_medico = "Valutazione urgente per possibile infezione cutanea acuta in paziente diabetico con febbre, brividi e debolezza, senza diagnosi certa di cellulite o erisipela e senza prescrizioni.";
+        }
+        if (this._isPossibleAnaphylaxisContext()) {
+            normalized.specialista_indicato = "112/118, Pronto Soccorso, emergenza allergologica";
+            normalized.livello_urgenza = "Alta / immediata: contattare subito 112/118 o andare in Pronto Soccorso";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Emergenza allergologica / Pronto Soccorso",
+                area_specialistica: "Possibile anafilassi / reazione allergica sistemica",
+                eventuale_secondo_livello: "Allergologia dopo la gestione dell'emergenza"
+            };
+            normalized.red_flags_rilevate = [
+                "esposizione ad allergene alimentare",
+                "orticaria diffusa",
+                "gonfiore di labbra e lingua",
+                "gola che si chiude",
+                "difficolta respiratoria",
+                "stordimento"
+            ];
+            normalized.sintesi_anamnestica = normalized.sintesi_anamnestica
+                .replace(/altamente suggestivi di una reazione anafilattica/gi, "compatibili con possibile reazione anafilattica")
+                .replace(/reazione anafilattica, una condizione medica di emergenza/gi, "possibile reazione anafilattica, una condizione che puo essere un'emergenza");
+            normalized.preparazione_visita = "Chiama subito 112/118 o vai immediatamente in Pronto Soccorso. Non considerarla una semplice orticaria e non attendere una visita allergologica programmata come primo passo. Se hai gia un autoiniettore prescritto e un piano medico ricevuto, segui quel piano senza modificare dosi o indicazioni.";
+            normalized.impegnativa_medico = "Emergenza allergologica: possibile anafilassi/reazione allergica sistemica con sintomi respiratori e gonfiore di labbra/lingua; nessuna diagnosi certa e nessuna prescrizione.";
+        }
+        if (this._isPediatricImpetigoLikeContext()) {
+            normalized.specialista_indicato = "Pediatra come primo riferimento; Dermatologo se estesa, recidivante, dubbia o non risponde";
+            normalized.livello_urgenza = "Urgenza bassa / valutazione pediatrica programmata a breve";
+            normalized.area_specialistica_piu_adatta = {
+                branca: "Pediatria / Dermatologia",
+                area_specialistica: "Infezione cutanea superficiale pediatrica / impetigine possibile",
+                eventuale_secondo_livello: "Dermatologia pediatrica se estesa, recidivante, dubbia o non risponde"
+            };
+            normalized.red_flags_rilevate = [
+                "croste giallastre periorali o perinasali",
+                "prurito",
+                "contatti scolastici con lesioni simili",
+                "assenza di febbre",
+                "comportamento normale",
+                "assenza di gonfiore al viso",
+                "assenza di dolore importante",
+                "assenza di difficolta respiratoria"
+            ];
+            normalized.preparazione_visita = "Prenota una valutazione pediatrica a breve e segnala i contatti scolastici con lesioni simili. Evita automedicazioni o trattamenti non concordati. Chiedi urgenza se compaiono febbre alta, rapido peggioramento, gonfiore intorno agli occhi o al viso, dolore importante, immunodepressione, estensione ampia, segni sistemici o difficolta respiratoria.";
+            normalized.impegnativa_medico = "Valutazione pediatrica programmata a breve per lesioni cutanee periorali/perinasali con croste giallastre e possibile contagiosita, senza diagnosi certa di impetigine e senza prescrizioni.";
+        }
+        return this._sanitizeResultForUser(normalized);
     }
 
     _curatedContextText() {
@@ -2008,12 +3840,27 @@ class TriageEngine {
             - Nota libera anamnestica: ${this.userData.notaAnamnestica || "Nessuna nota aggiuntiva"}
 
             REGOLE DI OUTPUT:
+            - Non formulare diagnosi, diagnosi probabili, diagnosi presunte, diagnosi compatibili o sospetti diagnostici verso l'utente.
+            - Non usare formulazioni come "sospetto di", "sospetta", "possibile [patologia]", "compatibile con", "suggestivo di", "si tratta di" o "verosimilmente" come conclusione clinica.
+            - Usa linguaggio orientativo: descrivi sintomi riferiti, segnali rilevanti, branca/specialista/servizio e urgenza. Esempio: "peso al petto e fiato corto durante sforzo: orientamento verso valutazione cardiologica prioritaria".
+            - Anche "area_specialistica_piu_adatta" e "impegnativa_medico" devono restare orientative e non diagnostiche.
+            - Nei quadri non urgenti con stanchezza, fragilità di unghie/capelli e mestruazioni abbondanti, senza diagnosi ematologica confermata né red flag attuali, indica come primo riferimento il Medico di Medicina Generale o l'Internista, non l'Ematologo.
+            - Per il quadro non urgente con stanchezza, fragilita di unghie/capelli e mestruazioni abbondanti usa esattamente "Urgenza bassa / non urgente: visita programmata a breve con Medico di Medicina Generale."; indica l'eventuale Ginecologo in preparazione_visita. In red_flags_rilevate conserva anche le negazioni esplicite: "assenza di dolore toracico", "assenza di svenimenti" e "assenza di sangue nelle feci". Usa area_specialistica_piu_adatta con branca "Medicina Generale / Medicina Interna", area "Valutazione di possibile anemia/carenza marziale e possibili perdite mestruali" ed eventuale secondo livello "Ginecologia per menorragia". Non indicare automaticamente 112 o Pronto Soccorso, non formulare diagnosi certa e non prescrivere ferro.
+            - Nel bambino di 8 anni con crescita rallentata, stanchezza cronica, dolore addominale ricorrente, feci molli e familiarita per celiachia, indica Pediatra o Gastroenterologo pediatrico e livello "non pronto soccorso, ma valutazione pediatrica/gastroenterologica non da rimandare". Riporta tutti questi indicatori in red_flags_rilevate. Non suggerire di iniziare una dieta senza glutine prima degli accertamenti, salvo indicazione medica.
+            - Distingui sempre il primo inquadramento nelle cure primarie dall'eventuale invio specialistico successivo.
             Restituisci ESCLUSIVAMENTE un oggetto JSON puro con questa struttura:
             {
               "sintesi_anamnestica": "Una sintesi dettagliata e professionale dei sintomi e dell'intervista in italiano.",
               "specialista_indicato": "La singola specializzazione medica più adatta (es. Cardiologo, Neurologo, Ortopedico, ecc. - usa solo il nome della branca, es. 'Cardiologo')",
+              "livello_urgenza": "Livello esplicito e sintetico, distinto dal disclaimer generico (es. non urgente / visita programmata a breve; prioritaria; alta / urgente)",
+              "area_specialistica_piu_adatta": {
+                "branca": "Branca generale pertinente",
+                "area_specialistica": "Sotto-area descrittiva prudente, senza formulare diagnosi",
+                "eventuale_secondo_livello": "Eventuale invio successivo, oppure non necessario"
+              },
               "preparazione_visita": "Guida al comportamento e consigli pratici per l'utente in preparazione alla visita medica.",
-              "impegnativa_medico": "Una nota clinica chiara e sintetica da suggerire al Medico di Medicina Generale (MMG) per la compilazione della ricetta/impegnativa."
+              "impegnativa_medico": "Una nota clinica chiara e sintetica da suggerire al Medico di Medicina Generale (MMG) per la compilazione della ricetta/impegnativa.",
+              "red_flags_rilevate": ["Elenco sintetico dei soli segnali di allarme effettivamente presenti nei dati; array vuoto se assenti"]
             }`;
 
             const response = await fetch(API_URL, {

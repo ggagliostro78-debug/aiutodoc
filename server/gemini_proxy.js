@@ -9,12 +9,23 @@ const MAX_PROMPT_LENGTH = 12000;
 
 const TRIAGE_RESPONSE_SCHEMA = {
     type: "OBJECT",
-    required: ["sintesi_anamnestica", "specialista_indicato", "preparazione_visita", "impegnativa_medico"],
+    required: ["sintesi_anamnestica", "specialista_indicato", "livello_urgenza", "area_specialistica_piu_adatta", "preparazione_visita", "impegnativa_medico", "red_flags_rilevate"],
     properties: {
         sintesi_anamnestica: { type: "STRING" },
         specialista_indicato: { type: "STRING" },
+        livello_urgenza: { type: "STRING" },
+        area_specialistica_piu_adatta: {
+            type: "OBJECT",
+            required: ["branca", "area_specialistica", "eventuale_secondo_livello"],
+            properties: {
+                branca: { type: "STRING" },
+                area_specialistica: { type: "STRING" },
+                eventuale_secondo_livello: { type: "STRING" }
+            }
+        },
         preparazione_visita: { type: "STRING" },
-        impegnativa_medico: { type: "STRING" }
+        impegnativa_medico: { type: "STRING" },
+        red_flags_rilevate: { type: "ARRAY", items: { type: "STRING" } }
     }
 };
 
@@ -110,7 +121,7 @@ async function callGemini(prompt, fetchImpl) {
     }
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 45000);
+    const timeoutId = setTimeout(() => controller.abort(), 75000);
 
     try {
         const response = await fetchImpl(`${GOOGLE_API_URL}?key=${apiKey}`, {

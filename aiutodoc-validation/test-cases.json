@@ -1,0 +1,202 @@
+[
+  {
+    "id": "ANEMIA_01", "age_band": "18-39", "sex": "Femmina",
+    "input": "Sono una donna di 34 anni. Da circa 2 mesi mi sento molto stanca, faccio fatica a concentrarmi, ho le unghie fragili e mi sembra di perdere più capelli del solito. Ho mestruazioni abbondanti. Non ho dolore al petto, non ho svenimenti, non ho sangue nelle feci."
+  },
+  {
+    "id": "ANEMIA_02", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 62 anni. Da alcune settimane sono molto debole, ho fiato corto anche facendo pochi passi, battito accelerato e negli ultimi giorni ho notato feci molto scure. Ieri ho avuto capogiri forti."
+  },
+  {
+    "id": "CELIACHIA_01", "age_band": "18-39", "sex": "Femmina",
+    "input": "Ho 28 anni. Da mesi ho gonfiore addominale, diarrea alternata a stitichezza, molta stanchezza e ho perso 4 kg senza volerlo. Mia sorella è celiaca. Ho iniziato da sola a togliere il glutine e sto un po’ meglio."
+  },
+  {
+    "id": "CELIACHIA_02", "age_band": "6-12", "sex": "Maschio",
+    "input": "Bambino di 8 anni. Da un anno cresce poco, è spesso stanco, ha mal di pancia ricorrente e feci molli. La pediatra ha detto che potrebbe essere stress, ma in famiglia c’è una zia con celiachia."
+  },
+  {
+    "id": "COVID_01", "age_band": "40-64", "sex": "Maschio",
+    "input": "Ho 41 anni, febbre 37,8, mal di gola, naso chiuso, tosse leggera e dolori muscolari da ieri. Ho fatto un tampone ed è positivo al COVID. Respiro bene, saturazione 98, non ho patologie importanti."
+  },
+  {
+    "id": "COVID_02", "age_band": "75+", "sex": "Femmina",
+    "input": "Donna di 78 anni, positiva al COVID. Ha diabete e insufficienza cardiaca. Febbre 38,8 da due giorni, tosse, molta debolezza e saturazione 92-93. Dice di fare fatica a respirare quando va in bagno."
+  },
+  {
+    "id": "NEUROMUSCOLARE_01", "age_band": "3-5", "sex": "Maschio",
+    "input": "Bambino maschio di 5 anni. Cade spesso, fa fatica a correre, sale le scale con difficoltà e quando si alza da terra si aiuta con le mani sulle gambe. I polpacci sembrano molto grossi. Non ha dolore."
+  },
+  {
+    "id": "NEUROMUSCOLARE_02", "age_band": "18-39", "sex": "Maschio",
+    "input": "Uomo di 32 anni. Da 2 anni noto debolezza progressiva alle spalle e alle braccia. Faccio fatica ad alzare oggetti sopra la testa. Mio padre aveva problemi muscolari non ben diagnosticati. Non ho formicolii."
+  },
+  {
+    "id": "INFLUENZA_01", "age_band": "18-39", "sex": "Femmina",
+    "input": "Ho 25 anni. Da ieri febbre 38,5 comparsa all’improvviso, brividi, dolori muscolari, mal di testa, tosse secca e naso che cola. Non ho difficoltà respiratoria. Sono sana."
+  },
+  {
+    "id": "INFLUENZA_02", "age_band": "65-74", "sex": "Maschio",
+    "input": "Uomo di 69 anni con BPCO. Da 4 giorni febbre 39, tosse peggiorata, catarro giallo-verde, fiato corto e dolore al torace quando tossisce. La saturazione è 91-92."
+  },
+  {
+    "id": "CARDIO_01_DOLOR_TORACICO_SFORZO_LIEVE", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 54 anni. Da circa 3 settimane quando cammino in salita o faccio le scale sento un peso al centro del petto che passa dopo qualche minuto di riposo. Non ho dolore a riposo, non ho svenimenti, non ho sudorazione fredda, non ho nausea. Sono iperteso e fumo."
+  },
+  {
+    "id": "CARDIO_02_DOLOR_TORACICO_URGENTE", "age_band": "40-64", "sex": "Femmina",
+    "input": "Donna di 63 anni. Da 30 minuti ho un forte peso al petto che non passa, dolore che si irradia al braccio sinistro e alla mandibola, sudo freddo, ho nausea e faccio fatica a respirare. Ho diabete."
+  },
+  {
+    "id": "CARDIO_03_PALPITAZIONI_RICORRENTI", "age_band": "18-39", "sex": "Femmina",
+    "input": "Donna di 38 anni. Da alcuni mesi avverto episodi di battito accelerato e irregolare, soprattutto la sera. Durano pochi minuti e poi passano. Non ho dolore al petto, non sono svenuta, respiro bene. Bevo molto caffe e sono in un periodo di stress."
+  },
+  {
+    "id": "CARDIO_04_IPERTENSIONE_SEVERA_CON_SINTOMI", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 59 anni. Ho misurato la pressione piu volte oggi ed e circa 190/115. Ho forte mal di testa, vista offuscata e senso di confusione. Non ho dolore al petto, ma mi sento molto agitato. Prendo farmaci per la pressione ma oggi non hanno fatto effetto."
+  },
+  {
+    "id": "CARDIO_05_SCOMPENSO_POSSIBILE", "age_band": "65-74", "sex": "Maschio",
+    "input": "Uomo di 72 anni. Da circa 2 settimane ho fiato corto quando cammino, di notte dormo con due cuscini perche mi manca l'aria, ho caviglie gonfie e negli ultimi giorni ho preso 3 kg. Ho avuto un infarto anni fa."
+  },
+  {
+    "id": "NEURO_01_CEFALEA_RICORRENTE_NON_URGENTE", "age_band": "18-39", "sex": "Femmina",
+    "input": "Donna di 29 anni. Da circa 6 mesi ho mal di testa 2 o 3 volte al mese, spesso dopo giornate stressanti o poco sonno. Il dolore e pulsante, a volte con fastidio alla luce, ma passa con riposo. Non ho febbre, non ho rigidita del collo, non ho debolezza a braccia o gambe, non ho difficolta a parlare, non ho confusione, non ho avuto traumi."
+  },
+  {
+    "id": "NEURO_02_CEFALEA_RED_FLAG_URGENTE", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 46 anni. Da circa 20 minuti ho il peggior mal di testa della mia vita, iniziato all'improvviso. Ho vomitato, mi sento confuso e faccio fatica a tenere gli occhi aperti. Non ho mai avuto un mal di testa cosi forte."
+  },
+  {
+    "id": "NEURO_03_PARESTESIE_RICORRENTI_NON_URGENTI", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 41 anni. Da circa 3 mesi ho formicolii intermittenti alle mani e ai piedi, soprattutto la sera. Non ho perdita di forza, cammino normalmente, non ho difficolta a parlare, non ho visione doppia, non ho perdita di controllo di urine o feci. Ho dolore cervicale ogni tanto e lavoro molte ore al computer."
+  },
+  {
+    "id": "NEURO_04_SOSPETTO_ICTUS_FAST", "age_band": "65-74", "sex": "Femmina",
+    "input": "Donna di 72 anni. Da circa 40 minuti ha la bocca storta da un lato, non riesce a sollevare bene il braccio destro e parla in modo confuso. Prima stava bene. Ha pressione alta e fibrillazione atriale."
+  },
+  {
+    "id": "NEURO_05_PRIMA_CRISI_CONVULSIVA_RISOLTA", "age_band": "18-39", "sex": "Maschio",
+    "input": "Ragazzo di 24 anni. Ieri sera, per la prima volta, ho avuto un episodio in cui ho perso conoscenza, sono caduto e chi era con me dice che ho avuto scosse alle braccia e alle gambe per circa un minuto. Dopo ero confuso per alcuni minuti. Ora sto bene, non ho febbre, non ho mal di testa forte, non ho debolezza e non ho avuto traumi importanti."
+  },
+  {
+    "id": "PSY_01_ATTACCHI_PANICO_NON_URGENTE", "age_band": "18-39", "sex": "Femmina",
+    "input": "Donna di 32 anni. Da circa 2 mesi ho episodi improvvisi di forte ansia con battito accelerato, tremori, sudorazione, nodo alla gola e paura di perdere il controllo. Durano circa 10 minuti e poi passano. Sono gia capitati 4 volte, spesso in periodi di stress. Non ho dolore toracico persistente, non ho svenimenti, non ho difficolta respiratoria grave, non ho pensieri di farmi del male."
+  },
+  {
+    "id": "PSY_02_DEPRESSIONE_MODERATA_SENZA_IDEAZIONE_SUICIDARIA", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 45 anni. Da circa 3 mesi mi sento triste quasi tutti i giorni, ho perso interesse per molte cose, dormo male e faccio fatica a concentrarmi al lavoro. Mi sento stanco e ho poca motivazione. Non ho pensieri di farmi del male, non ho pensieri di suicidio, non sento voci, non vedo cose che altri non vedono."
+  },
+  {
+    "id": "PSY_03_IDEAZIONE_SUICIDARIA_ATTIVA", "age_band": "18-39", "sex": "Femmina",
+    "input": "Donna di 28 anni. Da settimane sto molto male, ma oggi ho deciso che non voglio piu vivere. Ho pensato di prendere tutte le pastiglie che ho in casa questa sera. Sono sola in casa e non ho detto niente a nessuno."
+  },
+  {
+    "id": "PSY_04_ESORDIO_PSICOTICO_POSSIBILE", "age_band": "18-39", "sex": "Maschio",
+    "input": "Uomo di 22 anni. Da circa 3 settimane sento voci che gli altri non sentono e sono convinto che alcune persone mi stiano controllando attraverso il telefono. Dormo pochissimo, sono molto agitato e ho smesso di andare all'universita. Non ho pensieri di farmi del male, ma ieri ho urlato contro mio fratello perche pensavo fosse coinvolto."
+  },
+  {
+    "id": "PSY_05_DISTURBO_ALIMENTARE_POSSIBILE", "age_band": "13-17", "sex": "Femmina",
+    "input": "Ragazza di 17 anni. Da 6 mesi mangio sempre meno perche ho paura di ingrassare. Ho perso molto peso, mi vedo comunque grassa e salto spesso i pasti. A volte mi gira la testa quando mi alzo. Non vomito, non uso lassativi, non ho dolore al petto e non ho pensieri di farmi del male."
+  },
+  {
+    "id": "ORTO_01_LOMBALGIA_MECCANICA_NON_URGENTE", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 42 anni. Da 10 giorni ho dolore lombare dopo aver sollevato uno scatolone pesante. Il dolore aumenta quando mi piego o sto seduto a lungo e migliora un po' camminando. Non ho febbre, non ho perdita di peso, non ho trauma importante, non ho dolore che scende sotto il ginocchio, non ho debolezza alle gambe, non ho perdita di sensibilita nella zona genitale, non ho problemi a urinare o trattenere feci."
+  },
+  {
+    "id": "ORTO_02_LOMBALGIA_CAUDA_EQUINA_RED_FLAG", "age_band": "40-64", "sex": "Femmina",
+    "input": "Donna di 56 anni. Da ieri ho forte dolore lombare che scende a entrambe le gambe. Da stamattina faccio fatica a urinare, sento intorpidimento nella zona interna delle cosce e dei genitali e le gambe mi sembrano piu deboli. Non avevo mai avuto una cosa cosi."
+  },
+  {
+    "id": "ORTO_03_TRAUMA_GINOCCHIO_SOSPETTA_LESIONE_LEGAMENTOSA", "age_band": "18-39", "sex": "Maschio",
+    "input": "Uomo di 26 anni. Durante una partita di calcetto ho ruotato il ginocchio destro, ho sentito un crack e si e gonfiato nelle ore successive. Ora faccio fatica a piegarlo e sento che cede quando provo a camminare. Riesco ad appoggiare il piede, anche se con dolore. Non c'e deformita evidente, non ho ferite aperte, non ho febbre."
+  },
+  {
+    "id": "ORTO_04_SPALLA_CRONICA_CUFFIA_POSSIBILE", "age_band": "40-64", "sex": "Femmina",
+    "input": "Donna di 51 anni. Da 4 mesi ho dolore alla spalla destra, soprattutto quando alzo il braccio sopra la testa o cerco di prendere oggetti in alto. Di notte mi fa male se dormo su quel lato. Non ho avuto traumi, non ho deformita, non ho formicolii alla mano, non ho febbre. Riesco a muovere il braccio ma con dolore."
+  },
+  {
+    "id": "ORTO_05_TRAUMA_CAVIGLIA_FRATTURA_SOSPETTA_URGENTE", "age_band": "65-74", "sex": "Maschio",
+    "input": "Uomo di 68 anni. Sono caduto dalle scale e ho sentito un forte dolore alla caviglia sinistra. La caviglia e molto gonfia e sembra storta. Non riesco a poggiare il piede a terra. Le dita sono un po' fredde e pallide. Non ho una ferita aperta."
+  },
+  {
+    "id": "DERM_01_NEO_SOSPETTO_MELANOMA", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 47 anni. Da alcuni mesi ho notato un neo sulla schiena che e cambiato. Prima era piccolo e regolare, ora sembra piu grande, asimmetrico, con bordi irregolari e colori diversi tra marrone scuro e nero. Ogni tanto prude. Non sanguina e non ho febbre."
+  },
+  {
+    "id": "DERM_02_DERMATITE_ECZEMA_NON_URGENTE", "age_band": "18-39", "sex": "Femmina",
+    "input": "Donna di 34 anni. Da circa 3 settimane ho chiazze rosse e pruriginose sulle mani, peggiorano quando uso detergenti o guanti al lavoro. La pelle e secca e screpolata. Non ho febbre, non ho pus, non ho gonfiore importante, non ho difficolta a respirare, non ho gonfiore di labbra o lingua."
+  },
+  {
+    "id": "DERM_03_CELLULITE_ERISIPELA_GAMBA", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 63 anni con diabete. Da due giorni ho una zona rossa, calda, gonfia e dolorosa sulla gamba sinistra, che sembra allargarsi. Ho febbre 38,5 e brividi. Non ho difficolta a respirare, ma mi sento molto debole."
+  },
+  {
+    "id": "DERM_04_ORTICARIA_CON_ANAFILASSI", "age_band": "18-39", "sex": "Femmina",
+    "input": "Donna di 39 anni. Dopo aver mangiato frutta secca ho iniziato ad avere orticaria diffusa, prurito intenso, gonfiore alle labbra e alla lingua, senso di gola che si chiude e respiro difficile. Mi sento stordita."
+  },
+  {
+    "id": "DERM_05_IMPETIGINE_PEDIATRICA_NON_URGENTE", "age_band": "6-12", "sex": "Maschio",
+    "input": "Bambino di 6 anni. Da 4 giorni ha alcune crosticine giallastre intorno al naso e alla bocca, con un po' di prurito. Non ha febbre, gioca normalmente, non ha gonfiore al viso, non ha dolore importante e non ha difficolta a respirare. A scuola ci sono stati altri bambini con lesioni simili."
+  },
+  {
+    "id": "GASTRO_01_REFLUSSO_DISPEPSIA_STABILE", "age_band": "18-39", "sex": "Maschio",
+    "input": "Uomo di 38 anni. Da circa 2 mesi ho bruciore dietro lo sterno dopo i pasti, rigurgito acido e senso di pesantezza allo stomaco. Peggiora quando mangio tardi o mi sdraio. Non ho dolore toracico da sforzo, non ho vomito con sangue, non ho feci nere, non ho calo di peso, non ho difficolta a deglutire."
+  },
+  {
+    "id": "GASTRO_02_MELENA_CAPOGIRI_URGENTE", "age_band": "65-74", "sex": "Femmina",
+    "input": "Donna di 67 anni. Da ieri ho avuto piu scariche di feci molto scure e oggi mi sento molto debole e ho capogiri quando mi alzo. Prendo anticoagulanti per fibrillazione atriale. Non ho dolore addominale forte, ma mi sento pallida e stanca."
+  },
+  {
+    "id": "GASTRO_03_DIARREA_CRONICA_PERDITA_PESO", "age_band": "18-39", "sex": "Femmina",
+    "input": "Donna di 36 anni. Da circa 4 mesi ho diarrea frequente quasi ogni settimana, crampi addominali e molta stanchezza. Ho perso 6 kg senza volerlo e il medico mi ha detto che ho un po' di anemia. Non ho febbre alta, non ho feci nere e non ho sangue evidente nelle feci."
+  },
+  {
+    "id": "GASTRO_04_DOLORE_ADDOME_ACUTO_FEBBRE", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 52 anni. Da 8 ore ho dolore forte alla parte destra dell'addome, febbre 38,7, nausea e vomito. Il dolore e continuo e peggiora quando mi muovo. Non riesco a mangiare e mi sento molto abbattuto."
+  },
+  {
+    "id": "GASTRO_05_STIPSI_CRONICA_SENZA_RED_FLAG", "age_band": "40-64", "sex": "Femmina",
+    "input": "Donna di 55 anni. Da anni tendo alla stitichezza, con evacuazioni ogni 3 o 4 giorni e gonfiore addominale. La situazione e simile al solito, non ho dolore addominale forte, non ho vomito, non ho sangue nelle feci, non ho feci nere, non ho perdita di peso e non ho febbre."
+  },
+  {
+    "id": "PNEUMO_01_TOSSE_CRONICA_NON_URGENTE", "age_band": "40-64", "sex": "Femmina",
+    "input": "Donna di 49 anni. Da 8 settimane ho tosse secca, soprattutto la sera. Non ho febbre, non ho sangue nel catarro, non ho fiato corto importante, non ho dolore toracico, non ho perdita di peso. Fumo da molti anni."
+  },
+  {
+    "id": "PNEUMO_02_ASMA_CRISI_SEVERA", "age_band": "18-39", "sex": "Maschio",
+    "input": "Uomo di 27 anni con asma. Da questa mattina respiro molto male, faccio fatica a parlare per frasi intere, ho fischi al petto e il farmaco inalatore che uso di solito aiuta poco. Mi sento agitato e molto affaticato."
+  },
+  {
+    "id": "PNEUMO_03_BPCO_RIACUTIZZAZIONE", "age_band": "65-74", "sex": "Maschio",
+    "input": "Uomo di 71 anni con BPCO. Da 5 giorni ho piu fiato corto del solito, tosse aumentata e catarro piu denso e giallastro. Non ho dolore toracico forte, non ho confusione, riesco a parlare ma mi affatico facilmente. Saturazione a casa 91%."
+  },
+  {
+    "id": "PNEUMO_04_EMOTTISI_URGENTE", "age_band": "40-64", "sex": "Femmina",
+    "input": "Donna di 55 anni. Da due giorni tossisco e oggi ho visto sangue rosso nel catarro, piu di semplici striature. Ho anche dolore al torace quando respiro profondamente e un po' di fiato corto. Non ho avuto traumi. Fumo."
+  },
+  {
+    "id": "PNEUMO_05_FEBBRE_DISPNEA_DOLORE_TORACICO", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 64 anni. Da 3 giorni ho febbre 39, tosse con catarro, dolore al petto quando respiro e oggi mi manca il fiato anche a riposo. Mi sento molto debole."
+  },
+  {
+    "id": "URO_01_CISTITE_SEMPLICE_NON_URGENTE", "age_band": "18-39", "sex": "Femmina",
+    "input": "Donna di 29 anni. Da due giorni ho bruciore quando urino e devo andare spesso in bagno. Non ho febbre, non ho dolore al fianco, non ho sangue visibile nelle urine, non sono incinta, non ho nausea e non ho vomito."
+  },
+  {
+    "id": "URO_02_PIELONEFRITE_POSSIBILE", "age_band": "40-64", "sex": "Femmina",
+    "input": "Donna di 46 anni. Da ieri ho febbre 39, brividi, dolore forte al fianco destro e bruciore quando urino. Ho nausea e mi sento molto abbattuta."
+  },
+  {
+    "id": "URO_03_COLICA_RENALE_FORTE", "age_band": "18-39", "sex": "Maschio",
+    "input": "Uomo di 39 anni. Da 3 ore ho un dolore fortissimo al fianco sinistro che va verso l'inguine, a ondate. Ho nausea e ho vomitato due volte. Non riesco a stare fermo. Non ho febbre."
+  },
+  {
+    "id": "URO_04_EMATURIA_VISIBILE_SENZA_DOLORE", "age_band": "40-64", "sex": "Maschio",
+    "input": "Uomo di 61 anni. Da ieri ho urine rosse con sangue visibile, senza dolore. Non ho febbre, non ho bruciore, non ho dolore al fianco. Sono fumatore da molti anni."
+  },
+  {
+    "id": "URO_05_RITENZIONE_URINARIA_ACUTA", "age_band": "65-74", "sex": "Maschio",
+    "input": "Uomo di 73 anni. Da questa mattina non riesco piu a urinare nonostante lo stimolo forte. Ho dolore e gonfiore nella parte bassa dell'addome. Da mesi ho getto urinario debole, ma oggi si e bloccato completamente."
+  }
+]
