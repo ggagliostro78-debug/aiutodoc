@@ -29,6 +29,15 @@ const TRIAGE_RESPONSE_SCHEMA = {
     }
 };
 
+const SYMPTOM_VALIDATION_RESPONSE_SCHEMA = {
+    type: "OBJECT",
+    required: ["is_medical_request", "is_possible_emergency"],
+    properties: {
+        is_medical_request: { type: "BOOLEAN" },
+        is_possible_emergency: { type: "BOOLEAN" }
+    }
+};
+
 function parseBody(body) {
     if (!body) return {};
     if (typeof body === "string") {
@@ -112,7 +121,7 @@ function buildGuardResponse(guardResult, corsHeaders) {
     });
 }
 
-async function callGemini(prompt, fetchImpl) {
+async function callGemini(prompt, fetchImpl, responseSchema = TRIAGE_RESPONSE_SCHEMA) {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
         const error = new Error("Variabile d'ambiente GEMINI_API_KEY non configurata.");
@@ -138,7 +147,7 @@ async function callGemini(prompt, fetchImpl) {
                 generationConfig: {
                     temperature: 0.2,
                     responseMimeType: "application/json",
-                    responseSchema: TRIAGE_RESPONSE_SCHEMA
+                    responseSchema
                 }
             }),
             signal: controller.signal
@@ -166,10 +175,14 @@ async function callGemini(prompt, fetchImpl) {
     }
 }
 
-async function callGeminiWithRetry(prompt, fetchImpl, retries = 3, delayMs = 3000) {
+async function callGeminiWithRetry(prompt, fetchImpl, {
+    retries = 3,
+    delayMs = 3000,
+    responseSchema = TRIAGE_RESPONSE_SCHEMA
+} = {}) {
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
-            return await callGemini(prompt, fetchImpl);
+            return await callGemini(prompt, fetchImpl, responseSchema);
         } catch (err) {
             const errStr = String(err.message || err);
             const isRateLimit = errStr.includes("429") || errStr.includes("RESOURCE_EXHAUSTED");
@@ -184,6 +197,19 @@ async function callGeminiWithRetry(prompt, fetchImpl, retries = 3, delayMs = 300
             throw err;
         }
     }
+}
+
+function buildSymptomValidationPrompt(symptom) {
+    return `Classifica esclusivamente il testo sanitario riportato dall'utente per un servizio informativo di orientamento, senza formulare diagnosi e senza proporre terapie.
+
+Testo dell'utente:
+${symptom}
+
+Restituisci soltanto un oggetto JSON con due booleani:
+- is_medical_request: true solo se il testo descrive un sintomo, disturbo, problema di salute o richiesta sanitaria concreta; false per testo casuale, offensivo, privo di senso o non sanitario.
+- is_possible_emergency: true solo se il testo dichiara esplicitamente almeno un segnale urgente attuale o recente che può richiedere valutazione immediata (per esempio difficoltà respiratoria importante o a riposo, dolore toracico, perdita di coscienza, deficit neurologico improvviso, sanguinamento importante, reazione allergica grave); false altrimenti.
+
+Non dedurre gravità da informazioni mancanti. Il solo affanno durante uno sforzo come salire le scale, senza dolore toracico, svenimento, sintomi a riposo o gravità esplicita, non basta per classificare un'emergenza: imposta false e lascia che il percorso raccolga ulteriori dettagli.`;
 }
 
 function generateMockTriageResponse(prompt) {
@@ -286,6 +312,45 @@ async function handleGeminiProxy({ method, body, fetchImpl = fetch, context = {}
     if (bodySizeResponse) return bodySizeResponse;
 
     const payload = parseBody(body);
+    const action = typeof payload.action === "string" ? payload.action.trim() : "";
+
+    if (action === "validate_symptom") {
+        const symptom = typeof payload.symptom === "string" ? truncateText(payload.symptom, 1200).trim() : "";
+        if (symptom.length < 3) {
+            return buildResponse(400, { error: "Descrizione del sintomo mancante o troppo breve." }, corsHeaders);
+        }
+
+        try {
+            const validationResponse = await callGeminiWithRetry(
+                buildSymptomValidationPrompt(symptom),
+                fetchImpl,
+                {
+                    retries: 1,
+                    responseSchema: SYMPTOM_VALIDATION_RESPONSE_SCHEMA
+                }
+            );
+            const result = validationResponse && validationResponse.result;
+            if (!result
+                || typeof result.is_medical_request !== "boolean"
+                || typeof result.is_possible_emergency !== "boolean") {
+                throw new Error("Risposta di validazione Gemini non valida.");
+            }
+
+            return buildResponse(200, {
+                result: {
+                    is_medical_request: result.is_medical_request,
+                    is_possible_emergency: result.is_possible_emergency
+                }
+            }, corsHeaders);
+        } catch (error) {
+            console.warn("Gemini symptom validation failed:", error.message || error);
+            return buildResponse(503, {
+                error: "Validazione automatica temporaneamente non disponibile.",
+                code: error && error.code ? error.code : "GEMINI_VALIDATION_UNAVAILABLE"
+            }, corsHeaders);
+        }
+    }
+
     const prompt = typeof payload.prompt === "string" ? truncateText(payload.prompt, MAX_PROMPT_LENGTH) : "";
 
     if (!prompt) {

@@ -173,6 +173,10 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
       await expect(chatMessages).not.toContainText('\uFFFD');
       await send(page, 'Italia');
       await send(page, testCase.input);
+      if (testCase.id === 'ANEMIA_01') {
+        await expect.poll(() => geminiCalls.some((call) => call.action === 'validate_symptom')).toBe(true);
+        await expect(chatMessages).not.toContainText('la validazione automatica non è disponibile');
+      }
 
       const clinicalEmergency = await semanticLocator(page, 'clinical-emergency-output', '#chat-messages .message.system-msg.danger');
       const randomRejection = page.getByText(/descrizione inserita non è valida.*casualmente/i);

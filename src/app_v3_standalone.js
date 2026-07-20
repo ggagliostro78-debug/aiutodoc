@@ -1067,6 +1067,50 @@ class TriageEngine {
         }
     }
 
+    async _validateSymptomWithBackend(symptom) {
+        const cleanSymptom = String(symptom || "").trim();
+        if (cleanSymptom.length < 3) {
+            throw new Error("Descrizione del sintomo mancante o troppo breve.");
+        }
+
+        const API_URL = (typeof CONFIG !== 'undefined' && CONFIG.GEMINI_API_URL)
+            ? CONFIG.GEMINI_API_URL
+            : "/api/gemini";
+        if (window.location.protocol === 'file:' && API_URL.startsWith('/')) {
+            throw new Error("La validazione automatica richiede un server locale o un deploy serverless.");
+        }
+
+        const response = await this._fetchWithTimeout(
+            API_URL,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'validate_symptom',
+                    symptom: cleanSymptom
+                })
+            },
+            15000
+        );
+
+        if (!response.ok) {
+            throw new Error(`Validazione automatica non disponibile (${response.status}).`);
+        }
+
+        const payload = await response.json();
+        const result = payload && payload.result;
+        if (!result
+            || typeof result.is_medical_request !== 'boolean'
+            || typeof result.is_possible_emergency !== 'boolean') {
+            throw new Error("Risposta di validazione automatica non valida.");
+        }
+
+        return {
+            is_medical_request: result.is_medical_request,
+            is_possible_emergency: result.is_possible_emergency
+        };
+    }
+
     async processUserInput(text) {
         const input = text.trim();
         console.log("Engine: elaborazione input ->", input, "| Stato attuale:", this.state);
