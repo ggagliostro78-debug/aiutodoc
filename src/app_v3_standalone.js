@@ -206,7 +206,7 @@ class TriageEngine {
         });
 
         this.state = '2_ZONA';
-        this.onMessage(`Perfetto, ho registrato le informazioni essenziali nel rispetto della minimizzazione dei dati.<br><br><strong>Qual è la tua zona geografica?</strong><br>Puoi indicare Comune, Provincia o scrivere <strong>Italia</strong> per una ricerca nazionale.`);
+        this.onMessage(`<strong>Qual è la tua zona geografica?</strong><br>Puoi indicare Comune, Provincia o scrivere <strong>Italia</strong> per una ricerca nazionale.`);
         this._updatePlaceholder();
         if (inputEl) {
             inputEl.focus();
@@ -1175,7 +1175,7 @@ class TriageEngine {
                 this.userData.sessoEta = `${sesso}, ${ageNum} anni`;
                 console.log("Engine: Sesso ed Età validati ->", this.userData.sessoEta);
                 this.state = '2_ZONA';
-                this.onMessage(`Perfetto: <strong>${this.userData.sessoEta}</strong>. <br><br><strong>Qual è la tua zona geografica (Comune e Provincia)?</strong>`);
+                this.onMessage(`<strong>Qual è la tua zona geografica?</strong><br>Puoi indicare Comune, Provincia o scrivere <strong>Italia</strong> per una ricerca nazionale.`);
                 this._updatePlaceholder();
                 break;
 

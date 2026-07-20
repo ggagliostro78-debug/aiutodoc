@@ -169,6 +169,7 @@ test.describe('Validazione clinico-funzionale AIutoDoc', () => {
       await page.locator('#initial-medical-form button[type="submit"]').click();
       const chatMessages = page.locator('#chat-messages');
       await expect(chatMessages).toContainText('Qual è la tua zona geografica?');
+      await expect(chatMessages).not.toContainText('ho registrato le informazioni essenziali');
       await expect(chatMessages).not.toContainText('Qual ?');
       await expect(chatMessages).not.toContainText('\uFFFD');
       await send(page, 'Italia');
