@@ -14,6 +14,17 @@ mobile-*.png
 smoke-*.png
 *-check.png
 
+# Codex/local working material
+.codex-remote-attachments/
+$CODEX_HOME/
+automation_output/
+tmp_rassegna_*.html
+tmp_rassegna_*.md
+
+# Local validation archives
+aiutodoc-validation.zip
+AIutoDoc-clinical-validation-*.zip
+
 # Local environment files
 .env
 .env.*
