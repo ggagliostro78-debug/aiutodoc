@@ -20,11 +20,11 @@ Contenuto archiviato:
 | `validation-archives` | 3 | 235,75 MB |
 | `validation-artifacts` | 215 | 152,28 MB |
 | `validation-delivery` | 92 | 20,80 MB |
-| `regenerable` | 492 | 52,54 MB |
+| `regenerable` | 526 | 55,56 MB |
 | `repository-root` | 18 | 0,49 MB |
 | `press-automation` | 3 | 0,05 MB |
 
-`regenerable` contiene esclusivamente `dist` e `aiutodoc-validation/node_modules`, ricreabili rispettivamente con `npm run build` e `npm install`.
+`regenerable` contiene `aiutodoc-validation/node_modules`, il precedente `dist` e `verified-build-dist-20260724`, generato dal controllo finale. Sono ricreabili rispettivamente con `npm install` e `npm run build`.
 
 `repository-root` contiene materiale locale o temporaneo precedentemente presente nella radice del repository, inclusi allegati Codex, memoria di automazione, output della rassegna stampa e file temporanei. Gli allegati sono trattati come potenzialmente forniti dall'utente e non devono essere pubblicati o committati senza revisione.
 
