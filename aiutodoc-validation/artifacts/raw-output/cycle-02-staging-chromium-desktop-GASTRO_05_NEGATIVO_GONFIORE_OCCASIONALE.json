@@ -1,0 +1,69 @@
+{
+  "id": "GASTRO_05_NEGATIVO_GONFIORE_OCCASIONALE",
+  "expectedBranch": "Gastroenterologia",
+  "input": "Ogni tanto dopo aver mangiato molto mi sento gonfio, ma non ho dolore importante, vomito, sangue, febbre, perdita di peso o cambiamenti persistenti dell’intestino.",
+  "terminal": "success",
+  "playwrightStatus": "passed",
+  "emergencyBypass": false,
+  "questions": [
+    "Il dolore o fastidio peggiora con il movimento o in determinate posizioni?\n<br><i>A) Sì<br>B) No<br>C) A volte<br>D) Nessuna delle precedenti</i>",
+    "Il riposo notturno è disturbato da questo problema?\n<br><i>A) Sì, spesso mi sveglia<br>B) No, dormo bene<br>C) Difficoltà solo nell'addormentamento<br>D) Nessuna delle precedenti</i>",
+    "Senti che questo disturbo sta impattando significativamente la tua vita quotidiana o il tuo benessere emotivo?\n<br><i>A) Moltissimo<br>B) Abbastanza<br>C) Poco o nulla<br>D) Nessuna delle precedenti</i>"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nLa paziente, di sesso femminile e di età compresa tra 40 e 64 anni, riferisce di avvertire occasionalmente gonfiore dopo aver consumato pasti abbondanti. Non sono presenti sintomi di allarme quali dolore importante, vomito, sanguinamento, febbre, perdita di peso involontaria o alterazioni persistenti dell'alvo. Non sono state raccolte ulteriori informazioni anamnestiche o conoscitive che indichino altre problematiche.\n\nSegnali rilevanti da riferire al medico:\nassenza di dolore importante\nassenza di vomito\nassenza di sangue (nelle feci o nel vomito)\nassenza di febbre\nassenza di perdita di peso involontaria\nassenza di cambiamenti persistenti dell'alvo\nSPECIALISTA CONSIGLIATO\nMedico di Medicina Generale\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nMultimorbidity: clinical assessment and management\nNICE guideline NG56\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nnon urgente / visita programmata a breve\nSi consiglia di annotare per qualche giorno gli alimenti consumati e l'insorgenza dei sintomi di gonfiore, per poter fornire al medico un quadro più dettagliato. Portare con sé eventuali referti di esami o visite precedenti.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione per gonfiore addominale occasionale post-prandiale in assenza di sintomi di allarme (dolore importante, vomito, sanguinamento, febbre, perdita di peso, alterazioni persistenti dell'alvo).\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nOspedale Giovanni XXIII - Gioia Tauro\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Madame Curie, 89013 Gioia Tauro RC, Italia\n\nContatti: Telefono: 0966 9421 | Sito web: http://www.asp.rc.it/?q=node/234\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nOspedale San Paolo\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Antonio di Rudinì, 8, 20142 Milano MI, Italia\n\nContatti: Telefono: 02 81841 | Sito web: http://www.asst-santipaolocarlo.it/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nOspedale San Carlo Borromeo\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Pio II, 3, 20153 Milano MI, Italia\n\nContatti: Telefono: 02 40221 | Sito web: https://www.asst-santipaolocarlo.it/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nClinica Arsbiomedica\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Luigi Bodio, 58, 00191 Roma RM, Italia\n\nContatti: Telefono: 06 361 4941 | Sito web: http://www.arsbiomedica.it/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nCENTRO MEDICO CMED - LABORATORIO ANALISI\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Viale di Villa Grazioli, 29, 00198 Roma RM, Italia\n\nContatti: Telefono: 06 8535 6938 | Sito web: https://www.cmedandpartners.it/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nNuova Itor - Clinica accreditata\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via di Pietralata, 162, 00158 Roma RM, Italia\n\nContatti: Telefono: 06 416021 | Sito web: https://www.clinicanuovaitor.it/contatti/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nDott.ssa Simona Cristofaro\nPrivato\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Nomentana, Piazzale di Porta Pia, 13, 00161 Roma RM, Italia\n\nContatti: Telefono: 346 110 3483\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione. | Medico di medicina generale\n\nAmbulatorio di Medicina Generale SSN\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Pietro Toselli, 89025 Rosarno RC, Italia\n\nContatti: Telefono: 331 187 6422\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nDr. Calogero Gallo Carrabba\nPrivato\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Viale Tunisia, 41, 20124 Milano MI, Italia\n\nContatti: Contatta la struttura per informazioni\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione. | Medico di Medicina Generale\n\nDr. Natale Barbaro\nPrivato\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Cassia, 528, 00189 Roma RM, Italia\n\nContatti: Telefono: 06 331 4043\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione. | Medico di Medicina Generale\n\nPresidio Columbus\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Giuseppe Moscati, 31, 00168 Roma RM, Italia\n\nContatti: Telefono: 06 30151 | Sito web: https://www.policlinicogemelli.it/contatti/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nPoliclinico Casilino\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Casilina, 1049, 00169 Roma RM, Italia\n\nContatti: Telefono: 06 231881 | Sito web: https://www.policlinicocasilino.it/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nOspedale Israelitico\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Fulda, 14, 00148 Roma RM, Italia\n\nContatti: Telefono: 06 602911 | Sito web: http://www.ospedaleisraelitico.it/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nClinica Madonna della Fiducia\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: V. Alfredo Baccarini, 54, 00179 Roma RM, Italia\n\nContatti: Telefono: 06 784621 | Sito web: http://www.madonnadellafiducia.com/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nClinica Villa Margherita\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Viale di Villa Massimo, 48, 00161 Roma RM, Italia\n\nContatti: Telefono: 06 862751 | Sito web: https://clinicavillamargherita.it/it/?utm_source=gmb\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nICP Istituto di Chirurgia Pamphili\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Viale di Villa Pamphili, 85, 00152 Roma RM, Italia\n\nContatti: Telefono: 06 583261 | Sito web: http://www.istitutodichirurgiaplastica.com/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).",
+  "specialist": "Medico di Medicina Generale",
+  "areaSpecialistica": {
+    "branca": "Medicina Generale / Medicina Interna",
+    "area_specialistica": "Valutazione di disturbi digestivi funzionali e abitudini alimentari",
+    "eventuale_secondo_livello": "Gastroenterologia, se indicato dal Medico di Medicina Generale"
+  },
+  "urgency": "non urgente / visita programmata a breve\nSi consiglia di annotare per qualche giorno gli alimenti consumati e l'insorgenza dei sintomi di gonfiore, per poter fornire al medico un quadro più dettagliato. Portare con sé eventuali referti di esami o visite precedenti.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nassenza di dolore importante\nassenza di vomito\nassenza di sangue (nelle feci o nel vomito)\nassenza di febbre\nassenza di perdita di peso involontaria\nassenza di cambiamenti persistenti dell'alvo",
+  "failureText": "",
+  "geminiCalls": [
+    {
+      "event": "request",
+      "atMs": 6267.789,
+      "method": "POST",
+      "bodyBytes": 5014
+    },
+    {
+      "event": "response",
+      "atMs": 14227.065,
+      "status": 200,
+      "durationMs": 7959.309
+    }
+  ],
+  "pendingGeminiRequests": 0,
+  "specialistCalls": [
+    {
+      "event": "request",
+      "atMs": 52016.195,
+      "method": "POST"
+    },
+    {
+      "event": "response",
+      "atMs": 52249.175,
+      "status": 502
+    }
+  ],
+  "serpApiWarning": true,
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "warning",
+      "text": "Fallback specialist-search senza risultati: Error: Specialist Search Error (502): {\"error\":\"Errore ricerca specialisti.\",\"code\":\"GOOGLE_SEARCH_ERROR\",\"detail\":\"SerpApi error (429): {\\n  \\\"error\\\": \\\"Your account has run out of searches.\\\"\\n}\"}\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3368:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2284:44)"
+    }
+  ],
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-15T00:06:03.682Z",
+  "url": "http://127.0.0.1:4273/"
+}

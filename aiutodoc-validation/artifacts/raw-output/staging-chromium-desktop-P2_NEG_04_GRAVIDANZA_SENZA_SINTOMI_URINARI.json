@@ -1,0 +1,38 @@
+{
+  "id": "P2_NEG_04_GRAVIDANZA_SENZA_SINTOMI_URINARI",
+  "input": "Sono incinta di 20 settimane e non ho bruciore urinario, bisogno frequente di urinare, febbre, dolore al fianco o altri disturbi.",
+  "questions": [
+    "A quale settimana di gravidanza sei e cerchi un orientamento per un controllo programmato o per una nuova esigenza? A) Controllo programmato B) Nuova esigenza senza sintomi C) Non so D) Nessuna delle precedenti",
+    "Hai gia un riferimento tra ginecologo, ostetrica o medico curante e disponi di indicazioni o referti recenti? A) Si, riferimento e documenti disponibili B) Solo in parte C) No D) Nessuna delle precedenti",
+    "Sono comparsi nuovi sintomi o cambiamenti generali da riferire al professionista, senza assumere come presenti quelli gia negati? A) Si, nuovi cambiamenti B) Solo dubbi C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "A quale settimana di gravidanza sei e cerchi un orientamento per un controllo programmato o per una nuova esigenza?\n<br><i>A) Controllo programmato<br>B) Nuova esigenza senza sintomi<br>C) Non so<br>D) Nessuna delle precedenti</i>",
+    "Hai gia un riferimento tra ginecologo, ostetrica o medico curante e disponi di indicazioni o referti recenti?\n<br><i>A) Si, riferimento e documenti disponibili<br>B) Solo in parte<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Sono comparsi nuovi sintomi o cambiamenti generali da riferire al professionista, senza assumere come presenti quelli gia negati?\n<br><i>A) Si, nuovi cambiamenti<br>B) Solo dubbi<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T22:18:34.399Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "ironBranch": false,
+    "pregnancyUrinary": false,
+    "pregnancyUrgent": false,
+    "pregnancyNausea": false,
+    "nonPregnantFlank": false,
+    "genericUrinary": false,
+    "ironFollowUp": false,
+    "pregnancyGeneral": true,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

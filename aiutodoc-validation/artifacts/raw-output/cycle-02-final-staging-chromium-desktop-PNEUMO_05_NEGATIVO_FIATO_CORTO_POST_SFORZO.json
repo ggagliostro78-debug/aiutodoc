@@ -1,0 +1,53 @@
+{
+  "id": "PNEUMO_05_NEGATIVO_FIATO_CORTO_POST_SFORZO",
+  "input": "Dopo una corsa intensa ho avuto il fiato corto per alcuni minuti, poi è passato completamente. Non ho dolore al petto, svenimenti, respiro sibilante o sintomi a riposo.",
+  "terminal": "success",
+  "playwrightStatus": "passed",
+  "emergencyBypass": false,
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Quanto era intenso lo sforzo, quanto e durato il fiato corto e in quanto tempo hai recuperato completamente?\n\nA\nSforzo intenso con recupero rapido\nB\nRecupero lento o incompleto\nC\nNon so\nD\nNessuna delle precedenti",
+    "2. Era gia successo con sforzi simili o compare anche con attivita leggere o a riposo?\n\nA\nAnche con sforzi lievi o a riposo\nB\nSolo con sforzi intensi\nC\nPrimo episodio\nD\nNessuna delle precedenti",
+    "3. Sono comparsi peggioramento, dolore toracico, svenimento, sibili, palpitazioni o altri sintomi nuovi?\n\nA\nSi, uno o piu segnali\nB\nSolo dubbio\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nPaziente di 45 anni, di sesso femminile, riferisce un episodio di fiato corto durato alcuni minuti immediatamente dopo una corsa intensa. Il sintomo si è risolto completamente e spontaneamente. La paziente nega la presenza di dolore al petto, svenimenti, respiro sibilante o qualsiasi sintomo a riposo. Non sono stati forniti ulteriori dettagli anamnestici o conoscitivi.\n\nSegnali rilevanti da riferire al medico:\nassenza di dolore al petto\nassenza di svenimenti\nassenza di respiro sibilante\nassenza di sintomi a riposo\nSPECIALISTA CONSIGLIATO\nMedico di Medicina Generale\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nMultimorbidity: clinical assessment and management\nNICE guideline NG56\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nNon urgente / visita programmata a breve\nSi consiglia di annotare eventuali futuri episodi simili, specificando l'intensità dell'attività fisica, la durata del sintomo e la presenza di eventuali altri disturbi associati. Portare un elenco aggiornato di farmaci assunti e qualsiasi documentazione medica pregressa pertinente.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione clinica per episodio di dispnea transitoria post-sforzo in donna di 45 anni, con risoluzione spontanea e assenza di dolore toracico o altri sintomi associati.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "specialist": "Medico di Medicina Generale",
+  "areaSpecialistica": {
+    "branca": "Medicina Generale / Medicina Interna",
+    "area_specialistica": "Inquadramento di dispnea post-sforzo transitoria",
+    "eventuale_secondo_livello": "Cardiologia per approfondimento diagnostico, se ritenuto necessario dal Medico di Medicina Generale"
+  },
+  "urgency": "Non urgente / visita programmata a breve\nSi consiglia di annotare eventuali futuri episodi simili, specificando l'intensità dell'attività fisica, la durata del sintomo e la presenza di eventuali altri disturbi associati. Portare un elenco aggiornato di farmaci assunti e qualsiasi documentazione medica pregressa pertinente.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nassenza di dolore al petto\nassenza di svenimenti\nassenza di respiro sibilante\nassenza di sintomi a riposo",
+  "geminiCalls": [
+    {
+      "event": "request",
+      "method": "POST",
+      "atMs": 242421.9573
+    },
+    {
+      "event": "response",
+      "status": 200,
+      "atMs": 256331.7183
+    }
+  ],
+  "searchMethodology": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "blockedSearchRequests": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+    },
+    {
+      "type": "warning",
+      "text": "Fallback specialist-search senza risultati: Error: La ricerca reale non ha restituito risultati verificabili.\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3565:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2393:44)"
+    }
+  ],
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-16T12:28:32.109Z",
+  "url": "http://127.0.0.1:4273/"
+}

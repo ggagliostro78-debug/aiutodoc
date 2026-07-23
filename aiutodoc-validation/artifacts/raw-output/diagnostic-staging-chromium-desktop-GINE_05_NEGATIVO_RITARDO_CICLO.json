@@ -1,0 +1,258 @@
+{
+  "id": "GINE_05_NEGATIVO_RITARDO_CICLO",
+  "input": "Il ciclo è in ritardo di quattro giorni, ma di solito non è sempre regolare. Non ho dolore forte, sanguinamento, capogiri o svenimenti.",
+  "comparisonCase": false,
+  "timeline": [
+    {
+      "atMs": 784.563,
+      "event": "page_loaded"
+    },
+    {
+      "atMs": 2384.324,
+      "event": "clinical_input_submitted",
+      "state": "4_CONOSCITIVE"
+    },
+    {
+      "atMs": 7303.757,
+      "event": "research_started",
+      "state": "6_RICERCA_SCIENTIFICA"
+    },
+    {
+      "atMs": 53485.431,
+      "event": "state_final",
+      "state": "7_FINE"
+    }
+  ],
+  "networkEvents": [
+    {
+      "atMs": 7273.135,
+      "event": "request",
+      "method": "POST",
+      "url": "/api/gemini",
+      "bodyBytes": 4920,
+      "prompt": {
+        "sha256": "072ff97215e3f1254146e1fef1cf28ec5743477bd943fcce0331764c0149a4d7",
+        "charLength": 4776,
+        "utf8Bytes": 4784,
+        "newlineCount": 37,
+        "accentCount": 8,
+        "apostropheCount": 11,
+        "literalNullCount": 0,
+        "literalUndefinedCount": 0,
+        "healthFields": [
+          {
+            "field": "Fascia di età iniziale",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Età puntuale, se clinicamente necessaria e raccolta",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Peso, se clinicamente necessario e raccolto",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Altezza, se clinicamente necessaria e raccolta",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Sesso biologico",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Zona",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Disturbo",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Risposte Conoscitive",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Risposte Anamnestiche",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Nota libera conoscitiva",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Nota libera anamnestica",
+            "value": "[SANITIZED]"
+          }
+        ]
+      }
+    },
+    {
+      "atMs": 16425.756,
+      "event": "response",
+      "url": "/api/gemini",
+      "status": 200,
+      "durationMs": 9152.805
+    }
+  ],
+  "consoleEvents": [
+    {
+      "atMs": 157.234,
+      "type": "log",
+      "text": "Rescue UI Script loading..."
+    },
+    {
+      "atMs": 622.293,
+      "type": "log",
+      "text": "App shared loading..."
+    },
+    {
+      "atMs": 674.243,
+      "type": "log",
+      "text": "Triage engine loading... (v3.1.0-STANDALONE)"
+    },
+    {
+      "atMs": 761.575,
+      "type": "log",
+      "text": "Initializing App Engine (v3.0.0)..."
+    },
+    {
+      "atMs": 1499.2,
+      "type": "log",
+      "text": "Privacy accepted."
+    },
+    {
+      "atMs": 2150.873,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> Italia"
+    },
+    {
+      "atMs": 2153.063,
+      "type": "log",
+      "text": "Engine: elaborazione input -> Italia | Stato attuale: 2_ZONA"
+    },
+    {
+      "atMs": 2372.724,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> [DATI_SANITARI_OSCURATI]"
+    },
+    {
+      "atMs": 2373.311,
+      "type": "log",
+      "text": "Engine: elaborazione input -> [DATI_SANITARI_OSCURATI] | Stato attuale: 3_DISTURBO"
+    },
+    {
+      "atMs": 2376.425,
+      "type": "warning",
+      "text": "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+    },
+    {
+      "atMs": 3003.014,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Da mesi/anni | Stato attuale: 4_CONOSCITIVE"
+    },
+    {
+      "atMs": 3491.315,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Alterna momenti buoni e cattivi | Stato attuale: 4_CONOSCITIVE"
+    },
+    {
+      "atMs": 4057.895,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Patologie croniche note | Stato attuale: 4_CONOSCITIVE"
+    },
+    {
+      "atMs": 4608.754,
+      "type": "log",
+      "text": "Engine: elaborazione input -> No | Stato attuale: 4B_NOTA_CONOSCITIVA_SCELTA"
+    },
+    {
+      "atMs": 5090.065,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Non ricordo | Stato attuale: 5_ANAMNESTICHE"
+    },
+    {
+      "atMs": 5607.051,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) No | Stato attuale: 5_ANAMNESTICHE"
+    },
+    {
+      "atMs": 6246.931,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) No | Stato attuale: 5_ANAMNESTICHE"
+    },
+    {
+      "atMs": 6680.504,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> 35"
+    },
+    {
+      "atMs": 6680.586,
+      "type": "log",
+      "text": "Engine: elaborazione input -> 35 | Stato attuale: 5C_DETTAGLIO_CONDIZIONATO"
+    },
+    {
+      "atMs": 7272.953,
+      "type": "log",
+      "text": "Engine: elaborazione input -> No | Stato attuale: 5B_NOTA_ANAMNESTICA_SCELTA"
+    },
+    {
+      "atMs": 53196.358,
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "atMs": 53197.021,
+      "type": "warning",
+      "text": "Fallback specialist-search senza risultati: Error: Specialist Search Error (502): {\"error\":\"Errore ricerca specialisti.\",\"code\":\"GOOGLE_SEARCH_ERROR\",\"detail\":\"SerpApi error (429): {\\n  \\\"error\\\": \\\"Your account has run out of searches.\\\"\\n}\"}\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3368:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2284:44)"
+    }
+  ],
+  "questionData": {
+    "branch": "unknown",
+    "conoscitiveCount": 0,
+    "anamnesticheCount": 3,
+    "anamnestiche": [
+      "Qual e la tua eta, quando e iniziato l'ultimo ciclo e quanto e regolare abitualmente?\n<br><i>A) Data e regolarita note<br>B) Ciclo spesso irregolare<br>C) Non ricordo<br>D) Nessuna delle precedenti</i>",
+      "C'e possibilita di gravidanza e usi contraccezione o farmaci che possono essere rilevanti?\n<br><i>A) Possibilita presente o farmaci/contraccezione<br>B) Possibilita incerta<br>C) No<br>D) Nessuna delle precedenti</i>",
+      "Ci sono stati stress, variazioni di peso, attivita fisica intensa o altri cambiamenti recenti?\n<br><i>A) Si, uno o piu cambiamenti<br>B) Solo lievi cambiamenti<br>C) No<br>D) Nessuna delle precedenti</i>"
+    ],
+    "userDataKeys": [
+      "age",
+      "age_range",
+      "anamnesticheResp",
+      "conoscitiveResp",
+      "disturbo",
+      "domandeAnamnesticheDinamiche",
+      "exact_age",
+      "height_cm",
+      "initialMedicalData",
+      "notaAnamnestica",
+      "notaConoscitiva",
+      "sessoEta",
+      "sex_at_birth",
+      "weight_kg",
+      "zona",
+      "zonaDettagli"
+    ],
+    "nullKeys": [
+      "weight_kg",
+      "height_cm"
+    ],
+    "undefinedKeys": []
+  },
+  "frontend": {
+    "finalState": "7_FINE",
+    "geminiRequestCount": 1,
+    "pendingGeminiRequests": 0,
+    "loaderVisible": false,
+    "inputBarVisible": false,
+    "sendButtonVisible": false,
+    "sendButtonEnabled": true,
+    "successOutputVisible": true,
+    "failureOutputVisible": false,
+    "failureText": ""
+  },
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-14T23:19:01.094Z"
+}

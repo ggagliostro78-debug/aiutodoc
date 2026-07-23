@@ -1,0 +1,20 @@
+{
+  "id": "OCUL_05_NEGATIVO_AFFATICAMENTO_SCHERMI",
+  "project": "iphone-se",
+  "bypass": false,
+  "geminiStatuses": [
+    200
+  ],
+  "neutralizedSearchRequests": 2,
+  "externalSpecialistSearchCalls": 0,
+  "diagnoses": 0,
+  "prescriptions": 0,
+  "falsePositiveUrgent": 0,
+  "falseNegativeUrgent": 0,
+  "details": {},
+  "outputLength": 3234,
+  "consoleErrors": [],
+  "screenshot": "artifacts/mobile-menu-fix-screenshots/after/iphone-se-OCUL_05_NEGATIVO_AFFATICAMENTO_SCHERMI.png",
+  "status": "PASS",
+  "timestamp": "2026-07-17T09:43:23.203Z"
+}

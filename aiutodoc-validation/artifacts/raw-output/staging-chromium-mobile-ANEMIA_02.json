@@ -1,0 +1,17 @@
+{
+  "id": "ANEMIA_02",
+  "input": "Uomo di 62 anni. Da alcune settimane sono molto debole, ho fiato corto anche facendo pochi passi, battito accelerato e negli ultimi giorni ho notato feci molto scure. Ieri ho avuto capogiri forti.",
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nDifficoltà respiratoria o dispnea riferita\nPossibile sanguinamento o feci scure/molto scure riferite\nTachicardia o battito accelerato riferito\nCapogiri riferiti\n15:45",
+  "specialist": "",
+  "urgency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nDifficoltà respiratoria o dispnea riferita\nPossibile sanguinamento o feci scure/molto scure riferite\nTachicardia o battito accelerato riferito\nCapogiri riferiti\n15:45",
+  "redFlagsText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nDifficoltà respiratoria o dispnea riferita\nPossibile sanguinamento o feci scure/molto scure riferite\nTachicardia o battito accelerato riferito\nCapogiri riferiti\n15:45",
+  "disclaimer": "Importante\n\nAIutoDoc non fornisce diagnosi, prescrizioni o pareri medici e non sostituisce una visita sanitaria.\n\nIn caso di urgenza, sintomi gravi o peggioramento improvviso, chiama il 112/118 o rivolgiti al Pronto Soccorso.",
+  "sources": "",
+  "clinicalEmergency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nDifficoltà respiratoria o dispnea riferita\nPossibile sanguinamento o feci scure/molto scure riferite\nTachicardia o battito accelerato riferito\nCapogiri riferiti\n15:45",
+  "urgencyReason": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nDifficoltà respiratoria o dispnea riferita\nPossibile sanguinamento o feci scure/molto scure riferite\nTachicardia o battito accelerato riferito\nCapogiri riferiti\n15:45",
+  "questionCount": 0,
+  "url": "http://127.0.0.1:4273/",
+  "environment": "staging",
+  "timestamp": "2026-07-07T13:45:31.531Z",
+  "screenshot": "../artifacts/screenshots-staging/staging-chromium-mobile-ANEMIA_02.png"
+}

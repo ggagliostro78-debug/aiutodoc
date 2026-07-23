@@ -1,0 +1,31 @@
+{
+  "id": "PED_02_FEBBRE_BAMBINO_PROGRAMMATA",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Mia figlia ha 7 anni e da ieri ha febbre fino a 38,5. Beve, mangia poco ma è vigile. Non ha difficoltà a respirare, rigidità del collo, macchie violacee o convulsioni.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nDa meno di 48 ore, valore e metodo noti\nB\nDa piu di 48 ore o in aumento\nC\nValore o metodo non noti\nD\nNessuna delle precedenti",
+    "A\nBeve, urina ed e vigile\nB\nBeve o urina meno, ma resta vigile\nC\nE molto sonnolenta, non beve o urina molto poco\nD\nNessuna delle precedenti",
+    "A\nUno o piu elementi presenti\nB\nSolo sintomi lievi o farmaci gia dati\nC\nNessuno di questi elementi\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nBambina di 7 anni con febbre fino a 38,5 da ieri; beve, mangia poco ed e vigile. Sono negate difficolta respiratoria, rigidita del collo, macchie violacee e convulsioni.\n\nSegnali rilevanti da riferire al medico:\nfebbre fino a 38,5 da ieri\nbambina vigile\nbeve\nmangia poco\nassenza di difficolta respiratoria\nassenza di rigidita del collo\nassenza di macchie violacee\nassenza di convulsioni\nSPECIALISTA CONSIGLIATO\nPediatra\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nFever in under 5s: assessment and initial management\nNICE guideline NG143\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nUrgenza bassa / valutazione pediatrica programmata o tempestiva secondo andamento\nRiferisci al Pediatra durata, temperatura massima e metodo di misurazione, idratazione, urine, alimentazione, eventuali altri sintomi, farmaci gia somministrati e condizioni croniche. Richiedi assistenza urgente se lo stato generale peggiora o compaiono segnali di allarme.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione pediatrica per febbre recente in bambina vigile che beve, senza i segnali di allarme negati nell'anamnesi.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:50:06.558Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/PED_02_FEBBRE_BAMBINO_PROGRAMMATA.png"
+}

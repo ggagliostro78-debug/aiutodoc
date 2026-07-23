@@ -1,0 +1,57 @@
+{
+  "id": "REGRESSION_BOUND_04_LOMBALGIA_CON_FORMICOLIO_GAMBA",
+  "category": "casi borderline",
+  "input": "Dopo aver sollevato un peso ho dolore lombare che scende lungo una gamba e formicolio al piede. Non ho formicolio tra le gambe, problemi urinari o fecali, perdita di sensibilità genitale o debolezza importante.",
+  "questions": [
+    "Formicolii o perdita di sensibilità sono localizzati, bilaterali o progressivi nel tempo? A) Progressivi o diffusi B) Intermittenti/localizzati C) Non so D) Nessuna delle precedenti",
+    "Hai perdita di forza, difficoltà a camminare, disturbi del linguaggio, vista doppia o problemi urinari/fecali? A) Sì B) Solo in parte C) No D) Nessuna delle precedenti",
+    "Il sintomo è iniziato improvvisamente oppure è graduale/ricorrente da settimane o mesi? A) Improvviso B) Graduale o ricorrente C) Non saprei D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Formicolii o perdita di sensibilità sono localizzati, bilaterali o progressivi nel tempo?\n<br><i>A) Progressivi o diffusi<br>B) Intermittenti/localizzati<br>C) Non so<br>D) Nessuna delle precedenti</i>",
+    "Hai perdita di forza, difficoltà a camminare, disturbi del linguaggio, vista doppia o problemi urinari/fecali?\n<br><i>A) Sì<br>B) Solo in parte<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Il sintomo è iniziato improvvisamente oppure è graduale/ricorrente da settimane o mesi?\n<br><i>A) Improvviso<br>B) Graduale o ricorrente<br>C) Non saprei<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "branch": "Neurologia/rachide prudenziale",
+  "overrideOrBypass": "nessun override urgente",
+  "redFlagsConsidered": [
+    "camminare"
+  ],
+  "negationsRespected": true,
+  "motivations": [],
+  "motivationsFaithful": true,
+  "diagnosticViolations": [],
+  "prescriptionsPresent": false,
+  "offBranch": [],
+  "effectiveEscalation": false,
+  "falsePositiveUrgency": false,
+  "underUrgency": false,
+  "regression": "Validatore: NO",
+  "classification": "PASS ROUTING",
+  "problem": "",
+  "validator": {
+    "status": "PASS ROUTING",
+    "diagnosticViolations": [],
+    "falsePositiveUrgency": false,
+    "bypassDocumented": false,
+    "offBranch": [],
+    "coverage": {
+      "forza": true,
+      "urinario": true,
+      "fecale": true
+    },
+    "unfaithfulMotivations": [],
+    "negationsIgnored": false,
+    "problems": []
+  },
+  "geminiCalls": [],
+  "state": "4_CONOSCITIVE",
+  "timestamp": "2026-07-12T23:06:42.598Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "infrastructureError": ""
+}

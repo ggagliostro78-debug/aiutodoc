@@ -1,0 +1,189 @@
+{
+  "generatedAt": "2026-07-16T17:40:47.759Z",
+  "total": 18,
+  "passed": 5,
+  "warnings": 3,
+  "failed": 10,
+  "results": [
+    {
+      "caseId": "PED_01_URGENTE_DIFFICOLTA_RESPIRATORIA",
+      "clinical": "FAIL CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Nessun bypass; intervista lunga e nessun 112/118 o PS esplicito. Area diagnostica “distress respiratorio”.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-PED_01_URGENTE_DIFFICOLTA_RESPIRATORIA-2026-07-16T17-18-43-799Z.json"
+    },
+    {
+      "caseId": "PED_02_FEBBRE_BAMBINO_PROGRAMMATA",
+      "clinical": "FAIL CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Secondo blocco generico/muscoloscheletrico, non copre febbre pediatrica.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-PED_02_FEBBRE_BAMBINO_PROGRAMMATA-2026-07-16T17-19-36-047Z.json"
+    },
+    {
+      "caseId": "PED_03_DOLORE_ADDOMINALE_RICORRENTE",
+      "clinical": "PASS CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Pediatria primaria, Gastroenterologia pediatrica secondo livello, urgenza programmata e domande gastrointestinali pertinenti.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-PED_03_DOLORE_ADDOMINALE_RICORRENTE-2026-07-16T17-20-28-091Z.json"
+    },
+    {
+      "caseId": "PED_04_BORDERLINE_MAL_DI_TESTA_VISTA",
+      "clinical": "WARNING",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Branca oculistica e urgenza corrette; secondo blocco parzialmente neurologico e incompleto per uso schermi/controlli visivi.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-PED_04_BORDERLINE_MAL_DI_TESTA_VISTA-2026-07-16T17-21-20-820Z.json"
+    },
+    {
+      "caseId": "PED_05_NEGATIVO_STANCHEZZA_DOPO_SPORT",
+      "clinical": "FAIL CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Urgenza prioritaria impropria e dati inventati su stanchezza cronica, ritardo di crescita e patologie croniche. Retry tecnico riuscito.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-PED_05_NEGATIVO_STANCHEZZA_DOPO_SPORT-2026-07-16T17-38-52-622Z.json"
+    },
+    {
+      "caseId": "PED_06_FARMACO_ERUZIONE_CUTANEA",
+      "clinical": "WARNING",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Branca e urgenza prudenti, ma secondo blocco dermatologico generico: non esplora farmaco, giorno terapia, mucose o precedenti reazioni.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-PED_06_FARMACO_ERUZIONE_CUTANEA-2026-07-16T17-24-20-704Z.json"
+    },
+    {
+      "caseId": "OCUL_01_URGENTE_PERDITA_VISIVA_IMPROVVISA",
+      "clinical": "FAIL CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Nessun bypass immediato; sei domande prima dell’output urgente.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-OCUL_01_URGENTE_PERDITA_VISIVA_IMPROVVISA-2026-07-16T17-25-11-887Z.json"
+    },
+    {
+      "caseId": "OCUL_02_OCCHIO_ROSSO_PROGRAMMATO",
+      "clinical": "PASS CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Oculistica, visita programmata, negazioni rispettate e screening oculare pertinente.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-OCUL_02_OCCHIO_ROSSO_PROGRAMMATO-2026-07-16T17-26-03-461Z.json"
+    },
+    {
+      "caseId": "OCUL_03_CALO_VISIVO_PROGRESSIVO",
+      "clinical": "FAIL CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Secondo blocco generico su movimento, sonno e impatto emotivo, non sulla funzione visiva.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-OCUL_03_CALO_VISIVO_PROGRESSIVO-2026-07-16T17-26-55-723Z.json"
+    },
+    {
+      "caseId": "OCUL_04_BORDERLINE_DOLORE_OCULARE_CEFALEA",
+      "clinical": "FAIL CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Neurologia forzata come branca principale; attesa Oculistica o Medicina generale.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-OCUL_04_BORDERLINE_DOLORE_OCULARE_CEFALEA-2026-07-16T17-27-47-943Z.json"
+    },
+    {
+      "caseId": "OCUL_05_NEGATIVO_AFFATICAMENTO_SCHERMI",
+      "clinical": "PASS CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Nessuna urgenza, Oculistica programmata e negazioni conservate.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-OCUL_05_NEGATIVO_AFFATICAMENTO_SCHERMI-2026-07-16T17-28-39-644Z.json"
+    },
+    {
+      "caseId": "OCUL_06_LENTI_CONTATTO_DOLORE_FOTOFOBIA",
+      "clinical": "WARNING",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Urgenza e branca corrette; secondo blocco non esplora uso, igiene, acqua/piscina o durata delle lenti.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-OCUL_06_LENTI_CONTATTO_DOLORE_FOTOFOBIA-2026-07-16T17-29-31-276Z.json"
+    },
+    {
+      "caseId": "ALLERGO_01_URGENTE_REAZIONE_SISTEMICA",
+      "clinical": "FAIL CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Nessun bypass immediato e nessun 112/118 esplicito; intervista ritardante e area “anafilassi”.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-ALLERGO_01_URGENTE_REAZIONE_SISTEMICA-2026-07-16T17-30-23-011Z.json"
+    },
+    {
+      "caseId": "ALLERGO_02_RINITE_STAGIONALE",
+      "clinical": "FAIL CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Secondo blocco oculistico su calo visivo, occhio rosso e lampi, non anamnesi allergologica.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-ALLERGO_02_RINITE_STAGIONALE-2026-07-16T17-31-15-215Z.json"
+    },
+    {
+      "caseId": "ALLERGO_03_REAZIONE_CUTANEA_RICORRENTE",
+      "clinical": "FAIL CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Secondo blocco generico su movimento, sonno e impatto emotivo; mancano trigger e durata delle lesioni.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-ALLERGO_03_REAZIONE_CUTANEA_RICORRENTE-2026-07-16T17-32-06-678Z.json"
+    },
+    {
+      "caseId": "ALLERGO_04_BORDERLINE_TOSSE_ESPOSIZIONE",
+      "clinical": "PASS CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Allergologia con Pneumologia secondo livello, non urgente e screening respiratorio proporzionato.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-ALLERGO_04_BORDERLINE_TOSSE_ESPOSIZIONE-2026-07-16T17-32-58-085Z.json"
+    },
+    {
+      "caseId": "ALLERGO_05_NEGATIVO_PRURITO_DOPO_DETERGENTE",
+      "clinical": "PASS CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Medicina generale/Dermatologia condizionale, nessuna escalation e domande locali pertinenti.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-ALLERGO_05_NEGATIVO_PRURITO_DOPO_DETERGENTE-2026-07-16T17-33-49-673Z.json"
+    },
+    {
+      "caseId": "ALLERGO_06_BETA_BLOCCANTE_REAZIONE_PRECEDENTE",
+      "clinical": "FAIL CLINICO-FUNZIONALE",
+      "playwright": "PASS",
+      "geminiStatus": "200",
+      "bypass": false,
+      "specialistSearchCalls": 0,
+      "problem": "Secondo blocco cardiologico su sforzo, irradiazione e dolore; non esplora puntura, episodio ospedaliero o follow-up allergologico.",
+      "rawPath": "artifacts/raw-output/cycle-03-valid-ALLERGO_06_BETA_BLOCCANTE_REAZIONE_PRECEDENTE-2026-07-16T17-34-42-109Z.json"
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+Agisci come senior full-stack developer e CTO assistant della piattaforma AiutoDoc.
+
+OBIETTIVO:
+Integrare nella struttura attuale di AiutoDoc un controllo aggiuntivo di sicurezza clinica, senza modificare grafica, layout, componenti principali, stile visivo o funzionalità già esistenti.
+
+CONTESTO:
+La piattaforma AiutoDoc orienta l’utente verso lo specialista più appropriato in base ai sintomi e alle informazioni inserite. Dopo test con personale medico, è emersa la necessità di migliorare l’appropriatezza dello specialista indicato e ridurre falsi positivi/falsi negativi, soprattutto nelle branche borderline con l’urgenza.
+
+La modifica richiesta deve essere additiva: non deve rifare il flusso, non deve cambiare UI, non deve alterare il matching esistente. Deve solo aggiungere un livello di controllo quando la specialità o i sintomi sono potenzialmente sensibili.
+
+REQUISITO PRINCIPALE:
+Dopo che il sistema ha individuato lo specialista/specialità consigliata, se la specialità appartiene a una lista di aree sensibili oppure se i sintomi contengono red flag, deve comparire un breve questionario di sicurezza per capire se è opportuno suggerire all’utente di contattare 112/118 o recarsi al Pronto Soccorso.
+
+NON trasformare AiutoDoc in un sistema di diagnosi o triage di emergenza. Il sistema deve solo riconoscere segnali di allarme e suggerire prudenzialmente il contatto con 112/118.
+
+SPECIALITÀ SENSIBILI INIZIALI:
+- Cardiologia
+- Neurologia
+- Pneumologia
+- Gastroenterologia
+- Chirurgia generale
+- Ginecologia/Ostetricia
+- Urologia
+- Nefrologia
+- Oculistica
+- Otorinolaringoiatria
+- Ortopedia/Traumatologia
+- Pediatria, se paziente molto piccolo o fragile
+- Geriatria, se paziente fragile
+
+RED FLAG GENERALI:
+- dolore al petto
+- difficoltà respiratoria
+- mancanza di respiro
+- perdita di coscienza
+- svenimento
+- confusione improvvisa
+- difficoltà a parlare
+- bocca storta
+- perdita di forza
+- perdita di sensibilità
+- paralisi
+- vista offuscata improvvisa
+- perdita improvvisa della vista
+- trauma importante
+- sanguinamento importante
+- dolore molto forte
+- dolore improvviso
+- peggioramento rapido
+- febbre alta con rigidità nucale
+- gravidanza con dolore o sanguinamento
+- bambino molto piccolo con sintomi importanti
+- anziano fragile con peggioramento rapido
+
+IMPLEMENTAZIONE RICHIESTA:
+1. Individua nel codice attuale il punto in cui viene prodotto il risultato del matching specialistico.
+2. Senza modificare la logica esistente, aggiungi una funzione separata:
+   - shouldTriggerUrgencySafetyCheck()
+3. La funzione deve ricevere:
+   - sintomi inseriti dall’utente
+   - specialità individuata
+   - eventuale livello di rischio già presente
+   - età, sesso, gravidanza se già disponibili
+4. La funzione deve restituire true se:
+   - la specialità è in sensitiveSpecialties
+   - oppure i sintomi contengono red flag
+   - oppure il livello di rischio è borderline/urgent/high
+5. Se true, mostrare un questionario breve usando i componenti UI esistenti.
+6. Il questionario deve avere risposte:
+   - Sì
+   - No
+   - Non so
+7. Le domande devono essere massimo 5–7.
+
+DOMANDE QUESTIONARIO:
+- Il sintomo è comparso improvvisamente?
+- Il sintomo sta peggiorando rapidamente?
+- Hai dolore al petto, difficoltà a respirare o sensazione di svenimento?
+- Hai perdita di forza, difficoltà a parlare, confusione o alterazioni improvvise della vista?
+- Hai avuto perdita di coscienza, trauma importante o sanguinamento evidente?
+- Il dolore è molto intenso o diverso dal solito?
+- Sei in gravidanza oppure il problema riguarda un bambino molto piccolo, un anziano fragile o una persona con patologie importanti?
+
+LOGICA RISPOSTE:
+- Se almeno una risposta è “Sì” a una domanda critica, mostrare alert urgenza.
+- Se almeno due risposte sono “Non so”, mostrare alert prudenziale.
+- Se tutte le risposte sono “No”, proseguire con il risultato specialistico normale.
+
+MESSAGGIO ALERT URGENZA:
+“Le informazioni inserite indicano possibili segnali di urgenza.
+
+AiutoDoc non può valutare emergenze o sostituire il personale sanitario.
+
+Se i sintomi sono in corso, improvvisi, intensi o in peggioramento, contatta subito il 112/118 o recati al Pronto Soccorso.
+
+Non attendere una prenotazione specialistica ordinaria.”
+
+REGOLE UX:
+- Non modificare grafica, colori, layout o componenti esistenti.
+- Usare lo stesso stile dei box, pulsanti, card e testi già presenti.
+- Non introdurre nuove librerie UI se non strettamente necessario.
+- Il questionario deve sembrare parte naturale del flusso attuale.
+- La CTA primaria, in caso di red flag, deve essere “Contatta 112/118” o “Rivolgiti al Pronto Soccorso”.
+- La prenotazione ordinaria non deve essere proposta come azione primaria se è presente un red flag.
+- Lo specialista individuato può rimanere visibile, ma in secondo piano e con disclaimer.
+
+REGOLE MEDICO-LEGALI:
+- Non usare diagnosi.
+- Non dire mai “hai un infarto”, “hai un ictus”, “non è urgente”, “puoi stare tranquillo”.
+- Usare sempre formule prudenziali:
+  - “potrebbero esserci segnali di urgenza”
+  - “AiutoDoc non può escludere un’urgenza”
+  - “è prudente contattare il 112/118”
+- Mantenere il disclaimer medico già presente.
+- Non raccogliere dati aggiuntivi non necessari.
+- Non salvare il questionario se la piattaforma attualmente lavora solo in sessione.
+
+STRUTTURA TECNICA SUGGERITA:
+Creare o aggiornare questi file, adattandoli alla struttura reale del progetto:
+
+- src/config/clinicalSafety.ts
+  Contiene:
+  - sensitiveSpecialties
+  - redFlagKeywords
+  - urgencyQuestions
+
+- src/utils/urgencySafetyCheck.ts
+  Contiene:
+  - normalizeText()
+  - hasRedFlagKeyword()
+  - shouldTriggerUrgencySafetyCheck()
+  - evaluateUrgencyAnswers()
+
+- src/components/UrgencySafetyQuestionnaire.tsx
+  Componente che mostra le domande usando UI esistente.
+
+- Integrare il componente nella pagina/flusso dove viene mostrato il risultato specialistico.
+
+PSEUDOCODICE:
+
+const shouldShowUrgencyCheck = shouldTriggerUrgencySafetyCheck({
+  symptoms,
+  matchedSpecialty,
+  riskLevel,
+  age,
+  sex,
+  pregnancy
+});
+
+if (shouldShowUrgencyCheck && !urgencyCheckCompleted) {
+  return <UrgencySafetyQuestionnaire onComplete={handleUrgencyResult} />;
+}
+
+if (urgencyResult === "urgent") {
+  return <UrgencyAlert matchedSpecialty={matchedSpecialty} />;
+}
+
+return <SpecialistResults matchedSpecialty={matchedSpecialty} />;
+
+TEST DA ESEGUIRE:
+1. Sintomo: “dolore al petto e mancanza di respiro”
+   Risultato atteso: questionario attivo + alert 112/118.
+2. Sintomo: “mal di ginocchio da 3 mesi”
+   Risultato atteso: nessun alert urgenza, percorso normale.
+3. Sintomo: “formicolio improvviso braccio e difficoltà a parlare”
+   Risultato atteso: questionario attivo + alert 112/118.
+4. Sintomo: “bruciore di stomaco lieve dopo i pasti”
+   Risultato atteso: percorso normale salvo red flag aggiuntivi.
+5. Specialità individuata: Cardiologia
+   Risultato atteso: questionario sicurezza anche se il testo sintomo è generico.
+6. Risposte questionario tutte “No”
+   Risultato atteso: percorso normale.
+7. Una risposta critica “Sì”
+   Risultato atteso: alert urgenza.
+8. Due risposte “Non so”
+   Risultato atteso: alert prudenziale.
+
+OUTPUT RICHIESTO:
+- Implementare la modifica nel modo meno invasivo possibile.
+- Non cambiare grafica.
+- Non cambiare copy esistente salvo dove necessario per il nuovo alert.
+- Non rompere il flusso attuale.
+- Commentare il codice dove viene introdotta la logica di sicurezza.
+- Segnalare chiaramente quali file sono stati modificati.

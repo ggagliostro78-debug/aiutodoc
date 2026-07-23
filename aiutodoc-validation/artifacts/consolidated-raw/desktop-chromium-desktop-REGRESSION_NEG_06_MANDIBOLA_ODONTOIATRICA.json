@@ -1,0 +1,31 @@
+{
+  "id": "REGRESSION_NEG_06_MANDIBOLA_ODONTOIATRICA",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Ho dolore localizzato a un dente e alla mandibola quando mastico. La gengiva è gonfia. Non ho nausea, affanno, dolore al petto, sudorazione o peso allo stomaco.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSi, chiaramente\nB\nSolo in parte\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSi, uno o piu segnali\nB\nSolo lieve o stabile\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSi, uno o piu sintomi\nB\nSolo dubbio\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nUtente maschio, di età compresa tra 40 e 64 anni, riferisce dolore localizzato a un dente e alla mandibola, che si manifesta in particolare durante la masticazione. È presente anche gonfiore gengivale. L'utente nega la presenza di nausea, affanno, dolore al petto, sudorazione o sensazione di peso allo stomaco. Viene riportato un peso corporeo di 24 kg.\n\nSegnali rilevanti da riferire al medico:\nDolore localizzato a un dente\nDolore alla mandibola durante la masticazione\nGengiva gonfia\nPeso corporeo di 24 kg\nAssenza di nausea\nAssenza di affanno\nAssenza di dolore al petto\nAssenza di sudorazione\nAssenza di peso allo stomaco\nSPECIALISTA CONSIGLIATO\nOdontoiatra\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nCellulitis - acute\nNICE Clinical Knowledge Summary\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nPrioritaria\nSi consiglia di mantenere una buona igiene orale, evitare di masticare sul lato interessato e, se necessario, assumere antidolorifici da banco per gestire il dolore in attesa della visita. È utile raccogliere eventuali informazioni su precedenti trattamenti dentali o traumi recenti. Il dato relativo al peso corporeo di 24 kg è un'informazione rilevante che andrebbe discussa con il medico curante o lo specialista durante la visita.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione odontoiatrica per dolore dentale e mandibolare con gonfiore gengivale.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:37:02.366Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/REGRESSION_NEG_06_MANDIBOLA_ODONTOIATRICA.png"
+}

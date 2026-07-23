@@ -1,0 +1,56 @@
+{
+  "id": "REGRESSION_BOUND_06_MANDIBOLA_CON_NAUSEA_MA_SENZA_DISPNEA",
+  "category": "casi borderline",
+  "input": "Da mezz’ora ho fastidio alla mandibola e nausea. Non ho dolore al petto né affanno. Sono diabetico e iperteso e il fastidio non cambia masticando.",
+  "questions": [
+    "Da quanto durano nausea, peso o fastidio allo stomaco e fastidio alla mandibola, e i sintomi sono ancora presenti o non regrediscono? A) Sono presenti o persistenti B) Vanno e vengono C) Sono regrediti D) Nessuna delle precedenti",
+    "Il quadro sta peggiorando o si associa a sudorazione fredda, debolezza improvvisa, vomito, fastidio a braccio o schiena, fiato corto o relazione con lo sforzo? A) Si, uno o piu segnali B) Solo lieve o stabile C) No D) Nessuna delle precedenti",
+    "Sono presenti fattori cardiovascolari come diabete o ipertensione, e serve una valutazione urgente se i sintomi sono attuali, persistono o peggiorano? A) Si, fattori presenti e sintomi attuali o persistenti B) Solo in parte o dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Da quanto durano nausea, peso o fastidio allo stomaco e fastidio alla mandibola, e i sintomi sono ancora presenti o non regrediscono?\n<br><i>A) Sono presenti o persistenti<br>B) Vanno e vengono<br>C) Sono regrediti<br>D) Nessuna delle precedenti</i>",
+    "Il quadro sta peggiorando o si associa a sudorazione fredda, debolezza improvvisa, vomito, fastidio a braccio o schiena, fiato corto o relazione con lo sforzo?\n<br><i>A) Si, uno o piu segnali<br>B) Solo lieve o stabile<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Sono presenti fattori cardiovascolari come diabete o ipertensione, e serve una valutazione urgente se i sintomi sono attuali, persistono o peggiorano?\n<br><i>A) Si, fattori presenti e sintomi attuali o persistenti<br>B) Solo in parte o dubbio<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "branch": "Cardio-atipico/urgenza",
+  "overrideOrBypass": "cardio-atipico",
+  "redFlagsConsidered": [
+    "vomito",
+    "debolezza",
+    "diabete",
+    "ipertensione"
+  ],
+  "negationsRespected": true,
+  "motivations": [],
+  "motivationsFaithful": true,
+  "diagnosticViolations": [],
+  "prescriptionsPresent": false,
+  "offBranch": [],
+  "effectiveEscalation": false,
+  "falsePositiveUrgency": false,
+  "underUrgency": false,
+  "regression": "P0: NO",
+  "classification": "PASS ROUTING",
+  "problem": "",
+  "validator": {
+    "status": "PASS ROUTING",
+    "diagnosticViolations": [],
+    "falsePositiveUrgency": false,
+    "bypassDocumented": false,
+    "offBranch": [],
+    "coverage": {},
+    "unfaithfulMotivations": [],
+    "negationsIgnored": false,
+    "problems": []
+  },
+  "geminiCalls": [],
+  "state": "4_CONOSCITIVE",
+  "timestamp": "2026-07-12T23:06:46.713Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "infrastructureError": ""
+}

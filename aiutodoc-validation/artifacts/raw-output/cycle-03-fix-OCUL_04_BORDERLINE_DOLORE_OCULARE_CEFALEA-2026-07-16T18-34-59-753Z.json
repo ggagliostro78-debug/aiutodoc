@@ -1,0 +1,33 @@
+{
+  "id": "OCUL_04_BORDERLINE_DOLORE_OCULARE_CEFALEA",
+  "input": "Da ieri ho dolore intorno a un occhio e mal di testa. La vista è normale e non ho debolezza, difficoltà a parlare, occhio rosso o vomito.",
+  "timestamp": "2026-07-16T18:34:59.746Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nDolore intorno a un occhio e mal di testa da ieri, con vista normale. Sono negati debolezza, difficolta a parlare, occhio rosso e vomito.\n\nSegnali rilevanti da riferire al medico:\ndolore perioculare da ieri\nmal di testa\nvista normale\nassenza di debolezza\nassenza di difficolta a parlare\nassenza di occhio rosso\nassenza di vomito\nSPECIALISTA CONSIGLIATO\nOculista o Medico di Medicina Generale\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nGlaucoma: diagnosis and management\nNICE guideline NG81\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nValutazione programmata a breve; tempestiva se dolore o sintomi peggiorano\nAnnota sede, durata, intensita, rapporto con i movimenti oculari, fastidio alla luce, lacrimazione, nausea, febbre, trauma ed episodi precedenti. Richiedi assistenza urgente se compaiono calo visivo improvviso, segni neurologici o rapido peggioramento.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione oculistica o di medicina generale per dolore perioculare e mal di testa con vista normale e segnali neurologici negati.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Dove e localizzato il dolore, quanto dura, quanto e intenso e cambia muovendo l'occhio?\n\nA\nIntenso o peggiore con i movimenti\nB\nLieve o moderato e stabile\nC\nSede o andamento non chiari\nD\nNessuna delle precedenti",
+    "2. Sono presenti fastidio alla luce, lacrimazione, alterazioni della vista, nausea, febbre o trauma?\n\nA\nUno o piu elementi presenti\nB\nSolo lacrimazione o fastidio lieve\nC\nNessuno\nD\nNessuna delle precedenti",
+    "3. Sono comparsi debolezza, difficolta a parlare, perdita di coscienza o altri segni neurologici, oppure episodi simili in passato?\n\nA\nSegni neurologici\nB\nSolo episodi precedenti\nC\nNessuno\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Oculista o Medico di Medicina Generale",
+  "areaSpecialistica": {
+    "branca": "Oculistica / Medicina generale",
+    "area_specialistica": "Dolore perioculare con mal di testa e vista riferita normale",
+    "eventuale_secondo_livello": "Neurologia solo se emergono segnali neurologici"
+  },
+  "urgency": "Valutazione programmata a breve; tempestiva se dolore o sintomi peggiorano\nAnnota sede, durata, intensita, rapporto con i movimenti oculari, fastidio alla luce, lacrimazione, nausea, febbre, trauma ed episodi precedenti. Richiedi assistenza urgente se compaiono calo visivo improvviso, segni neurologici o rapido peggioramento.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\ndolore perioculare da ieri\nmal di testa\nvista normale\nassenza di debolezza\nassenza di difficolta a parlare\nassenza di occhio rosso\nassenza di vomito",
+  "geminiCalls": [
+    {
+      "status": 200,
+      "durationMs": 10201
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

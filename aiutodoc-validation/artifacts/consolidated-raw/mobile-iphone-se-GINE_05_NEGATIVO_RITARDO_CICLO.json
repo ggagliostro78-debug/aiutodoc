@@ -1,0 +1,31 @@
+{
+  "id": "GINE_05_NEGATIVO_RITARDO_CICLO",
+  "surface": "mobile",
+  "viewport": "iphone-se",
+  "input": "Il ciclo è in ritardo di quattro giorni, ma di solito non è sempre regolare. Non ho dolore forte, sanguinamento, capogiri o svenimenti.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nData e regolarita note\nB\nCiclo spesso irregolare\nC\nNon ricordo\nD\nNessuna delle precedenti",
+    "A\nPossibilita presente o farmaci/contraccezione\nB\nPossibilita incerta\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSi, uno o piu cambiamenti\nB\nSolo lievi cambiamenti\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nLa paziente, di 50 anni, riferisce un ritardo del ciclo mestruale di quattro giorni. Il suo ciclo non è abitualmente regolare. Non sono stati riferiti sintomi associati quali dolore intenso, sanguinamento anomalo, capogiri o svenimenti.\n\nSegnali rilevanti da riferire al medico:\nAssenza di dolore forte\nAssenza di sanguinamento anomalo\nAssenza di capogiri\nAssenza di svenimenti\nSPECIALISTA CONSIGLIATO\nMedico di Medicina Generale\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nMultimorbidity: clinical assessment and management\nNICE guideline NG56\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nUrgenza bassa / non urgente: visita programmata a breve.\nSi consiglia di annotare la data dell'ultimo ciclo mestruale e la frequenza abituale dei cicli. È utile preparare un elenco di eventuali farmaci assunti e condizioni mediche preesistenti. Per l'eventuale visita ginecologica successiva, potrebbe essere richiesto di non avere rapporti sessuali o di non usare prodotti vaginali nelle 24-48 ore precedenti.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione per ritardo mestruale e irregolarità del ciclo in paziente di 50 anni. Assenza di dolore, sanguinamento anomalo, capogiri o svenimenti. Eventuale invio a Ginecologia per approfondimento.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:57:48.473Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/iphone-se/GINE_05_NEGATIVO_RITARDO_CICLO.png"
+}

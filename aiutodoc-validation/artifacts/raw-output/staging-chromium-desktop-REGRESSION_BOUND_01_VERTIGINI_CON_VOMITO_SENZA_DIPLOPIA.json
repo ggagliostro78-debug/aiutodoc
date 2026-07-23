@@ -1,0 +1,58 @@
+{
+  "id": "REGRESSION_BOUND_01_VERTIGINI_CON_VOMITO_SENZA_DIPLOPIA",
+  "category": "casi borderline",
+  "input": "Da un’ora ho forti vertigini e ho vomitato due volte. Non vedo doppio e non ho debolezza, ma faccio fatica a stare in piedi.",
+  "questions": [
+    "I sintomi sono iniziati all'improvviso o da poco e sono ancora presenti o ricorrenti? A) Si, esordio recente o improvviso B) Non so con precisione C) No, sono vecchi o gia risolti D) Nessuna delle precedenti",
+    "Ci sono visione doppia, difficolta a camminare, perdita di equilibrio, problemi di coordinazione, parola, volto, forza o sensibilita? A) Si, uno o piu segnali B) Solo in parte C) No D) Nessuna delle precedenti",
+    "Sono presenti vomito, fibrillazione atriale, anticoagulanti, peggioramento o sintomi ancora in corso tali da richiedere valutazione urgente? A) Si, uno o piu elementi B) Non so / dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "I sintomi sono iniziati all'improvviso o da poco e sono ancora presenti o ricorrenti?\n<br><i>A) Si, esordio recente o improvviso<br>B) Non so con precisione<br>C) No, sono vecchi o gia risolti<br>D) Nessuna delle precedenti</i>",
+    "Ci sono visione doppia, difficolta a camminare, perdita di equilibrio, problemi di coordinazione, parola, volto, forza o sensibilita?\n<br><i>A) Si, uno o piu segnali<br>B) Solo in parte<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Sono presenti vomito, fibrillazione atriale, anticoagulanti, peggioramento o sintomi ancora in corso tali da richiedere valutazione urgente?\n<br><i>A) Si, uno o piu elementi<br>B) Non so / dubbio<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "branch": "Neurologia prudenziale",
+  "overrideOrBypass": "neuro red flag",
+  "redFlagsConsidered": [
+    "visione doppia",
+    "equilibrio",
+    "camminare",
+    "vomito",
+    "fibrillazione",
+    "peggioramento"
+  ],
+  "negationsRespected": true,
+  "motivations": [],
+  "motivationsFaithful": true,
+  "diagnosticViolations": [],
+  "prescriptionsPresent": false,
+  "offBranch": [],
+  "effectiveEscalation": false,
+  "falsePositiveUrgency": false,
+  "underUrgency": false,
+  "regression": "P0/P1/P2: NO",
+  "classification": "PASS ROUTING",
+  "problem": "",
+  "validator": {
+    "status": "PASS ROUTING",
+    "diagnosticViolations": [],
+    "falsePositiveUrgency": false,
+    "bypassDocumented": false,
+    "offBranch": [],
+    "coverage": {},
+    "unfaithfulMotivations": [],
+    "negationsIgnored": false,
+    "problems": []
+  },
+  "geminiCalls": [],
+  "state": "4_CONOSCITIVE",
+  "timestamp": "2026-07-12T23:06:35.878Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "infrastructureError": ""
+}

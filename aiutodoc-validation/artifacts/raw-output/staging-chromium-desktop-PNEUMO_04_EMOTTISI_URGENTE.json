@@ -1,0 +1,25 @@
+{
+  "id": "PNEUMO_04_EMOTTISI_URGENTE",
+  "input": "Donna di 55 anni. Da due giorni tossisco e oggi ho visto sangue rosso nel catarro, piu di semplici striature. Ho anche dolore al torace quando respiro profondamente e un po' di fiato corto. Non ho avuto traumi. Fumo.",
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nsangue rosso nel catarro\npiu di semplici striature\nemottisi\npossibile sanguinamento respiratorio\ndolore toracico respiratorio\nfiato corto\nfumo\nassenza di trauma\nescalation a 112/118 o Pronto Soccorso se sanguinamento abbondante, peggioramento, dispnea importante, dolore toracico intenso, svenimento o instabilita\n20:57",
+  "specialist": "Valutazione urgente; Pronto Soccorso se sangue abbondante, dispnea, dolore toracico o peggioramento",
+  "areaSpecialistica": {
+    "branca": "Pneumologia / Pronto Soccorso",
+    "area_specialistica": "Emottisi / sanguinamento respiratorio / dolore pleuritico",
+    "eventuale_secondo_livello": "Pneumologia dopo valutazione urgente"
+  },
+  "urgency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nsangue rosso nel catarro\npiu di semplici striature\nemottisi\npossibile sanguinamento respiratorio\ndolore toracico respiratorio\nfiato corto\nfumo\nassenza di trauma\nescalation a 112/118 o Pronto Soccorso se sanguinamento abbondante, peggioramento, dispnea importante, dolore toracico intenso, svenimento o instabilita\n20:57",
+  "redFlagsText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nsangue rosso nel catarro\npiu di semplici striature\nemottisi\npossibile sanguinamento respiratorio\ndolore toracico respiratorio\nfiato corto\nfumo\nassenza di trauma\nescalation a 112/118 o Pronto Soccorso se sanguinamento abbondante, peggioramento, dispnea importante, dolore toracico intenso, svenimento o instabilita\n20:57",
+  "disclaimer": "Importante\n\nAIutoDoc non fornisce diagnosi, prescrizioni o pareri medici e non sostituisce una visita sanitaria.\n\nIn caso di urgenza, sintomi gravi o peggioramento improvviso, chiama il 112/118 o rivolgiti al Pronto Soccorso.",
+  "sources": "",
+  "clinicalEmergency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nsangue rosso nel catarro\npiu di semplici striature\nemottisi\npossibile sanguinamento respiratorio\ndolore toracico respiratorio\nfiato corto\nfumo\nassenza di trauma\nescalation a 112/118 o Pronto Soccorso se sanguinamento abbondante, peggioramento, dispnea importante, dolore toracico intenso, svenimento o instabilita\n20:57",
+  "urgencyReason": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nsangue rosso nel catarro\npiu di semplici striature\nemottisi\npossibile sanguinamento respiratorio\ndolore toracico respiratorio\nfiato corto\nfumo\nassenza di trauma\nescalation a 112/118 o Pronto Soccorso se sanguinamento abbondante, peggioramento, dispnea importante, dolore toracico intenso, svenimento o instabilita\n20:57",
+  "questionCount": 0,
+  "geminiCalls": [],
+  "geminiHttpStatus": null,
+  "geminiDurationMs": null,
+  "url": "http://127.0.0.1:4273/",
+  "environment": "staging",
+  "timestamp": "2026-07-11T18:57:20.944Z",
+  "screenshot": "../artifacts/screenshots-staging/staging-chromium-desktop-PNEUMO_04_EMOTTISI_URGENTE.png"
+}

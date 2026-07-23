@@ -1,0 +1,54 @@
+{
+  "id": "REGRESSION_NEG_06_MANDIBOLA_ODONTOIATRICA",
+  "category": "controlli negativi",
+  "input": "Ho dolore localizzato a un dente e alla mandibola quando mastico. La gengiva è gonfia. Non ho nausea, affanno, dolore al petto, sudorazione o peso allo stomaco.",
+  "questions": [
+    "Il dolore e localizzato a un dente preciso e peggiora quando mastichi o con caldo e freddo? A) Si, chiaramente B) Solo in parte C) No D) Nessuna delle precedenti",
+    "La gengiva o il viso sono gonfi e il gonfiore sta aumentando, oppure compaiono febbre o rapido peggioramento? A) Si, uno o piu segnali B) Solo lieve o stabile C) No D) Nessuna delle precedenti",
+    "Hai difficolta ad aprire la bocca o deglutire, oppure nausea, sudorazione, peso allo stomaco o affanno non spiegati dal dente? A) Si, uno o piu sintomi B) Solo dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Il dolore e localizzato a un dente preciso e peggiora quando mastichi o con caldo e freddo?\n<br><i>A) Si, chiaramente<br>B) Solo in parte<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "La gengiva o il viso sono gonfi e il gonfiore sta aumentando, oppure compaiono febbre o rapido peggioramento?\n<br><i>A) Si, uno o piu segnali<br>B) Solo lieve o stabile<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Hai difficolta ad aprire la bocca o deglutire, oppure nausea, sudorazione, peso allo stomaco o affanno non spiegati dal dente?\n<br><i>A) Si, uno o piu sintomi<br>B) Solo dubbio<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "branch": "Odontoiatria",
+  "overrideOrBypass": "guardia odontoiatrica",
+  "redFlagsConsidered": [
+    "febbre",
+    "peggioramento"
+  ],
+  "negationsRespected": true,
+  "motivations": [],
+  "motivationsFaithful": true,
+  "diagnosticViolations": [],
+  "prescriptionsPresent": false,
+  "offBranch": [],
+  "effectiveEscalation": false,
+  "falsePositiveUrgency": false,
+  "underUrgency": false,
+  "regression": "P0/P1: NO",
+  "classification": "PASS ROUTING",
+  "problem": "",
+  "validator": {
+    "status": "PASS ROUTING",
+    "diagnosticViolations": [],
+    "falsePositiveUrgency": false,
+    "bypassDocumented": false,
+    "offBranch": [],
+    "coverage": {},
+    "unfaithfulMotivations": [],
+    "negationsIgnored": false,
+    "problems": []
+  },
+  "geminiCalls": [],
+  "state": "4_CONOSCITIVE",
+  "timestamp": "2026-07-12T23:06:30.886Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "infrastructureError": ""
+}

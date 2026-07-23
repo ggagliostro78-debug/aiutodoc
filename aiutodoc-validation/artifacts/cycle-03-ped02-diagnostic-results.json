@@ -1,0 +1,750 @@
+{
+  "generatedAt": "2026-07-16T21:20:15.354Z",
+  "rootCause": "ERRORE RUNNER",
+  "conclusion": "Lo stato 5C resta invariato perche la coda passa da exact_age a weight_kg; la transizione va verificata tramite currentConditionalDetail e userData.exact_age.",
+  "methods": [
+    {
+      "method": "A",
+      "before": {
+        "state": "5C_DETTAGLIO_CONDIZIONATO",
+        "detail": "exact_age",
+        "exactAge": null,
+        "weight": null
+      },
+      "after": {
+        "state": "5C_DETTAGLIO_CONDIZIONATO",
+        "detail": "weight_kg",
+        "exactAge": 7,
+        "weight": null
+      },
+      "dom": {
+        "url": "http://127.0.0.1:4273/",
+        "compatibleCount": 11,
+        "compatible": [
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "user-input",
+            "type": "textarea",
+            "hidden": false
+          }
+        ],
+        "field": {
+          "tag": "TEXTAREA",
+          "id": "user-input",
+          "name": "",
+          "type": "textarea",
+          "value": "",
+          "disabled": false,
+          "readOnly": false,
+          "placeholder": "Inserisci l'età precisa. Es. 47",
+          "ariaLabel": null,
+          "ariaDisabled": null,
+          "visible": true,
+          "boundingBox": {
+            "x": 125,
+            "y": 646.5,
+            "width": 966,
+            "height": 57.5
+          },
+          "essentialHtml": "<textarea id=\"user-input\" data-testid=\"symptom-input\" placeholder=\"Inserisci l'età precisa. Es. 47\" rows=\"1\" enterkeyhint=\"send\" autocapitalize=\"sentences\" autocomplete=\"on\" spellcheck=\"true\" style=\"height: auto;\"></textarea>"
+        },
+        "button": {
+          "id": "send-btn",
+          "text": "Invia",
+          "disabled": false,
+          "visible": true
+        },
+        "chatInputCount": 1,
+        "sendButtonCount": 1
+      },
+      "valueBeforeClick": "7",
+      "valueAfterClick": "",
+      "fieldSameNode": true,
+      "events": [
+        {
+          "type": "focus",
+          "value": "",
+          "key": null
+        },
+        {
+          "type": "beforeinput",
+          "value": "",
+          "key": null
+        },
+        {
+          "type": "input",
+          "value": "7",
+          "key": null
+        },
+        {
+          "type": "change",
+          "value": "7",
+          "key": null
+        },
+        {
+          "type": "blur",
+          "value": "7",
+          "key": null
+        }
+      ],
+      "mutations": [
+        {
+          "type": "attributes",
+          "attributeName": "class"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "class"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "class"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "disabled"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "disabled"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "placeholder"
+        }
+      ],
+      "buttonDisabledAfter": true,
+      "consoleErrors": [
+        "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+      ],
+      "pageErrors": [],
+      "network": [
+        {
+          "method": "POST",
+          "path": "/api/consent-logs",
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/consent-logs",
+          "status": 200
+        }
+      ],
+      "geminiRequests": [],
+      "neutralizedSearchRoutes": [],
+      "externalSpecialistSearchCalls": 0,
+      "transition": true,
+      "stoppedBeforeClinicalGemini": true
+    },
+    {
+      "method": "B",
+      "before": {
+        "state": "5C_DETTAGLIO_CONDIZIONATO",
+        "detail": "exact_age",
+        "exactAge": null,
+        "weight": null
+      },
+      "after": {
+        "state": "5C_DETTAGLIO_CONDIZIONATO",
+        "detail": "weight_kg",
+        "exactAge": 7,
+        "weight": null
+      },
+      "dom": {
+        "url": "http://127.0.0.1:4273/",
+        "compatibleCount": 11,
+        "compatible": [
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "user-input",
+            "type": "textarea",
+            "hidden": false
+          }
+        ],
+        "field": {
+          "tag": "TEXTAREA",
+          "id": "user-input",
+          "name": "",
+          "type": "textarea",
+          "value": "",
+          "disabled": false,
+          "readOnly": false,
+          "placeholder": "Inserisci l'età precisa. Es. 47",
+          "ariaLabel": null,
+          "ariaDisabled": null,
+          "visible": true,
+          "boundingBox": {
+            "x": 125,
+            "y": 646.5,
+            "width": 966,
+            "height": 57.5
+          },
+          "essentialHtml": "<textarea id=\"user-input\" data-testid=\"symptom-input\" placeholder=\"Inserisci l'età precisa. Es. 47\" rows=\"1\" enterkeyhint=\"send\" autocapitalize=\"sentences\" autocomplete=\"on\" spellcheck=\"true\" style=\"height: auto;\"></textarea>"
+        },
+        "button": {
+          "id": "send-btn",
+          "text": "Invia",
+          "disabled": false,
+          "visible": true
+        },
+        "chatInputCount": 1,
+        "sendButtonCount": 1
+      },
+      "valueBeforeClick": "7",
+      "valueAfterClick": "",
+      "fieldSameNode": true,
+      "events": [
+        {
+          "type": "focus",
+          "value": "",
+          "key": null
+        },
+        {
+          "type": "keydown",
+          "value": "",
+          "key": "7"
+        },
+        {
+          "type": "beforeinput",
+          "value": "",
+          "key": null
+        },
+        {
+          "type": "input",
+          "value": "7",
+          "key": null
+        },
+        {
+          "type": "keydown",
+          "value": "7",
+          "key": "Tab"
+        },
+        {
+          "type": "change",
+          "value": "7",
+          "key": null
+        },
+        {
+          "type": "blur",
+          "value": "7",
+          "key": null
+        }
+      ],
+      "mutations": [
+        {
+          "type": "attributes",
+          "attributeName": "class"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "class"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "class"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "disabled"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "disabled"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "placeholder"
+        }
+      ],
+      "buttonDisabledAfter": true,
+      "consoleErrors": [
+        "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+      ],
+      "pageErrors": [],
+      "network": [
+        {
+          "method": "POST",
+          "path": "/api/consent-logs",
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/consent-logs",
+          "status": 200
+        }
+      ],
+      "geminiRequests": [],
+      "neutralizedSearchRoutes": [],
+      "externalSpecialistSearchCalls": 0,
+      "transition": true,
+      "stoppedBeforeClinicalGemini": true
+    },
+    {
+      "method": "C",
+      "before": {
+        "state": "5C_DETTAGLIO_CONDIZIONATO",
+        "detail": "exact_age",
+        "exactAge": null,
+        "weight": null
+      },
+      "after": {
+        "state": "5C_DETTAGLIO_CONDIZIONATO",
+        "detail": "weight_kg",
+        "exactAge": 7,
+        "weight": null
+      },
+      "dom": {
+        "url": "http://127.0.0.1:4273/",
+        "compatibleCount": 11,
+        "compatible": [
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "user-input",
+            "type": "textarea",
+            "hidden": false
+          }
+        ],
+        "field": {
+          "tag": "TEXTAREA",
+          "id": "user-input",
+          "name": "",
+          "type": "textarea",
+          "value": "",
+          "disabled": false,
+          "readOnly": false,
+          "placeholder": "Inserisci l'età precisa. Es. 47",
+          "ariaLabel": null,
+          "ariaDisabled": null,
+          "visible": true,
+          "boundingBox": {
+            "x": 125,
+            "y": 646.5,
+            "width": 966,
+            "height": 57.5
+          },
+          "essentialHtml": "<textarea id=\"user-input\" data-testid=\"symptom-input\" placeholder=\"Inserisci l'età precisa. Es. 47\" rows=\"1\" enterkeyhint=\"send\" autocapitalize=\"sentences\" autocomplete=\"on\" spellcheck=\"true\" style=\"height: auto;\"></textarea>"
+        },
+        "button": {
+          "id": "send-btn",
+          "text": "Invia",
+          "disabled": false,
+          "visible": true
+        },
+        "chatInputCount": 1,
+        "sendButtonCount": 1
+      },
+      "valueBeforeClick": "7",
+      "valueAfterClick": "",
+      "fieldSameNode": true,
+      "events": [
+        {
+          "type": "input",
+          "value": "7",
+          "key": null
+        },
+        {
+          "type": "change",
+          "value": "7",
+          "key": null
+        },
+        {
+          "type": "blur",
+          "value": "7",
+          "key": null
+        },
+        {
+          "type": "focus",
+          "value": "7",
+          "key": null
+        },
+        {
+          "type": "blur",
+          "value": "7",
+          "key": null
+        }
+      ],
+      "mutations": [
+        {
+          "type": "attributes",
+          "attributeName": "class"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "class"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "class"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "disabled"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "disabled"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "placeholder"
+        }
+      ],
+      "buttonDisabledAfter": true,
+      "consoleErrors": [
+        "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+      ],
+      "pageErrors": [],
+      "network": [
+        {
+          "method": "POST",
+          "path": "/api/consent-logs",
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/consent-logs",
+          "status": 200
+        }
+      ],
+      "geminiRequests": [],
+      "neutralizedSearchRoutes": [],
+      "externalSpecialistSearchCalls": 0,
+      "transition": true,
+      "stoppedBeforeClinicalGemini": true
+    },
+    {
+      "method": "D",
+      "before": {
+        "state": "5C_DETTAGLIO_CONDIZIONATO",
+        "detail": "exact_age",
+        "exactAge": null,
+        "weight": null
+      },
+      "after": {
+        "state": "5C_DETTAGLIO_CONDIZIONATO",
+        "detail": "weight_kg",
+        "exactAge": 7,
+        "weight": null
+      },
+      "dom": {
+        "url": "http://127.0.0.1:4273/",
+        "compatibleCount": 11,
+        "compatible": [
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "",
+            "type": "radio",
+            "hidden": true
+          },
+          {
+            "id": "user-input",
+            "type": "textarea",
+            "hidden": false
+          }
+        ],
+        "field": {
+          "tag": "TEXTAREA",
+          "id": "user-input",
+          "name": "",
+          "type": "textarea",
+          "value": "",
+          "disabled": false,
+          "readOnly": false,
+          "placeholder": "Inserisci l'età precisa. Es. 47",
+          "ariaLabel": null,
+          "ariaDisabled": null,
+          "visible": true,
+          "boundingBox": {
+            "x": 125,
+            "y": 646.5,
+            "width": 966,
+            "height": 57.5
+          },
+          "essentialHtml": "<textarea id=\"user-input\" data-testid=\"symptom-input\" placeholder=\"Inserisci l'età precisa. Es. 47\" rows=\"1\" enterkeyhint=\"send\" autocapitalize=\"sentences\" autocomplete=\"on\" spellcheck=\"true\" style=\"height: auto;\"></textarea>"
+        },
+        "button": {
+          "id": "send-btn",
+          "text": "Invia",
+          "disabled": false,
+          "visible": true
+        },
+        "chatInputCount": 1,
+        "sendButtonCount": 1
+      },
+      "valueBeforeClick": "7",
+      "valueAfterClick": "",
+      "fieldSameNode": true,
+      "events": [
+        {
+          "type": "focus",
+          "value": "",
+          "key": null
+        },
+        {
+          "type": "keydown",
+          "value": "",
+          "key": "7"
+        },
+        {
+          "type": "beforeinput",
+          "value": "",
+          "key": null
+        },
+        {
+          "type": "input",
+          "value": "7",
+          "key": null
+        },
+        {
+          "type": "change",
+          "value": "7",
+          "key": null
+        },
+        {
+          "type": "blur",
+          "value": "7",
+          "key": null
+        }
+      ],
+      "mutations": [
+        {
+          "type": "attributes",
+          "attributeName": "class"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "class"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "class"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "disabled"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "disabled"
+        },
+        {
+          "type": "attributes",
+          "attributeName": "placeholder"
+        }
+      ],
+      "buttonDisabledAfter": true,
+      "consoleErrors": [
+        "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+      ],
+      "pageErrors": [],
+      "network": [
+        {
+          "method": "POST",
+          "path": "/api/consent-logs",
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/consent-logs",
+          "status": 200
+        }
+      ],
+      "geminiRequests": [],
+      "neutralizedSearchRoutes": [],
+      "externalSpecialistSearchCalls": 0,
+      "transition": true,
+      "stoppedBeforeClinicalGemini": true
+    }
+  ]
+}

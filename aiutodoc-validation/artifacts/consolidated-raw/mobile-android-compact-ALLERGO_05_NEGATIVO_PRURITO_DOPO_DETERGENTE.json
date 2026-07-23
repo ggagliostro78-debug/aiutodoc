@@ -1,0 +1,31 @@
+{
+  "id": "ALLERGO_05_NEGATIVO_PRURITO_DOPO_DETERGENTE",
+  "surface": "mobile",
+  "viewport": "android-compact",
+  "input": "Dopo aver usato un detergente nuovo mi sono prudute leggermente le mani per qualche minuto. Ora è passato. Non ho eruzioni diffuse, gonfiore, difficoltà respiratoria o malessere.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSì, chiaramente\nB\nForse / solo in parte\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSì\nB\nNon so / dubbio\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nCoinvolge viso/respirazione\nB\nAltre aree cutanee\nC\nSolo mani o zona limitata\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nL'utente, maschio di età compresa tra 40 e 64 anni, riferisce di aver sperimentato un leggero prurito alle mani per alcuni minuti dopo l'utilizzo di un nuovo detergente. I sintomi sono insorti da qualche ora/giorno e si sono risolti spontaneamente. Non sono state rilevate eruzioni cutanee diffuse, gonfiore, difficoltà respiratorie o malessere generale.\n\nSegnali rilevanti da riferire al medico:\nassenza di eruzioni diffuse\nassenza di gonfiore\nassenza di difficoltà respiratoria\nassenza di malessere\nSPECIALISTA CONSIGLIATO\nMedico di Medicina Generale\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nMultimorbidity: clinical assessment and management\nNICE guideline NG56\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nnon urgente / visita programmata a breve\nSi consiglia di evitare l'ulteriore contatto con il detergente orientamento. Osservare attentamente se i sintomi si ripresentano o se compaiono nuove manifestazioni cutanee. Preparare un elenco di tutti i nuovi prodotti utilizzati di recente per la cura personale o per la casa.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione di reazione cutanea da contatto, transitoria e risolta, a seguito di utilizzo di nuovo detergente.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T01:01:20.601Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/android-compact/ALLERGO_05_NEGATIVO_PRURITO_DOPO_DETERGENTE.png"
+}

@@ -1,0 +1,268 @@
+{
+  "id": "ENDO_04_BORDERLINE_CICLO_IRREGOLARE",
+  "input": "Da diversi mesi ho ciclo irregolare, aumento di peso, acne e crescita di peli sul viso.",
+  "comparisonCase": true,
+  "timeline": [
+    {
+      "atMs": 546.446,
+      "event": "page_loaded"
+    },
+    {
+      "atMs": 1949.226,
+      "event": "clinical_input_submitted",
+      "state": "4_CONOSCITIVE"
+    },
+    {
+      "atMs": 6909.983,
+      "event": "research_started",
+      "state": "6_RICERCA_SCIENTIFICA"
+    },
+    {
+      "atMs": 53016.891,
+      "event": "state_final",
+      "state": "7_FINE"
+    }
+  ],
+  "networkEvents": [
+    {
+      "atMs": 6888.817,
+      "event": "request",
+      "method": "POST",
+      "url": "/api/gemini",
+      "bodyBytes": 4867,
+      "prompt": {
+        "sha256": "44573b61f5359e9637091ef4220cf558da71905e144741e8ca4715997f4a205b",
+        "charLength": 4725,
+        "utf8Bytes": 4731,
+        "newlineCount": 37,
+        "accentCount": 6,
+        "apostropheCount": 11,
+        "literalNullCount": 0,
+        "literalUndefinedCount": 0,
+        "healthFields": [
+          {
+            "field": "Fascia di età iniziale",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Età puntuale, se clinicamente necessaria e raccolta",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Peso, se clinicamente necessario e raccolto",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Altezza, se clinicamente necessaria e raccolta",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Sesso biologico",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Zona",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Disturbo",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Risposte Conoscitive",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Risposte Anamnestiche",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Nota libera conoscitiva",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Nota libera anamnestica",
+            "value": "[SANITIZED]"
+          }
+        ]
+      }
+    },
+    {
+      "atMs": 20726.396,
+      "event": "response",
+      "url": "/api/gemini",
+      "status": 200,
+      "durationMs": 13837.813
+    }
+  ],
+  "consoleEvents": [
+    {
+      "atMs": 99.371,
+      "type": "log",
+      "text": "Rescue UI Script loading..."
+    },
+    {
+      "atMs": 230.912,
+      "type": "log",
+      "text": "App shared loading..."
+    },
+    {
+      "atMs": 295.436,
+      "type": "log",
+      "text": "Triage engine loading... (v3.1.0-STANDALONE)"
+    },
+    {
+      "atMs": 517.614,
+      "type": "log",
+      "text": "Initializing App Engine (v3.0.0)..."
+    },
+    {
+      "atMs": 1200.977,
+      "type": "log",
+      "text": "Privacy accepted."
+    },
+    {
+      "atMs": 1770.622,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> Italia"
+    },
+    {
+      "atMs": 1777.369,
+      "type": "log",
+      "text": "Engine: elaborazione input -> Italia | Stato attuale: 2_ZONA"
+    },
+    {
+      "atMs": 1933.635,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> [DATI_SANITARI_OSCURATI]"
+    },
+    {
+      "atMs": 1934.328,
+      "type": "log",
+      "text": "Engine: elaborazione input -> [DATI_SANITARI_OSCURATI] | Stato attuale: 3_DISTURBO"
+    },
+    {
+      "atMs": 1938.046,
+      "type": "warning",
+      "text": "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+    },
+    {
+      "atMs": 2520.348,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Da mesi/anni | Stato attuale: 4_CONOSCITIVE"
+    },
+    {
+      "atMs": 3068.251,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Alterna momenti buoni e cattivi | Stato attuale: 4_CONOSCITIVE"
+    },
+    {
+      "atMs": 3653.203,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Patologie croniche note | Stato attuale: 4_CONOSCITIVE"
+    },
+    {
+      "atMs": 4201.295,
+      "type": "log",
+      "text": "Engine: elaborazione input -> No | Stato attuale: 4B_NOTA_CONOSCITIVA_SCELTA"
+    },
+    {
+      "atMs": 4734.179,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) No o minimo | Stato attuale: 5_ANAMNESTICHE"
+    },
+    {
+      "atMs": 5305.421,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) No | Stato attuale: 5_ANAMNESTICHE"
+    },
+    {
+      "atMs": 5870.385,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) No | Stato attuale: 5_ANAMNESTICHE"
+    },
+    {
+      "atMs": 6100.943,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> 70"
+    },
+    {
+      "atMs": 6102.167,
+      "type": "log",
+      "text": "Engine: elaborazione input -> 70 | Stato attuale: 5C_DETTAGLIO_CONDIZIONATO"
+    },
+    {
+      "atMs": 6351.794,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> 170"
+    },
+    {
+      "atMs": 6352.614,
+      "type": "log",
+      "text": "Engine: elaborazione input -> 170 | Stato attuale: 5C_DETTAGLIO_CONDIZIONATO"
+    },
+    {
+      "atMs": 6883.934,
+      "type": "log",
+      "text": "Engine: elaborazione input -> No | Stato attuale: 5B_NOTA_ANAMNESTICA_SCELTA"
+    },
+    {
+      "atMs": 52816.51,
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "atMs": 52816.688,
+      "type": "warning",
+      "text": "Fallback specialist-search senza risultati: Error: Specialist Search Error (502): {\"error\":\"Errore ricerca specialisti.\",\"code\":\"GOOGLE_SEARCH_ERROR\",\"detail\":\"SerpApi error (429): {\\n  \\\"error\\\": \\\"Your account has run out of searches.\\\"\\n}\"}\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3368:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2284:44)"
+    }
+  ],
+  "questionData": {
+    "branch": "unknown",
+    "conoscitiveCount": 0,
+    "anamnesticheCount": 3,
+    "anamnestiche": [
+      "Il fiato corto compare a riposo, di notte, da sdraiato o solo sotto sforzo?\n<br><i>A) A riposo/notte/da sdraiato<br>B) Solo sotto sforzo<br>C) No o minimo<br>D) Nessuna delle precedenti</i>",
+      "Hai gonfiore a gambe o caviglie, aumento rapido di peso o necessità di dormire con più cuscini?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No<br>D) Nessuna delle precedenti</i>",
+      "Sono presenti dolore toracico attuale, saturazione bassa, svenimento, confusione o peggioramento rapido?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No<br>D) Nessuna delle precedenti</i>"
+    ],
+    "userDataKeys": [
+      "age",
+      "age_range",
+      "anamnesticheResp",
+      "conoscitiveResp",
+      "disturbo",
+      "domandeAnamnesticheDinamiche",
+      "exact_age",
+      "height_cm",
+      "initialMedicalData",
+      "notaAnamnestica",
+      "notaConoscitiva",
+      "sessoEta",
+      "sex_at_birth",
+      "weight_kg",
+      "zona",
+      "zonaDettagli"
+    ],
+    "nullKeys": [
+      "age",
+      "exact_age"
+    ],
+    "undefinedKeys": []
+  },
+  "frontend": {
+    "finalState": "7_FINE",
+    "geminiRequestCount": 1,
+    "pendingGeminiRequests": 0,
+    "loaderVisible": false,
+    "inputBarVisible": false,
+    "sendButtonVisible": false,
+    "sendButtonEnabled": true,
+    "successOutputVisible": true,
+    "failureOutputVisible": false,
+    "failureText": ""
+  },
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-14T23:20:28.381Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "P2_NEG_02_FERRO_SENZA_FECI_SCURE",
+  "input": "Prendo un integratore di ferro da un mese, ma non ho notato cambiamenti nelle feci e non ho altri disturbi.",
+  "questions": [
+    "Da quanto tempo assumi ferro o bismuto e quale professionista lo ha indicato? A) Indicazione recente con professionista noto B) Assunzione da tempo C) Non so o non ho il riferimento D) Nessuna delle precedenti",
+    "Cerchi un orientamento per un controllo programmato e hai referti o indicazioni recenti da portare al professionista? A) Si, controllo e documenti disponibili B) Solo in parte C) No D) Nessuna delle precedenti",
+    "Sono comparsi cambiamenti delle feci, debolezza, capogiri, dolore, vomito, sanguinamento o altri disturbi nuovi da riferire? A) Si, uno o piu cambiamenti nuovi B) Solo dubbi C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Da quanto tempo assumi ferro o bismuto e quale professionista lo ha indicato?\n<br><i>A) Indicazione recente con professionista noto<br>B) Assunzione da tempo<br>C) Non so o non ho il riferimento<br>D) Nessuna delle precedenti</i>",
+    "Cerchi un orientamento per un controllo programmato e hai referti o indicazioni recenti da portare al professionista?\n<br><i>A) Si, controllo e documenti disponibili<br>B) Solo in parte<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Sono comparsi cambiamenti delle feci, debolezza, capogiri, dolore, vomito, sanguinamento o altri disturbi nuovi da riferire?\n<br><i>A) Si, uno o piu cambiamenti nuovi<br>B) Solo dubbi<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T22:18:30.109Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "ironBranch": false,
+    "pregnancyUrinary": false,
+    "pregnancyUrgent": false,
+    "pregnancyNausea": false,
+    "nonPregnantFlank": false,
+    "genericUrinary": false,
+    "ironFollowUp": true,
+    "pregnancyGeneral": false,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "REGRESSION_BOUND_05_FECI_SCURE_SENZA_SINTOMI_SISTEMICI",
+  "category": "casi borderline",
+  "input": "Da ieri ho notato feci molto scure. Non assumo ferro o bismuto, non prendo anticoagulanti e non ho debolezza, capogiri, dolore, vomito o svenimenti.",
+  "questions": [],
+  "rawQuestions": [],
+  "emergencyBypass": true,
+  "emergencyText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nFeci scure o molto scure riferite\n01:06",
+  "branch": "Pronto Soccorso prudenziale",
+  "overrideOrBypass": "bypass urgenza",
+  "redFlagsConsidered": [
+    "feci"
+  ],
+  "negationsRespected": true,
+  "motivations": [
+    "Feci scure o molto scure riferite"
+  ],
+  "motivationsFaithful": true,
+  "diagnosticViolations": [],
+  "prescriptionsPresent": false,
+  "offBranch": [],
+  "effectiveEscalation": true,
+  "falsePositiveUrgency": false,
+  "underUrgency": false,
+  "regression": "P0: NO",
+  "classification": "BYPASS URGENZA DOCUMENTATO",
+  "problem": "",
+  "validator": {
+    "status": "BYPASS URGENZA DOCUMENTATO",
+    "diagnosticViolations": [],
+    "falsePositiveUrgency": false,
+    "bypassDocumented": true,
+    "offBranch": [],
+    "coverage": {},
+    "unfaithfulMotivations": [],
+    "negationsIgnored": false,
+    "problems": []
+  },
+  "geminiCalls": [],
+  "state": "3_DISTURBO",
+  "timestamp": "2026-07-12T23:06:44.564Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "infrastructureError": ""
+}

@@ -1,0 +1,20 @@
+{
+  "id": "REGRESSION_POS_05_FECI_SCURE",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Da stamattina ho feci molto scure, mi sento debole e ho capogiri. Prendo un anticoagulante per la fibrillazione atriale.",
+  "questions": [],
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nfeci nere o molto scure\ndebolezza riferita\ncapogiri riferiti\nterapia anticoagulante riferita\nfibrillazione atriale riferita\n02:33",
+  "expectedBypass": true,
+  "emergencyBypass": true,
+  "geminiCalls": [],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 0,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:33:51.769Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/REGRESSION_POS_05_FECI_SCURE.png"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "OCUL_01_URGENTE_PERDITA_VISIVA_IMPROVVISA",
+  "input": "Da circa mezz’ora vedo molto meno da un occhio. È successo improvvisamente e non sta migliorando. Non ho avuto traumi.",
+  "timestamp": "2026-07-16T18:33:12.368Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": true,
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ncalo visivo improvviso\nun solo occhio coinvolto\nsintomo ancora presente\nassenza di miglioramento\nassenza di trauma riferita\n20:33",
+  "questions": [],
+  "specialist": "Pronto Soccorso / servizio oculistico urgente",
+  "areaSpecialistica": {
+    "branca": "Pronto Soccorso / Oculistica urgente",
+    "area_specialistica": "Calo visivo improvviso monolaterale persistente da valutare immediatamente",
+    "eventuale_secondo_livello": "Oculistica dopo la valutazione urgente"
+  },
+  "urgency": "Alta / immediata: recarsi subito in Pronto Soccorso o al servizio oculistico urgente",
+  "redFlagsText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ncalo visivo improvviso\nun solo occhio coinvolto\nsintomo ancora presente\nassenza di miglioramento\nassenza di trauma riferita\n20:33",
+  "geminiCalls": [],
+  "neutralizedSearchRoutes": [],
+  "externalSpecialistSearchCalls": 0
+}

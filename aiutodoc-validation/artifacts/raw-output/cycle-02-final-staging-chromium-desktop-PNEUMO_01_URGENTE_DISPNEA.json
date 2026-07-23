@@ -1,0 +1,21 @@
+{
+  "id": "PNEUMO_01_URGENTE_DISPNEA",
+  "input": "Da oggi faccio molta fatica a respirare anche da fermo, riesco a parlare solo con poche parole e mi sento confuso.",
+  "terminal": "success",
+  "playwrightStatus": "passed",
+  "emergencyBypass": true,
+  "questions": [],
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nDifficoltà respiratoria o dispnea riferita\n14:24",
+  "specialist": "",
+  "urgency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nDifficoltà respiratoria o dispnea riferita\n14:24",
+  "redFlagsText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nDifficoltà respiratoria o dispnea riferita\n14:24",
+  "geminiCalls": [],
+  "searchMethodology": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "blockedSearchRequests": [],
+  "externalSpecialistSearchCalls": 0,
+  "consoleEvents": [],
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-16T12:24:58.361Z",
+  "url": "http://127.0.0.1:4273/"
+}

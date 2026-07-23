@@ -1,0 +1,40 @@
+{
+  "id": "P1_NEG_05_LABBRA_ALLERGIA_SENZA_TRAUMA",
+  "input": "Dopo aver mangiato arachidi ho prurito e gonfiore delle labbra. Non mi sono morso e non ho subito traumi.",
+  "questions": [
+    "Dopo quale alimento sono comparsi prurito o gonfiore delle labbra e quanto tempo e passato dall'esposizione? A) Poco tempo, legame chiaro B) Legame possibile ma non certo C) Non so D) Nessuna delle precedenti",
+    "Prurito e gonfiore stanno aumentando o si stanno estendendo rapidamente? A) Si, aumentano o si estendono B) Sono stabili C) Stanno diminuendo D) Nessuna delle precedenti",
+    "Sono comparse difficolta respiratoria, lingua o gola gonfia, voce alterata, capogiri o svenimento, che richiedono escalation urgente? A) Si, uno o piu segnali B) Solo dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Dopo quale alimento sono comparsi prurito o gonfiore delle labbra e quanto tempo e passato dall'esposizione?\n<br><i>A) Poco tempo, legame chiaro<br>B) Legame possibile ma non certo<br>C) Non so<br>D) Nessuna delle precedenti</i>",
+    "Prurito e gonfiore stanno aumentando o si stanno estendendo rapidamente?\n<br><i>A) Si, aumentano o si estendono<br>B) Sono stabili<br>C) Stanno diminuendo<br>D) Nessuna delle precedenti</i>",
+    "Sono comparse difficolta respiratoria, lingua o gola gonfia, voce alterata, capogiri o svenimento, che richiedono escalation urgente?\n<br><i>A) Si, uno o piu segnali<br>B) Solo dubbio<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T21:52:45.567Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "pregnancyUrgent": false,
+    "pregnancyMild": false,
+    "traumaLip": false,
+    "dental": false,
+    "followUp": false,
+    "allergyUrgent": false,
+    "allergyMild": true,
+    "flank": false,
+    "cardio": false,
+    "pigmented": false,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

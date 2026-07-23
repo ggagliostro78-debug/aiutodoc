@@ -1,0 +1,66 @@
+{
+  "id": "NEURO_05_NEGATIVO_STANCHEZZA_CONCENTRAZIONE",
+  "expectedBranch": "Neurologia",
+  "input": "Negli ultimi giorni sono stanco e faccio fatica a concentrarmi, ma dormo poco e non ho debolezza, confusione, difficoltà a parlare, svenimenti o forte mal di testa.",
+  "terminal": "success",
+  "playwrightStatus": "passed",
+  "emergencyBypass": false,
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Quante ore dormi, com'e la qualita del sonno e da quanto durano stanchezza e difficolta di concentrazione?\n\nA\nSonno molto ridotto o disturbi persistenti\nB\nRiduzione lieve o recente\nC\nSonno sufficiente\nD\nNessuna delle precedenti",
+    "2. Ci sono stress, cambiamenti recenti, farmaci, caffeina, alcol o altre sostanze che possono influire su sonno e attenzione?\n\nA\nSi, uno o piu fattori\nB\nSolo dubbio\nC\nNo\nD\nNessuna delle precedenti",
+    "3. I sintomi persistono nonostante il riposo, stanno peggiorando o sono comparsi nuovi segnali neurologici?\n\nA\nPersistono, peggiorano o ci sono nuovi segnali\nB\nSono stabili\nC\nMigliorano con il riposo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nLa paziente di 45 anni riferisce negli ultimi giorni sensazione di stanchezza e difficoltà a concentrarsi. Segnala di dormire poco. Nega la presenza di debolezza, confusione, difficoltà a parlare, svenimenti o forte mal di testa.\n\nSegnali rilevanti da riferire al medico:\nassenza di debolezza\nassenza di confusione\nassenza di difficoltà a parlare\nassenza di svenimenti\nassenza di forte mal di testa\nSPECIALISTA CONSIGLIATO\nMedico di Medicina Generale\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nMultimorbidity: clinical assessment and management\nNICE guideline NG56\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nUrgenza bassa / non urgente: visita programmata a breve con Medico di Medicina Generale.\nSi consiglia di annotare la frequenza e l'intensità della stanchezza e delle difficoltà di concentrazione, nonché le abitudini relative al sonno. Preparare un elenco di eventuali farmaci assunti e patologie pregresse. Non è necessaria una preparazione specifica per la visita con il Medico di Medicina Generale.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione per astenia, difficoltà di concentrazione e disturbi del sonno.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nOspedale Giovanni XXIII - Gioia Tauro\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Madame Curie, 89013 Gioia Tauro RC, Italia\n\nContatti: Telefono: 0966 9421 | Sito web: http://www.asp.rc.it/?q=node/234\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nPoliclinico Umberto I -Dipartimento di Medicina Clinica, VI Clinica Medica\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Viale dell'Università, 37, 00185 Roma RM, Italia\n\nContatti: Telefono: 06 4997 2075\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nOspedale Generale M.G. Vannini Figlie di San Camillo\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via di Acqua Bullicante, 4, 00177 Roma RM, Italia\n\nContatti: Telefono: 06 242911 | Sito web: https://www.figliedisancamillo.it/roma/ospedale-vannini/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nClinica Arsbiomedica\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Luigi Bodio, 58, 00191 Roma RM, Italia\n\nContatti: Telefono: 06 361 4941 | Sito web: http://www.arsbiomedica.it/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nCENTRO MEDICO CMED - LABORATORIO ANALISI\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Viale di Villa Grazioli, 29, 00198 Roma RM, Italia\n\nContatti: Telefono: 06 8535 6938 | Sito web: https://www.cmedandpartners.it/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nCentro Medico Life Care Laboratorio Analisi\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Tiburtina Valeria, 156, 65128 Pescara PE, Italia\n\nContatti: Telefono: 085 896 1600 | Sito web: http://www.centromedicolifecare.it/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nDr. Natale Barbaro\nPrivato\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Cassia, 528, 00189 Roma RM, Italia\n\nContatti: Telefono: 06 331 4043\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione. | Medico di Medicina Generale\n\nAmbulatorio di Medicina Generale SSN\nSSN\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Pietro Toselli, 89025 Rosarno RC, Italia\n\nContatti: Telefono: 331 187 6422\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nCentro medico le Cascine\nPrivato\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via Giuseppe Impastato, 3, 56122 Pisa PI, Italia\n\nContatti: Telefono: 346 020 3436 | Sito web: https://www.centrolecascine.com/\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione.\n\nCentro Medico G Italia\nPrivato\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Via degli Oleandri, 8, 88046 Lamezia Terme CZ, Italia\n\nContatti: Telefono: 0968 200373 | Sito web: http://www.centromedicogitalia.it/\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione.\n\nDr. Calogero Gallo Carrabba\nPrivato\n\nSpecializzazione: Medico di Medicina Generale\n\nIndirizzo/Modalità: Viale Tunisia, 41, 20124 Milano MI, Italia\n\nContatti: Contatta la struttura per informazioni\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione. | Medico di Medicina Generale",
+  "specialist": "Medico di Medicina Generale",
+  "areaSpecialistica": {
+    "branca": "Medicina Generale / Medicina Interna",
+    "area_specialistica": "Valutazione di astenia, difficoltà di concentrazione e disturbi del sonno",
+    "eventuale_secondo_livello": "Non definito in questa fase"
+  },
+  "urgency": "Urgenza bassa / non urgente: visita programmata a breve con Medico di Medicina Generale.\nSi consiglia di annotare la frequenza e l'intensità della stanchezza e delle difficoltà di concentrazione, nonché le abitudini relative al sonno. Preparare un elenco di eventuali farmaci assunti e patologie pregresse. Non è necessaria una preparazione specifica per la visita con il Medico di Medicina Generale.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nassenza di debolezza\nassenza di confusione\nassenza di difficoltà a parlare\nassenza di svenimenti\nassenza di forte mal di testa",
+  "geminiCalls": [
+    {
+      "event": "request",
+      "method": "POST",
+      "atMs": 176788.5355
+    },
+    {
+      "event": "response",
+      "status": 200,
+      "durationMs": 13009.505
+    }
+  ],
+  "pendingGeminiRequests": 0,
+  "specialistCalls": [
+    {
+      "event": "request",
+      "method": "POST",
+      "atMs": 222808.854
+    },
+    {
+      "event": "response",
+      "status": 502,
+      "durationMs": 268.855
+    }
+  ],
+  "serpApiWarning": true,
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "warning",
+      "text": "Fallback specialist-search senza risultati: Error: Specialist Search Error (502): {\"error\":\"Errore ricerca specialisti.\",\"code\":\"GOOGLE_SEARCH_ERROR\",\"detail\":\"SerpApi error (429): {\\n  \\\"error\\\": \\\"Your account has run out of searches.\\\"\\n}\"}\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3504:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2394:44)"
+    }
+  ],
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-16T11:34:19.940Z",
+  "url": "http://127.0.0.1:4273/"
+}

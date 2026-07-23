@@ -1,0 +1,20 @@
+{
+  "id": "REGRESSION_BOUND_05_FECI_SCURE_SENZA_SINTOMI_SISTEMICI",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Da ieri ho notato feci molto scure. Non assumo ferro o bismuto, non prendo anticoagulanti e non ho debolezza, capogiri, dolore, vomito o svenimenti.",
+  "questions": [],
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nFeci scure o molto scure riferite\n02:40",
+  "expectedBypass": true,
+  "emergencyBypass": true,
+  "geminiCalls": [],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 0,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:40:28.920Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/REGRESSION_BOUND_05_FECI_SCURE_SENZA_SINTOMI_SISTEMICI.png"
+}

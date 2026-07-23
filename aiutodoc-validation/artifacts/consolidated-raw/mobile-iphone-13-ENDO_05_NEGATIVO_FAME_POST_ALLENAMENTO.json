@@ -1,0 +1,31 @@
+{
+  "id": "ENDO_05_NEGATIVO_FAME_POST_ALLENAMENTO",
+  "surface": "mobile",
+  "viewport": "iphone-13",
+  "input": "Dopo allenamenti molto intensi ho spesso fame e stanchezza, ma non ho sete eccessiva, aumento della minzione, perdita di peso o svenimenti.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nFrequenti e chiaramente dopo allenamento\nB\nOccasionali o legame parziale\nC\nCompaiono anche a riposo\nD\nNessuna delle precedenti",
+    "A\nUno o piu aspetti insufficienti\nB\nVariabili\nC\nRegolari\nD\nNessuna delle precedenti",
+    "A\nSi, nuovi sintomi o peggioramento\nB\nSolo aumento dell'intensita\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nUn uomo di 50 anni, con un peso corporeo riferito di 24 kg, lamenta frequentemente fame e stanchezza dopo allenamenti molto intensi. I sintomi si manifestano chiaramente dopo l'allenamento e con l'aumento dell'intensità. Riferisce l'assenza di sete eccessiva, aumento della minzione, perdita di peso (nonostante il peso attuale sia estremamente basso) o svenimenti.\n\nSegnali rilevanti da riferire al medico:\nPeso corporeo estremamente basso (24 kg) per l'età e il sesso\nFame e stanchezza frequenti dopo allenamenti intensi\nAssenza di sete eccessiva\nAssenza di aumento della minzione\nAssenza di perdita di peso (come specificamente riferito dall'utente)\nAssenza di svenimenti\nSPECIALISTA CONSIGLIATO\nInternista\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nMultimorbidity: clinical assessment and management\nNICE guideline NG56\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nAlta / urgente\nSi consiglia di raccogliere eventuali esami del sangue recenti. È utile tenere un diario alimentare e dell'attività fisica, annotando l'intensità degli allenamenti e la comparsa dei sintomi. È fondamentale riportare con precisione il peso corporeo attuale e la sua storia. Si raccomanda di evitare allenamenti eccessivamente intensi in attesa della valutazione medica.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione internistica per astenia e fame post-allenamento in paziente con peso corporeo significativamente ridotto (24 kg).\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:55:19.100Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/iphone-13/ENDO_05_NEGATIVO_FAME_POST_ALLENAMENTO.png"
+}

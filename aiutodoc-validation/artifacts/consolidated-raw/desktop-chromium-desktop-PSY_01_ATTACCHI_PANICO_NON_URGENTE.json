@@ -1,0 +1,31 @@
+{
+  "id": "PSY_01_ATTACCHI_PANICO_NON_URGENTE",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Donna di 32 anni. Da circa 2 mesi ho episodi improvvisi di forte ansia con battito accelerato, tremori, sudorazione, nodo alla gola e paura di perdere il controllo. Durano circa 10 minuti e poi passano. Sono gia capitati 4 volte, spesso in periodi di stress. Non ho dolore toracico persistente, non ho svenimenti, non ho difficolta respiratoria grave, non ho pensieri di farmi del male.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nPersistono o peggiorano\nB\nDurano poco e passano\nC\nNon so\nD\nNessuna delle precedenti",
+    "A\nSì\nB\nSolo sintomi lievi o dubbi\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSì, molto o con rischio\nB\nIn parte\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nUna donna di 32 anni riferisce di aver sperimentato, negli ultimi due mesi, circa quattro episodi improvvisi di forte ansia. Questi episodi sono caratterizzati da battito cardiaco accelerato, tremori, sudorazione, una sensazione di nodo alla gola e paura di perdere il controllo. Ogni episodio ha una durata di circa 10 minuti e si risolve spontaneamente, manifestandosi spesso in periodi di stress. La paziente nega la presenza di dolore toracico persistente, svenimenti, difficoltà respiratorie gravi o pensieri di autolesionismo.\n\nSegnali rilevanti da riferire al medico:\nansia intensa ricorrente\ntachicardia / battito accelerato\ntremori\nsudorazione\npaura di perdere il controllo\nassenza di dolore toracico persistente\nassenza di svenimenti\nassenza di difficolta respiratoria grave\nassenza di ideazione autolesiva\nSPECIALISTA CONSIGLIATO\nPsicologo o Psicoterapeuta; Psichiatra se sintomi frequenti, invalidanti o per valutazione farmacologica\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nCommon mental health problems: identification and pathways to care\nNICE clinical guideline CG123\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nUrgenza bassa / visita psicologica o psichiatrica programmata\nSi consiglia di annotare la frequenza, la durata e le circostanze specifiche in cui si manifestano gli episodi, inclusi eventuali fattori scatenanti o periodi di stress recenti. Non è richiesta una preparazione fisica particolare per la visita. Chiama 112/118 o vai in Pronto Soccorso solo se compaiono dolore toracico persistente, difficolta respiratoria grave, svenimento, confusione, rischio autolesivo o suicidario, oppure peggioramento improvviso.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione per episodi di ansia acuta con sintomi neurovegetativi (palpitazioni, tremori, sudorazione) e sensazione di perdita di controllo, della durata di circa 10 minuti, insorti da circa 2 mesi, in assenza di dolore toracico persistente, svenimenti o difficoltà respiratorie gravi.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nDr.ssa Greta Devoli\nPrivato\n\nSpecializzazione: Psicologa ad orientamento Sistemico-Relazionale\n\nIndirizzo/Modalità: Online in tutta Italia\n\nContatti: 3479847838 | gretadevoli@gmail.com\n\nInfo: Disponibile online a livello nazionale per le specialità e sotto-specialità indicate.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:47:49.079Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/PSY_01_ATTACCHI_PANICO_NON_URGENTE.png"
+}

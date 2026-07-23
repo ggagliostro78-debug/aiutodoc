@@ -1,0 +1,287 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "Z:\\ProgettiAI\\Antigravity\\Futuro\\AIutoDoc_main\\aiutodoc-validation\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/mobile-menu-root-cause.tmp.spec.ts",
+      "--config=playwright.mobile-menu-fix.tmp.config.ts"
+    ],
+    "configFile": "Z:\\ProgettiAI\\Antigravity\\Futuro\\AIutoDoc_main\\aiutodoc-validation\\playwright.mobile-menu-fix.tmp.config.ts",
+    "rootDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "iphone-13",
+        "name": "iphone-13",
+        "testDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "iphone-se",
+        "name": "iphone-se",
+        "testDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "pixel-7",
+        "name": "pixel-7",
+        "testDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "android-compact",
+        "name": "android-compact",
+        "testDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "artifacts/mobile-menu-root-cause-playwright.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.61.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "mobile-menu-root-cause.tmp.spec.ts",
+      "file": "mobile-menu-root-cause.tmp.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "riproduce e misura la collisione del menu mobile",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "iphone-13",
+              "projectName": "iphone-13",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6921,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROOT_CAUSE {\"project\":\"iphone-13\",\"pointerCloseSucceeded\":false,\"pointerError\":\"TimeoutError: locator.click: Timeout 2000ms exceeded.\",\"viewport\":{\"width\":390,\"height\":664},\"toggle\":{\"position\":\"absolute\",\"zIndex\":\"1200\",\"rect\":{\"x\":319.921875,\"y\":67.96875,\"width\":60.078125,\"height\":34}},\"nav\":{\"position\":\"fixed\",\"zIndex\":\"2000\",\"pointerEvents\":\"auto\",\"display\":\"flex\",\"width\":\"390px\",\"height\":\"664px\"},\"hitAtToggleCenter\":\"nav.main-nav.open\",\"ariaExpanded\":\"true\",\"bodyMenuOpen\":true,\"activeElement\":\"menu-toggle\"}\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-17T09:35:59.538Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50ee8f33d1e45ea7471f-eaccbd3cb14870d5a4ac",
+          "file": "mobile-menu-root-cause.tmp.spec.ts",
+          "line": 5,
+          "column": 5
+        },
+        {
+          "title": "riproduce e misura la collisione del menu mobile",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "iphone-se",
+              "projectName": "iphone-se",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4385,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROOT_CAUSE {\"project\":\"iphone-se\",\"pointerCloseSucceeded\":false,\"pointerError\":\"TimeoutError: locator.click: Timeout 2000ms exceeded.\",\"viewport\":{\"width\":320,\"height\":568},\"toggle\":{\"position\":\"absolute\",\"zIndex\":\"1200\",\"rect\":{\"x\":249.921875,\"y\":65.375,\"width\":60.078125,\"height\":34}},\"nav\":{\"position\":\"fixed\",\"zIndex\":\"2000\",\"pointerEvents\":\"auto\",\"display\":\"flex\",\"width\":\"320px\",\"height\":\"568px\"},\"hitAtToggleCenter\":\"nav.main-nav.open\",\"ariaExpanded\":\"true\",\"bodyMenuOpen\":true,\"activeElement\":\"menu-toggle\"}\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-17T09:36:08.893Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50ee8f33d1e45ea7471f-10d4a07ea7904d4a0018",
+          "file": "mobile-menu-root-cause.tmp.spec.ts",
+          "line": 5,
+          "column": 5
+        },
+        {
+          "title": "riproduce e misura la collisione del menu mobile",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "pixel-7",
+              "projectName": "pixel-7",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4176,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROOT_CAUSE {\"project\":\"pixel-7\",\"pointerCloseSucceeded\":false,\"pointerError\":\"TimeoutError: locator.click: Timeout 2000ms exceeded.\",\"viewport\":{\"width\":412,\"height\":839},\"toggle\":{\"position\":\"absolute\",\"zIndex\":\"1200\",\"rect\":{\"x\":341.921875,\"y\":74.28125,\"width\":60.078125,\"height\":34}},\"nav\":{\"position\":\"fixed\",\"zIndex\":\"2000\",\"pointerEvents\":\"auto\",\"display\":\"flex\",\"width\":\"412px\",\"height\":\"839px\"},\"hitAtToggleCenter\":\"nav.main-nav.open\",\"ariaExpanded\":\"true\",\"bodyMenuOpen\":true,\"activeElement\":\"menu-toggle\"}\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-17T09:36:15.033Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50ee8f33d1e45ea7471f-abc54501564d26a64aba",
+          "file": "mobile-menu-root-cause.tmp.spec.ts",
+          "line": 5,
+          "column": 5
+        },
+        {
+          "title": "riproduce e misura la collisione del menu mobile",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "android-compact",
+              "projectName": "android-compact",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4820,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "ROOT_CAUSE {\"project\":\"android-compact\",\"pointerCloseSucceeded\":false,\"pointerError\":\"TimeoutError: locator.click: Timeout 2000ms exceeded.\",\"viewport\":{\"width\":320,\"height\":658},\"toggle\":{\"position\":\"absolute\",\"zIndex\":\"1200\",\"rect\":{\"x\":249.921875,\"y\":65.375,\"width\":60.078125,\"height\":34}},\"nav\":{\"position\":\"fixed\",\"zIndex\":\"2000\",\"pointerEvents\":\"auto\",\"display\":\"flex\",\"width\":\"320px\",\"height\":\"658px\"},\"hitAtToggleCenter\":\"nav.main-nav.open\",\"ariaExpanded\":\"true\",\"bodyMenuOpen\":true,\"activeElement\":\"menu-toggle\"}\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-17T09:36:21.591Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50ee8f33d1e45ea7471f-c9d8895c3bf8960a88a6",
+          "file": "mobile-menu-root-cause.tmp.spec.ts",
+          "line": 5,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-07-17T09:35:58.046Z",
+    "duration": 29425.211,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "REGRESSION_NEG_04_LOMBALGIA_MECCANICA",
+  "category": "controlli negativi",
+  "input": "Dopo aver spostato una scatola ho dolore lombare che aumenta quando mi piego. Non ho formicolio tra le gambe, perdita di sensibilità, debolezza, problemi a urinare o a trattenere urine e feci.",
+  "questions": [
+    "Il dolore lombare peggiora con piegamenti, posture prolungate o sforzi e migliora un po' camminando o cambiando posizione? A) Sì, chiaramente B) Solo in parte C) No D) Nessuna delle precedenti",
+    "Il dolore scende sotto il ginocchio o si associa a formicolio, debolezza o perdita di sensibilità? A) Sì B) Solo lievemente C) No D) Nessuna delle precedenti",
+    "Ci sono febbre, trauma importante, perdita di peso, anestesia a sella o problemi urinari/fecali? A) Sì B) Non so / dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Il dolore lombare peggiora con piegamenti, posture prolungate o sforzi e migliora un po' camminando o cambiando posizione?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Il dolore scende sotto il ginocchio o si associa a formicolio, debolezza o perdita di sensibilità?\n<br><i>A) Sì<br>B) Solo lievemente<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Ci sono febbre, trauma importante, perdita di peso, anestesia a sella o problemi urinari/fecali?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "branch": "Muscolo-scheletrico/lombare",
+  "overrideOrBypass": "nessun override urgente",
+  "redFlagsConsidered": [
+    "febbre",
+    "debolezza"
+  ],
+  "negationsRespected": true,
+  "motivations": [],
+  "motivationsFaithful": true,
+  "diagnosticViolations": [],
+  "prescriptionsPresent": false,
+  "offBranch": [],
+  "effectiveEscalation": false,
+  "falsePositiveUrgency": false,
+  "underUrgency": false,
+  "regression": "P0: NO",
+  "classification": "PASS ROUTING",
+  "problem": "",
+  "validator": {
+    "status": "PASS ROUTING",
+    "diagnosticViolations": [],
+    "falsePositiveUrgency": false,
+    "bypassDocumented": false,
+    "offBranch": [],
+    "coverage": {
+      "forza": true,
+      "urinario": true,
+      "fecale": true
+    },
+    "unfaithfulMotivations": [],
+    "negationsIgnored": false,
+    "problems": []
+  },
+  "geminiCalls": [],
+  "state": "4_CONOSCITIVE",
+  "timestamp": "2026-07-12T23:06:26.268Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "infrastructureError": ""
+}

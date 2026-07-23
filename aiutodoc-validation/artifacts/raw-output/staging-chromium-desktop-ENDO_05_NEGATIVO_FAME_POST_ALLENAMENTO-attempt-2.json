@@ -1,0 +1,11 @@
+{
+  "id": "ENDO_05_NEGATIVO_FAME_POST_ALLENAMENTO",
+  "branch": "Endocrinologia",
+  "input": "Dopo allenamenti molto intensi ho spesso fame e stanchezza, ma non ho sete eccessiva, aumento della minzione, perdita di peso o svenimenti.",
+  "geminiCalls": [],
+  "attempt": 2,
+  "playwrightStatus": "failed",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "NEURO_04_SOSPETTO_ICTUS_FAST",
+  "surface": "mobile",
+  "viewport": "pixel-7",
+  "input": "Donna di 72 anni. Da circa 40 minuti ha la bocca storta da un lato, non riesce a sollevare bene il braccio destro e parla in modo confuso. Prima stava bene. Ha pressione alta e fibrillazione atriale.",
+  "questions": [],
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ndebolezza improvvisa di un arto o lato del corpo\ndifficolta improvvisa nel parlare\nesordio improvviso o recente\nasimmetria del volto riferita\n02:58",
+  "expectedBypass": true,
+  "emergencyBypass": true,
+  "geminiCalls": [],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 0,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:58:37.044Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/pixel-7/NEURO_04_SOSPETTO_ICTUS_FAST.png"
+}

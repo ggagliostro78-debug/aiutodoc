@@ -1,0 +1,21 @@
+﻿{
+    "caseId":  "PED_02_FEBBRE_BAMBINO_PROGRAMMATA",
+    "attempts":  2,
+    "evaluable":  false,
+    "playwright":  "FAIL",
+    "gemini":  "NON RAGGIUNTO",
+    "specialist":  "NON DISPONIBILE",
+    "urgency":  "NON DISPONIBILE",
+    "ageInsertedOnRetry":  "7",
+    "questionsRelevant":  true,
+    "negations":  "NON VALUTABILI NELL OUTPUT FINALE",
+    "diagnosis":  "N/A",
+    "prescriptions":  "N/A",
+    "externalSpecialistSearchCalls":  0,
+    "protectedFilesUnchanged":  true,
+    "cycle03Gate":  "NON CHIUSO",
+    "infrastructureErrors":  [
+                                 "Campo eta non trovato mentre il controllo era in transizione verso lo stato editabile.",
+                                 "Valore 7 confermato nel campo, ma lo stato 5C_DETTAGLIO_CONDIZIONATO non e avanzato entro 10 secondi dopo il click."
+                             ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "P2_REG_01_FECI_SCURE_URGENTE_P0",
+  "input": "Da stamattina ho feci molto scure, debolezza e capogiri. Prendo un anticoagulante.",
+  "questions": [],
+  "rawQuestions": [],
+  "emergencyBypass": true,
+  "emergencyText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nfeci nere o molto scure\ndebolezza riferita\ncapogiri riferiti\nterapia anticoagulante riferita\n00:18",
+  "state": "3_DISTURBO",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T22:18:36.392Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "BYPASS URGENZA DOCUMENTATO",
+    "failures": [],
+    "emergency": true,
+    "ironBranch": false,
+    "pregnancyUrinary": false,
+    "pregnancyUrgent": false,
+    "pregnancyNausea": false,
+    "nonPregnantFlank": false,
+    "genericUrinary": false,
+    "ironFollowUp": false,
+    "pregnancyGeneral": false,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

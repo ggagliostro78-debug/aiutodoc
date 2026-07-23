@@ -1,0 +1,57 @@
+{
+  "generatedAt": "2026-07-17T03:30:00+02:00",
+  "branch": "aiutodoc-clinical-validation",
+  "commit": "f5b58abffa615ab04ec0a6acf83392e08e7fc52b",
+  "surface": "chromium-desktop",
+  "total": 40,
+  "passed": 40,
+  "failed": 0,
+  "routingFinal": { "total": 19, "passRouting": 17, "bypass": 2, "failed": 0 },
+  "paths": { "ordinary": 31, "bypass": 9 },
+  "gemini": { "ordinaryHttp200": 31, "callsInBypass": 0 },
+  "clinicalSafety": {
+    "diagnosesOrSuspicions": 0,
+    "prescriptionsOrDosages": 0,
+    "falsePositiveUrgency": 0,
+    "falseNegativeUrgency": 0,
+    "ignoredNegations": 0,
+    "inventedData": 0,
+    "inventedMotivations": 0,
+    "criticalOffBranchQuestions": 0
+  },
+  "externalSpecialistSearchCalls": 0,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "firstRun": { "passed": 36, "runnerFailures": 4 },
+  "minimumRerun": {
+    "total": 4,
+    "passed": 4,
+    "cases": [
+      "REGRESSION_NEG_07_ANTICOAGULANTE_SENZA_EVENTO_ACUTO",
+      "GASTRO_02_MELENA_CAPOGIRI_URGENTE",
+      "NEURO_04_SOSPETTO_ICTUS_FAST",
+      "PED_05_NEGATIVO_STANCHEZZA_DOPO_SPORT"
+    ],
+    "rootCause": "Tre aspettative/regex del runner e una selezione di risposta non negation-aware; nessuna modifica prodotto."
+  },
+  "ped02": {
+    "status": "PASS",
+    "exactAge": 7,
+    "weightKg": 24,
+    "heightCm": 125,
+    "currentConditionalDetailFollowed": true,
+    "conditionalQueueComplete": true,
+    "secondBlockComplete": true,
+    "geminiHttpStatus": 200,
+    "durationSemanticMatch": "durata|quanto dura"
+  },
+  "rawDirectory": "artifacts/consolidated-raw",
+  "screenshotDirectory": "artifacts/consolidated-mobile-screenshots/chromium-desktop",
+  "caseIds": [
+    "REGRESSION_POS_01_NEURO", "REGRESSION_POS_02_GRAVIDANZA_FEBBRE_FIANCO", "REGRESSION_POS_03_ALLERGIA_RESPIRATORIA", "REGRESSION_POS_04_LOMBALGIA_RED_FLAGS", "REGRESSION_POS_05_FECI_SCURE",
+    "REGRESSION_NEG_01_VERTIGINI_NON_URGENTI", "REGRESSION_NEG_02_NAUSEA_IN_GRAVIDANZA_SENZA_RED_FLAGS", "REGRESSION_NEG_03_LABBRO_LOCALE_SENZA_DISPNEA", "REGRESSION_NEG_04_LOMBALGIA_MECCANICA", "REGRESSION_NEG_05_FECI_SCURE_DA_FERRO", "REGRESSION_NEG_06_MANDIBOLA_ODONTOIATRICA", "REGRESSION_NEG_07_ANTICOAGULANTE_SENZA_EVENTO_ACUTO",
+    "REGRESSION_BOUND_01_VERTIGINI_CON_VOMITO_SENZA_DIPLOPIA", "REGRESSION_BOUND_02_GRAVIDANZA_SINTOMI_URINARI_SENZA_FEBBRE", "REGRESSION_BOUND_03_PRURITO_E_LABBRA_SENZA_DISPNEA", "REGRESSION_BOUND_04_LOMBALGIA_CON_FORMICOLIO_GAMBA", "REGRESSION_BOUND_05_FECI_SCURE_SENZA_SINTOMI_SISTEMICI", "REGRESSION_BOUND_06_MANDIBOLA_CON_NAUSEA_MA_SENZA_DISPNEA", "REGRESSION_BOUND_07_FIANCO_SENZA_GRAVIDANZA",
+    "PED_01_URGENTE_DIFFICOLTA_RESPIRATORIA", "OCUL_01_URGENTE_PERDITA_VISIVA_IMPROVVISA", "ALLERGO_01_URGENTE_REAZIONE_SISTEMICA", "GASTRO_01_URGENTE_DOLORE_ADDOME_INSTABILITA", "PNEUMO_01_URGENTE_DISPNEA", "GASTRO_02_MELENA_CAPOGIRI_URGENTE", "ORTO_02_LOMBALGIA_CAUDA_EQUINA_RED_FLAG", "NEURO_04_SOSPETTO_ICTUS_FAST",
+    "ENDO_05_NEGATIVO_FAME_POST_ALLENAMENTO", "PED_05_NEGATIVO_STANCHEZZA_DOPO_SPORT", "GINE_05_NEGATIVO_RITARDO_CICLO", "OCUL_05_NEGATIVO_AFFATICAMENTO_SCHERMI", "ALLERGO_05_NEGATIVO_PRURITO_DOPO_DETERGENTE", "ORTO_01_LOMBALGIA_MECCANICA_NON_URGENTE", "PNEUMO_05_NEGATIVO_FIATO_CORTO_POST_SFORZO",
+    "CARDIO_01_DOLOR_TORACICO_SFORZO_LIEVE", "PSY_01_ATTACCHI_PANICO_NON_URGENTE", "DERM_02_DERMATITE_ECZEMA_NON_URGENTE", "URO_01_CISTITE_SEMPLICE_NON_URGENTE", "ORL_02_OTITE_PROGRAMMATA", "PED_02_FEBBRE_BAMBINO_PROGRAMMATA"
+  ]
+}

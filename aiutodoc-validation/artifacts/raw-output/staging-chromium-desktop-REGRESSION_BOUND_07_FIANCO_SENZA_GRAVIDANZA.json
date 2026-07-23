@@ -1,0 +1,58 @@
+{
+  "id": "REGRESSION_BOUND_07_FIANCO_SENZA_GRAVIDANZA",
+  "category": "casi borderline",
+  "input": "Ho dolore al fianco destro e nausea da alcune ore. Non sono incinta, non ho febbre, brividi, bruciore urinario o sangue nelle urine.",
+  "questions": [
+    "Dove e localizzato il dolore al fianco, quanto e intenso e sta aumentando o irradiandosi verso addome, schiena o inguine? A) Intenso, in aumento o irradiato B) Moderato o stabile C) Lieve o in miglioramento D) Nessuna delle precedenti",
+    "Sono presenti vomito, difficolta a bere, sintomi addominali o peggioramento nelle ultime ore? A) Si, uno o piu elementi B) Solo lieve o dubbio C) No D) Nessuna delle precedenti",
+    "Sono comparsi febbre, brividi, bruciore urinario, sangue nelle urine o altri sintomi urinari? A) Si, uno o piu segnali B) Solo dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Dove e localizzato il dolore al fianco, quanto e intenso e sta aumentando o irradiandosi verso addome, schiena o inguine?\n<br><i>A) Intenso, in aumento o irradiato<br>B) Moderato o stabile<br>C) Lieve o in miglioramento<br>D) Nessuna delle precedenti</i>",
+    "Sono presenti vomito, difficolta a bere, sintomi addominali o peggioramento nelle ultime ore?\n<br><i>A) Si, uno o piu elementi<br>B) Solo lieve o dubbio<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Sono comparsi febbre, brividi, bruciore urinario, sangue nelle urine o altri sintomi urinari?\n<br><i>A) Si, uno o piu segnali<br>B) Solo dubbio<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "branch": "Fianco/addome-urinario non ostetrico",
+  "overrideOrBypass": "non gravidanza",
+  "redFlagsConsidered": [
+    "vomito",
+    "febbre",
+    "brividi",
+    "fianco",
+    "urinario",
+    "peggioramento"
+  ],
+  "negationsRespected": true,
+  "motivations": [],
+  "motivationsFaithful": true,
+  "diagnosticViolations": [],
+  "prescriptionsPresent": false,
+  "offBranch": [],
+  "effectiveEscalation": false,
+  "falsePositiveUrgency": false,
+  "underUrgency": false,
+  "regression": "P1: NO",
+  "classification": "PASS ROUTING",
+  "problem": "",
+  "validator": {
+    "status": "PASS ROUTING",
+    "diagnosticViolations": [],
+    "falsePositiveUrgency": false,
+    "bypassDocumented": false,
+    "offBranch": [],
+    "coverage": {},
+    "unfaithfulMotivations": [],
+    "negationsIgnored": false,
+    "problems": []
+  },
+  "geminiCalls": [],
+  "state": "4_CONOSCITIVE",
+  "timestamp": "2026-07-12T23:06:48.649Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "infrastructureError": ""
+}

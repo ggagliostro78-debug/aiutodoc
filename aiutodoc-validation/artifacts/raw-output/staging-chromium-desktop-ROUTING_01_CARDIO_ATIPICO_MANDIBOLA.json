@@ -1,0 +1,51 @@
+{
+  "id": "ROUTING_01_CARDIO_ATIPICO_MANDIBOLA",
+  "input": "Uomo di 40 anni. Da stamattina ho una forte sensazione di peso allo stomaco e nausea. Mi sembra acidita, ma mi manca anche un po' il fiato quando mi muovo e ho fastidio alla mandibola. Non ho un vero dolore al petto. Ho diabete e pressione alta. Ho preso un antiacido ma non e cambiato molto.",
+  "expectedBranch": "Cardiologia / Medicina d'urgenza",
+  "questions": [
+    "Da quanto durano peso allo stomaco, nausea, fiato corto o fastidio alla mandibola, e sono ancora presenti o non regrediscono? A) Sono presenti o persistenti B) Vanno e vengono C) Sono regrediti D) Nessuna delle precedenti",
+    "Il fiato corto peggiora con il movimento, compare a riposo, oppure il quadro sta peggiorando rispetto all'esordio? A) Si, peggiora o limita il movimento B) Solo lieve o stabile C) No D) Nessuna delle precedenti",
+    "Si associano sudorazione fredda, svenimento, debolezza intensa, irradiazione a mandibola/braccio/schiena, diabete, ipertensione o mancato beneficio con antiacido? A) Si, uno o piu segnali B) Solo in parte C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Da quanto durano peso allo stomaco, nausea, fiato corto o fastidio alla mandibola, e sono ancora presenti o non regrediscono?\n<br><i>A) Sono presenti o persistenti<br>B) Vanno e vengono<br>C) Sono regrediti<br>D) Nessuna delle precedenti</i>",
+    "Il fiato corto peggiora con il movimento, compare a riposo, oppure il quadro sta peggiorando rispetto all'esordio?\n<br><i>A) Si, peggiora o limita il movimento<br>B) Solo lieve o stabile<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Si associano sudorazione fredda, svenimento, debolezza intensa, irradiazione a mandibola/braccio/schiena, diabete, ipertensione o mancato beneficio con antiacido?\n<br><i>A) Si, uno o piu segnali<br>B) Solo in parte<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "geminiCalls": [],
+  "url": "http://127.0.0.1:4273/",
+  "timestamp": "2026-07-12T11:36:34.779Z",
+  "browser": "chromium-desktop",
+  "environment": "staging",
+  "playwrightStatus": "passed",
+  "playwrightError": "",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "relevant": [
+      "fiato corto",
+      "peggior",
+      "mandibola",
+      "braccio",
+      "schiena",
+      "sudorazione",
+      "svenimento",
+      "debolezza",
+      "diabete",
+      "ipertensione",
+      "antiacido"
+    ],
+    "offBranch": [],
+    "diagnoses": [],
+    "prescriptions": [],
+    "pertinent": true,
+    "helpsBranch": true,
+    "helpsUrgency": true,
+    "ambiguousMisread": false,
+    "minimizesRedFlag": false,
+    "accountsNegations": true,
+    "accountsRiskFactors": true,
+    "riskClinical": "Basso: domande coerenti con raccolta orientativa",
+    "riskReputation": "Basso",
+    "correction": "Nessuna correzione immediata: mantenere monitoraggio nei batch futuri."
+  }
+}

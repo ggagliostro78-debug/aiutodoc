@@ -1,0 +1,21 @@
+{
+  "id": "PED_01_URGENTE_DIFFICOLTA_RESPIRATORIA",
+  "input": "Mio figlio ha 3 anni. Da oggi respira molto velocemente, fa fatica a parlare o piangere e vedo che la pelle rientra tra le costole. È molto stanco.",
+  "timestamp": "2026-07-16T18:28:54.842Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": true,
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\neta pediatrica: 3 anni\nrespiro molto rapido\nrientramenti tra le costole\ndifficolta a parlare o piangere\nstanchezza marcata\n20:28",
+  "questions": [],
+  "specialist": "112/118 o Pronto Soccorso",
+  "areaSpecialistica": {
+    "branca": "Pronto Soccorso / Medicina d'urgenza pediatrica",
+    "area_specialistica": "Respiro molto rapido, rientramenti tra le costole e difficolta a parlare o piangere da valutare immediatamente",
+    "eventuale_secondo_livello": "Pediatria dopo la valutazione urgente"
+  },
+  "urgency": "Alta / immediata: contattare subito 112/118 o recarsi in Pronto Soccorso",
+  "redFlagsText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\neta pediatrica: 3 anni\nrespiro molto rapido\nrientramenti tra le costole\ndifficolta a parlare o piangere\nstanchezza marcata\n20:28",
+  "geminiCalls": [],
+  "neutralizedSearchRoutes": [],
+  "externalSpecialistSearchCalls": 0
+}

@@ -1,0 +1,22 @@
+{
+  "id": "CARDIO_02_DOLOR_TORACICO_URGENTE",
+  "input": "Donna di 63 anni. Da 30 minuti ho un forte peso al petto che non passa, dolore che si irradia al braccio sinistro e alla mandibola, sudo freddo, ho nausea e faccio fatica a respirare. Ho diabete.",
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ndolore toracico persistente\nirradiazione al braccio sinistro e alla mandibola\nsudorazione fredda\nnausea\ndispnea\ndiabete\n13:42",
+  "specialist": "Emergenza cardiologica / Pronto Soccorso",
+  "areaSpecialistica": {
+    "branca": "Emergenza cardiologica / Pronto Soccorso",
+    "area_specialistica": "Dolore toracico acuto con red flag / possibile sindrome coronarica acuta",
+    "eventuale_secondo_livello": "Cardiologia dopo stabilizzazione urgente"
+  },
+  "urgency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ndolore toracico persistente\nirradiazione al braccio sinistro e alla mandibola\nsudorazione fredda\nnausea\ndispnea\ndiabete\n13:42",
+  "redFlagsText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ndolore toracico persistente\nirradiazione al braccio sinistro e alla mandibola\nsudorazione fredda\nnausea\ndispnea\ndiabete\n13:42",
+  "disclaimer": "Importante\n\nAIutoDoc non fornisce diagnosi, prescrizioni o pareri medici e non sostituisce una visita sanitaria.\n\nIn caso di urgenza, sintomi gravi o peggioramento improvviso, chiama il 112/118 o rivolgiti al Pronto Soccorso.",
+  "sources": "",
+  "clinicalEmergency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ndolore toracico persistente\nirradiazione al braccio sinistro e alla mandibola\nsudorazione fredda\nnausea\ndispnea\ndiabete\n13:42",
+  "urgencyReason": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ndolore toracico persistente\nirradiazione al braccio sinistro e alla mandibola\nsudorazione fredda\nnausea\ndispnea\ndiabete\n13:42",
+  "questionCount": 0,
+  "url": "http://127.0.0.1:4273/",
+  "environment": "staging",
+  "timestamp": "2026-07-08T11:42:33.784Z",
+  "screenshot": "../artifacts/screenshots-staging/staging-chromium-desktop-CARDIO_02_DOLOR_TORACICO_URGENTE.png"
+}

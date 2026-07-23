@@ -1,0 +1,33 @@
+{
+  "id": "PED_06_FARMACO_ERUZIONE_CUTANEA",
+  "input": "Mia figlia ha 6 anni e sta assumendo un antibiotico prescritto dal pediatra. Da oggi sono comparse alcune macchie rosse sul tronco. Non ha difficoltà a respirare, gonfiore del viso, bolle, febbre alta o forte malessere.",
+  "timestamp": "2026-07-16T18:39:29.360Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nBambina di 6 anni in terapia antibiotica prescritta dal Pediatra, con alcune macchie rosse sul tronco comparse oggi. Sono negate difficolta respiratoria, gonfiore del viso, bolle, febbre alta e forte malessere.\n\nSegnali rilevanti da riferire al medico:\nmacchie rosse sul tronco comparse oggi\nterapia antibiotica prescritta in corso\nassenza di difficolta respiratoria\nassenza di gonfiore del viso\nassenza di bolle\nassenza di febbre alta\nassenza di forte malessere\nSPECIALISTA CONSIGLIATO\nPediatra\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nFever in under 5s: assessment and initial management\nNICE guideline NG143\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nTempestiva ma non urgente in assenza dei segnali di allarme riferiti\nContatta tempestivamente il Pediatra e riferisci nome dell'antibiotico, giorno di terapia, intervallo tra dose e comparsa delle macchie, diffusione, prurito, coinvolgimento delle mucose, precedenti episodi e altri farmaci. Richiedi assistenza urgente se compaiono difficolta respiratoria, gonfiore del viso, bolle, coinvolgimento delle mucose o forte peggioramento.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione pediatrica tempestiva per macchie rosse comparse durante terapia antibiotica, mantenendo le negazioni riferite.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Quale antibiotico sta assumendo, da quale giorno e quanto tempo e passato tra l'ultima dose e la comparsa delle macchie?\n\nA\nNome, giorno e intervallo noti\nB\nSolo alcune informazioni note\nC\nInformazioni da recuperare\nD\nNessuna delle precedenti",
+    "2. Le macchie si stanno diffondendo o prudono; coinvolgono mucose o sono presenti bolle, febbre o forte malessere?\n\nA\nDiffusione rapida, mucose, bolle o malessere\nB\nSolo prurito o diffusione limitata\nC\nNo\nD\nNessuna delle precedenti",
+    "3. Sono presenti gonfiore del viso o difficolta respiratoria, precedenti reazioni a farmaci o altri farmaci assunti?\n\nA\nGonfiore o difficolta respiratoria\nB\nPrecedenti reazioni o altri farmaci\nC\nNessuno\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Pediatra",
+  "areaSpecialistica": {
+    "branca": "Pediatria",
+    "area_specialistica": "Macchie cutanee comparse durante una terapia antibiotica da valutare",
+    "eventuale_secondo_livello": "Allergologia o Dermatologia pediatrica dopo il primo inquadramento"
+  },
+  "urgency": "Tempestiva ma non urgente in assenza dei segnali di allarme riferiti\nContatta tempestivamente il Pediatra e riferisci nome dell'antibiotico, giorno di terapia, intervallo tra dose e comparsa delle macchie, diffusione, prurito, coinvolgimento delle mucose, precedenti episodi e altri farmaci. Richiedi assistenza urgente se compaiono difficolta respiratoria, gonfiore del viso, bolle, coinvolgimento delle mucose o forte peggioramento.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nmacchie rosse sul tronco comparse oggi\nterapia antibiotica prescritta in corso\nassenza di difficolta respiratoria\nassenza di gonfiore del viso\nassenza di bolle\nassenza di febbre alta\nassenza di forte malessere",
+  "geminiCalls": [
+    {
+      "status": 200,
+      "durationMs": 9217
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

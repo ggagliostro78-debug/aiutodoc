@@ -1,0 +1,38 @@
+{
+  "id": "P2_POS_01_FECI_SCURE_FERRO",
+  "input": "Da quando assumo un integratore di ferro le feci sono più scure. Non ho debolezza, capogiri, dolore, vomito, svenimenti e non prendo anticoagulanti.",
+  "questions": [
+    "Quando hai iniziato ad assumere ferro o bismuto e il cambiamento delle feci e comparso dopo l'inizio? A) Si, dopo l'inizio B) Il rapporto temporale non e chiaro C) No D) Nessuna delle precedenti",
+    "Il colore e uniformemente piu scuro oppure molto nero, e il cambiamento e stabile, occasionale o sta peggiorando? A) Molto nero o in peggioramento B) Piu scuro ma stabile o occasionale C) Non so descriverlo D) Nessuna delle precedenti",
+    "Dopo il cambiamento sono comparsi debolezza, capogiri, svenimento, dolore, vomito, sangue visibile o peggioramento generale, assumi altri farmaci rilevanti o ne hai gia parlato con il professionista che segue la terapia? A) Si, uno o piu elementi B) Solo dubbi o altri farmaci da riferire C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Quando hai iniziato ad assumere ferro o bismuto e il cambiamento delle feci e comparso dopo l'inizio?\n<br><i>A) Si, dopo l'inizio<br>B) Il rapporto temporale non e chiaro<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Il colore e uniformemente piu scuro oppure molto nero, e il cambiamento e stabile, occasionale o sta peggiorando?\n<br><i>A) Molto nero o in peggioramento<br>B) Piu scuro ma stabile o occasionale<br>C) Non so descriverlo<br>D) Nessuna delle precedenti</i>",
+    "Dopo il cambiamento sono comparsi debolezza, capogiri, svenimento, dolore, vomito, sangue visibile o peggioramento generale, assumi altri farmaci rilevanti o ne hai gia parlato con il professionista che segue la terapia?\n<br><i>A) Si, uno o piu elementi<br>B) Solo dubbi o altri farmaci da riferire<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T22:18:24.141Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "ironBranch": true,
+    "pregnancyUrinary": false,
+    "pregnancyUrgent": false,
+    "pregnancyNausea": false,
+    "nonPregnantFlank": false,
+    "genericUrinary": false,
+    "ironFollowUp": false,
+    "pregnancyGeneral": false,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "GASTRO_02_MELENA_CAPOGIRI_URGENTE",
+  "input": "Donna di 67 anni. Da ieri ho avuto piu scariche di feci molto scure e oggi mi sento molto debole e ho capogiri quando mi alzo. Prendo anticoagulanti per fibrillazione atriale. Non ho dolore addominale forte, ma mi sento pallida e stanca.",
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nfeci nere o molto scure\ndebolezza marcata\ncapogiri ortostatici\npallore e stanchezza\nterapia anticoagulante\nfibrillazione atriale come motivo della terapia anticoagulante\n11:59",
+  "specialist": "112/118 o Pronto Soccorso",
+  "areaSpecialistica": {
+    "branca": "Emergenza gastroenterologica / Pronto Soccorso",
+    "area_specialistica": "Possibile sanguinamento gastrointestinale / melena / rischio emorragico",
+    "eventuale_secondo_livello": "Gastroenterologia dopo valutazione e stabilizzazione urgente"
+  },
+  "urgency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nfeci nere o molto scure\ndebolezza marcata\ncapogiri ortostatici\npallore e stanchezza\nterapia anticoagulante\nfibrillazione atriale come motivo della terapia anticoagulante\n11:59",
+  "redFlagsText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nfeci nere o molto scure\ndebolezza marcata\ncapogiri ortostatici\npallore e stanchezza\nterapia anticoagulante\nfibrillazione atriale come motivo della terapia anticoagulante\n11:59",
+  "disclaimer": "Importante\n\nAIutoDoc non fornisce diagnosi, prescrizioni o pareri medici e non sostituisce una visita sanitaria.\n\nIn caso di urgenza, sintomi gravi o peggioramento improvviso, chiama il 112/118 o rivolgiti al Pronto Soccorso.",
+  "sources": "",
+  "clinicalEmergency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nfeci nere o molto scure\ndebolezza marcata\ncapogiri ortostatici\npallore e stanchezza\nterapia anticoagulante\nfibrillazione atriale come motivo della terapia anticoagulante\n11:59",
+  "urgencyReason": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nfeci nere o molto scure\ndebolezza marcata\ncapogiri ortostatici\npallore e stanchezza\nterapia anticoagulante\nfibrillazione atriale come motivo della terapia anticoagulante\n11:59",
+  "questionCount": 0,
+  "geminiCalls": [],
+  "geminiHttpStatus": null,
+  "geminiDurationMs": null,
+  "url": "http://127.0.0.1:4273/",
+  "environment": "staging",
+  "timestamp": "2026-07-11T09:59:57.602Z",
+  "screenshot": "../artifacts/screenshots-staging/staging-chromium-desktop-GASTRO_02_MELENA_CAPOGIRI_URGENTE.png"
+}

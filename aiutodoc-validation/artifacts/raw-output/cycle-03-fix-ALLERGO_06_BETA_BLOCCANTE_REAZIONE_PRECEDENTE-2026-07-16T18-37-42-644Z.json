@@ -1,0 +1,33 @@
+{
+  "id": "ALLERGO_06_BETA_BLOCCANTE_REAZIONE_PRECEDENTE",
+  "input": "Assumo un beta-bloccante per la pressione. In passato, dopo una puntura di insetto, ho avuto gonfiore diffuso e sono stato portato in ospedale. Ora sto bene e vorrei capire a chi rivolgermi per una valutazione.",
+  "timestamp": "2026-07-16T18:37:42.637Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nPersona in terapia con beta-bloccante per la pressione, con precedente gonfiore diffuso dopo puntura di insetto e accesso ospedaliero. Attualmente sta bene e richiede un inquadramento programmato.\n\nSegnali rilevanti da riferire al medico:\nprecedente puntura di insetto\ngonfiore diffuso riferito\naccesso ospedaliero pregresso\nassunzione di beta-bloccante\nassenza di sintomi attuali\nSPECIALISTA CONSIGLIATO\nAllergologo e Immunologo clinico\nFonti a supporto dell’orientamento\n\nRiferimenti metodologici sulla qualità dell’invio allo specialista; il catalogo specifico per questa branca è in aggiornamento.\n\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nNon urgente / visita allergologica programmata a breve\nPorta documentazione ospedaliera, informazioni sull'insetto, sintomi e tempi di comparsa, altre punture, allergie note, precedenti visite, eventuale dispositivo gia prescritto, elenco completo dei farmaci e condizioni cardiovascolari.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Visita di Allergologia e Immunologia clinica per valutare un precedente episodio sistemico dopo puntura di insetto in persona che assume beta-bloccante, attualmente senza sintomi.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Quale insetto era coinvolto, quali sintomi comparvero, dopo quanto tempo e quale trattamento ospedaliero fu eseguito?\n\nA\nInformazioni e trattamento documentati\nB\nInformazioni parziali\nC\nInsetto o dettagli non noti\nD\nNessuna delle precedenti",
+    "2. Hai avuto altre punture o allergie note, precedenti visite allergologiche o un dispositivo gia prescritto?\n\nA\nAltre reazioni o dispositivo prescritto\nB\nSolo visita precedente\nC\nNessuno\nD\nNessuna delle precedenti",
+    "3. Quali farmaci assumi, incluso il beta-bloccante, e quali condizioni cardiovascolari sono presenti? Non modificare la terapia autonomamente.\n\nA\nElenco e condizioni noti\nB\nInformazioni parziali\nC\nDa verificare con il medico\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Allergologo e Immunologo clinico",
+  "areaSpecialistica": {
+    "branca": "Allergologia e Immunologia clinica",
+    "area_specialistica": "Valutazione specialistica dopo precedente risposta sistemica a puntura di insetto, nell'area dei veleni di imenotteri",
+    "eventuale_secondo_livello": "Coordinamento con il medico che gestisce la terapia cardiovascolare"
+  },
+  "urgency": "Non urgente / visita allergologica programmata a breve\nPorta documentazione ospedaliera, informazioni sull'insetto, sintomi e tempi di comparsa, altre punture, allergie note, precedenti visite, eventuale dispositivo gia prescritto, elenco completo dei farmaci e condizioni cardiovascolari.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nprecedente puntura di insetto\ngonfiore diffuso riferito\naccesso ospedaliero pregresso\nassunzione di beta-bloccante\nassenza di sintomi attuali",
+  "geminiCalls": [
+    {
+      "status": 200,
+      "durationMs": 9587
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

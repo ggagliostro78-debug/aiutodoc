@@ -1,0 +1,22 @@
+{
+  "id": "PNEUMO_05_NEGATIVO_FIATO_CORTO_POST_SFORZO",
+  "project": "android-compact",
+  "bypass": false,
+  "geminiStatuses": [
+    200
+  ],
+  "neutralizedSearchRequests": 2,
+  "externalSpecialistSearchCalls": 0,
+  "diagnoses": 0,
+  "prescriptions": 0,
+  "falsePositiveUrgent": 0,
+  "falseNegativeUrgent": 0,
+  "details": {
+    "inserisci l'età precisa. es. 47": "35"
+  },
+  "outputLength": 2834,
+  "consoleErrors": [],
+  "screenshot": "artifacts/mobile-menu-fix-screenshots/after/android-compact-PNEUMO_05_NEGATIVO_FIATO_CORTO_POST_SFORZO.png",
+  "status": "PASS",
+  "timestamp": "2026-07-17T09:45:14.852Z"
+}

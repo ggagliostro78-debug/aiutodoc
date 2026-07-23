@@ -1,0 +1,19 @@
+{
+  "id": "ENDO_05_NEGATIVO_FAME_POST_ALLENAMENTO",
+  "branch": "Endocrinologia",
+  "input": "Dopo allenamenti molto intensi ho spesso fame e stanchezza, ma non ho sete eccessiva, aumento della minzione, perdita di peso o svenimenti.",
+  "attempt": 1,
+  "startedAt": "2026-07-14T22:23:59.582Z",
+  "geminiCalls": [],
+  "playwrightStatus": "failed",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "questions": [
+    "Quanto spesso compaiono fame e stanchezza, quanto durano e seguono sempre allenamenti intensi?\n<br><i>A) Frequenti e chiaramente dopo allenamento<br>B) Occasionali o legame parziale<br>C) Compaiono anche a riposo<br>D) Nessuna delle precedenti</i>",
+    "Come sono alimentazione, idratazione, recupero e qualita del sonno nei giorni di allenamento?\n<br><i>A) Uno o piu aspetti insufficienti<br>B) Variabili<br>C) Regolari<br>D) Nessuna delle precedenti</i>",
+    "L'intensita dell'attivita e cambiata e sono comparsi nuovi sintomi o un peggioramento anche lontano dall'esercizio?\n<br><i>A) Si, nuovi sintomi o peggioramento<br>B) Solo aumento dell'intensita<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "completedAt": "2026-07-14T22:26:30.796Z",
+  "error": "\u001b[31mTest timeout of 150000ms exceeded.\u001b[39m"
+}

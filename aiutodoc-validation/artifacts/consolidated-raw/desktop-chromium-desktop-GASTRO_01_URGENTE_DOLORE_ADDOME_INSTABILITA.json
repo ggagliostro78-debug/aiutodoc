@@ -1,0 +1,20 @@
+{
+  "id": "GASTRO_01_URGENTE_DOLORE_ADDOME_INSTABILITA",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Da oggi ho un forte dolore addominale che sta peggiorando, ho vomitato più volte, mi sento molto debole e quasi svenuto.",
+  "questions": [],
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ndolore addominale forte e in peggioramento\nvomito ripetuto\ndebolezza intensa\nquasi svenimento\n02:41",
+  "expectedBypass": true,
+  "emergencyBypass": true,
+  "geminiCalls": [],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 0,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:41:51.383Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/GASTRO_01_URGENTE_DOLORE_ADDOME_INSTABILITA.png"
+}

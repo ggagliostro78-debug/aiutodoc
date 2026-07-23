@@ -1,0 +1,24 @@
+{
+  "id": "PED_05_NEGATIVO_STANCHEZZA_DOPO_SPORT",
+  "project": "pixel-7",
+  "bypass": false,
+  "geminiStatuses": [
+    200
+  ],
+  "neutralizedSearchRequests": 2,
+  "externalSpecialistSearchCalls": 0,
+  "diagnoses": 0,
+  "prescriptions": 0,
+  "falsePositiveUrgent": 0,
+  "falseNegativeUrgent": 0,
+  "details": {
+    "inserisci l'età precisa. es. 47": "11",
+    "inserisci il peso in kg. es. 72": "40",
+    "inserisci l'altezza in cm. es. 170": "150"
+  },
+  "outputLength": 2824,
+  "consoleErrors": [],
+  "screenshot": "artifacts/mobile-menu-fix-screenshots/after/pixel-7-PED_05_NEGATIVO_STANCHEZZA_DOPO_SPORT.png",
+  "status": "PASS",
+  "timestamp": "2026-07-17T09:47:57.593Z"
+}

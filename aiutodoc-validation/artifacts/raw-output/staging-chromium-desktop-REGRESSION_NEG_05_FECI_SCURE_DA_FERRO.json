@@ -1,0 +1,58 @@
+{
+  "id": "REGRESSION_NEG_05_FECI_SCURE_DA_FERRO",
+  "category": "controlli negativi",
+  "input": "Da quando assumo un integratore di ferro le feci sono più scure. Non ho debolezza, capogiri, dolore, vomito, svenimenti e non prendo anticoagulanti.",
+  "questions": [
+    "Quando hai iniziato ad assumere ferro o bismuto e il cambiamento delle feci e comparso dopo l'inizio? A) Si, dopo l'inizio B) Il rapporto temporale non e chiaro C) No D) Nessuna delle precedenti",
+    "Il colore e uniformemente piu scuro oppure molto nero, e il cambiamento e stabile, occasionale o sta peggiorando? A) Molto nero o in peggioramento B) Piu scuro ma stabile o occasionale C) Non so descriverlo D) Nessuna delle precedenti",
+    "Dopo il cambiamento sono comparsi debolezza, capogiri, svenimento, dolore, vomito, sangue visibile o peggioramento generale, assumi altri farmaci rilevanti o ne hai gia parlato con il professionista che segue la terapia? A) Si, uno o piu elementi B) Solo dubbi o altri farmaci da riferire C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Quando hai iniziato ad assumere ferro o bismuto e il cambiamento delle feci e comparso dopo l'inizio?\n<br><i>A) Si, dopo l'inizio<br>B) Il rapporto temporale non e chiaro<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Il colore e uniformemente piu scuro oppure molto nero, e il cambiamento e stabile, occasionale o sta peggiorando?\n<br><i>A) Molto nero o in peggioramento<br>B) Piu scuro ma stabile o occasionale<br>C) Non so descriverlo<br>D) Nessuna delle precedenti</i>",
+    "Dopo il cambiamento sono comparsi debolezza, capogiri, svenimento, dolore, vomito, sangue visibile o peggioramento generale, assumi altri farmaci rilevanti o ne hai gia parlato con il professionista che segue la terapia?\n<br><i>A) Si, uno o piu elementi<br>B) Solo dubbi o altri farmaci da riferire<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "branch": "Gastro contestuale ferro/bismuto",
+  "overrideOrBypass": "contesto ferro/bismuto",
+  "redFlagsConsidered": [
+    "vomito",
+    "debolezza",
+    "svenimento",
+    "feci",
+    "capogiri",
+    "peggioramento"
+  ],
+  "negationsRespected": true,
+  "motivations": [],
+  "motivationsFaithful": true,
+  "diagnosticViolations": [],
+  "prescriptionsPresent": false,
+  "offBranch": [],
+  "effectiveEscalation": false,
+  "falsePositiveUrgency": false,
+  "underUrgency": false,
+  "regression": "P0/P2: NO",
+  "classification": "PASS ROUTING",
+  "problem": "",
+  "validator": {
+    "status": "PASS ROUTING",
+    "diagnosticViolations": [],
+    "falsePositiveUrgency": false,
+    "bypassDocumented": false,
+    "offBranch": [],
+    "coverage": {},
+    "unfaithfulMotivations": [],
+    "negationsIgnored": false,
+    "problems": []
+  },
+  "geminiCalls": [],
+  "state": "4_CONOSCITIVE",
+  "timestamp": "2026-07-12T23:06:28.596Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "infrastructureError": ""
+}

@@ -1,0 +1,66 @@
+{
+  "id": "GASTRO_06_ANTICOAGULANTE_SANGUE_FECI",
+  "expectedBranch": "Gastroenterologia",
+  "input": "Prendo un anticoagulante e oggi ho notato sangue rosso nelle feci. Non ho capogiri, debolezza o svenimenti.",
+  "terminal": "success",
+  "playwrightStatus": "passed",
+  "emergencyBypass": false,
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Quanto sangue rosso hai notato, in quanti episodi e il sanguinamento e ancora presente o si e ripetuto?\n\nA\nAbbondante, attuale o ripetuto\nB\nPoche tracce in un solo episodio\nC\nNon so quantificarlo\nD\nNessuna delle precedenti",
+    "2. Sono presenti dolore addominale o anale, altri sanguinamenti, peggioramento, debolezza, capogiri o svenimento?\n\nA\nSi, uno o piu elementi\nB\nSolo dolore lieve o dubbio\nC\nNo\nD\nNessuna delle precedenti",
+    "3. Quale anticoagulante assumi e chi lo ha prescritto? Non modificarlo o sospenderlo autonomamente.\n\nA\nNome e prescrittore noti\nB\nConosco solo uno dei due\nC\nDevo recuperare le informazioni\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nPersona che riferisce sangue rosso nelle feci durante terapia anticoagulante; nega capogiri, debolezza e svenimenti.\n\nSegnali rilevanti da riferire al medico:\nsangue rosso nelle feci\nterapia anticoagulante riferita\nassenza di capogiri\nassenza di debolezza\nassenza di svenimenti\nSPECIALISTA CONSIGLIATO\nValutazione medica urgente; Gastroenterologia o Pronto Soccorso secondo quantita e persistenza\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nGastro-oesophageal reflux disease and dyspepsia in adults\nNICE clinical guideline CG184\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nAlta / urgente: valutazione medica tempestiva; Pronto Soccorso se il sanguinamento e abbondante, persiste, recidiva o compaiono segni di instabilita.\nRichiedi una valutazione tempestiva e riferisci quantita, numero degli episodi, persistenza, dolore, altri sanguinamenti e nome dell'anticoagulante. Non modificare o sospendere autonomamente la terapia. Vai in Pronto Soccorso o contatta 112/118 se il sangue e abbondante, il sanguinamento persiste o compaiono debolezza, capogiri, svenimento o peggioramento.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione urgente per sangue rosso nelle feci durante terapia anticoagulante, con capogiri, debolezza e svenimenti negati; orientamento senza diagnosi e senza prescrizioni.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nPronto Soccorso - Ospedale di Gioia Tauro\nSSN\n\nSpecializzazione: Valutazione medica urgente; Gastroenterologia o Pronto Soccorso secondo quantita e persistenza\n\nIndirizzo/Modalità: Via Madame Curie, 89013 Gioia Tauro RC, Italia\n\nContatti: Telefono: 0966 589264 | Sito web: https://www.micuro.it/strutture/presidio-ospedaliero-giovanni-xxiii/area-specialistica/pronto-soccorso\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nCasa di cura Villa Stuart Privata Pronto Soccorso\nSSN\n\nSpecializzazione: Valutazione medica urgente; Gastroenterologia o Pronto Soccorso secondo quantita e persistenza\n\nIndirizzo/Modalità: Villa Stuart Clinic, Via Trionfale, 5952, 00135 Roma RM, Italia\n\nContatti: Telefono: 06 3552 8310\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nProf. Italo Stroppa\nPrivato\n\nSpecializzazione: Valutazione medica urgente; Gastroenterologia o Pronto Soccorso secondo quantita e persistenza\n\nIndirizzo/Modalità: Via Trionfale, 5952, 00135 Roma RM, Italia\n\nContatti: Telefono: 0863 195 0021 | Sito web: https://www.eccellenzamedica.it/centri/roma-villa-stuart\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione. | Gastroenterologo Roma -",
+  "specialist": "Valutazione medica urgente; Gastroenterologia o Pronto Soccorso secondo quantita e persistenza",
+  "areaSpecialistica": {
+    "branca": "Gastroenterologia / Medicina d'urgenza",
+    "area_specialistica": "Sangue rosso nelle feci durante terapia anticoagulante da valutare con urgenza",
+    "eventuale_secondo_livello": "Pronto Soccorso secondo quantita, persistenza, recidiva o condizioni generali"
+  },
+  "urgency": "Alta / urgente: valutazione medica tempestiva; Pronto Soccorso se il sanguinamento e abbondante, persiste, recidiva o compaiono segni di instabilita.\nRichiedi una valutazione tempestiva e riferisci quantita, numero degli episodi, persistenza, dolore, altri sanguinamenti e nome dell'anticoagulante. Non modificare o sospendere autonomamente la terapia. Vai in Pronto Soccorso o contatta 112/118 se il sangue e abbondante, il sanguinamento persiste o compaiono debolezza, capogiri, svenimento o peggioramento.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nsangue rosso nelle feci\nterapia anticoagulante riferita\nassenza di capogiri\nassenza di debolezza\nassenza di svenimenti",
+  "geminiCalls": [
+    {
+      "event": "request",
+      "method": "POST",
+      "atMs": 121948.8457
+    },
+    {
+      "event": "response",
+      "status": 200,
+      "durationMs": 9688.56
+    }
+  ],
+  "pendingGeminiRequests": 0,
+  "specialistCalls": [
+    {
+      "event": "request",
+      "method": "POST",
+      "atMs": 167810.927
+    },
+    {
+      "event": "response",
+      "status": 502,
+      "durationMs": 237.645
+    }
+  ],
+  "serpApiWarning": true,
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "warning",
+      "text": "Fallback specialist-search senza risultati: Error: Specialist Search Error (502): {\"error\":\"Errore ricerca specialisti.\",\"code\":\"GOOGLE_SEARCH_ERROR\",\"detail\":\"SerpApi error (429): {\\n  \\\"error\\\": \\\"Your account has run out of searches.\\\"\\n}\"}\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3504:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2394:44)"
+    }
+  ],
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-16T11:33:24.840Z",
+  "url": "http://127.0.0.1:4273/"
+}

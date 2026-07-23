@@ -1,0 +1,33 @@
+{
+  "id": "OCUL_03_CALO_VISIVO_PROGRESSIVO",
+  "input": "Da alcuni mesi vedo meno nitidamente da lontano, soprattutto la sera. Non ho dolore, lampi, perdita improvvisa della vista o trauma.",
+  "timestamp": "2026-07-16T18:34:06.399Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nDa alcuni mesi la visione da lontano e meno nitida, soprattutto la sera. Sono negati dolore, lampi, perdita improvvisa della vista e trauma.\n\nSegnali rilevanti da riferire al medico:\ncalo progressivo da alcuni mesi\nvisione da lontano meno nitida\nmaggiore difficolta la sera\nassenza di dolore\nassenza di lampi\nassenza di perdita improvvisa della vista\nassenza di trauma\nSPECIALISTA CONSIGLIATO\nOculista\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nGlaucoma: diagnosis and management\nNICE guideline NG81\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nUrgenza bassa / visita oculistica programmata\nRiferisci se riguarda uno o entrambi gli occhi, vicino o lontano, andamento, difficolta notturna, uso di occhiali o lenti, ultimo controllo, diabete, farmaci, aloni, visione doppia, lampi, macchie e dolore.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Visita oculistica programmata per riduzione progressiva della nitidezza visiva da lontano, soprattutto serale, senza segnali acuti riferiti.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Il calo riguarda uno o entrambi gli occhi, la visione da vicino o da lontano, e sta progredendo anche di notte?\n\nA\nUn occhio o progressione rapida\nB\nEntrambi, soprattutto lontano o la sera\nC\nNon e chiaro\nD\nNessuna delle precedenti",
+    "2. Usi occhiali o lenti, quando hai fatto l'ultimo controllo e hai diabete o assumi farmaci rilevanti?\n\nA\nCorrezione o condizioni presenti\nB\nUltimo controllo lontano nel tempo\nC\nNessuno o non so\nD\nNessuna delle precedenti",
+    "3. Sono presenti aloni, visione doppia, lampi, macchie o dolore?\n\nA\nUno o piu sintomi presenti\nB\nSolo difficolta notturna\nC\nNessuno\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Oculista",
+  "areaSpecialistica": {
+    "branca": "Oculistica / Oftalmologia",
+    "area_specialistica": "Riduzione progressiva della nitidezza da lontano da valutare",
+    "eventuale_secondo_livello": "Da definire dopo la visita oculistica"
+  },
+  "urgency": "Urgenza bassa / visita oculistica programmata\nRiferisci se riguarda uno o entrambi gli occhi, vicino o lontano, andamento, difficolta notturna, uso di occhiali o lenti, ultimo controllo, diabete, farmaci, aloni, visione doppia, lampi, macchie e dolore.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\ncalo progressivo da alcuni mesi\nvisione da lontano meno nitida\nmaggiore difficolta la sera\nassenza di dolore\nassenza di lampi\nassenza di perdita improvvisa della vista\nassenza di trauma",
+  "geminiCalls": [
+    {
+      "status": 200,
+      "durationMs": 6817
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

@@ -1,0 +1,63 @@
+{
+  "id": "REGRESSION_BOUND_02_GRAVIDANZA_SINTOMI_URINARI_SENZA_FEBBRE",
+  "category": "casi borderline",
+  "input": "Sono incinta di 20 settimane e da ieri ho bruciore urinario e bisogno di urinare spesso. Non ho febbre, brividi, dolore al fianco, nausea, vomito, contrazioni o perdite.",
+  "questions": [
+    "A quale settimana di gravidanza sei, da quanto durano bruciore, frequenza o urgenza urinaria e stanno peggiorando? A) Durano o peggiorano B) Sono lievi o stabili C) Sono in miglioramento D) Nessuna delle precedenti",
+    "Durante la minzione ci sono dolore o bruciore, bisogno frequente o urgente di urinare, oppure sangue nelle urine? A) Si, uno o piu sintomi B) Solo lieve o dubbio C) No D) Nessuna delle precedenti",
+    "Sono comparsi febbre, brividi, dolore al fianco o lombare, nausea, vomito, peggioramento generale, contrazioni, dolore pelvico importante o perdite di sangue o liquido, e hai gia contattato ginecologo, ostetrica o medico curante? A) Si, uno o piu segnali o contatto gia avvenuto B) Solo dubbi o sintomi lievi C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "A quale settimana di gravidanza sei, da quanto durano bruciore, frequenza o urgenza urinaria e stanno peggiorando?\n<br><i>A) Durano o peggiorano<br>B) Sono lievi o stabili<br>C) Sono in miglioramento<br>D) Nessuna delle precedenti</i>",
+    "Durante la minzione ci sono dolore o bruciore, bisogno frequente o urgente di urinare, oppure sangue nelle urine?\n<br><i>A) Si, uno o piu sintomi<br>B) Solo lieve o dubbio<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Sono comparsi febbre, brividi, dolore al fianco o lombare, nausea, vomito, peggioramento generale, contrazioni, dolore pelvico importante o perdite di sangue o liquido, e hai gia contattato ginecologo, ostetrica o medico curante?\n<br><i>A) Si, uno o piu segnali o contatto gia avvenuto<br>B) Solo dubbi o sintomi lievi<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "branch": "Urinario in gravidanza",
+  "overrideOrBypass": "contesto gravidanza urinaria",
+  "redFlagsConsidered": [
+    "vomito",
+    "febbre",
+    "brividi",
+    "fianco",
+    "perdite",
+    "peggioramento"
+  ],
+  "negationsRespected": true,
+  "motivations": [],
+  "motivationsFaithful": true,
+  "diagnosticViolations": [],
+  "prescriptionsPresent": false,
+  "offBranch": [],
+  "effectiveEscalation": false,
+  "falsePositiveUrgency": false,
+  "underUrgency": false,
+  "regression": "P2: NO",
+  "classification": "PASS ROUTING",
+  "problem": "",
+  "validator": {
+    "status": "PASS ROUTING",
+    "diagnosticViolations": [],
+    "falsePositiveUrgency": false,
+    "bypassDocumented": false,
+    "offBranch": [],
+    "coverage": {
+      "urinario": true,
+      "febbre": true,
+      "perdite": true,
+      "peggioramento": true
+    },
+    "unfaithfulMotivations": [],
+    "negationsIgnored": false,
+    "problems": []
+  },
+  "geminiCalls": [],
+  "state": "4_CONOSCITIVE",
+  "timestamp": "2026-07-12T23:06:38.030Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "infrastructureError": ""
+}

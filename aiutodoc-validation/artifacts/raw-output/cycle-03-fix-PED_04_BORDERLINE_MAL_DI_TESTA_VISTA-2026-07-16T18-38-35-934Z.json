@@ -1,0 +1,33 @@
+{
+  "id": "PED_04_BORDERLINE_MAL_DI_TESTA_VISTA",
+  "input": "Mia figlia ha 12 anni e da alcune settimane ha mal di testa soprattutto quando legge o usa il tablet. Dice che a volte vede sfocato. Non ha vomito, debolezza, difficoltà a parlare o perdita di coscienza.",
+  "timestamp": "2026-07-16T18:38:35.925Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nRagazza di 12 anni con mal di testa da alcune settimane soprattutto durante lettura o uso del tablet e vista a volte sfocata. Sono negati vomito, debolezza, difficolta a parlare e perdita di coscienza.\n\nSegnali rilevanti da riferire al medico:\nsintomi da alcune settimane\nmal di testa durante lettura o tablet\nvista a volte sfocata\nassenza di vomito\nassenza di debolezza\nassenza di difficolta a parlare\nassenza di perdita di coscienza\nSPECIALISTA CONSIGLIATO\nOculista pediatrico o Pediatra\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nGlaucoma: diagnosis and management\nNICE guideline NG81\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nUrgenza bassa / valutazione programmata a breve\nAnnota frequenza, durata, rapporto con lettura e schermi, visione da vicino e lontano ed eventuali controlli visivi precedenti. Richiedi assistenza urgente se compaiono improvviso calo visivo, debolezza, difficolta a parlare, perdita di coscienza o peggioramento rapido.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione oculistica pediatrica o pediatrica per mal di testa associato a lettura o tablet e vista a volte sfocata, senza segnali neurologici riferiti.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Il mal di testa e la vista sfocata compaiono leggendo, con tablet o schermi, e riguardano la visione da vicino, da lontano o entrambe?\n\nA\nSoprattutto vicino o con schermi\nB\nSoprattutto lontano\nC\nIn entrambe le situazioni\nD\nNessuna delle precedenti",
+    "2. Quanto durano e con quale frequenza; sono presenti dolore oculare, fastidio alla luce, nausea o risvegli notturni?\n\nA\nFrequenti o con uno di questi segnali\nB\nSaltuari e brevi\nC\nDurata o frequenza non chiare\nD\nNessuna delle precedenti",
+    "3. Ci sono stati trauma o problemi ai precedenti controlli visivi, oppure debolezza, difficolta a parlare, perdita di coscienza o altri segnali neurologici?\n\nA\nTrauma, controllo visivo anomalo o segnale neurologico\nB\nSolo precedenti problemi visivi\nC\nNessuno\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Oculista pediatrico o Pediatra",
+  "areaSpecialistica": {
+    "branca": "Oculistica pediatrica / Pediatria",
+    "area_specialistica": "Mal di testa associato a lettura o schermi e vista sfocata da valutare",
+    "eventuale_secondo_livello": "Neurologia pediatrica solo se emergono segnali neurologici"
+  },
+  "urgency": "Urgenza bassa / valutazione programmata a breve\nAnnota frequenza, durata, rapporto con lettura e schermi, visione da vicino e lontano ed eventuali controlli visivi precedenti. Richiedi assistenza urgente se compaiono improvviso calo visivo, debolezza, difficolta a parlare, perdita di coscienza o peggioramento rapido.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nsintomi da alcune settimane\nmal di testa durante lettura o tablet\nvista a volte sfocata\nassenza di vomito\nassenza di debolezza\nassenza di difficolta a parlare\nassenza di perdita di coscienza",
+  "geminiCalls": [
+    {
+      "status": 200,
+      "durationMs": 7655
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

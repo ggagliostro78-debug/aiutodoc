@@ -1,0 +1,61 @@
+{
+  "timestamp": "2026-07-07T22:31:02.374Z",
+  "request": {
+    "method": "POST",
+    "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+    "model": "gemini-2.5-flash",
+    "prompt": "Rispondi solo OK",
+    "api_key_included_in_artifact": false
+  },
+  "http_status": 200,
+  "classification": "GEMINI_OK",
+  "error": {
+    "status": null,
+    "code": null,
+    "message": null,
+    "details": []
+  },
+  "staging_test_observation": {
+    "timestamp_local": "2026-07-08T00:35:00+02:00",
+    "case": "ANEMIA_01",
+    "environment": "staging",
+    "browser": "chromium-desktop",
+    "proxy_http_status": 503,
+    "proxy_error_code": 20,
+    "proxy_error_message": "Servizio AI temporaneamente non disponibile.",
+    "upstream_log": "Gemini API call failed: This operation was aborted",
+    "classification": "GEMINI_SERVICE_OR_PROXY_UNAVAILABLE",
+    "additional_healthcheck_calls": 0
+  },
+  "response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "OK"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 5,
+      "candidatesTokenCount": 1,
+      "totalTokenCount": 24,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 5
+        }
+      ],
+      "thoughtsTokenCount": 18,
+      "serviceTier": "standard"
+    },
+    "modelVersion": "gemini-2.5-flash",
+    "responseId": "Jn5NauH3Ibm6xN8PveaL4QQ"
+  }
+}

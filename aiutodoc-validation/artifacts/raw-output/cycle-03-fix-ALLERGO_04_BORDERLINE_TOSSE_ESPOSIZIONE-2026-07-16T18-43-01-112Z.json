@@ -1,0 +1,33 @@
+{
+  "id": "ALLERGO_04_BORDERLINE_TOSSE_ESPOSIZIONE",
+  "input": "Quando entro in una stanza polverosa inizio a tossire e sento un leggero fischio nel respiro. Quando esco passa. Non ho sintomi a riposo, dolore al petto o svenimenti.",
+  "timestamp": "2026-07-16T18:43:01.101Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nLa paziente, una donna di 40 anni, riferisce l'insorgenza di tosse e un leggero fischio nel respiro ogni volta che entra in una stanza polverosa. I sintomi si risolvono spontaneamente non appena si allontana dall'ambiente polveroso. La paziente nega la presenza di sintomi a riposo, dolore al petto o episodi di svenimento. Non sono stati forniti ulteriori dettagli anamnestici o conoscitivi.\n\nSegnali rilevanti da riferire al medico:\nTosse e sibilo respiratorio in ambienti polverosi\nRisoluzione dei sintomi all'allontanamento dall'ambiente\nAssenza di sintomi a riposo\nAssenza di dolore al petto\nAssenza di svenimenti\nSPECIALISTA CONSIGLIATO\nPneumologo\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nChronic obstructive pulmonary disease in over 16s\nNICE guideline NG115\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nnon urgente / visita programmata a breve\nSi consiglia di annotare la frequenza e la durata degli episodi, specificando gli ambienti e le circostanze che scatenano i sintomi. È utile preparare un elenco di eventuali farmaci assunti e portare con sé documentazione medica pregressa, se disponibile.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Visita Pneumologica per valutazione di tosse e sibilo respiratorio scatenati da esposizione a polvere, con risoluzione spontanea all'allontanamento dall'ambiente. Assenza di sintomi a riposo, dolore toracico o sincope.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Il respiro è accompagnato da rumori di fischi o sibili prolungati (tipo asma)?\n\nA\nSì, mi 'fischia' spesso il petto\nB\nSolo quando c'è umidità/sforzo\nC\nNon ho fischi\nD\nNessuna delle precedenti",
+    "2. Svegliandoti la notte o al mattino hai episodi pesanti di tosse con molto catarro oscuro/denso?\n\nA\nEspello catarro fitto ogni giorno\nB\nTosse solo secca stizzosa\nC\nNessuna tosse la mattina\nD\nNessuna delle precedenti",
+    "3. Sei o sei stato per anni un forte fumatore attivo (o passivo pesante)?\n\nA\nSì, fumo / ho fumato tanto in vita\nB\nSolo poche volte al giorno o rari periodi\nC\nMai fumato\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Pneumologo",
+  "areaSpecialistica": {
+    "branca": "Pneumologia",
+    "area_specialistica": "Valutazione di sintomi respiratori con trigger ambientale",
+    "eventuale_secondo_livello": "Allergologia"
+  },
+  "urgency": "non urgente / visita programmata a breve\nSi consiglia di annotare la frequenza e la durata degli episodi, specificando gli ambienti e le circostanze che scatenano i sintomi. È utile preparare un elenco di eventuali farmaci assunti e portare con sé documentazione medica pregressa, se disponibile.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nTosse e sibilo respiratorio in ambienti polverosi\nRisoluzione dei sintomi all'allontanamento dall'ambiente\nAssenza di sintomi a riposo\nAssenza di dolore al petto\nAssenza di svenimenti",
+  "geminiCalls": [
+    {
+      "status": 200,
+      "durationMs": 8153
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

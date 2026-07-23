@@ -1,0 +1,33 @@
+{
+  "id": "PED_01_URGENTE_DIFFICOLTA_RESPIRATORIA",
+  "input": "Mio figlio ha 3 anni. Da oggi respira molto velocemente, fa fatica a parlare o piangere e vedo che la pelle rientra tra le costole. È molto stanco.",
+  "timestamp": "2026-07-16T17:18:43.799Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nUn bambino di 3 anni presenta da oggi un quadro di respirazione molto accelerata, con evidente difficoltà a vocalizzare o piangere. Si osservano rientramenti della pelle tra le costole, indicativi di sforzo respiratorio, e il bambino appare molto stanco. Sebbene vi siano indicazioni anamnestiche di un possibile andamento alternante della salute o patologie croniche note, i sintomi attuali sono di insorgenza acuta e richiedono attenzione immediata.\n\nSegnali rilevanti da riferire al medico:\nRespirazione molto veloce (tachipnea)\nDifficoltà a parlare o piangere\nRientramenti intercostali\nStanchezza marcata\nEtà pediatrica (3 anni) con sintomi respiratori acuti severi\nSPECIALISTA CONSIGLIATO\nPediatra\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nFever in under 5s: assessment and initial management\nNICE guideline NG143\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nAlta / urgente: valutazione medica immediata\nÈ fondamentale che il bambino venga valutato con la massima urgenza da un medico. Monitorare attentamente il bambino e non somministrare farmaci senza indicazione medica. Preparare un elenco dettagliato dei sintomi, della loro insorgenza e evoluzione, e portare eventuali documenti medici pregressi del bambino.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione urgente per distress respiratorio acuto in bambino di 3 anni con tachipnea, rientramenti intercostali, difficoltà a parlare/piangere e marcata stanchezza.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSi, cambiamento evidente o rapido\nB\nCambiamento lieve o dubbio\nC\nNo, sembra stabile\nD\nNessuna delle precedenti",
+    "A\nSi, uno o piu segni evidenti\nB\nSolo fastidio lieve\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSingola lesione/neo ben preciso\nB\nPiu chiazze o lesioni\nC\nEruzione diffusa o prurito generale\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Segnali rilevanti da riferire al medico:\nPediatra\nVuoi il codice per recuperare questa ricerca?\nSpecialisti e strutture individuati:",
+  "areaSpecialistica": "{\"branca\":\"Pediatria\",\"area_specialistica\":\"Valutazione di distress respiratorio acuto nel bambino\",\"eventuale_secondo_livello\":\"Non definibile in fase acuta, l'obiettivo è la stabilizzazione e diagnosi immediata.\"}",
+  "urgency": "Alta / urgente: valutazione medica immediata\nÈ fondamentale che il bambino venga valutato con la massima urgenza da un medico. Monitorare attentamente il bambino e non somministrare farmaci senza indicazione medica. Preparare un elenco dettagliato dei sintomi, della loro insorgenza e evoluzione, e portare eventuali documenti medici pregressi del bambino.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nRespirazione molto veloce (tachipnea)\nDifficoltà a parlare o piangere\nRientramenti intercostali\nStanchezza marcata\nEtà pediatrica (3 anni) con sintomi respiratori acuti severi",
+  "geminiCalls": [
+    {
+      "started": 1784222278277,
+      "status": 200,
+      "durationMs": 17544
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

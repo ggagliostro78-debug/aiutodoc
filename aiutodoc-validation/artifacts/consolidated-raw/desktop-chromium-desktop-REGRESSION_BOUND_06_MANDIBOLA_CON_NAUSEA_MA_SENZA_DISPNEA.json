@@ -1,0 +1,31 @@
+{
+  "id": "REGRESSION_BOUND_06_MANDIBOLA_CON_NAUSEA_MA_SENZA_DISPNEA",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Da mezz’ora ho fastidio alla mandibola e nausea. Non ho dolore al petto né affanno. Sono diabetico e iperteso e il fastidio non cambia masticando.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSono presenti o persistenti\nB\nVanno e vengono\nC\nSono regrediti\nD\nNessuna delle precedenti",
+    "A\nSi, uno o piu segnali\nB\nSolo lieve o stabile\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSi, fattori presenti e sintomi attuali o persistenti\nB\nSolo in parte o dubbio\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nPaziente maschio, di età compresa tra 40 e 64 anni, con anamnesi di diabete e ipertensione arteriosa. Riferisce da circa 30 minuti la comparsa di fastidio alla mandibola e nausea, senza tuttavia accusare dolore al petto o affanno. Il fastidio alla mandibola non è influenzato dalla masticazione. Si evidenziano inoltre un peso corporeo di 24 kg e un'altezza di 125 cm, dati che necessitano di un approfondimento clinico.\n\nSegnali rilevanti da riferire al medico:\nnausea riferita\nfastidio mandibolare riferito\ndiabete riferito\nipertensione riferita\nSPECIALISTA CONSIGLIATO\nPronto Soccorso / 112-118 se sintomi in corso, peggioramento o mancata regressione\nFonti a supporto dell’orientamento\n\nRiferimenti metodologici sulla qualità dell’invio allo specialista; il catalogo specifico per questa branca è in aggiornamento.\n\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nAlta / urgente: dare priorita a Pronto Soccorso o 112/118 se i sintomi sono in corso, peggiorano o non regrediscono.\nDai priorita a Pronto Soccorso o 112/118 se i sintomi sono in corso, peggiorano o non regrediscono. Non considerarli automaticamente acidita o un disturbo digestivo solo per l'assenza di vero dolore al petto. La Cardiologia e un eventuale secondo livello dopo la valutazione urgente. Non vengono formulate diagnosi ne indicate terapie, farmaci o dosaggi.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione urgente per i segnali riferiti: nausea riferita, fastidio mandibolare riferito, diabete riferito, ipertensione riferita; orientamento verso servizio urgente, senza diagnosi e senza prescrizioni.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:41:26.495Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/REGRESSION_BOUND_06_MANDIBOLA_CON_NAUSEA_MA_SENZA_DISPNEA.png"
+}

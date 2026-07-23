@@ -1,0 +1,33 @@
+{
+  "id": "CROSS_03_GASTRO_UTENTE_REALE",
+  "branchRequested": "Gastroenterologia",
+  "input": "Donna di 69 anni. Da due giorni ho feci molto scure quasi nere, mi sento debole e quando mi alzo ho capogiri. Da mesi prendo un anticoagulante per fibrillazione atriale. Non ho vomitato sangue e non ho dolore addominale forte.",
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nfeci nere o molto scure\ndebolezza marcata\ncapogiri ortostatici\npallore e stanchezza\nterapia anticoagulante\nfibrillazione atriale come motivo della terapia anticoagulante\n12:31",
+  "specialist": "112/118 o Pronto Soccorso",
+  "areaText": "{\"branca\":\"Emergenza gastroenterologica / Pronto Soccorso\",\"area_specialistica\":\"Feci molto scure con debolezza e capogiri da valutare urgentemente\",\"eventuale_secondo_livello\":\"Gastroenterologia dopo valutazione e stabilizzazione urgente\"}",
+  "areaSpecialistica": {
+    "branca": "Emergenza gastroenterologica / Pronto Soccorso",
+    "area_specialistica": "Feci molto scure con debolezza e capogiri da valutare urgentemente",
+    "eventuale_secondo_livello": "Gastroenterologia dopo valutazione e stabilizzazione urgente"
+  },
+  "urgency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nfeci nere o molto scure\ndebolezza marcata\ncapogiri ortostatici\npallore e stanchezza\nterapia anticoagulante\nfibrillazione atriale come motivo della terapia anticoagulante\n12:31",
+  "redFlagsText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nfeci nere o molto scure\ndebolezza marcata\ncapogiri ortostatici\npallore e stanchezza\nterapia anticoagulante\nfibrillazione atriale come motivo della terapia anticoagulante\n12:31",
+  "sources": "",
+  "clinicalEmergency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nfeci nere o molto scure\ndebolezza marcata\ncapogiri ortostatici\npallore e stanchezza\nterapia anticoagulante\nfibrillazione atriale come motivo della terapia anticoagulante\n12:31",
+  "geminiCalls": [],
+  "geminiHttpStatus": null,
+  "geminiDurationMs": null,
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "timestamp": "2026-07-12T10:31:59.272Z",
+  "playwrightStatus": "passed",
+  "playwrightError": "",
+  "evaluation": {
+    "clinical": "PASS CLINICO-FUNZIONALE",
+    "diagnosis": [],
+    "prescriptions": [],
+    "therapies": [],
+    "problem": ""
+  }
+}

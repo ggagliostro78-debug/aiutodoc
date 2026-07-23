@@ -1,0 +1,24 @@
+{
+  "id": "PED_02_FEBBRE_BAMBINO_PROGRAMMATA",
+  "project": "iphone-13",
+  "bypass": false,
+  "geminiStatuses": [
+    200
+  ],
+  "neutralizedSearchRequests": 2,
+  "externalSpecialistSearchCalls": 0,
+  "diagnoses": 0,
+  "prescriptions": 0,
+  "falsePositiveUrgent": 0,
+  "falseNegativeUrgent": 0,
+  "details": {
+    "inserisci l'età precisa. es. 47": "7",
+    "inserisci il peso in kg. es. 72": "24",
+    "inserisci l'altezza in cm. es. 170": "125"
+  },
+  "outputLength": 2800,
+  "consoleErrors": [],
+  "screenshot": "artifacts/mobile-menu-fix-screenshots/after/iphone-13-PED_02_FEBBRE_BAMBINO_PROGRAMMATA.png",
+  "status": "PASS",
+  "timestamp": "2026-07-17T09:42:15.613Z"
+}

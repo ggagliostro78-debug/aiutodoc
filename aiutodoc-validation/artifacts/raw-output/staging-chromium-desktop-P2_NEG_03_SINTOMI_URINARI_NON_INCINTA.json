@@ -1,0 +1,38 @@
+{
+  "id": "P2_NEG_03_SINTOMI_URINARI_NON_INCINTA",
+  "input": "Da ieri ho bruciore urinario e bisogno di urinare spesso. Non sono incinta e non ho febbre, brividi o dolore al fianco.",
+  "questions": [
+    "Il disturbo è legato a bruciore, dolore o fastidio durante la minzione oppure a sintomi genitali/pelvici? A) Sì, in modo evidente B) Solo lieve o saltuario C) No D) Nessuna delle precedenti",
+    "Hai aumento della frequenza urinaria, urgenza, perdite anomale o dolore pelvico/genitale? A) Sì, chiaramente B) Solo in parte C) No D) Nessuna delle precedenti",
+    "Hai notato sangue nelle urine, febbre, dolore lombare o peggioramento progressivo? A) Sì, uno o più di questi segni B) Solo lieve sospetto C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Il disturbo è legato a bruciore, dolore o fastidio durante la minzione oppure a sintomi genitali/pelvici?\n<br><i>A) Sì, in modo evidente<br>B) Solo lieve o saltuario<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Hai aumento della frequenza urinaria, urgenza, perdite anomale o dolore pelvico/genitale?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Hai notato sangue nelle urine, febbre, dolore lombare o peggioramento progressivo?\n<br><i>A) Sì, uno o più di questi segni<br>B) Solo lieve sospetto<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T22:18:32.426Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "ironBranch": false,
+    "pregnancyUrinary": false,
+    "pregnancyUrgent": false,
+    "pregnancyNausea": false,
+    "nonPregnantFlank": false,
+    "genericUrinary": true,
+    "ironFollowUp": false,
+    "pregnancyGeneral": false,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

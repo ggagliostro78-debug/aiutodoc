@@ -1,0 +1,31 @@
+{
+  "id": "URO_01_CISTITE_SEMPLICE_NON_URGENTE",
+  "surface": "mobile",
+  "viewport": "iphone-se",
+  "input": "Donna di 29 anni. Da due giorni ho bruciore quando urino e devo andare spesso in bagno. Non ho febbre, non ho dolore al fianco, non ho sangue visibile nelle urine, non sono incinta, non ho nausea e non ho vomito.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSì, in modo evidente\nB\nSolo lieve o saltuario\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSì, chiaramente\nB\nSolo in parte\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSì, uno o più di questi segni\nB\nSolo lieve sospetto\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nUna donna di 29 anni riferisce da due giorni bruciore durante la minzione e aumentata frequenza urinaria. Nega la presenza di febbre, dolore al fianco, sangue visibile nelle urine, gravidanza, nausea e vomito.\n\nSegnali rilevanti da riferire al medico:\nbruciore urinario\naumento della frequenza urinaria\nsintomi da 2 giorni\nassenza di febbre\nassenza di dolore al fianco\nassenza di sangue visibile nelle urine\nnon gravidanza\nassenza di nausea\nassenza di vomito\nSPECIALISTA CONSIGLIATO\nMedico di Medicina Generale; Urologo se recidivante, persistente o complicata\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nUrinary tract infection (lower) - women\nNICE Clinical Knowledge Summary\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nUrgenza bassa / valutazione programmata a breve\nProgramma una valutazione a breve con il Medico di Medicina Generale. Non e una diagnosi certa di cistite o infezione urinaria e non vengono indicati antibiotici, farmaci o dosaggi. Richiedi valutazione urgente o Pronto Soccorso solo se compaiono febbre alta, brividi, dolore al fianco, vomito persistente, confusione, peggioramento rapido, gravidanza, immunodepressione o impossibilita a urinare.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione programmata a breve per sintomi urinari bassi da 2 giorni con bruciore e frequenza aumentata, senza febbre, dolore al fianco, ematuria visibile, gravidanza, nausea o vomito; orientamento informativo senza diagnosi certa e senza prescrizioni.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:56:52.679Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/iphone-se/URO_01_CISTITE_SEMPLICE_NON_URGENTE.png"
+}

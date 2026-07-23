@@ -1,0 +1,350 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "Z:\\ProgettiAI\\Antigravity\\Futuro\\AIutoDoc_main\\aiutodoc-validation\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/mobile-menu-rerun.tmp.spec.ts",
+      "--config=playwright.mobile-menu-fix.tmp.config.ts",
+      "--grep",
+      "apertura, chiusure"
+    ],
+    "configFile": "Z:\\ProgettiAI\\Antigravity\\Futuro\\AIutoDoc_main\\aiutodoc-validation\\playwright.mobile-menu-fix.tmp.config.ts",
+    "rootDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "iphone-13",
+        "name": "iphone-13",
+        "testDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 150000
+      },
+      {
+        "outputDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "iphone-se",
+        "name": "iphone-se",
+        "testDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 150000
+      },
+      {
+        "outputDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "pixel-7",
+        "name": "pixel-7",
+        "testDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 150000
+      },
+      {
+        "outputDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "android-compact",
+        "name": "android-compact",
+        "testDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 150000
+      },
+      {
+        "outputDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium-desktop",
+        "name": "chromium-desktop",
+        "testDir": "Z:/ProgettiAI/Antigravity/Futuro/AIutoDoc_main/aiutodoc-validation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 150000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "artifacts/mobile-menu-fix-playwright.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.61.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "mobile-menu-rerun.tmp.spec.ts",
+      "file": "mobile-menu-rerun.tmp.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Menu mobile dopo il fix",
+          "file": "mobile-menu-rerun.tmp.spec.ts",
+          "line": 136,
+          "column": 6,
+          "specs": [
+            {
+              "title": "apertura, chiusure, ARIA, focus e overlay",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 150000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "iphone-13",
+                  "projectName": "iphone-13",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4037,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-17T09:50:02.027Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "873957c4518c7e06a988-e0516bef1b6f2ae18dc7",
+              "file": "mobile-menu-rerun.tmp.spec.ts",
+              "line": 137,
+              "column": 7
+            },
+            {
+              "title": "apertura, chiusure, ARIA, focus e overlay",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 150000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "iphone-se",
+                  "projectName": "iphone-se",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3737,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-17T09:50:08.640Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "873957c4518c7e06a988-92202bcd00d8b5ad8fd6",
+              "file": "mobile-menu-rerun.tmp.spec.ts",
+              "line": 137,
+              "column": 7
+            },
+            {
+              "title": "apertura, chiusure, ARIA, focus e overlay",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 150000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "pixel-7",
+                  "projectName": "pixel-7",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2971,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-17T09:50:14.080Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "873957c4518c7e06a988-6e7f9284a6238ec5060c",
+              "file": "mobile-menu-rerun.tmp.spec.ts",
+              "line": 137,
+              "column": 7
+            },
+            {
+              "title": "apertura, chiusure, ARIA, focus e overlay",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 150000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "android-compact",
+                  "projectName": "android-compact",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3629,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-17T09:50:18.946Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "873957c4518c7e06a988-1ceae30d5d3d3019044c",
+              "file": "mobile-menu-rerun.tmp.spec.ts",
+              "line": 137,
+              "column": 7
+            },
+            {
+              "title": "apertura, chiusure, ARIA, focus e overlay",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 150000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "Z:\\ProgettiAI\\Antigravity\\Futuro\\AIutoDoc_main\\aiutodoc-validation\\tests\\mobile-menu-rerun.tmp.spec.ts",
+                        "line": 138,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "skipped",
+                      "duration": 265,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-17T09:50:24.575Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "location": {
+                            "file": "Z:\\ProgettiAI\\Antigravity\\Futuro\\AIutoDoc_main\\aiutodoc-validation\\tests\\mobile-menu-rerun.tmp.spec.ts",
+                            "line": 138,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "873957c4518c7e06a988-f2740c4bae236ac567d9",
+              "file": "mobile-menu-rerun.tmp.spec.ts",
+              "line": 137,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-07-17T09:50:00.128Z",
+    "duration": 25435.088,
+    "expected": 4,
+    "skipped": 1,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

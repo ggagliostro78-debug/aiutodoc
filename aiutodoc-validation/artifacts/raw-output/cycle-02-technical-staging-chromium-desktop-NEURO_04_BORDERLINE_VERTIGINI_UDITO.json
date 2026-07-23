@@ -1,0 +1,44 @@
+{
+  "id": "NEURO_04_BORDERLINE_VERTIGINI_UDITO",
+  "input": "Ho vertigini quando giro la testa e da qualche giorno sento meno da un orecchio. Non ho debolezza, difficoltà a parlare o visione doppia.",
+  "terminal": "clinical-complete",
+  "playwrightStatus": "passed",
+  "emergencyBypass": false,
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Gli episodi dipendono dalla posizione o dal movimento della testa, quanto durano e si sono gia verificati in passato?\n\nA\nLegame chiaro, brevi o ricorrenti\nB\nLegame dubbio\nC\nNessun legame\nD\nNessuna delle precedenti",
+    "2. Sono presenti nausea, vomito, calo uditivo, acufeni o sensazione di orecchio pieno?\n\nA\nSi, uno o piu sintomi\nB\nSolo lievi o dubbi\nC\nNo\nD\nNessuna delle precedenti",
+    "3. Sono comparsi debolezza, difficolta a parlare o camminare, visione doppia, forte mal di testa o peggioramento?\n\nA\nSi, uno o piu segnali\nB\nSolo dubbio\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nPersona che riferisce vertigini legate al movimento della testa e riduzione dell'udito da un orecchio da alcuni giorni; nega debolezza, difficolta a parlare e visione doppia.\n\nSegnali rilevanti da riferire al medico:\nvertigini legate al movimento della testa\nriduzione dell'udito da un orecchio\nassenza di debolezza\nassenza di difficolta a parlare\nassenza di visione doppia\nSPECIALISTA CONSIGLIATO\nOtorinolaringoiatra\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nHearing loss in adults: assessment and management\nNICE guideline NG98\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nVisita ORL programmata a breve; valutazione urgente se compaiono nuovi segnali neurologici o grave instabilita.\nAnnota durata, frequenza, posizione o movimento scatenante, nausea o vomito, acufeni, sensazione di orecchio pieno, andamento ed episodi precedenti. Richiedi assistenza urgente se compaiono difficolta a camminare marcata, debolezza, alterazione del linguaggio, visione doppia, forte mal di testa improvviso o peggioramento rapido.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione ORL audiovestibolare programmata a breve per vertigini legate al movimento della testa e riduzione uditiva monolaterale, con red flag neurologiche negate; senza diagnosi e senza prescrizioni.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "specialist": "Otorinolaringoiatra",
+  "areaSpecialistica": {
+    "branca": "Otorinolaringoiatria",
+    "area_specialistica": "Audiovestibologia / Vestibologia: vertigini legate al movimento della testa e riduzione uditiva monolaterale da valutare",
+    "eventuale_secondo_livello": "Audiologia o Neurologia solo secondo valutazione clinica e comparsa di segnali specifici"
+  },
+  "urgency": "Visita ORL programmata a breve; valutazione urgente se compaiono nuovi segnali neurologici o grave instabilita.\nAnnota durata, frequenza, posizione o movimento scatenante, nausea o vomito, acufeni, sensazione di orecchio pieno, andamento ed episodi precedenti. Richiedi assistenza urgente se compaiono difficolta a camminare marcata, debolezza, alterazione del linguaggio, visione doppia, forte mal di testa improvviso o peggioramento rapido.",
+  "geminiCalls": [
+    {
+      "event": "request",
+      "method": "POST"
+    },
+    {
+      "event": "response",
+      "status": 200
+    }
+  ],
+  "searchMethodology": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "blockedSearchRequests": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "rawSavedBeforeTeardown": true,
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-16T12:52:45.724Z",
+  "url": "http://127.0.0.1:4273/",
+  "teardown": {
+    "status": "passed"
+  }
+}

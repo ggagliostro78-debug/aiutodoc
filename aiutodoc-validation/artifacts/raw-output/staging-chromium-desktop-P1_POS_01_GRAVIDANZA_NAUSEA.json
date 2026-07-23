@@ -1,0 +1,40 @@
+{
+  "id": "P1_POS_01_GRAVIDANZA_NAUSEA",
+  "input": "Sono incinta di 10 settimane e al mattino ho nausea lieve. Non ho febbre, dolore al fianco, bruciore urinario, perdite di sangue, dolore forte o vomito persistente.",
+  "questions": [
+    "A quale settimana di gravidanza sei e con quale frequenza o durata compare la nausea? A) Frequente o prolungata B) Lieve e soprattutto in alcuni momenti C) Occasionale o in miglioramento D) Nessuna delle precedenti",
+    "Riesci a bere e alimentarti oppure sono presenti vomito persistente, peggioramento o difficolta a trattenere liquidi? A) Non riesco a bere o il vomito persiste B) Riesco solo in parte C) Bevo e mangio senza difficolta rilevanti D) Nessuna delle precedenti",
+    "Sono comparsi perdite di sangue o liquido, dolore significativo, altri segnali nuovi, oppure hai gia ricevuto indicazioni dal ginecologo? A) Si, segnali nuovi o indicazioni da rivalutare B) Solo dubbi C) No, nessun segnale e nessuna indicazione specifica D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "A quale settimana di gravidanza sei e con quale frequenza o durata compare la nausea?\n<br><i>A) Frequente o prolungata<br>B) Lieve e soprattutto in alcuni momenti<br>C) Occasionale o in miglioramento<br>D) Nessuna delle precedenti</i>",
+    "Riesci a bere e alimentarti oppure sono presenti vomito persistente, peggioramento o difficolta a trattenere liquidi?\n<br><i>A) Non riesco a bere o il vomito persiste<br>B) Riesco solo in parte<br>C) Bevo e mangio senza difficolta rilevanti<br>D) Nessuna delle precedenti</i>",
+    "Sono comparsi perdite di sangue o liquido, dolore significativo, altri segnali nuovi, oppure hai gia ricevuto indicazioni dal ginecologo?\n<br><i>A) Si, segnali nuovi o indicazioni da rivalutare<br>B) Solo dubbi<br>C) No, nessun segnale e nessuna indicazione specifica<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T21:52:24.782Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "pregnancyUrgent": false,
+    "pregnancyMild": true,
+    "traumaLip": false,
+    "dental": false,
+    "followUp": false,
+    "allergyUrgent": false,
+    "allergyMild": false,
+    "flank": false,
+    "cardio": false,
+    "pigmented": false,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

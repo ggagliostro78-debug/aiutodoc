@@ -1,0 +1,20 @@
+{
+  "id": "OCUL_01_URGENTE_PERDITA_VISIVA_IMPROVVISA",
+  "surface": "mobile",
+  "viewport": "iphone-se",
+  "input": "Da circa mezz’ora vedo molto meno da un occhio. È successo improvvisamente e non sta migliorando. Non ho avuto traumi.",
+  "questions": [],
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ncalo visivo improvviso\nun solo occhio coinvolto\nsintomo ancora presente\nassenza di miglioramento\nassenza di trauma riferita\n02:55",
+  "expectedBypass": true,
+  "emergencyBypass": true,
+  "geminiCalls": [],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 0,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:55:47.144Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/iphone-se/OCUL_01_URGENTE_PERDITA_VISIVA_IMPROVVISA.png"
+}

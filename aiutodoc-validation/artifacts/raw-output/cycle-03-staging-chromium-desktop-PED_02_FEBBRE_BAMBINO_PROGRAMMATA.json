@@ -1,0 +1,35 @@
+{
+  "id": "PED_02_FEBBRE_BAMBINO_PROGRAMMATA",
+  "input": "Mia figlia ha 7 anni e da ieri ha febbre fino a 38,5. Beve, mangia poco ma è vigile. Non ha difficoltà a respirare, rigidità del collo, macchie violacee o convulsioni.",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-16T13:28:57.160Z",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nLa paziente, una bambina di 7 anni, presenta da ieri un episodio febbrile con temperatura fino a 38,5°C. Riferisce di bere e di essere vigile, sebbene l'appetito sia ridotto. Non sono stati segnalati sintomi di allarme quali difficoltà respiratorie, rigidità del collo, comparsa di macchie violacee o episodi convulsivi. Le risposte conoscitive e anamnestiche generali indicano un quadro di salute che alterna momenti buoni e cattivi, con la presenza di patologie croniche note e occasionali difficoltà nell'addormentamento.\n\nSegnali rilevanti da riferire al medico:\nAssenza di difficoltà a respirare\nAssenza di rigidità del collo\nAssenza di macchie violacee\nAssenza di convulsioni\nSPECIALISTA CONSIGLIATO\nPediatra\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nFever in under 5s: assessment and initial management\nNICE guideline NG143\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nNon urgente, valutazione pediatrica\nSi consiglia di monitorare attentamente la temperatura corporea della bambina e il suo stato generale, prestando attenzione all'idratazione e all'eventuale comparsa di nuovi sintomi. È utile annotare l'andamento della febbre e qualsiasi altro dettaglio rilevante da riferire al pediatra. Portare eventuali documentazioni relative a patologie croniche note.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione clinica per episodio febbrile acuto (38,5°C) in bambina di 7 anni. La paziente è vigile e idratata, senza evidenza di difficoltà respiratorie, rigidità nucale, macchie cutanee sospette o convulsioni.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "specialist": "Segnali rilevanti da riferire al medico:\nPediatra",
+  "areaSpecialistica": "{\"branca\":\"Pediatria\",\"area_specialistica\":\"Valutazione di episodio febbrile acuto in età pediatrica\",\"eventuale_secondo_livello\":\"Non necessario al momento, salvo evoluzione del quadro clinico\"}",
+  "urgency": "Non urgente, valutazione pediatrica\nSi consiglia di monitorare attentamente la temperatura corporea della bambina e il suo stato generale, prestando attenzione all'idratazione e all'eventuale comparsa di nuovi sintomi. È utile annotare l'andamento della febbre e qualsiasi altro dettaglio rilevante da riferire al pediatra. Portare eventuali documentazioni relative a patologie croniche note.",
+  "redFlagsText": "La paziente, una bambina di 7 anni, presenta da ieri un episodio febbrile con temperatura fino a 38,5°C. Riferisce di bere e di essere vigile, sebbene l'appetito sia ridotto. Non sono stati segnalati sintomi di allarme quali difficoltà respiratorie, rigidità del collo, comparsa di macchie violacee o episodi convulsivi. Le risposte conoscitive e anamnestiche generali indicano un quadro di salute che alterna momenti buoni e cattivi, con la presenza di patologie croniche note e occasionali difficoltà nell'addormentamento.\nSegnali rilevanti da riferire al medico:\nAssenza di difficoltà a respirare\nAssenza di rigidità del collo\nAssenza di macchie violacee\nAssenza di convulsioni",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSì\nB\nNo\nC\nA volte\nD\nNessuna delle precedenti",
+    "A\nSì, spesso mi sveglia\nB\nNo, dormo bene\nC\nDifficoltà solo nell'addormentamento\nD\nNessuna delle precedenti",
+    "A\nMoltissimo\nB\nAbbastanza\nC\nPoco o nulla\nD\nNessuna delle precedenti"
+  ],
+  "state": "7_FINE",
+  "geminiCalls": [
+    {
+      "url": "/api/gemini",
+      "startedAt": 1784208491942,
+      "status": 200,
+      "durationMs": 11246
+    }
+  ],
+  "searchCalls": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "researchSpecialistsNotExecuted": true
+}

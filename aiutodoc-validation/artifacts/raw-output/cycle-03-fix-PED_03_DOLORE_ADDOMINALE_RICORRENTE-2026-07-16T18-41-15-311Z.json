@@ -1,0 +1,33 @@
+{
+  "id": "PED_03_DOLORE_ADDOMINALE_RICORRENTE",
+  "input": "Mio figlio ha 10 anni e da alcune settimane riferisce mal di pancia soprattutto prima di andare a scuola. Non ha febbre, vomito, sangue nelle feci, perdita di peso o dolore che lo sveglia di notte.",
+  "timestamp": "2026-07-16T18:41:15.301Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nLa paziente, una bambina di 10 anni, riferisce da alcune settimane la presenza di dolore addominale, manifestato prevalentemente prima di recarsi a scuola. Non sono presenti sintomi di accompagnamento quali febbre, vomito, presenza di sangue nelle feci, perdita di peso o dolore che la svegli durante la notte.\n\nSegnali rilevanti da riferire al medico:\nassenza di febbre\nassenza di vomito\nassenza di sangue nelle feci\nassenza di perdita di peso\nassenza di dolore che sveglia di notte\nSPECIALISTA CONSIGLIATO\nPediatra\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nFever in under 5s: assessment and initial management\nNICE guideline NG143\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nNon urgente / visita programmata a breve\nSi consiglia di annotare la frequenza, l'intensità e le caratteristiche del dolore addominale, eventuali fattori scatenanti o allevianti, e qualsiasi altro sintomo associato. È utile preparare un elenco di domande da porre al medico. Si raccomanda di rassicurare la bambina riguardo alla visita.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione per dolore addominale ricorrente in età pediatrica, in assenza di sintomi d'allarme.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Il disturbo è strettamente correlato ai pasti (prima, durate o subito dopo)?\n\nA\nSì, specialmente dopo i pasti\nB\nNo, è indipendente\nC\nPeggiora a digiuno\nD\nNessuna delle precedenti",
+    "2. Hai notato alterazioni significative dell'alvo (stipsi prolungata o diarrea persistente)?\n\nA\nSì, forti alterazioni\nB\nSolo lievi episodi\nC\nIntestino regolare\nD\nNessuna delle precedenti",
+    "3. Hai notato perdite di peso immotivate o inappetenza grave ultimamente?\n\nA\nSì, calo di peso evidente\nB\nSolo poco appetito\nC\nPeso ed appetito stabili\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Pediatra",
+  "areaSpecialistica": {
+    "branca": "Pediatria",
+    "area_specialistica": "Valutazione del dolore addominale ricorrente in età pediatrica",
+    "eventuale_secondo_livello": "Gastroenterologia Pediatrica"
+  },
+  "urgency": "Non urgente / visita programmata a breve\nSi consiglia di annotare la frequenza, l'intensità e le caratteristiche del dolore addominale, eventuali fattori scatenanti o allevianti, e qualsiasi altro sintomo associato. È utile preparare un elenco di domande da porre al medico. Si raccomanda di rassicurare la bambina riguardo alla visita.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nassenza di febbre\nassenza di vomito\nassenza di sangue nelle feci\nassenza di perdita di peso\nassenza di dolore che sveglia di notte",
+  "geminiCalls": [
+    {
+      "status": 200,
+      "durationMs": 8774
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

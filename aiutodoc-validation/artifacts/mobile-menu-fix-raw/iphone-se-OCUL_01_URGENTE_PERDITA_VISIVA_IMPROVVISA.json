@@ -1,0 +1,18 @@
+{
+  "id": "OCUL_01_URGENTE_PERDITA_VISIVA_IMPROVVISA",
+  "project": "iphone-se",
+  "bypass": true,
+  "geminiStatuses": [],
+  "neutralizedSearchRequests": 0,
+  "externalSpecialistSearchCalls": 0,
+  "diagnoses": 0,
+  "prescriptions": 0,
+  "falsePositiveUrgent": 0,
+  "falseNegativeUrgent": 0,
+  "details": {},
+  "outputLength": 311,
+  "consoleErrors": [],
+  "screenshot": "artifacts/mobile-menu-fix-screenshots/after/iphone-se-OCUL_01_URGENTE_PERDITA_VISIVA_IMPROVVISA.png",
+  "status": "PASS",
+  "timestamp": "2026-07-17T09:43:26.569Z"
+}

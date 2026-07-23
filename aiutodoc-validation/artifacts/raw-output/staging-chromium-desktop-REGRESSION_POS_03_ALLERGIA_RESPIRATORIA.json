@@ -1,0 +1,57 @@
+{
+  "id": "REGRESSION_POS_03_ALLERGIA_RESPIRATORIA",
+  "category": "controlli positivi",
+  "input": "Dopo aver mangiato frutta secca ho iniziato ad avere prurito in tutto il corpo, labbra gonfie e difficoltà a respirare. In passato ho già avuto reazioni allergiche.",
+  "questions": [
+    "Dopo l'esposizione alimentare sono presenti difficolta respiratoria, gola chiusa, voce alterata o gonfiore di labbra, lingua o viso? A) Si, uno o piu segnali B) Solo lieve o dubbio C) No D) Nessuna delle precedenti",
+    "Il prurito e diffuso, compaiono pomfi/orticaria, capogiri, svenimento, peggioramento rapido o precedenti allergici importanti? A) Si, uno o piu elementi B) Solo in parte C) No D) Nessuna delle precedenti",
+    "I sintomi sono ancora in corso o peggiorano, rendendo appropriato contattare 112/118 o Pronto Soccorso? A) Si, sono in corso o peggiorano B) Non so / dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Dopo l'esposizione alimentare sono presenti difficolta respiratoria, gola chiusa, voce alterata o gonfiore di labbra, lingua o viso?\n<br><i>A) Si, uno o piu segnali<br>B) Solo lieve o dubbio<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Il prurito e diffuso, compaiono pomfi/orticaria, capogiri, svenimento, peggioramento rapido o precedenti allergici importanti?\n<br><i>A) Si, uno o piu elementi<br>B) Solo in parte<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "I sintomi sono ancora in corso o peggiorano, rendendo appropriato contattare 112/118 o Pronto Soccorso?\n<br><i>A) Si, sono in corso o peggiorano<br>B) Non so / dubbio<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "branch": "Allergologia urgente",
+  "overrideOrBypass": "allergia urgente",
+  "redFlagsConsidered": [
+    "labbra",
+    "difficolta respiratoria",
+    "svenimento",
+    "capogiri",
+    "peggioramento"
+  ],
+  "negationsRespected": true,
+  "motivations": [],
+  "motivationsFaithful": true,
+  "diagnosticViolations": [],
+  "prescriptionsPresent": false,
+  "offBranch": [],
+  "effectiveEscalation": false,
+  "falsePositiveUrgency": false,
+  "underUrgency": false,
+  "regression": "P0/P1: NO",
+  "classification": "PASS ROUTING",
+  "problem": "",
+  "validator": {
+    "status": "PASS ROUTING",
+    "diagnosticViolations": [],
+    "falsePositiveUrgency": false,
+    "bypassDocumented": false,
+    "offBranch": [],
+    "coverage": {},
+    "unfaithfulMotivations": [],
+    "negationsIgnored": false,
+    "problems": []
+  },
+  "geminiCalls": [],
+  "state": "4_CONOSCITIVE",
+  "timestamp": "2026-07-12T23:06:13.295Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "infrastructureError": ""
+}

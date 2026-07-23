@@ -1,0 +1,33 @@
+{
+  "id": "ALLERGO_04_BORDERLINE_TOSSE_ESPOSIZIONE",
+  "input": "Quando entro in una stanza polverosa inizio a tossire e sento un leggero fischio nel respiro. Quando esco passa. Non ho sintomi a riposo, dolore al petto o svenimenti.",
+  "timestamp": "2026-07-16T17:32:58.085Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nPaziente di 40 anni, di sesso femminile, riferisce da mesi/anni la comparsa di tosse e un leggero fischio nel respiro quando entra in ambienti polverosi. I sintomi si risolvono spontaneamente una volta uscita dall'ambiente. Il quadro clinico presenta un andamento alternante, con momenti buoni e cattivi. Non sono presenti sintomi a riposo, dolore al petto o svenimenti. La paziente nega tosse mattutina e non ha mai fumato. Riferisce la presenza di patologie croniche note, ma non specificate.\n\nSegnali rilevanti da riferire al medico:\nassenza di dolore al petto\nassenza di svenimenti\nSPECIALISTA CONSIGLIATO\nAllergologo\nFonti a supporto dell’orientamento\n\nRiferimenti metodologici sulla qualità dell’invio allo specialista; il catalogo specifico per questa branca è in aggiornamento.\n\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nNon urgente / visita programmata a breve\nSi consiglia di preparare un elenco dettagliato dei sintomi, specificando quando si manifestano, la loro durata, cosa li scatena e cosa li allevia. Portare con sé l'elenco di tutte le patologie croniche note e di eventuali farmaci assunti regolarmente. È utile anche raccogliere eventuali referti di visite o esami precedenti pertinenti.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione specialistica per tosse e fischio nel respiro ricorrenti, scatenati da esposizione ad ambienti polverosi, con risoluzione spontanea all'allontanamento. Anamnesi di patologie croniche note. Negata dispnea a riposo, dolore toracico o sincope.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSì, mi 'fischia' spesso il petto\nB\nSolo quando c'è umidità/sforzo\nC\nNon ho fischi\nD\nNessuna delle precedenti",
+    "A\nEspello catarro fitto ogni giorno\nB\nTosse solo secca stizzosa\nC\nNessuna tosse la mattina\nD\nNessuna delle precedenti",
+    "A\nSì, fumo / ho fumato tanto in vita\nB\nSolo poche volte al giorno o rari periodi\nC\nMai fumato\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Segnali rilevanti da riferire al medico:\nAllergologo\nVuoi il codice per recuperare questa ricerca?\nSpecialisti e strutture individuati:",
+  "areaSpecialistica": "{\"branca\":\"Allergologia\",\"area_specialistica\":\"Valutazione di sintomi respiratori (tosse, fischio) scatenati da esposizione ambientale\",\"eventuale_secondo_livello\":\"Pneumologia\"}",
+  "urgency": "Non urgente / visita programmata a breve\nSi consiglia di preparare un elenco dettagliato dei sintomi, specificando quando si manifestano, la loro durata, cosa li scatena e cosa li allevia. Portare con sé l'elenco di tutte le patologie croniche note e di eventuali farmaci assunti regolarmente. È utile anche raccogliere eventuali referti di visite o esami precedenti pertinenti.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nassenza di dolore al petto\nassenza di svenimenti",
+  "geminiCalls": [
+    {
+      "started": 1784223132908,
+      "status": 200,
+      "durationMs": 9212
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

@@ -1,0 +1,54 @@
+{
+  "id": "CARDIO_ATIPICO_QUESTION_ROUTING_FIX",
+  "input": "Uomo 40 anni. Da stamattina ho una forte sensazione di peso allo stomaco e nausea. Mi sembra acidita, ma mi manca anche un po' il fiato quando mi muovo e ho fastidio alla mandibola. Non ho un vero dolore al petto. Ho diabete e pressione alta. Ho preso un antiacido ma non e cambiato molto.",
+  "beforeFixQuestions": [
+    "Avverti un dolore di tipo pulsante e molto acuto che peggiora stendendoti a letto?",
+    "C'e un evidente gonfiore (ascesso) visibile sul viso o sulle gengive?",
+    "Le tue gengive sanguinano abbondantemente e spontaneamente mentre lavi i denti?"
+  ],
+  "afterFixQuestions": [
+    "Da quanto durano peso allo stomaco, nausea, fiato corto o fastidio alla mandibola, e sono ancora presenti o non regrediscono? A) Sono presenti o persistenti B) Vanno e vengono C) Sono regrediti D) Nessuna delle precedenti",
+    "Il fiato corto peggiora con il movimento, compare a riposo, oppure il quadro sta peggiorando rispetto all'esordio? A) Si, peggiora o limita il movimento B) Solo lieve o stabile C) No D) Nessuna delle precedenti",
+    "Si associano sudorazione fredda, svenimento, debolezza intensa, irradiazione a mandibola/braccio/schiena, diabete, ipertensione o mancato beneficio con antiacido? A) Si, uno o piu segnali B) Solo in parte C) No D) Nessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nUomo di 40 anni, con storia clinica di diabete e ipertensione arteriosa. Riferisce da stamattina una forte sensazione di peso allo stomaco, nausea, affanno durante il movimento e fastidio alla mandibola. Non lamenta un dolore toracico tipico. L'assunzione di un antiacido non ha portato a miglioramenti significativi. I sintomi attuali sono insorti acutamente, sebbene il paziente riferisca una storia di disturbi che alternano momenti buoni e cattivi da mesi/anni e patologie croniche note.\n\nSegnali rilevanti da riferire al medico:\npeso allo stomaco di nuova insorgenza\nnausea\nfiato corto al movimento\nfastidio mandibolare\ndiabete\nipertensione\nmancato beneficio con antiacido\nassenza di vero dolore al petto non rassicurante in automatico\nSPECIALISTA CONSIGLIATO\nPronto Soccorso / 112-118 se sintomi in corso, peggioramento o mancata regressione\nFonti a supporto dell’orientamento\n\nRiferimenti metodologici sulla qualità dell’invio allo specialista; il catalogo specifico per questa branca è in aggiornamento.\n\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nAlta / urgente: dare priorita a Pronto Soccorso o 112/118 se i sintomi sono in corso, peggiorano o non regrediscono.\nDai priorita a Pronto Soccorso o 112/118 se i sintomi sono in corso, peggiorano o non regrediscono. Non considerarli automaticamente acidita o un disturbo digestivo solo per l'assenza di vero dolore al petto. La Cardiologia e un eventuale secondo livello dopo la valutazione urgente. Non vengono formulate diagnosi ne indicate terapie, farmaci o dosaggi.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione urgente per peso allo stomaco di nuova insorgenza con nausea, fiato corto al movimento, fastidio mandibolare, diabete, ipertensione e mancato beneficio con antiacido; orientamento verso servizio urgente, senza diagnosi e senza prescrizioni.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nPronto Soccorso - Ospedale di Gioia Tauro\nSSN\n\nSpecializzazione: Pronto Soccorso / 112-118 se sintomi in corso, peggioramento o mancata regressione\n\nIndirizzo/Modalità: Via Madame Curie, 89013 Gioia Tauro RC, Italia\n\nContatti: Telefono: 0966 589264 | Sito web: https://www.micuro.it/strutture/presidio-ospedaliero-giovanni-xxiii/area-specialistica/pronto-soccorso\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).",
+  "specialist": "Pronto Soccorso / 112-118 se sintomi in corso, peggioramento o mancata regressione",
+  "areaText": "{\"branca\":\"Pronto Soccorso / Medicina d'urgenza\",\"area_specialistica\":\"Sintomi atipici con fattori di rischio cardiovascolare da valutare con urgenza\",\"eventuale_secondo_livello\":\"Cardiologia dopo valutazione urgente\"}",
+  "areaSpecialistica": {
+    "branca": "Pronto Soccorso / Medicina d'urgenza",
+    "area_specialistica": "Sintomi atipici con fattori di rischio cardiovascolare da valutare con urgenza",
+    "eventuale_secondo_livello": "Cardiologia dopo valutazione urgente"
+  },
+  "urgency": "Alta / urgente: dare priorita a Pronto Soccorso o 112/118 se i sintomi sono in corso, peggiorano o non regrediscono.\nDai priorita a Pronto Soccorso o 112/118 se i sintomi sono in corso, peggiorano o non regrediscono. Non considerarli automaticamente acidita o un disturbo digestivo solo per l'assenza di vero dolore al petto. La Cardiologia e un eventuale secondo livello dopo la valutazione urgente. Non vengono formulate diagnosi ne indicate terapie, farmaci o dosaggi.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\npeso allo stomaco di nuova insorgenza\nnausea\nfiato corto al movimento\nfastidio mandibolare\ndiabete\nipertensione\nmancato beneficio con antiacido\nassenza di vero dolore al petto non rassicurante in automatico",
+  "geminiCalls": [
+    {
+      "status": 200,
+      "durationMs": 12600.087
+    }
+  ],
+  "geminiHttpStatus": 200,
+  "geminiDurationMs": 12600.087,
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "timestamp": "2026-07-12T11:25:41.357Z",
+  "playwrightStatus": "passed",
+  "playwrightError": "",
+  "evaluation": {
+    "clinical": "PASS CLINICO-FUNZIONALE",
+    "odontoiatric": [],
+    "cardioSignals": [
+      "durata/persistenza",
+      "dispnea",
+      "peggioramento",
+      "mandibola/braccio/schiena",
+      "sudorazione/svenimento/debolezza",
+      "fattori rischio",
+      "antiacido"
+    ],
+    "diagnosis": [],
+    "prescriptions": [],
+    "problems": []
+  }
+}

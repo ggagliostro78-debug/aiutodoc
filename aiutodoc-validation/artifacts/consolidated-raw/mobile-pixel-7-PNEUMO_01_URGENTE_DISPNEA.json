@@ -1,0 +1,20 @@
+{
+  "id": "PNEUMO_01_URGENTE_DISPNEA",
+  "surface": "mobile",
+  "viewport": "pixel-7",
+  "input": "Da oggi faccio molta fatica a respirare anche da fermo, riesco a parlare solo con poche parole e mi sento confuso.",
+  "questions": [],
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nDifficoltà respiratoria o dispnea riferita\n02:58",
+  "expectedBypass": true,
+  "emergencyBypass": true,
+  "geminiCalls": [],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 0,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:58:28.489Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/pixel-7/PNEUMO_01_URGENTE_DISPNEA.png"
+}

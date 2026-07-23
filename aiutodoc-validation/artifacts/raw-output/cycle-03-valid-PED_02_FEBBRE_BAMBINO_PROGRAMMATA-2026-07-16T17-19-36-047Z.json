@@ -1,0 +1,33 @@
+{
+  "id": "PED_02_FEBBRE_BAMBINO_PROGRAMMATA",
+  "input": "Mia figlia ha 7 anni e da ieri ha febbre fino a 38,5. Beve, mangia poco ma è vigile. Non ha difficoltà a respirare, rigidità del collo, macchie violacee o convulsioni.",
+  "timestamp": "2026-07-16T17:19:36.047Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nPaziente di 7 anni, sesso femminile, con peso corporeo di 7 kg e altezza di 125 cm. Da ieri presenta un episodio febbrile con temperatura fino a 38.5°C. La bambina è vigile, beve regolarmente ma mangia poco. Non sono stati riferiti difficoltà respiratorie, rigidità del collo, macchie violacee o convulsioni. Le risposte conoscitive e anamnestiche indicano un contesto di disturbi presenti da mesi/anni, con andamento alternante e patologie croniche note, oltre a difficoltà occasionali nell'addormentamento e scarso riposo.\n\nSegnali rilevanti da riferire al medico:\nPeso corporeo (7 kg) significativamente inferiore alla norma per l'età (7 anni), che richiede approfondimento pediatrico urgente\nContesto di patologie croniche note e disturbi presenti da mesi/anni con andamento alternante\nAssenza di difficoltà respiratorie\nAssenza di rigidità del collo\nAssenza di macchie violacee\nAssenza di convulsioni\nSPECIALISTA CONSIGLIATO\nPediatra\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nFever in under 5s: assessment and initial management\nNICE guideline NG143\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nPrioritaria\nSi consiglia di monitorare attentamente la temperatura corporea e lo stato generale della bambina, assicurando un'adeguata idratazione. Preparare un elenco dettagliato dei sintomi, la loro durata, eventuali farmaci somministrati e la storia clinica pregressa, incluse le patologie croniche note. Portare con sé il libretto sanitario della bambina.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione pediatrica per episodio febbrile acuto (38.5°C) in bambina di 7 anni, insorto da ieri. La paziente è vigile, idratata, senza segni di distress respiratorio, rigidità nucale, petecchie o convulsioni. Si segnala peso corporeo di 7 kg e storia di patologie croniche note con andamento fluttuante.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSì\nB\nNo\nC\nA volte\nD\nNessuna delle precedenti",
+    "A\nSì, spesso mi sveglia\nB\nNo, dormo bene\nC\nDifficoltà solo nell'addormentamento\nD\nNessuna delle precedenti",
+    "A\nMoltissimo\nB\nAbbastanza\nC\nPoco o nulla\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Segnali rilevanti da riferire al medico:\nPediatra\nVuoi il codice per recuperare questa ricerca?\nSpecialisti e strutture individuati:",
+  "areaSpecialistica": "{\"branca\":\"Pediatria\",\"area_specialistica\":\"Valutazione pediatrica completa per episodio febbrile acuto e approfondimento su parametri auxologici (peso) e storia clinica pregressa\",\"eventuale_secondo_livello\":\"Non definibile in questa fase, dipenderà dalla valutazione pediatrica\"}",
+  "urgency": "Prioritaria\nSi consiglia di monitorare attentamente la temperatura corporea e lo stato generale della bambina, assicurando un'adeguata idratazione. Preparare un elenco dettagliato dei sintomi, la loro durata, eventuali farmaci somministrati e la storia clinica pregressa, incluse le patologie croniche note. Portare con sé il libretto sanitario della bambina.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nPeso corporeo (7 kg) significativamente inferiore alla norma per l'età (7 anni), che richiede approfondimento pediatrico urgente\nContesto di patologie croniche note e disturbi presenti da mesi/anni con andamento alternante\nAssenza di difficoltà respiratorie\nAssenza di rigidità del collo\nAssenza di macchie violacee\nAssenza di convulsioni",
+  "geminiCalls": [
+    {
+      "started": 1784222330785,
+      "status": 200,
+      "durationMs": 16217
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

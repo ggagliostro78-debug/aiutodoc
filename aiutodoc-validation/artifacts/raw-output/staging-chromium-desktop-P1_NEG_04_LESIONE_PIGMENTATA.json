@@ -1,0 +1,40 @@
+{
+  "id": "P1_NEG_04_LESIONE_PIGMENTATA",
+  "input": "Ho un neo sul braccio che negli ultimi mesi ha cambiato forma e colore.",
+  "questions": [
+    "La lesione o il neo è cambiato per dimensione, forma, colore, bordi o rilievo? A) Sì, cambiamento evidente B) Cambiamento lieve o dubbio C) No, sembra stabile D) Nessuna delle precedenti",
+    "Sono presenti più colori, asimmetria, bordi irregolari, prurito, sanguinamento o croste? A) Sì, uno o più segni B) Solo fastidio lieve C) No D) Nessuna delle precedenti",
+    "Hai foto precedenti o ricordi da quanto tempo è cambiata la lesione? A) Sì, ho confronto chiaro B) Solo ricordo approssimativo C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "La lesione o il neo è cambiato per dimensione, forma, colore, bordi o rilievo?\n<br><i>A) Sì, cambiamento evidente<br>B) Cambiamento lieve o dubbio<br>C) No, sembra stabile<br>D) Nessuna delle precedenti</i>",
+    "Sono presenti più colori, asimmetria, bordi irregolari, prurito, sanguinamento o croste?\n<br><i>A) Sì, uno o più segni<br>B) Solo fastidio lieve<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Hai foto precedenti o ricordi da quanto tempo è cambiata la lesione?\n<br><i>A) Sì, ho confronto chiaro<br>B) Solo ricordo approssimativo<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T21:52:43.362Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "pregnancyUrgent": false,
+    "pregnancyMild": false,
+    "traumaLip": false,
+    "dental": false,
+    "followUp": false,
+    "allergyUrgent": false,
+    "allergyMild": false,
+    "flank": false,
+    "cardio": false,
+    "pigmented": true,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

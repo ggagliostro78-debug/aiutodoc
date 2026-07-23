@@ -1,0 +1,49 @@
+{
+  "name": "Cycle 02 technical closure",
+  "branch": "aiutodoc-clinical-validation",
+  "environment": "http://127.0.0.1:4273",
+  "browser": "chromium-desktop",
+  "gemini": "real, not intercepted",
+  "searchMethodology": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "summary": {
+    "authorizedCases": 3,
+    "playwrightPassed": 3,
+    "rawComplete": 3,
+    "technicalRetries": 1,
+    "externalSpecialistSearchCalls": 0,
+    "protectedFilesUnchanged": true,
+    "cycle02TechnicallyClosed": true
+  },
+  "cases": [
+    {
+      "id": "NEURO_01_URGENTE_DEBOLEZZA_LINGUAGGIO",
+      "clinicalCompleted": true,
+      "rawSaved": true,
+      "assertions": "passed: debolezza improvvisa, difficolta nel parlare, 112/118 o Pronto Soccorso",
+      "teardown": "passed",
+      "playwright": "PASS",
+      "gemini": "not called",
+      "externalSpecialistSearchCalls": 0
+    },
+    {
+      "id": "NEURO_04_BORDERLINE_VERTIGINI_UDITO",
+      "clinicalCompleted": true,
+      "rawSaved": true,
+      "assertions": "passed: ORL/Audiovestibologia e domande pertinenti",
+      "teardown": "passed after one technical retry",
+      "playwright": "PASS",
+      "gemini": "HTTP 200",
+      "externalSpecialistSearchCalls": 0
+    },
+    {
+      "id": "NEURO_06_ANTICOAGULANTE_TRAUMA_TESTA",
+      "clinicalCompleted": true,
+      "rawSaved": true,
+      "assertions": "passed: Neurologia e urgenza alta",
+      "teardown": "passed",
+      "playwright": "PASS",
+      "gemini": "HTTP 200",
+      "externalSpecialistSearchCalls": 0
+    }
+  ]
+}

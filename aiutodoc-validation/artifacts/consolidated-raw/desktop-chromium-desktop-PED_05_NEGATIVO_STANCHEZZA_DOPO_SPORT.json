@@ -1,0 +1,31 @@
+{
+  "id": "PED_05_NEGATIVO_STANCHEZZA_DOPO_SPORT",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Mio figlio ha 11 anni. Dopo un allenamento intenso era molto stanco, ma dopo aver riposato e bevuto è tornato normale. Non ha dolore al petto, svenimenti, difficoltà respiratoria o sintomi a riposo.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nMolto intensi, lunghi o al caldo\nB\nModerati\nC\nNon so definirli\nD\nNessuna delle precedenti",
+    "A\nRecupero completo\nB\nRecupero parziale o lento\nC\nSintomi ancora presenti\nD\nNessuna delle precedenti",
+    "A\nEpisodi ricorrenti o sintomi a riposo\nB\nSolo un episodio dopo sforzo\nC\nDolore al petto, svenimento o difficolta respiratoria\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nRagazzo di 11 anni molto stanco dopo un allenamento intenso, tornato normale dopo riposo e idratazione. Sono negati dolore al petto, svenimenti, difficolta respiratoria e sintomi a riposo.\n\nSegnali rilevanti da riferire al medico:\nallenamento intenso\nrecupero completo dopo riposo e idratazione\nassenza di dolore al petto\nassenza di svenimenti\nassenza di difficolta respiratoria\nassenza di sintomi a riposo\nSPECIALISTA CONSIGLIATO\nPediatra o Medico di Medicina Generale solo se l'episodio ricorre o appare sproporzionato\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nFever in under 5s: assessment and initial management\nNICE guideline NG143\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nNon urgente: nessuna escalation automatica con recupero completo e assenza dei segnali riferiti\nSe l'episodio ricorre, annota intensita e durata dell'attivita, temperatura, alimentazione, idratazione, tempi di recupero ed eventuali sintomi a riposo.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione programmata solo in caso di episodi ricorrenti o sproporzionati dopo attivita, mantenendo le negazioni e il recupero completo riferiti.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:52:36.658Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/PED_05_NEGATIVO_STANCHEZZA_DOPO_SPORT.png"
+}

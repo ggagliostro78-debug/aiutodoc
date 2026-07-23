@@ -1,0 +1,33 @@
+{
+  "id": "OCUL_02_OCCHIO_ROSSO_PROGRAMMATO",
+  "input": "Da due giorni ho un occhio rosso e leggermente irritato. Non ho dolore forte, calo della vista, trauma, secrezione abbondante o sensibilità intensa alla luce.",
+  "timestamp": "2026-07-16T18:42:08.070Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nUtente di sesso femminile, di età compresa tra 40 e 64 anni, riferisce da due giorni la presenza di un occhio rosso e leggermente irritato. La paziente nega la presenza di dolore forte, calo della vista, traumi recenti, secrezione abbondante o sensibilità intensa alla luce.\n\nSegnali rilevanti da riferire al medico:\nassenza di dolore forte\nassenza di calo della vista\nassenza di trauma\nassenza di secrezione abbondante\nassenza di sensibilità intensa alla luce\nSPECIALISTA CONSIGLIATO\nOculista\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nGlaucoma: diagnosis and management\nNICE guideline NG81\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nNon urgente / visita programmata a breve\nSi consiglia di evitare di strofinare l'occhio e di non utilizzare farmaci o colliri senza previa indicazione medica. È utile osservare l'evoluzione dei sintomi e riferire allo specialista eventuali cambiamenti o l'insorgenza di nuovi disturbi. Portare con sé eventuali occhiali o lenti a contatto in uso.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Visita Oculistica per arrossamento e lieve irritazione oculare insorti da due giorni, in assenza di dolore forte, calo della vista, trauma, secrezione abbondante o fotofobia.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Hai notato un improvviso o graduale calo della vista mono o bilaterale?\n\nA\nCalo molto brusco/improvviso\nB\nLento e progressivo\nC\nLa vista è invariata\nD\nNessuna delle precedenti",
+    "2. L'occhio si presenta molto rosso, fotofobico (fastidio per la luce) o lacrimante?\n\nA\nSì, molto rosso e urente\nB\nSolo leggermente arrossato\nC\nOculare bianco normale\nD\nNessuna delle precedenti",
+    "3. Vedi 'mosche volanti' (miodesopsie), lampi di luce (fosfeni) o ombre nel campo visivo?\n\nA\nMolti lampi e punti neri improvvisi\nB\nQualche mosca volante vecchia\nC\nNessun disturbo visivo simile\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Oculista",
+  "areaSpecialistica": {
+    "branca": "Oculistica",
+    "area_specialistica": "Valutazione di arrossamento e lieve irritazione oculare",
+    "eventuale_secondo_livello": "Non necessario"
+  },
+  "urgency": "Non urgente / visita programmata a breve\nSi consiglia di evitare di strofinare l'occhio e di non utilizzare farmaci o colliri senza previa indicazione medica. È utile osservare l'evoluzione dei sintomi e riferire allo specialista eventuali cambiamenti o l'insorgenza di nuovi disturbi. Portare con sé eventuali occhiali o lenti a contatto in uso.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nassenza di dolore forte\nassenza di calo della vista\nassenza di trauma\nassenza di secrezione abbondante\nassenza di sensibilità intensa alla luce",
+  "geminiCalls": [
+    {
+      "status": 200,
+      "durationMs": 5305
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

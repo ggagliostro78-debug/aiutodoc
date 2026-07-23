@@ -1,0 +1,48 @@
+{
+  "id": "ROUTING_04_DERM_ORAL_ALLERGIA",
+  "input": "Donna di 31 anni. Dopo aver mangiato frutta secca ho iniziato ad avere prurito diffuso, labbra gonfie e un po' di difficolta a respirare. Non ho febbre. Ho gia avuto allergie in passato.",
+  "beforeQuestions": [
+    "La lesione cutanea, il neo o la macchia sono cambiati rapidamente per dimensione, colore, forma o rilievo? A) Si, cambiamento evidente o rapido B) Cambiamento lieve o dubbio C) No, sembra stabile D) Nessuna delle precedenti",
+    "Hai notato sanguinamento, croste, dolore, prurito intenso o margini irregolari nella zona? A) Si, uno o piu segni evidenti B) Solo fastidio lieve C) No D) Nessuna delle precedenti",
+    "Il problema riguarda un singolo punto preciso o piu aree della pelle? A) Singola lesione/neo ben preciso B) Piu chiazze o lesioni C) Eruzione diffusa o prurito generale D) Nessuna delle precedenti"
+  ],
+  "afterQuestions": [
+    "Dopo l'esposizione alimentare sono presenti difficolta respiratoria, gola chiusa, voce alterata o gonfiore di labbra, lingua o viso? A) Si, uno o piu segnali B) Solo lieve o dubbio C) No D) Nessuna delle precedenti",
+    "Il prurito e diffuso, compaiono pomfi/orticaria, capogiri, svenimento, peggioramento rapido o precedenti allergici importanti? A) Si, uno o piu elementi B) Solo in parte C) No D) Nessuna delle precedenti",
+    "I sintomi sono ancora in corso o peggiorano, rendendo appropriato contattare 112/118 o Pronto Soccorso? A) Si, sono in corso o peggiorano B) Non so / dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T20:48:07.938Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "playwrightError": "",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "relevant": [
+      "esposizione alimentare",
+      "difficolta respiratoria",
+      "gola chiusa",
+      "voce alterata",
+      "labbra",
+      "lingua",
+      "viso",
+      "prurito",
+      "orticaria",
+      "capogiri",
+      "svenimento",
+      "peggioramento",
+      "allergici",
+      "112",
+      "118",
+      "pronto soccorso"
+    ],
+    "offBranch": [],
+    "diagnoses": [],
+    "prescriptions": [],
+    "problem": ""
+  }
+}

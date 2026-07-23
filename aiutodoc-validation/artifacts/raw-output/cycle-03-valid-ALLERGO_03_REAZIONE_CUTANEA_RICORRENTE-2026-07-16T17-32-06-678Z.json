@@ -1,0 +1,33 @@
+{
+  "id": "ALLERGO_03_REAZIONE_CUTANEA_RICORRENTE",
+  "input": "Da alcune settimane ogni tanto compaiono chiazze pruriginose che spariscono dopo qualche ora. Non ho gonfiore del viso, difficoltà respiratoria, febbre o dolore.",
+  "timestamp": "2026-07-16T17:32:06.678Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nPaziente di sesso femminile, di età compresa tra 40 e 64 anni, riferisce la comparsa da alcune settimane di chiazze cutanee pruriginose che si manifestano occasionalmente e tendono a scomparire spontaneamente dopo poche ore. Il quadro sintomatologico è descritto come ricorrente, con alternanza di momenti di benessere e di riacutizzazione, e la paziente menziona la presenza di patologie croniche note. Non sono presenti sintomi sistemici associati come gonfiore del viso, difficoltà respiratoria, febbre o dolore. La paziente riferisce inoltre occasionali difficoltà nell'addormentamento e un impatto minimo o nullo dei sintomi sulla vita quotidiana.\n\nSegnali rilevanti da riferire al medico:\nAssenza di gonfiore del viso\nAssenza di difficoltà respiratoria\nAssenza di febbre\nAssenza di dolore\nSPECIALISTA CONSIGLIATO\nDermatologo\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nSkin conditions: general dermatology referral context\nNICE Clinical Knowledge Summaries\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nnon urgente / visita programmata a breve\nSi consiglia di tenere un diario dei sintomi, annotando la data e l'ora di comparsa delle chiazze, la loro durata, l'intensità del prurito e qualsiasi fattore che sembri scatenarle o alleviarle. È utile portare con sé un elenco di tutte le patologie croniche note e dei farmaci assunti regolarmente. Evitare di grattare le lesioni per non alterare il quadro clinico.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Visita dermatologica per eruzioni cutanee pruriginose e transitorie ricorrenti, senza segni di allarme sistemici.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSì\nB\nNo\nC\nA volte\nD\nNessuna delle precedenti",
+    "A\nSì, spesso mi sveglia\nB\nNo, dormo bene\nC\nDifficoltà solo nell'addormentamento\nD\nNessuna delle precedenti",
+    "A\nMoltissimo\nB\nAbbastanza\nC\nPoco o nulla\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Segnali rilevanti da riferire al medico:\nDermatologo\nVuoi il codice per recuperare questa ricerca?\nSpecialisti e strutture individuati:",
+  "areaSpecialistica": "{\"branca\":\"Dermatologia\",\"area_specialistica\":\"Valutazione di eruzioni cutanee pruriginose e transitorie di natura ricorrente\",\"eventuale_secondo_livello\":\"Non necessario al momento\"}",
+  "urgency": "non urgente / visita programmata a breve\nSi consiglia di tenere un diario dei sintomi, annotando la data e l'ora di comparsa delle chiazze, la loro durata, l'intensità del prurito e qualsiasi fattore che sembri scatenarle o alleviarle. È utile portare con sé un elenco di tutte le patologie croniche note e dei farmaci assunti regolarmente. Evitare di grattare le lesioni per non alterare il quadro clinico.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nAssenza di gonfiore del viso\nAssenza di difficoltà respiratoria\nAssenza di febbre\nAssenza di dolore",
+  "geminiCalls": [
+    {
+      "started": 1784223081425,
+      "status": 200,
+      "durationMs": 9800
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

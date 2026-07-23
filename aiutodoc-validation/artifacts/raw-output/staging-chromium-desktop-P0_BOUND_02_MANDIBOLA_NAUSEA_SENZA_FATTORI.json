@@ -1,0 +1,33 @@
+{
+  "id": "P0_BOUND_02_MANDIBOLA_NAUSEA_SENZA_FATTORI",
+  "input": "Da mezz’ora ho fastidio alla mandibola e nausea. Non ho dolore al petto, affanno, diabete o ipertensione e il fastidio aumenta masticando.",
+  "questions": [
+    "Avverti un dolore di tipo pulsante e molto acuto che peggiora stendendoti a letto? A) Molto forte e pulsante B) Lieve e sopportabile C) Nessun dolore D) Nessuna delle precedenti",
+    "C'è un evidente gonfiore (ascesso) visibile sul viso o sulle gengive? A) Gonfiore grosso e caldo B) Solo un piccolo bozzo in bocca C) Nessun rigonfiamento D) Nessuna delle precedenti",
+    "Le tue gengive sanguinano abbondantemente e spontaneamente mentre lavi i denti? A) Sì, tanto sangue rosso vivo B) Solo ogni tanto poche tracce C) Mai sanguinanti D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Avverti un dolore di tipo pulsante e molto acuto che peggiora stendendoti a letto?\n<br><i>A) Molto forte e pulsante<br>B) Lieve e sopportabile<br>C) Nessun dolore<br>D) Nessuna delle precedenti</i>",
+    "C'è un evidente gonfiore (ascesso) visibile sul viso o sulle gengive?\n<br><i>A) Gonfiore grosso e caldo<br>B) Solo un piccolo bozzo in bocca<br>C) Nessun rigonfiamento<br>D) Nessuna delle precedenti</i>",
+    "Le tue gengive sanguinano abbondantemente e spontaneamente mentre lavi i denti?\n<br><i>A) Sì, tanto sangue rosso vivo<br>B) Solo ogni tanto poche tracce<br>C) Mai sanguinanti<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T21:44:16.679Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "urgentBack": false,
+    "cardio": false,
+    "dental": true,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

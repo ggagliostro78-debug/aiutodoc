@@ -1,0 +1,33 @@
+{
+  "id": "OCUL_06_LENTI_CONTATTO_DOLORE_FOTOFOBIA",
+  "input": "Uso lenti a contatto. Da oggi ho dolore a un occhio e la luce mi dà molto fastidio. Vedo leggermente appannato, ma non ho avuto traumi.",
+  "timestamp": "2026-07-16T18:40:21.534Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nPersona che usa lenti a contatto e riferisce da oggi dolore a un occhio, forte fastidio alla luce e vista leggermente appannata, senza trauma.\n\nSegnali rilevanti da riferire al medico:\nuso di lenti a contatto\ndolore a un occhio da oggi\nforte fastidio alla luce\nvista leggermente appannata\nassenza di trauma\nSPECIALISTA CONSIGLIATO\nOculista\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nGlaucoma: diagnosis and management\nNICE guideline NG81\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nPrioritaria / valutazione oculistica tempestiva oggi\nRichiedi una valutazione oculistica tempestiva e riferisci durata e modalita d'uso delle lenti, uso notturno, igiene, contatto con acqua o piscina, soluzione usata, secrezioni, rossore, sostanze chimiche e peggioramento.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione oculistica tempestiva per dolore, forte fastidio alla luce e lieve appannamento in portatore di lenti a contatto, senza trauma riferito.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Da quanto porti le lenti, le usi di notte e come gestisci igiene, acqua o piscina e soluzione?\n\nA\nUso notturno, acqua o igiene non ottimale\nB\nUso diurno con igiene regolare\nC\nDettagli non noti\nD\nNessuna delle precedenti",
+    "2. Da quanto sono iniziati dolore e fastidio alla luce; ci sono calo visivo, secrezioni, rossore o peggioramento?\n\nA\nCalo, secrezioni o peggioramento\nB\nSintomi stabili e lievi\nC\nNon e chiaro\nD\nNessuna delle precedenti",
+    "3. Ci sono stati trauma, polvere o sostanze chimiche nell'occhio?\n\nA\nTrauma o sostanza chimica\nB\nPossibile corpo estraneo\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Oculista",
+  "areaSpecialistica": {
+    "branca": "Oculistica / Oftalmologia",
+    "area_specialistica": "Dolore, fastidio alla luce e lieve appannamento in portatore di lenti a contatto",
+    "eventuale_secondo_livello": "Servizio oculistico urgente se peggiora o il calo visivo aumenta"
+  },
+  "urgency": "Prioritaria / valutazione oculistica tempestiva oggi\nRichiedi una valutazione oculistica tempestiva e riferisci durata e modalita d'uso delle lenti, uso notturno, igiene, contatto con acqua o piscina, soluzione usata, secrezioni, rossore, sostanze chimiche e peggioramento.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nuso di lenti a contatto\ndolore a un occhio da oggi\nforte fastidio alla luce\nvista leggermente appannata\nassenza di trauma",
+  "geminiCalls": [
+    {
+      "status": 200,
+      "durationMs": 10677
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

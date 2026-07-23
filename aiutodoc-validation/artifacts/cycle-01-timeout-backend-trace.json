@@ -1,0 +1,204 @@
+{
+    "generatedAt":  "2026-07-14T23:24:05.4233906Z",
+    "sanitized":  true,
+    "secretsLogged":  false,
+    "configuration":  {
+                          "apiKeyConfigured":  true,
+                          "localFallbackEnabled":  false,
+                          "apiKeyValue":  "[NOT READ]"
+                      },
+    "connectivity":  {
+                         "dnsResolved":  true,
+                         "tcp443":  true
+                     },
+    "cases":  [
+                  {
+                      "id":  "ENDO_05_NEGATIVO_FAME_POST_ALLENAMENTO",
+                      "requestId":  "diag-1784070992304-1",
+                      "events":  [
+                                     {
+                                         "atMs":  169020.267,
+                                         "requestId":  "diag-1784070992304-1",
+                                         "phase":  "proxy_ingress",
+                                         "method":  "POST",
+                                         "bodyBytes":  4934,
+                                         "parseableJson":  true,
+                                         "promptLength":  4792
+                                     },
+                                     {
+                                         "atMs":  169154.075,
+                                         "requestId":  "diag-1784070992304-1",
+                                         "phase":  "proxy_validation",
+                                         "validMethod":  true,
+                                         "hasPrompt":  true
+                                     },
+                                     {
+                                         "atMs":  169315.803,
+                                         "requestId":  "diag-1784070992304-1",
+                                         "phase":  "gemini_upstream_start",
+                                         "method":  "POST",
+                                         "target":  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+                                         "bodyBytes":  5267,
+                                         "hasAbortSignal":  true
+                                     },
+                                     {
+                                         "atMs":  182110.18,
+                                         "requestId":  "diag-1784070992304-1",
+                                         "phase":  "gemini_upstream_response",
+                                         "status":  200,
+                                         "ok":  true,
+                                         "durationMs":  12794.403
+                                     },
+                                     {
+                                         "atMs":  182141.203,
+                                         "requestId":  "diag-1784070992304-1",
+                                         "phase":  "proxy_egress",
+                                         "statusCode":  200,
+                                         "durationMs":  13107.147,
+                                         "responseBytes":  3878
+                                     }
+                                 ]
+                  },
+                  {
+                      "id":  "GINE_05_NEGATIVO_RITARDO_CICLO",
+                      "requestId":  "diag-1784071094639-2",
+                      "events":  [
+                                     {
+                                         "atMs":  271355.372,
+                                         "requestId":  "diag-1784071094639-2",
+                                         "phase":  "proxy_ingress",
+                                         "method":  "POST",
+                                         "bodyBytes":  4920,
+                                         "parseableJson":  true,
+                                         "promptLength":  4776
+                                     },
+                                     {
+                                         "atMs":  271520.986,
+                                         "requestId":  "diag-1784071094639-2",
+                                         "phase":  "proxy_validation",
+                                         "validMethod":  true,
+                                         "hasPrompt":  true
+                                     },
+                                     {
+                                         "atMs":  271640.1,
+                                         "requestId":  "diag-1784071094639-2",
+                                         "phase":  "gemini_upstream_start",
+                                         "method":  "POST",
+                                         "target":  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+                                         "bodyBytes":  5253,
+                                         "hasAbortSignal":  true
+                                     },
+                                     {
+                                         "atMs":  280356.35,
+                                         "requestId":  "diag-1784071094639-2",
+                                         "phase":  "gemini_upstream_response",
+                                         "status":  200,
+                                         "ok":  true,
+                                         "durationMs":  8716.403
+                                     },
+                                     {
+                                         "atMs":  280469.082,
+                                         "requestId":  "diag-1784071094639-2",
+                                         "phase":  "proxy_egress",
+                                         "statusCode":  200,
+                                         "durationMs":  9113.724,
+                                         "responseBytes":  2681
+                                     }
+                                 ]
+                  },
+                  {
+                      "id":  "ENDO_04_BORDERLINE_CICLO_IRREGOLARE",
+                      "requestId":  "diag-1784071182041-3",
+                      "events":  [
+                                     {
+                                         "atMs":  358757.163,
+                                         "requestId":  "diag-1784071182041-3",
+                                         "phase":  "proxy_ingress",
+                                         "method":  "POST",
+                                         "bodyBytes":  4867,
+                                         "parseableJson":  true,
+                                         "promptLength":  4725
+                                     },
+                                     {
+                                         "atMs":  358777.351,
+                                         "requestId":  "diag-1784071182041-3",
+                                         "phase":  "proxy_validation",
+                                         "validMethod":  true,
+                                         "hasPrompt":  true
+                                     },
+                                     {
+                                         "atMs":  358826.379,
+                                         "requestId":  "diag-1784071182041-3",
+                                         "phase":  "gemini_upstream_start",
+                                         "method":  "POST",
+                                         "target":  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+                                         "bodyBytes":  5200,
+                                         "hasAbortSignal":  true
+                                     },
+                                     {
+                                         "atMs":  372516.014,
+                                         "requestId":  "diag-1784071182041-3",
+                                         "phase":  "gemini_upstream_response",
+                                         "status":  200,
+                                         "ok":  true,
+                                         "durationMs":  13689.661
+                                     },
+                                     {
+                                         "atMs":  372555.532,
+                                         "requestId":  "diag-1784071182041-3",
+                                         "phase":  "proxy_egress",
+                                         "statusCode":  200,
+                                         "durationMs":  13798.389,
+                                         "responseBytes":  2862
+                                     }
+                                 ]
+                  },
+                  {
+                      "id":  "GINE_04_BORDERLINE_BRUCIORE_URINARIO",
+                      "requestId":  "diag-1784071237362-4",
+                      "events":  [
+                                     {
+                                         "atMs":  414078.088,
+                                         "requestId":  "diag-1784071237362-4",
+                                         "phase":  "proxy_ingress",
+                                         "method":  "POST",
+                                         "bodyBytes":  4907,
+                                         "parseableJson":  true,
+                                         "promptLength":  4765
+                                     },
+                                     {
+                                         "atMs":  414244.462,
+                                         "requestId":  "diag-1784071237362-4",
+                                         "phase":  "proxy_validation",
+                                         "validMethod":  true,
+                                         "hasPrompt":  true
+                                     },
+                                     {
+                                         "atMs":  414302.512,
+                                         "requestId":  "diag-1784071237362-4",
+                                         "phase":  "gemini_upstream_start",
+                                         "method":  "POST",
+                                         "target":  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+                                         "bodyBytes":  5240,
+                                         "hasAbortSignal":  true
+                                     },
+                                     {
+                                         "atMs":  425525.81,
+                                         "requestId":  "diag-1784071237362-4",
+                                         "phase":  "gemini_upstream_response",
+                                         "status":  200,
+                                         "ok":  true,
+                                         "durationMs":  11223.328
+                                     },
+                                     {
+                                         "atMs":  425572.938,
+                                         "requestId":  "diag-1784071237362-4",
+                                         "phase":  "proxy_egress",
+                                         "statusCode":  200,
+                                         "durationMs":  11494.87,
+                                         "responseBytes":  3322
+                                     }
+                                 ]
+                  }
+              ]
+}

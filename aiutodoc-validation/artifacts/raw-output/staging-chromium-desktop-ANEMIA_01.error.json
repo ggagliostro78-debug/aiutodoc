@@ -1,0 +1,15 @@
+{
+  "id": "ANEMIA_01",
+  "environment": "staging",
+  "project": "chromium-desktop",
+  "mocked": false,
+  "gemini_interception": false,
+  "status": "NON VALUTABILE - BLOCCO INFRASTRUTTURALE",
+  "clinical_pass": false,
+  "proxy_http_status": 503,
+  "proxy_error_code": 20,
+  "proxy_error_message": "Servizio AI temporaneamente non disponibile.",
+  "upstream_log": "Gemini API call failed: This operation was aborted",
+  "probable_cause": "Timeout applicativo del proxy Gemini dopo 45 secondi sul prompt clinico completo.",
+  "timestamp_local": "2026-07-08T00:35:00+02:00"
+}

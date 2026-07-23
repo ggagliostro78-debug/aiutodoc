@@ -1,0 +1,31 @@
+{
+  "id": "REGRESSION_BOUND_03_PRURITO_E_LABBRA_SENZA_DISPNEA",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Dopo aver mangiato una torta con frutta secca ho prurito diffuso e le labbra un po’ gonfie, ma respiro normalmente e non ho gonfiore della lingua, voce alterata, capogiri o svenimento.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nPoco tempo, legame chiaro\nB\nLegame possibile ma non certo\nC\nNon so\nD\nNessuna delle precedenti",
+    "A\nSi, aumentano o si estendono\nB\nSono stabili\nC\nStanno diminuendo\nD\nNessuna delle precedenti",
+    "A\nSi, uno o piu segnali\nB\nSolo dubbio\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nL'utente, maschio di 50 anni, riferisce la comparsa di prurito diffuso e un leggero gonfiore delle labbra dopo aver consumato una torta contenente frutta secca. È importante notare che l'utente respira normalmente e non ha riscontrato gonfiore della lingua, alterazione della voce, capogiri o svenimento. Non sono stati forniti dettagli aggiuntivi tramite note libere o risposte anamnestiche/conoscitive.\n\nSegnali rilevanti da riferire al medico:\nrespiro normale\nassenza di gonfiore della lingua\nassenza di voce alterata\nassenza di capogiri o svenimento\nSPECIALISTA CONSIGLIATO\nAllergologo\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nAngio-oedema and anaphylaxis\nNICE Clinical Knowledge Summary\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nVisita programmata a breve\nSi consiglia di annotare con precisione gli alimenti consumati prima della comparsa dei sintomi, l'orario esatto di insorgenza e la durata dei disturbi. È utile anche preparare un elenco di eventuali farmaci assunti e di patologie pregresse. Evitare l'auto-diagnosi o l'auto-medicazione e non introdurre modifiche alla dieta senza consulto medico.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione specialistica allergologica per reazione con prurito diffuso e gonfiore labiale dopo assunzione di frutta secca, in assenza di sintomi respiratori o sistemici gravi.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:40:20.556Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/REGRESSION_BOUND_03_PRURITO_E_LABBRA_SENZA_DISPNEA.png"
+}

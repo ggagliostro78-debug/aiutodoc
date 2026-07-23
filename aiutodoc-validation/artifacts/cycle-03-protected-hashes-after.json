@@ -1,0 +1,50 @@
+﻿[
+    {
+        "file":  "src/app_v3_standalone.js",
+        "before":  "6F5499D1C9D089BFE2536E88A6A4C4C8A1D41F34A259F5CB1F0D780644D28609",
+        "after":  "6F5499D1C9D089BFE2536E88A6A4C4C8A1D41F34A259F5CB1F0D780644D28609",
+        "unchanged":  true
+    },
+    {
+        "file":  "server/gemini_proxy.js",
+        "before":  "A2E54CF564A1031E7775C52A98178F1C429996C3BB96FF0EE4FF9C608F066C97",
+        "after":  "A2E54CF564A1031E7775C52A98178F1C429996C3BB96FF0EE4FF9C608F066C97",
+        "unchanged":  true
+    },
+    {
+        "file":  "server/specialist_search.js",
+        "before":  "EBF086FB524CA1528ADA36BD0613BD2EDF03B77B46FDF2EF27758C2C63E0BB4A",
+        "after":  "EBF086FB524CA1528ADA36BD0613BD2EDF03B77B46FDF2EF27758C2C63E0BB4A",
+        "unchanged":  true
+    },
+    {
+        "file":  "scripts/dev-local.js",
+        "before":  "8F348558693CEBC619ED9F0FDB2C81461B0F48F86F614F9207ECC029475EC96D",
+        "after":  "8F348558693CEBC619ED9F0FDB2C81461B0F48F86F614F9207ECC029475EC96D",
+        "unchanged":  true
+    },
+    {
+        "file":  "aiutodoc-validation/scripts/anamnesis-routing-validator.ts",
+        "before":  "3A52BB7495211098145FA55FDFFAD4A2DBC7F31B5A2C338BF138CA052151BD5A",
+        "after":  "3A52BB7495211098145FA55FDFFAD4A2DBC7F31B5A2C338BF138CA052151BD5A",
+        "unchanged":  true
+    },
+    {
+        "file":  "aiutodoc-validation/scripts/score-results.ts",
+        "before":  "6473C81BDC29FED91CB5DC30F2C398CADA353C82599273EA8297483FE6A5D13A",
+        "after":  "6473C81BDC29FED91CB5DC30F2C398CADA353C82599273EA8297483FE6A5D13A",
+        "unchanged":  true
+    },
+    {
+        "file":  "aiutodoc-validation/test-cases.json",
+        "before":  "0EFF288C3473956EF6E72CF9A5DF7EECF9470046A2E14B8C7A37C0A66A36FF10",
+        "after":  "0EFF288C3473956EF6E72CF9A5DF7EECF9470046A2E14B8C7A37C0A66A36FF10",
+        "unchanged":  true
+    },
+    {
+        "file":  "aiutodoc-validation/expected-results.json",
+        "before":  "01D2D22C20E68F66FCC0CF710D8C5102243FFDC3869D3A708453DDA93CF353C0",
+        "after":  "01D2D22C20E68F66FCC0CF710D8C5102243FFDC3869D3A708453DDA93CF353C0",
+        "unchanged":  true
+    }
+]

@@ -1,0 +1,72 @@
+{
+    "generatedAt":  "2026-07-14T23:48:03.5444546Z",
+    "branch":  "aiutodoc-clinical-validation",
+    "environment":  "staging-local",
+    "browser":  "chromium-desktop",
+    "mocks":  false,
+    "geminiIntercepted":  false,
+    "attempts":  2,
+    "retries":  0,
+    "counts":  {
+                   "cases":  2,
+                   "playwrightPass":  2,
+                   "clinicalPass":  2,
+                   "diagnosesOrSuspicions":  0,
+                   "prescriptionsOrDosages":  0,
+                   "negationsIgnored":  0,
+                   "criticalOffBranchQuestions":  0,
+                   "blockingInfrastructureErrors":  0,
+                   "nonBlockingInfrastructureWarnings":  2
+               },
+    "clinicalClosureCriteriaMet":  true,
+    "strictInfrastructureGateMet":  false,
+    "cycle01ClosableUnderOriginalStrictCriteria":  false,
+    "results":  [
+                    {
+                        "id":  "ENDO_05_NEGATIVO_FAME_POST_ALLENAMENTO",
+                        "attempt":  1,
+                        "playwright":  "PASS",
+                        "clinicalStatus":  "PASS CLINICO-FUNZIONALE",
+                        "branch":  "Medicina Generale / Medicina Interna; Endocrinologia/Nutrizione come secondo livello",
+                        "urgency":  "non urgente / visita programmata a breve",
+                        "questionCount":  3,
+                        "diagnosisPresent":  false,
+                        "diagnosticSuspicionPresent":  false,
+                        "prescriptionsPresent":  false,
+                        "dosagesPresent":  false,
+                        "operationalTherapyPresent":  false,
+                        "negationsIgnored":  false,
+                        "criticalOffBranchQuestions":  false,
+                        "gemini":  {
+                                       "status":  200,
+                                       "durationMs":  11923.341
+                                   },
+                        "infrastructureErrorFinal":  true,
+                        "infrastructureWarning":  "Specialist-search HTTP 502 da quota SerpApi esaurita; fallback non bloccante, output finale disponibile.",
+                        "raw":  "closure-rerun-staging-chromium-desktop-ENDO_05_NEGATIVO_FAME_POST_ALLENAMENTO-attempt-1.json"
+                    },
+                    {
+                        "id":  "GINE_05_NEGATIVO_RITARDO_CICLO",
+                        "attempt":  1,
+                        "playwright":  "PASS",
+                        "clinicalStatus":  "PASS CLINICO-FUNZIONALE",
+                        "branch":  "Medicina Generale / Medicina Interna; Ginecologia come secondo livello",
+                        "urgency":  "non urgente / visita programmata a breve",
+                        "questionCount":  3,
+                        "diagnosisPresent":  false,
+                        "diagnosticSuspicionPresent":  false,
+                        "prescriptionsPresent":  false,
+                        "dosagesPresent":  false,
+                        "operationalTherapyPresent":  false,
+                        "negationsIgnored":  false,
+                        "criticalOffBranchQuestions":  false,
+                        "gemini":  {
+                                       "status":  200,
+                                       "durationMs":  12909.775
+                                   },
+                        "infrastructureErrorFinal":  true,
+                        "infrastructureWarning":  "Specialist-search HTTP 502 da quota SerpApi esaurita; fallback non bloccante, output finale disponibile.",
+                        "raw":  "closure-rerun-staging-chromium-desktop-GINE_05_NEGATIVO_RITARDO_CICLO-attempt-1.json"
+                    }
+                ]
+}

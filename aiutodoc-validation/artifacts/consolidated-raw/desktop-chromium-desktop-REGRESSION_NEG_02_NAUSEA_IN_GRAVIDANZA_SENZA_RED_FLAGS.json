@@ -1,0 +1,31 @@
+{
+  "id": "REGRESSION_NEG_02_NAUSEA_IN_GRAVIDANZA_SENZA_RED_FLAGS",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Sono incinta di 10 settimane e al mattino ho nausea lieve. Non ho febbre, dolore al fianco, bruciore urinario, perdite di sangue, dolore forte o vomito persistente.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nFrequente o prolungata\nB\nLieve e soprattutto in alcuni momenti\nC\nOccasionale o in miglioramento\nD\nNessuna delle precedenti",
+    "A\nNon riesco a bere o il vomito persiste\nB\nRiesco solo in parte\nC\nBevo e mangio senza difficolta rilevanti\nD\nNessuna delle precedenti",
+    "A\nSi, segnali nuovi o indicazioni da rivalutare\nB\nSolo dubbi\nC\nNo, nessun segnale e nessuna indicazione specifica\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nLa paziente, di sesso femminile e di età compresa tra 40 e 64 anni, riferisce di essere incinta di 10 settimane e di sperimentare nausea lieve al mattino da alcune settimane. Il peso corporeo riportato è di 24 kg. La paziente nega esplicitamente la presenza di febbre, dolore al fianco, bruciore urinario, perdite di sangue, dolore forte o vomito persistente.\n\nSegnali rilevanti da riferire al medico:\nassenza di febbre\nassenza di dolore al fianco\nassenza di bruciore urinario\nassenza di perdite di sangue\nassenza di dolore forte\nassenza di vomito persistente\nSPECIALISTA CONSIGLIATO\nGinecologo\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nUrinary tract infection (lower) - women\nNICE Clinical Knowledge Summary\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nNon urgente / visita programmata a breve\nSi consiglia di continuare con le cure prenatali di routine. Per la nausea, mantenere una buona idratazione, consumare piccoli pasti frequenti ed evitare cibi che possono scatenare i sintomi. Discutere i sintomi con il ginecologo durante la prossima visita programmata.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Visita ginecologica per controllo gravidanza (10 settimane) e gestione nausea mattutina lieve.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:34:51.911Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/REGRESSION_NEG_02_NAUSEA_IN_GRAVIDANZA_SENZA_RED_FLAGS.png"
+}

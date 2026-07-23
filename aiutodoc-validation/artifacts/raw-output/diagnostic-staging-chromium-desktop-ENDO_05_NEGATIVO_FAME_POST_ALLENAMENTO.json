@@ -1,0 +1,267 @@
+{
+  "id": "ENDO_05_NEGATIVO_FAME_POST_ALLENAMENTO",
+  "input": "Dopo allenamenti molto intensi ho spesso fame e stanchezza, ma non ho sete eccessiva, aumento della minzione, perdita di peso o svenimenti.",
+  "comparisonCase": false,
+  "timeline": [
+    {
+      "atMs": 3262.804,
+      "event": "page_loaded"
+    },
+    {
+      "atMs": 4748.927,
+      "event": "clinical_input_submitted",
+      "state": "4_CONOSCITIVE"
+    },
+    {
+      "atMs": 9731.893,
+      "event": "research_started",
+      "state": "6_RICERCA_SCIENTIFICA"
+    },
+    {
+      "atMs": 56274.57,
+      "event": "state_final",
+      "state": "7_FINE"
+    }
+  ],
+  "networkEvents": [
+    {
+      "atMs": 9697.085,
+      "event": "request",
+      "method": "POST",
+      "url": "/api/gemini",
+      "bodyBytes": 4934,
+      "prompt": {
+        "sha256": "d38039e6b76cb97b0fa6bfee4c54ce0bc3a4f0441b91b241582b3282d067a6e1",
+        "charLength": 4792,
+        "utf8Bytes": 4798,
+        "newlineCount": 37,
+        "accentCount": 6,
+        "apostropheCount": 11,
+        "literalNullCount": 0,
+        "literalUndefinedCount": 0,
+        "healthFields": [
+          {
+            "field": "Fascia di età iniziale",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Età puntuale, se clinicamente necessaria e raccolta",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Peso, se clinicamente necessario e raccolto",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Altezza, se clinicamente necessaria e raccolta",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Sesso biologico",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Zona",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Disturbo",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Risposte Conoscitive",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Risposte Anamnestiche",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Nota libera conoscitiva",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Nota libera anamnestica",
+            "value": "[SANITIZED]"
+          }
+        ]
+      }
+    },
+    {
+      "atMs": 22866.317,
+      "event": "response",
+      "url": "/api/gemini",
+      "status": 200,
+      "durationMs": 13169.592
+    }
+  ],
+  "consoleEvents": [
+    {
+      "atMs": 99.56,
+      "type": "log",
+      "text": "Rescue UI Script loading..."
+    },
+    {
+      "atMs": 158.648,
+      "type": "log",
+      "text": "App shared loading..."
+    },
+    {
+      "atMs": 185.101,
+      "type": "log",
+      "text": "Triage engine loading... (v3.1.0-STANDALONE)"
+    },
+    {
+      "atMs": 241.753,
+      "type": "log",
+      "text": "Initializing App Engine (v3.0.0)..."
+    },
+    {
+      "atMs": 3789.437,
+      "type": "log",
+      "text": "Privacy accepted."
+    },
+    {
+      "atMs": 4501.001,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> Italia"
+    },
+    {
+      "atMs": 4503.536,
+      "type": "log",
+      "text": "Engine: elaborazione input -> Italia | Stato attuale: 2_ZONA"
+    },
+    {
+      "atMs": 4734.368,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> [DATI_SANITARI_OSCURATI]"
+    },
+    {
+      "atMs": 4734.966,
+      "type": "log",
+      "text": "Engine: elaborazione input -> [DATI_SANITARI_OSCURATI] | Stato attuale: 3_DISTURBO"
+    },
+    {
+      "atMs": 4737.353,
+      "type": "warning",
+      "text": "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+    },
+    {
+      "atMs": 5281.675,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Da mesi/anni | Stato attuale: 4_CONOSCITIVE"
+    },
+    {
+      "atMs": 5818.403,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Alterna momenti buoni e cattivi | Stato attuale: 4_CONOSCITIVE"
+    },
+    {
+      "atMs": 6425.997,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Patologie croniche note | Stato attuale: 4_CONOSCITIVE"
+    },
+    {
+      "atMs": 6969.913,
+      "type": "log",
+      "text": "Engine: elaborazione input -> No | Stato attuale: 4B_NOTA_CONOSCITIVA_SCELTA"
+    },
+    {
+      "atMs": 7501.609,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Compaiono anche a riposo | Stato attuale: 5_ANAMNESTICHE"
+    },
+    {
+      "atMs": 8083.913,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Regolari | Stato attuale: 5_ANAMNESTICHE"
+    },
+    {
+      "atMs": 8555.517,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) No | Stato attuale: 5_ANAMNESTICHE"
+    },
+    {
+      "atMs": 8852.758,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> 35"
+    },
+    {
+      "atMs": 8853.978,
+      "type": "log",
+      "text": "Engine: elaborazione input -> 35 | Stato attuale: 5C_DETTAGLIO_CONDIZIONATO"
+    },
+    {
+      "atMs": 9119.835,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> 70"
+    },
+    {
+      "atMs": 9120.254,
+      "type": "log",
+      "text": "Engine: elaborazione input -> 70 | Stato attuale: 5C_DETTAGLIO_CONDIZIONATO"
+    },
+    {
+      "atMs": 9695.15,
+      "type": "log",
+      "text": "Engine: elaborazione input -> No | Stato attuale: 5B_NOTA_ANAMNESTICA_SCELTA"
+    },
+    {
+      "atMs": 55791.309,
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "atMs": 55791.411,
+      "type": "warning",
+      "text": "Fallback specialist-search senza risultati: Error: Specialist Search Error (502): {\"error\":\"Errore ricerca specialisti.\",\"code\":\"GOOGLE_SEARCH_ERROR\",\"detail\":\"SerpApi error (429): {\\n  \\\"error\\\": \\\"Your account has run out of searches.\\\"\\n}\"}\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3368:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2284:44)"
+    }
+  ],
+  "questionData": {
+    "branch": "unknown",
+    "conoscitiveCount": 0,
+    "anamnesticheCount": 3,
+    "anamnestiche": [
+      "Quanto spesso compaiono fame e stanchezza, quanto durano e seguono sempre allenamenti intensi?\n<br><i>A) Frequenti e chiaramente dopo allenamento<br>B) Occasionali o legame parziale<br>C) Compaiono anche a riposo<br>D) Nessuna delle precedenti</i>",
+      "Come sono alimentazione, idratazione, recupero e qualita del sonno nei giorni di allenamento?\n<br><i>A) Uno o piu aspetti insufficienti<br>B) Variabili<br>C) Regolari<br>D) Nessuna delle precedenti</i>",
+      "L'intensita dell'attivita e cambiata e sono comparsi nuovi sintomi o un peggioramento anche lontano dall'esercizio?\n<br><i>A) Si, nuovi sintomi o peggioramento<br>B) Solo aumento dell'intensita<br>C) No<br>D) Nessuna delle precedenti</i>"
+    ],
+    "userDataKeys": [
+      "age",
+      "age_range",
+      "anamnesticheResp",
+      "conoscitiveResp",
+      "disturbo",
+      "domandeAnamnesticheDinamiche",
+      "exact_age",
+      "height_cm",
+      "initialMedicalData",
+      "notaAnamnestica",
+      "notaConoscitiva",
+      "sessoEta",
+      "sex_at_birth",
+      "weight_kg",
+      "zona",
+      "zonaDettagli"
+    ],
+    "nullKeys": [
+      "height_cm"
+    ],
+    "undefinedKeys": []
+  },
+  "frontend": {
+    "finalState": "7_FINE",
+    "geminiRequestCount": 1,
+    "pendingGeminiRequests": 0,
+    "loaderVisible": false,
+    "inputBarVisible": false,
+    "sendButtonVisible": false,
+    "sendButtonEnabled": true,
+    "successOutputVisible": true,
+    "failureOutputVisible": false,
+    "failureText": ""
+  },
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-14T23:17:19.077Z"
+}

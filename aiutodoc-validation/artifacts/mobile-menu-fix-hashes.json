@@ -1,0 +1,25 @@
+{
+  "capturedAt": "2026-07-17T13:10:00+02:00",
+  "branch": "aiutodoc-clinical-validation",
+  "head": "f5b58abffa615ab04ec0a6acf83392e08e7fc52b",
+  "main": "f776bae225406bd05df9bbb95828ebefe0e16e81",
+  "clinicalFilesUnchanged": true,
+  "changesLimitedToUx": true,
+  "files": {
+    "src/app_v3_standalone.js": { "initial": "cd68c9e7bd30848c6f9a3e3177fd5a74dc5cd83d9139bdd86e88cf63816fc542", "final": "cd68c9e7bd30848c6f9a3e3177fd5a74dc5cd83d9139bdd86e88cf63816fc542", "unchanged": true },
+    "src/app_shared.js": { "initial": "ad6906bfa62a1254cb792f229f78f3e3fd6b7b9bbc22286f77467bcb486b9be3", "final": "ad6906bfa62a1254cb792f229f78f3e3fd6b7b9bbc22286f77467bcb486b9be3", "unchanged": true },
+    "src/chat_interface.js": { "initial": "ab58e927f7c2c812de23c17cfd564654b8b06e6630ff40f33f3ca363b89a601c", "final": "ab58e927f7c2c812de23c17cfd564654b8b06e6630ff40f33f3ca363b89a601c", "unchanged": true },
+    "src/app_bootstrap.js": { "initial": "1a93012b716500df17b8b2ea3762aa8a1044e5e4c65b5be53856f3a3a1b08b4c", "final": "a1e9fd8e0e7c23d5309bb2f818eb0999ad57b15ab8a15ca4a2dd528e77b32eb9", "unchanged": false, "classification": "UX menu only" },
+    "index.html": { "initial": "042d7d061c904a3cf9b7544407da046fb0ef8ca3790c3c4994d89df6090f9107", "final": "042d7d061c904a3cf9b7544407da046fb0ef8ca3790c3c4994d89df6090f9107", "unchanged": true },
+    "server/gemini_proxy.js": { "initial": "a2e54cf564a1031e7775c52a98178f1c429996c3bb96ff0ee4ff9c608f066c97", "final": "a2e54cf564a1031e7775c52a98178f1c429996c3bb96ff0ee4ff9c608f066c97", "unchanged": true },
+    "server/specialist_search.js": { "initial": "ebf086fb524ca1528ada36bd0613bd2edf03b77b46fdf2ef27758c2c63e0bb4a", "final": "ebf086fb524ca1528ada36bd0613bd2edf03b77b46fdf2ef27758c2c63e0bb4a", "unchanged": true },
+    "server/places.js": { "initial": "eee8c117159a58620c7a78802cfc8c4f35ab5d576ba981b60a6ad7ff11cbaa74", "final": "eee8c117159a58620c7a78802cfc8c4f35ab5d576ba981b60a6ad7ff11cbaa74", "unchanged": true },
+    "server/enrich.js": { "initial": "dd6b7bb70ad24483f0d62596790d1746245083d35711f909b526790b8b4ff222", "final": "dd6b7bb70ad24483f0d62596790d1746245083d35711f909b526790b8b4ff222", "unchanged": true },
+    "scripts/dev-local.js": { "initial": "8f348558693cebc619ed9f0fdb2c81461b0f48f86f614f9207ecc029475ec96d", "final": "8f348558693cebc619ed9f0fdb2c81461b0f48f86f614f9207ecc029475ec96d", "unchanged": true },
+    "aiutodoc-validation/scripts/anamnesis-routing-validator.ts": { "initial": "3a52bb7495211098145fa55fdffad4a2dbc7f31b5a2c338bf138ca052151bd5a", "final": "3a52bb7495211098145fa55fdffad4a2dbc7f31b5a2c338bf138ca052151bd5a", "unchanged": true },
+    "aiutodoc-validation/scripts/score-results.ts": { "initial": "6473c81bdc29fed91cb5dc30f2c398cada353c82599273ea8297483fe6a5d13a", "final": "6473c81bdc29fed91cb5dc30f2c398cada353c82599273ea8297483fe6a5d13a", "unchanged": true },
+    "aiutodoc-validation/test-cases.json": { "initial": "0eff288c3473956ef6e72cf9a5df7eecf9470046a2e14b8c7a37c0a66a36ff10", "final": "0eff288c3473956ef6e72cf9a5df7eecf9470046a2e14b8c7a37c0a66a36ff10", "unchanged": true },
+    "aiutodoc-validation/expected-results.json": { "initial": "01d2d22c20e68f66fcc0cf710d8c5102243ffdc3869d3a708453dda93cf353c0", "final": "01d2d22c20e68f66fcc0cf710d8c5102243ffdc3869d3a708453dda93cf353c0", "unchanged": true },
+    "src/style.css": { "initial": "c594803f25f4a8548f84164cfa8bfa42a58f67d9854c9cf48054c2035ecc778b", "final": "3ea1ee8d114b4b911552bf322d47cfbded72aac4b5f0daaa78c0edebe08d6514", "unchanged": false, "classification": "UX menu only" }
+  }
+}

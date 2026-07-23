@@ -1,0 +1,17 @@
+{
+  "id": "INFLUENZA_02",
+  "input": "Uomo di 69 anni con BPCO. Da 4 giorni febbre 39, tosse peggiorata, catarro giallo-verde, fiato corto e dolore al torace quando tossisce. La saturazione è 91-92.",
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nSaturazione 91% riferita\nDifficoltà respiratoria o dispnea riferita\nDolore toracico riferito\nBPCO riferita\nFebbre 39°C riferita\n15:45",
+  "specialist": "",
+  "urgency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nSaturazione 91% riferita\nDifficoltà respiratoria o dispnea riferita\nDolore toracico riferito\nBPCO riferita\nFebbre 39°C riferita\n15:45",
+  "redFlagsText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nSaturazione 91% riferita\nDifficoltà respiratoria o dispnea riferita\nDolore toracico riferito\nBPCO riferita\nFebbre 39°C riferita\n15:45",
+  "disclaimer": "Importante\n\nAIutoDoc non fornisce diagnosi, prescrizioni o pareri medici e non sostituisce una visita sanitaria.\n\nIn caso di urgenza, sintomi gravi o peggioramento improvviso, chiama il 112/118 o rivolgiti al Pronto Soccorso.",
+  "sources": "",
+  "clinicalEmergency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nSaturazione 91% riferita\nDifficoltà respiratoria o dispnea riferita\nDolore toracico riferito\nBPCO riferita\nFebbre 39°C riferita\n15:45",
+  "urgencyReason": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nSaturazione 91% riferita\nDifficoltà respiratoria o dispnea riferita\nDolore toracico riferito\nBPCO riferita\nFebbre 39°C riferita\n15:45",
+  "questionCount": 0,
+  "url": "http://127.0.0.1:4273/",
+  "environment": "staging",
+  "timestamp": "2026-07-07T13:45:43.234Z",
+  "screenshot": "../artifacts/screenshots-staging/staging-chromium-mobile-INFLUENZA_02.png"
+}

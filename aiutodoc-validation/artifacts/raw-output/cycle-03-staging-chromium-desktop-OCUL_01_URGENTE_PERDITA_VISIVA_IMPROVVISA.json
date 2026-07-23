@@ -1,0 +1,35 @@
+{
+  "id": "OCUL_01_URGENTE_PERDITA_VISIVA_IMPROVVISA",
+  "input": "Da circa mezz’ora vedo molto meno da un occhio. È successo improvvisamente e non sta migliorando. Non ho avuto traumi.",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-16T13:33:15.428Z",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nPaziente maschio, età 40-64 anni, riferisce un improvviso e significativo calo della vista a un occhio, insorto circa mezz'ora fa, senza miglioramento e in assenza di traumi. Non sono stati riferiti disturbi visivi simili in precedenza e l'occhio appare esternamente normale. Il paziente ha una storia di patologie croniche note, con disturbi che si manifestano da mesi/anni e alternano momenti buoni e cattivi, ma questi non sono direttamente correlati all'attuale episodio acuto di calo visivo.\n\nSegnali rilevanti da riferire al medico:\nCalo visivo improvviso monolaterale\nNon miglioramento del sintomo\nAssenza di trauma oculare\nSPECIALISTA CONSIGLIATO\nOculista\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nGlaucoma: diagnosis and management\nNICE guideline NG81\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nAlta / urgente\nSi consiglia di recarsi immediatamente al Pronto Soccorso per una valutazione oculistica urgente. Portare con sé eventuali documenti medici o un elenco delle patologie croniche note e dei farmaci assunti.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione urgente per calo visivo improvviso monolaterale insorto da circa 30 minuti, non traumatico e non migliorativo.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "specialist": "Segnali rilevanti da riferire al medico:\nOculista",
+  "areaSpecialistica": "{\"branca\":\"Oculistica\",\"area_specialistica\":\"Valutazione urgente di calo visivo improvviso monolaterale\",\"eventuale_secondo_livello\":\"Non necessario in prima battuta\"}",
+  "urgency": "Alta / urgente\nSi consiglia di recarsi immediatamente al Pronto Soccorso per una valutazione oculistica urgente. Portare con sé eventuali documenti medici o un elenco delle patologie croniche note e dei farmaci assunti.",
+  "redFlagsText": "Paziente maschio, età 40-64 anni, riferisce un improvviso e significativo calo della vista a un occhio, insorto circa mezz'ora fa, senza miglioramento e in assenza di traumi. Non sono stati riferiti disturbi visivi simili in precedenza e l'occhio appare esternamente normale. Il paziente ha una storia di patologie croniche note, con disturbi che si manifestano da mesi/anni e alternano momenti buoni e cattivi, ma questi non sono direttamente correlati all'attuale episodio acuto di calo visivo.\nSegnali rilevanti da riferire al medico:\nCalo visivo improvviso monolaterale\nNon miglioramento del sintomo\nAssenza di trauma oculare",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nCalo molto brusco/improvviso\nB\nLento e progressivo\nC\nLa vista è invariata\nD\nNessuna delle precedenti",
+    "A\nSì, molto rosso e urente\nB\nSolo leggermente arrossato\nC\nOculare bianco normale\nD\nNessuna delle precedenti",
+    "A\nMolti lampi e punti neri improvvisi\nB\nQualche mosca volante vecchia\nC\nNessun disturbo visivo simile\nD\nNessuna delle precedenti"
+  ],
+  "state": "7_FINE",
+  "geminiCalls": [
+    {
+      "url": "/api/gemini",
+      "startedAt": 1784208749890,
+      "status": 200,
+      "durationMs": 13842
+    }
+  ],
+  "searchCalls": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "researchSpecialistsNotExecuted": true
+}

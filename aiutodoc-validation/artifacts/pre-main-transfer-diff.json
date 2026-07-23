@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-07-17T03:30:00+02:00",
+  "sourceBranch": "aiutodoc-clinical-validation",
+  "sourceCommit": "f5b58abffa615ab04ec0a6acf83392e08e7fc52b",
+  "targetBranch": "main",
+  "targetCommit": "f776bae225406bd05df9bbb95828ebefe0e16e81",
+  "mergeBase": "f776bae225406bd05df9bbb95828ebefe0e16e81",
+  "aheadBehind": { "mainOnly": 0, "clinicalOnly": 20 },
+  "predictedTextConflicts": 0,
+  "committedRuntimeCandidates": [
+    "server/gemini_proxy.js",
+    "src/app_shared.js",
+    "src/app_v3_standalone.js",
+    "src/chat_interface.js"
+  ],
+  "qaInstrumentationOptional": ["index.html"],
+  "runnerIntegrationOptional": ["package.json"],
+  "validationHarnessDoNotShipInRuntime": ["aiutodoc-validation/**"],
+  "rawAndReportsDoNotShipInRuntime": [
+    "aiutodoc-validation/artifacts/**",
+    "aiutodoc-validation/reports/**",
+    "aiutodoc-validation/delivery/**"
+  ],
+  "preExistingUncommittedProductFiles": [
+    "src/app_shared.js",
+    "src/app_v3_standalone.js",
+    "src/chat_interface.js"
+  ],
+  "risk": {
+    "textConflict": "LOW: source is direct descendant of main",
+    "semanticClinical": "HIGH: emergency detection, negation handling, routing and Gemini schema changed",
+    "workingTreeAmbiguity": "HIGH: uncommitted product changes overlap three transfer candidates",
+    "mobileUx": "BLOCKING: menu close control cannot be clicked on all four emulations"
+  },
+  "recommendedStrategy": "porting manuale su branch di integrazione futuro, dopo pulizia/commit separato delle modifiche locali e fix del menu; non eseguito",
+  "readiness": "NON IDONEO"
+}

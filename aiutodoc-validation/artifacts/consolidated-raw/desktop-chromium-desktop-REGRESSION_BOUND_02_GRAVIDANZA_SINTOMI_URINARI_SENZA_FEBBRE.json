@@ -1,0 +1,31 @@
+{
+  "id": "REGRESSION_BOUND_02_GRAVIDANZA_SINTOMI_URINARI_SENZA_FEBBRE",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Sono incinta di 20 settimane e da ieri ho bruciore urinario e bisogno di urinare spesso. Non ho febbre, brividi, dolore al fianco, nausea, vomito, contrazioni o perdite.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nDurano o peggiorano\nB\nSono lievi o stabili\nC\nSono in miglioramento\nD\nNessuna delle precedenti",
+    "A\nSi, uno o piu sintomi\nB\nSolo lieve o dubbio\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSi, uno o piu segnali o contatto gia avvenuto\nB\nSolo dubbi o sintomi lievi\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nPaziente di sesso femminile, età 40-64 anni, in gravidanza alla 20esima settimana. Riferisce da ieri bruciore urinario e necessità di urinare frequentemente. Non sono presenti febbre, brividi, dolore al fianco, nausea, vomito, contrazioni o perdite ematiche. Viene riportato un peso di 24 kg.\n\nSegnali rilevanti da riferire al medico:\nBruciore urinario in gravidanza\nPollachiuria in gravidanza\nAssenza di febbre\nAssenza di brividi\nAssenza di dolore al fianco\nAssenza di nausea\nAssenza di vomito\nAssenza di contrazioni\nAssenza di perdite\nSPECIALISTA CONSIGLIATO\nGinecologo\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nPyelonephritis - acute\nNICE Clinical Knowledge Summary\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nAlta / urgente\nSi consiglia di contattare tempestivamente il proprio Ginecologo o Medico di Medicina Generale. Potrebbe essere utile raccogliere un campione di urine per un esame colturale prima della visita, se indicato dal medico. Portare con sé tutta la documentazione relativa alla gravidanza e l'elenco dei farmaci assunti.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione di sintomi urinari (bruciore e pollachiuria) insorti in gravidanza (20 settimane).\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:39:15.702Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/REGRESSION_BOUND_02_GRAVIDANZA_SINTOMI_URINARI_SENZA_FEBBRE.png"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "REGRESSION_NEG_04_LOMBALGIA_MECCANICA",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Dopo aver spostato una scatola ho dolore lombare che aumenta quando mi piego. Non ho formicolio tra le gambe, perdita di sensibilità, debolezza, problemi a urinare o a trattenere urine e feci.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSì, chiaramente\nB\nSolo in parte\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSì\nB\nSolo lievemente\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSì\nB\nNon so / dubbio\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nUomo di età compresa tra 40 e 64 anni che riferisce l'insorgenza di dolore lombare acuto dopo aver spostato una scatola. Il dolore aumenta con i movimenti di flessione del tronco. L'utente nega la presenza di formicolio tra le gambe, perdita di sensibilità, debolezza agli arti inferiori e problemi di controllo sfinterico (urinare o trattenere urine e feci).\n\nSegnali rilevanti da riferire al medico:\nAssenza di formicolio tra le gambe\nAssenza di perdita di sensibilità\nAssenza di debolezza agli arti inferiori\nAssenza di problemi a urinare o a trattenere urine e feci\nSPECIALISTA CONSIGLIATO\nOrtopedico\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nLow back pain and sciatica: assessment and management\nNICE guideline NG59\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nVisita programmata a breve\nSi consiglia di annotare la data esatta di insorgenza del dolore, le attività che lo peggiorano o lo migliorano e qualsiasi farmaco assunto per alleviarlo. È utile portare con sé eventuali referti medici precedenti pertinenti. Evitare sforzi o movimenti che accentuano il dolore in attesa della visita.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Visita Ortopedica per lombalgia acuta post-sforzo. Si segnala l'assenza di sintomi neurologici radicolari o sfinterici.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:35:59.986Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/REGRESSION_NEG_04_LOMBALGIA_MECCANICA.png"
+}

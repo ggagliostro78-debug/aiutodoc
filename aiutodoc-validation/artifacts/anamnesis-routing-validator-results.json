@@ -1,0 +1,272 @@
+{
+  "generatedAt": "2026-07-19T21:32:12.337Z",
+  "total": 12,
+  "passed": 12,
+  "failed": 0,
+  "results": [
+    {
+      "id": "VALIDATOR_01_DISCLAIMER",
+      "expected": {
+        "status": "PASS ROUTING",
+        "diagnosticViolations": 0
+      },
+      "obtained": {
+        "status": "PASS ROUTING",
+        "diagnosticViolations": [],
+        "falsePositiveUrgency": false,
+        "bypassDocumented": false,
+        "offBranch": [],
+        "coverage": {},
+        "unfaithfulMotivations": [],
+        "negationsIgnored": false,
+        "problems": []
+      },
+      "pass": true
+    },
+    {
+      "id": "VALIDATOR_02_DIAGNOSI_REALE",
+      "expected": {
+        "status": "FAIL ROUTING",
+        "diagnosticViolations": 1
+      },
+      "obtained": {
+        "status": "FAIL ROUTING",
+        "diagnosticViolations": [
+          "quadro compatibile con"
+        ],
+        "falsePositiveUrgency": false,
+        "bypassDocumented": false,
+        "offBranch": [],
+        "coverage": {},
+        "unfaithfulMotivations": [],
+        "negationsIgnored": false,
+        "problems": [
+          "diagnosi/sospetti: quadro compatibile con"
+        ]
+      },
+      "pass": true
+    },
+    {
+      "id": "VALIDATOR_03_DOMANDA_URGENZA",
+      "expected": {
+        "status": "PASS ROUTING",
+        "falsePositiveUrgency": false
+      },
+      "obtained": {
+        "status": "PASS ROUTING",
+        "diagnosticViolations": [],
+        "falsePositiveUrgency": false,
+        "bypassDocumented": false,
+        "offBranch": [],
+        "coverage": {},
+        "unfaithfulMotivations": [],
+        "negationsIgnored": false,
+        "problems": []
+      },
+      "pass": true
+    },
+    {
+      "id": "VALIDATOR_04_BYPASS_APPROPRIATO",
+      "expected": {
+        "status": "BYPASS URGENZA DOCUMENTATO",
+        "offBranch": 0,
+        "bypassDocumented": true
+      },
+      "obtained": {
+        "status": "BYPASS URGENZA DOCUMENTATO",
+        "diagnosticViolations": [],
+        "falsePositiveUrgency": false,
+        "bypassDocumented": true,
+        "offBranch": [],
+        "coverage": {},
+        "unfaithfulMotivations": [],
+        "negationsIgnored": false,
+        "problems": []
+      },
+      "pass": true
+    },
+    {
+      "id": "VALIDATOR_05_MOTIVAZIONE_INVENTATA",
+      "expected": {
+        "status": "FAIL ROUTING",
+        "unfaithfulMotivations": 2,
+        "negationsIgnored": true
+      },
+      "obtained": {
+        "status": "FAIL ROUTING",
+        "diagnosticViolations": [],
+        "falsePositiveUrgency": false,
+        "bypassDocumented": false,
+        "offBranch": [],
+        "coverage": {},
+        "unfaithfulMotivations": [
+          "debolezza",
+          "terapia anticoagulante"
+        ],
+        "negationsIgnored": true,
+        "problems": [
+          "motivazioni non fedeli: debolezza, terapia anticoagulante"
+        ]
+      },
+      "pass": true
+    },
+    {
+      "id": "VALIDATOR_06_COPERTURA_URINARIA",
+      "expected": {
+        "status": "PASS ROUTING",
+        "coverage": {
+          "urinario": true,
+          "fecale": true
+        }
+      },
+      "obtained": {
+        "status": "PASS ROUTING",
+        "diagnosticViolations": [],
+        "falsePositiveUrgency": false,
+        "bypassDocumented": false,
+        "offBranch": [],
+        "coverage": {
+          "urinario": true,
+          "fecale": true
+        },
+        "unfaithfulMotivations": [],
+        "negationsIgnored": false,
+        "problems": []
+      },
+      "pass": true
+    },
+    {
+      "id": "VALIDATOR_07_WARNING",
+      "expected": {
+        "status": "WARNING ROUTING"
+      },
+      "obtained": {
+        "status": "WARNING ROUTING",
+        "diagnosticViolations": [],
+        "falsePositiveUrgency": false,
+        "bypassDocumented": false,
+        "offBranch": [],
+        "coverage": {},
+        "unfaithfulMotivations": [],
+        "negationsIgnored": false,
+        "problems": []
+      },
+      "pass": true
+    },
+    {
+      "id": "VALIDATOR_08_FAIL_FUORI_RAMO",
+      "expected": {
+        "status": "FAIL ROUTING",
+        "offBranch": 3
+      },
+      "obtained": {
+        "status": "FAIL ROUTING",
+        "diagnosticViolations": [],
+        "falsePositiveUrgency": false,
+        "bypassDocumented": false,
+        "offBranch": [
+          "neo",
+          "colore",
+          "margini"
+        ],
+        "coverage": {},
+        "unfaithfulMotivations": [],
+        "negationsIgnored": false,
+        "problems": [
+          "fuori ramo: neo, colore, margini",
+          "ramo errato",
+          "domande sostanzialmente non pertinenti"
+        ]
+      },
+      "pass": true
+    },
+    {
+      "id": "VALIDATOR_09_PASS",
+      "expected": {
+        "status": "PASS ROUTING"
+      },
+      "obtained": {
+        "status": "PASS ROUTING",
+        "diagnosticViolations": [],
+        "falsePositiveUrgency": false,
+        "bypassDocumented": false,
+        "offBranch": [],
+        "coverage": {
+          "urinario": true,
+          "forza": true
+        },
+        "unfaithfulMotivations": [],
+        "negationsIgnored": false,
+        "problems": []
+      },
+      "pass": true
+    },
+    {
+      "id": "VALIDATOR_10_BYPASS_FECI_SCURE",
+      "expected": {
+        "status": "BYPASS URGENZA DOCUMENTATO",
+        "diagnosticViolations": 0,
+        "offBranch": 0,
+        "unfaithfulMotivations": 0
+      },
+      "obtained": {
+        "status": "BYPASS URGENZA DOCUMENTATO",
+        "diagnosticViolations": [],
+        "falsePositiveUrgency": false,
+        "bypassDocumented": true,
+        "offBranch": [],
+        "coverage": {},
+        "unfaithfulMotivations": [],
+        "negationsIgnored": false,
+        "problems": []
+      },
+      "pass": true
+    },
+    {
+      "id": "VALIDATOR_11_VERTIGINI_NON_URGENTI",
+      "expected": {
+        "status": "PASS ROUTING",
+        "falsePositiveUrgency": false
+      },
+      "obtained": {
+        "status": "PASS ROUTING",
+        "diagnosticViolations": [],
+        "falsePositiveUrgency": false,
+        "bypassDocumented": false,
+        "offBranch": [],
+        "coverage": {},
+        "unfaithfulMotivations": [],
+        "negationsIgnored": false,
+        "problems": []
+      },
+      "pass": true
+    },
+    {
+      "id": "VALIDATOR_12_LOMBALGIA_BORDERLINE",
+      "expected": {
+        "status": "PASS ROUTING",
+        "coverage": {
+          "forza": true,
+          "urinario": true,
+          "fecale": true
+        }
+      },
+      "obtained": {
+        "status": "PASS ROUTING",
+        "diagnosticViolations": [],
+        "falsePositiveUrgency": false,
+        "bypassDocumented": false,
+        "offBranch": [],
+        "coverage": {
+          "forza": true,
+          "urinario": true,
+          "fecale": true
+        },
+        "unfaithfulMotivations": [],
+        "negationsIgnored": false,
+        "problems": []
+      },
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "id": "P1_POS_04_CONTROLLO_ANTICOAGULANTE",
+  "input": "Prendo un anticoagulante per la fibrillazione atriale e vorrei sapere a quale specialista rivolgermi per un controllo periodico. Non ho sanguinamenti, capogiri, debolezza, dolore o altri sintomi.",
+  "questions": [
+    "Chi ha prescritto l'anticoagulante e per quale motivo generale e previsto il controllo periodico? A) Cardiologo o centro dedicato B) Medico curante o Medicina interna C) Non so o devo recuperare il referto D) Nessuna delle precedenti",
+    "Quando hai effettuato l'ultimo controllo specialistico e hai esami o referti recenti da portare alla visita? A) Controllo recente con referti B) Controllo non recente o referti incompleti C) Non ricordo o non ho documenti D) Nessuna delle precedenti",
+    "Sono comparsi sanguinamenti, capogiri, debolezza o altri sintomi nuovi che richiedono una valutazione piu rapida? A) Si, uno o piu sintomi nuovi B) Solo dubbi o lievi cambiamenti C) No, cerco solo orientamento per il follow-up D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Chi ha prescritto l'anticoagulante e per quale motivo generale e previsto il controllo periodico?\n<br><i>A) Cardiologo o centro dedicato<br>B) Medico curante o Medicina interna<br>C) Non so o devo recuperare il referto<br>D) Nessuna delle precedenti</i>",
+    "Quando hai effettuato l'ultimo controllo specialistico e hai esami o referti recenti da portare alla visita?\n<br><i>A) Controllo recente con referti<br>B) Controllo non recente o referti incompleti<br>C) Non ricordo o non ho documenti<br>D) Nessuna delle precedenti</i>",
+    "Sono comparsi sanguinamenti, capogiri, debolezza o altri sintomi nuovi che richiedono una valutazione piu rapida?\n<br><i>A) Si, uno o piu sintomi nuovi<br>B) Solo dubbi o lievi cambiamenti<br>C) No, cerco solo orientamento per il follow-up<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T21:52:31.688Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "pregnancyUrgent": false,
+    "pregnancyMild": false,
+    "traumaLip": false,
+    "dental": false,
+    "followUp": true,
+    "allergyUrgent": false,
+    "allergyMild": false,
+    "flank": false,
+    "cardio": false,
+    "pigmented": false,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

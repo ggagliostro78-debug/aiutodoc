@@ -1,0 +1,19 @@
+{
+  "id": "GINE_05_NEGATIVO_RITARDO_CICLO",
+  "branch": "Ginecologia",
+  "input": "Il ciclo è in ritardo di quattro giorni, ma di solito non è sempre regolare. Non ho dolore forte, sanguinamento, capogiri o svenimenti.",
+  "attempt": 1,
+  "startedAt": "2026-07-14T22:30:00.245Z",
+  "geminiCalls": [],
+  "playwrightStatus": "failed",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "questions": [
+    "Qual e la tua eta, quando e iniziato l'ultimo ciclo e quanto e regolare abitualmente?\n<br><i>A) Data e regolarita note<br>B) Ciclo spesso irregolare<br>C) Non ricordo<br>D) Nessuna delle precedenti</i>",
+    "C'e possibilita di gravidanza e usi contraccezione o farmaci che possono essere rilevanti?\n<br><i>A) Possibilita presente o farmaci/contraccezione<br>B) Possibilita incerta<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Ci sono stati stress, variazioni di peso, attivita fisica intensa o altri cambiamenti recenti?\n<br><i>A) Si, uno o piu cambiamenti<br>B) Solo lievi cambiamenti<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "completedAt": "2026-07-14T22:32:24.990Z",
+  "error": ""
+}

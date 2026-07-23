@@ -1,0 +1,33 @@
+{
+  "id": "ALLERGO_02_RINITE_STAGIONALE",
+  "input": "Ogni primavera ho starnuti, naso chiuso e prurito agli occhi. Non ho difficoltà a respirare, gonfiore, febbre o sintomi importanti durante il resto dell’anno.",
+  "timestamp": "2026-07-16T18:35:56.488Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nOgni primavera compaiono starnuti, naso chiuso e prurito agli occhi. Sono negate difficolta respiratoria, gonfiore, febbre e sintomi importanti nel resto dell'anno.\n\nSegnali rilevanti da riferire al medico:\nricorrenza primaverile\nstarnuti\nnaso chiuso\nprurito agli occhi\nassenza di difficolta respiratoria\nassenza di gonfiore\nassenza di febbre\nassenza di sintomi importanti nel resto dell'anno\nSPECIALISTA CONSIGLIATO\nAllergologo\nFonti a supporto dell’orientamento\n\nRiferimenti metodologici sulla qualità dell’invio allo specialista; il catalogo specifico per questa branca è in aggiornamento.\n\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nNon urgente / visita programmata\nAnnota mesi, ambienti, pollini, animali e altre esposizioni, sintomi nasali e oculari, tosse o sibili, asma, familiarita, farmaci gia usati e impatto sulla vita quotidiana.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Visita allergologica programmata per sintomi nasali e oculari ricorrenti ogni primavera, senza segnali respiratori o sistemici riferiti.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. In quali mesi, ambienti o esposizioni a pollini, polvere o animali compaiono i sintomi?\n\nA\nPeriodo o esposizione chiari\nB\nPiu ambienti o stagioni\nC\nNessun legame chiaro\nD\nNessuna delle precedenti",
+    "2. Oltre a starnuti, naso chiuso e prurito nasale o oculare, compaiono tosse, sibili o asma?\n\nA\nTosse, sibili o asma\nB\nSolo naso e occhi\nC\nSintomi diversi o non chiari\nD\nNessuna delle precedenti",
+    "3. Ci sono familiarita, farmaci gia usati e impatto su sonno, scuola o attivita quotidiane?\n\nA\nFamiliarita o impatto importante\nB\nFarmaci gia usati con beneficio parziale\nC\nNessuno\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Allergologo",
+  "areaSpecialistica": {
+    "branca": "Allergologia e Immunologia clinica",
+    "area_specialistica": "Sintomi nasali e oculari stagionali da valutare",
+    "eventuale_secondo_livello": "Otorinolaringoiatria se indicato dopo il primo inquadramento"
+  },
+  "urgency": "Non urgente / visita programmata\nAnnota mesi, ambienti, pollini, animali e altre esposizioni, sintomi nasali e oculari, tosse o sibili, asma, familiarita, farmaci gia usati e impatto sulla vita quotidiana.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nricorrenza primaverile\nstarnuti\nnaso chiuso\nprurito agli occhi\nassenza di difficolta respiratoria\nassenza di gonfiore\nassenza di febbre\nassenza di sintomi importanti nel resto dell'anno",
+  "geminiCalls": [
+    {
+      "status": 200,
+      "durationMs": 6266
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

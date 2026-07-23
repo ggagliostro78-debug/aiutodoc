@@ -1,0 +1,23 @@
+{
+  "id": "NEURO_01_URGENTE_DEBOLEZZA_LINGUAGGIO",
+  "input": "Da circa mezz’ora ho debolezza improvvisa a un braccio e faccio fatica a parlare.",
+  "terminal": "clinical-complete",
+  "playwrightStatus": "passed",
+  "emergencyBypass": true,
+  "questions": [],
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ndebolezza improvvisa di un arto o lato del corpo\ndifficolta improvvisa nel parlare\nesordio improvviso o recente\n14:47",
+  "specialist": "",
+  "urgency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ndebolezza improvvisa di un arto o lato del corpo\ndifficolta improvvisa nel parlare\nesordio improvviso o recente\n14:47",
+  "geminiCalls": [],
+  "searchMethodology": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "blockedSearchRequests": [],
+  "externalSpecialistSearchCalls": 0,
+  "rawSavedBeforeTeardown": true,
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-16T12:47:43.327Z",
+  "url": "http://127.0.0.1:4273/",
+  "teardown": {
+    "status": "passed"
+  }
+}

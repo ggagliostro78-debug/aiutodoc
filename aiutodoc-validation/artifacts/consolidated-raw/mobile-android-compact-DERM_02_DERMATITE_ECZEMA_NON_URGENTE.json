@@ -1,0 +1,31 @@
+{
+  "id": "DERM_02_DERMATITE_ECZEMA_NON_URGENTE",
+  "surface": "mobile",
+  "viewport": "android-compact",
+  "input": "Donna di 34 anni. Da circa 3 settimane ho chiazze rosse e pruriginose sulle mani, peggiorano quando uso detergenti o guanti al lavoro. La pelle e secca e screpolata. Non ho febbre, non ho pus, non ho gonfiore importante, non ho difficolta a respirare, non ho gonfiore di labbra o lingua.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSì, chiaramente\nB\nForse / solo in parte\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSì\nB\nNon so / dubbio\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nCoinvolge viso/respirazione\nB\nAltre aree cutanee\nC\nSolo mani o zona limitata\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nDonna di 34 anni riferisce da circa 3 settimane la comparsa di chiazze rosse e pruriginose sulle mani. I sintomi peggiorano con l'uso di detergenti o guanti in ambiente lavorativo. La pelle si presenta secca e screpolata. Non sono presenti febbre, pus, gonfiore importante, difficoltà respiratorie o gonfiore di labbra o lingua.\n\nSegnali rilevanti da riferire al medico:\nchiazze rosse pruriginose\nlocalizzazione alle mani\npeggioramento con detergenti o guanti\nsecchezza\nscrepolature\nassenza di febbre\nassenza di pus\nassenza di gonfiore importante\nassenza di difficolta respiratoria\nassenza di gonfiore di labbra o lingua\nSPECIALISTA CONSIGLIATO\nDermatologo; Allergologo o patch test se irritazione cutanea delle mani da valutare in ambito dermatologico/allergologico\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nDermatitis - contact\nNICE Clinical Knowledge Summary\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nUrgenza bassa / visita dermatologica programmata se persiste, recidiva o limita il lavoro\nAnnota sostanze, detergenti e guanti che peggiorano i sintomi e porta eventuali foto o referti. Evita automedicazioni o trattamenti non concordati. Vai in urgenza solo se compaiono gonfiore di volto, labbra o lingua, difficolta respiratoria, febbre alta, pus esteso, dolore importante, rapido peggioramento o segni sistemici.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione dermatologica programmata per chiazze pruriginose delle mani da valutare in ambito dermatologico, senza diagnosi certa e senza prescrizioni.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T01:00:21.183Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/android-compact/DERM_02_DERMATITE_ECZEMA_NON_URGENTE.png"
+}

@@ -1,0 +1,250 @@
+{
+  "id": "GINE_04_BORDERLINE_BRUCIORE_URINARIO",
+  "input": "Ho bruciore urinario, bisogno frequente di urinare e fastidio pelvico. Non sono incinta e non ho febbre o dolore al fianco.",
+  "comparisonCase": true,
+  "timeline": [
+    {
+      "atMs": 643.327,
+      "event": "page_loaded"
+    },
+    {
+      "atMs": 2173.365,
+      "event": "clinical_input_submitted",
+      "state": "4_CONOSCITIVE"
+    },
+    {
+      "atMs": 6672.866,
+      "event": "research_started",
+      "state": "6_RICERCA_SCIENTIFICA"
+    },
+    {
+      "atMs": 52828.575,
+      "event": "state_final",
+      "state": "7_FINE"
+    }
+  ],
+  "networkEvents": [
+    {
+      "atMs": 6624.969,
+      "event": "request",
+      "method": "POST",
+      "url": "/api/gemini",
+      "bodyBytes": 4907,
+      "prompt": {
+        "sha256": "5da2e2d5c67cc6e6e23869a6185ecb95dd7d5eead6f4e97dda10c8afc518389f",
+        "charLength": 4765,
+        "utf8Bytes": 4771,
+        "newlineCount": 37,
+        "accentCount": 6,
+        "apostropheCount": 11,
+        "literalNullCount": 0,
+        "literalUndefinedCount": 0,
+        "healthFields": [
+          {
+            "field": "Fascia di età iniziale",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Età puntuale, se clinicamente necessaria e raccolta",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Peso, se clinicamente necessario e raccolto",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Altezza, se clinicamente necessaria e raccolta",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Sesso biologico",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Zona",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Disturbo",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Risposte Conoscitive",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Risposte Anamnestiche",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Nota libera conoscitiva",
+            "value": "[SANITIZED]"
+          },
+          {
+            "field": "Nota libera anamnestica",
+            "value": "[SANITIZED]"
+          }
+        ]
+      }
+    },
+    {
+      "atMs": 18158.167,
+      "event": "response",
+      "url": "/api/gemini",
+      "status": 200,
+      "durationMs": 11533.498
+    }
+  ],
+  "consoleEvents": [
+    {
+      "atMs": 158.646,
+      "type": "log",
+      "text": "Rescue UI Script loading..."
+    },
+    {
+      "atMs": 464.805,
+      "type": "log",
+      "text": "App shared loading..."
+    },
+    {
+      "atMs": 537.973,
+      "type": "log",
+      "text": "Triage engine loading... (v3.1.0-STANDALONE)"
+    },
+    {
+      "atMs": 618.556,
+      "type": "log",
+      "text": "Initializing App Engine (v3.0.0)..."
+    },
+    {
+      "atMs": 1327.018,
+      "type": "log",
+      "text": "Privacy accepted."
+    },
+    {
+      "atMs": 1914.529,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> Italia"
+    },
+    {
+      "atMs": 1918.602,
+      "type": "log",
+      "text": "Engine: elaborazione input -> Italia | Stato attuale: 2_ZONA"
+    },
+    {
+      "atMs": 2156.67,
+      "type": "log",
+      "text": "App Engine: Ricevuto comando via Dispatcher -> [DATI_SANITARI_OSCURATI]"
+    },
+    {
+      "atMs": 2156.982,
+      "type": "log",
+      "text": "Engine: elaborazione input -> [DATI_SANITARI_OSCURATI] | Stato attuale: 3_DISTURBO"
+    },
+    {
+      "atMs": 2160.216,
+      "type": "warning",
+      "text": "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+    },
+    {
+      "atMs": 2783.84,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Da mesi/anni | Stato attuale: 4_CONOSCITIVE"
+    },
+    {
+      "atMs": 3367.38,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Alterna momenti buoni e cattivi | Stato attuale: 4_CONOSCITIVE"
+    },
+    {
+      "atMs": 3931.635,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) Patologie croniche note | Stato attuale: 4_CONOSCITIVE"
+    },
+    {
+      "atMs": 4522.274,
+      "type": "log",
+      "text": "Engine: elaborazione input -> No | Stato attuale: 4B_NOTA_CONOSCITIVA_SCELTA"
+    },
+    {
+      "atMs": 5010.372,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) No | Stato attuale: 5_ANAMNESTICHE"
+    },
+    {
+      "atMs": 5507.992,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) No | Stato attuale: 5_ANAMNESTICHE"
+    },
+    {
+      "atMs": 6035.754,
+      "type": "log",
+      "text": "Engine: elaborazione input -> C) No | Stato attuale: 5_ANAMNESTICHE"
+    },
+    {
+      "atMs": 6618.29,
+      "type": "log",
+      "text": "Engine: elaborazione input -> No | Stato attuale: 5B_NOTA_ANAMNESTICA_SCELTA"
+    },
+    {
+      "atMs": 52590.53,
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "atMs": 52591.204,
+      "type": "warning",
+      "text": "Fallback specialist-search senza risultati: Error: Specialist Search Error (502): {\"error\":\"Errore ricerca specialisti.\",\"code\":\"GOOGLE_SEARCH_ERROR\",\"detail\":\"SerpApi error (429): {\\n  \\\"error\\\": \\\"Your account has run out of searches.\\\"\\n}\"}\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3368:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2284:44)"
+    }
+  ],
+  "questionData": {
+    "branch": "unknown",
+    "conoscitiveCount": 0,
+    "anamnesticheCount": 3,
+    "anamnestiche": [
+      "Il disturbo è legato a bruciore, dolore o fastidio durante la minzione oppure a sintomi genitali/pelvici?\n<br><i>A) Sì, in modo evidente<br>B) Solo lieve o saltuario<br>C) No<br>D) Nessuna delle precedenti</i>",
+      "Hai aumento della frequenza urinaria, urgenza, perdite anomale o dolore pelvico/genitale?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No<br>D) Nessuna delle precedenti</i>",
+      "Hai notato sangue nelle urine, febbre, dolore lombare o peggioramento progressivo?\n<br><i>A) Sì, uno o più di questi segni<br>B) Solo lieve sospetto<br>C) No<br>D) Nessuna delle precedenti</i>"
+    ],
+    "userDataKeys": [
+      "age",
+      "age_range",
+      "anamnesticheResp",
+      "conoscitiveResp",
+      "disturbo",
+      "domandeAnamnesticheDinamiche",
+      "exact_age",
+      "height_cm",
+      "initialMedicalData",
+      "notaAnamnestica",
+      "notaConoscitiva",
+      "sessoEta",
+      "sex_at_birth",
+      "weight_kg",
+      "zona",
+      "zonaDettagli"
+    ],
+    "nullKeys": [
+      "age",
+      "exact_age",
+      "weight_kg",
+      "height_cm"
+    ],
+    "undefinedKeys": []
+  },
+  "frontend": {
+    "finalState": "7_FINE",
+    "geminiRequestCount": 1,
+    "pendingGeminiRequests": 0,
+    "loaderVisible": false,
+    "inputBarVisible": false,
+    "sendButtonVisible": false,
+    "sendButtonEnabled": true,
+    "successOutputVisible": true,
+    "failureOutputVisible": false,
+    "failureText": ""
+  },
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-14T23:21:23.736Z"
+}

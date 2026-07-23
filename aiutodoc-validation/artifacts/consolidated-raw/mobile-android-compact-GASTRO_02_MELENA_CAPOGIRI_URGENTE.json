@@ -1,0 +1,20 @@
+{
+  "id": "GASTRO_02_MELENA_CAPOGIRI_URGENTE",
+  "surface": "mobile",
+  "viewport": "android-compact",
+  "input": "Donna di 67 anni. Da ieri ho avuto piu scariche di feci molto scure e oggi mi sento molto debole e ho capogiri quando mi alzo. Prendo anticoagulanti per fibrillazione atriale. Non ho dolore addominale forte, ma mi sento pallida e stanca.",
+  "questions": [],
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nfeci nere o molto scure\ndebolezza riferita\ncapogiri riferiti\nterapia anticoagulante riferita\nfibrillazione atriale riferita\n02:59",
+  "expectedBypass": true,
+  "emergencyBypass": true,
+  "geminiCalls": [],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 0,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T01:00:01.342Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/android-compact/GASTRO_02_MELENA_CAPOGIRI_URGENTE.png"
+}

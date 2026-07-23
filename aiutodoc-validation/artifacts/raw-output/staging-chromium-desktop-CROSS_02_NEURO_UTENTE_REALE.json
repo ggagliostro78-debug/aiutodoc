@@ -1,0 +1,33 @@
+{
+  "id": "CROSS_02_NEURO_UTENTE_REALE",
+  "branchRequested": "Neurologia",
+  "input": "Donna di 64 anni. Da questa mattina ho avuto due episodi di difficolta a parlare durati pochi minuti, poi migliorati. Mio marito dice che per qualche minuto avevo anche la bocca storta. Ora sto meglio, ma mi sento strana e ho un po' di debolezza al braccio destro. Sono diabetica.",
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nbocca storta da un lato\ndeficit del braccio destro / difficolta a sollevarlo\nlinguaggio confuso\nesordio improvviso o recente\nipertensione riferita\nfibrillazione atriale riferita\n12:31",
+  "specialist": "112/118, Pronto Soccorso, stroke unit",
+  "areaText": "{\"branca\":\"Emergenza neurologica / Pronto Soccorso / stroke unit\",\"area_specialistica\":\"Sintomi neurologici focali riferiti da valutare con urgenza\",\"eventuale_secondo_livello\":\"Neurologia/stroke unit dopo stabilizzazione urgente\"}",
+  "areaSpecialistica": {
+    "branca": "Emergenza neurologica / Pronto Soccorso / stroke unit",
+    "area_specialistica": "Sintomi neurologici focali riferiti da valutare con urgenza",
+    "eventuale_secondo_livello": "Neurologia/stroke unit dopo stabilizzazione urgente"
+  },
+  "urgency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nbocca storta da un lato\ndeficit del braccio destro / difficolta a sollevarlo\nlinguaggio confuso\nesordio improvviso o recente\nipertensione riferita\nfibrillazione atriale riferita\n12:31",
+  "redFlagsText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nbocca storta da un lato\ndeficit del braccio destro / difficolta a sollevarlo\nlinguaggio confuso\nesordio improvviso o recente\nipertensione riferita\nfibrillazione atriale riferita\n12:31",
+  "sources": "",
+  "clinicalEmergency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nbocca storta da un lato\ndeficit del braccio destro / difficolta a sollevarlo\nlinguaggio confuso\nesordio improvviso o recente\nipertensione riferita\nfibrillazione atriale riferita\n12:31",
+  "geminiCalls": [],
+  "geminiHttpStatus": null,
+  "geminiDurationMs": null,
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "timestamp": "2026-07-12T10:31:57.682Z",
+  "playwrightStatus": "passed",
+  "playwrightError": "",
+  "evaluation": {
+    "clinical": "PASS CLINICO-FUNZIONALE",
+    "diagnosis": [],
+    "prescriptions": [],
+    "therapies": [],
+    "problem": ""
+  }
+}

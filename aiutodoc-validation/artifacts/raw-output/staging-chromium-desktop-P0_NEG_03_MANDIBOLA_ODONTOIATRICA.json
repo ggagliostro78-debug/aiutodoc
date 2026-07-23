@@ -1,0 +1,33 @@
+{
+  "id": "P0_NEG_03_MANDIBOLA_ODONTOIATRICA",
+  "input": "Ho dolore a un dente e alla mandibola quando mastico. La gengiva è gonfia. Non ho nausea, sudorazione, peso allo stomaco o affanno.",
+  "questions": [
+    "Il dolore e localizzato a un dente preciso e peggiora quando mastichi o con caldo e freddo? A) Si, chiaramente B) Solo in parte C) No D) Nessuna delle precedenti",
+    "La gengiva o il viso sono gonfi e il gonfiore sta aumentando, oppure compaiono febbre o difficolta ad aprire la bocca? A) Si, uno o piu segnali B) Solo lieve o stabile C) No D) Nessuna delle precedenti",
+    "Sono presenti nausea, sudorazione, peso allo stomaco, affanno o altri sintomi non spiegati dal dente? A) Si, uno o piu sintomi B) Solo dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Il dolore e localizzato a un dente preciso e peggiora quando mastichi o con caldo e freddo?\n<br><i>A) Si, chiaramente<br>B) Solo in parte<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "La gengiva o il viso sono gonfi e il gonfiore sta aumentando, oppure compaiono febbre o difficolta ad aprire la bocca?\n<br><i>A) Si, uno o piu segnali<br>B) Solo lieve o stabile<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Sono presenti nausea, sudorazione, peso allo stomaco, affanno o altri sintomi non spiegati dal dente?\n<br><i>A) Si, uno o piu sintomi<br>B) Solo dubbio<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T21:44:12.166Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "urgentBack": false,
+    "cardio": false,
+    "dental": true,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "P0_POS_01_LOMBALGIA",
+  "input": "Dopo aver sollevato un peso ho un forte dolore alla schiena, formicolio tra le gambe e faccio fatica a trattenere la pipì.",
+  "questions": [
+    "Il formicolio riguarda area sella, inguine, genitali o tra le gambe, oppure si associa a perdita di sensibilita? A) Si, chiaramente B) Solo in parte o dubbio C) No D) Nessuna delle precedenti",
+    "Hai difficolta a trattenere urine o feci, perdita di controllo, debolezza alle gambe o difficolta a camminare? A) Si, uno o piu segnali B) Solo lieve o dubbio C) No D) Nessuna delle precedenti",
+    "Il dolore e severo, in rapido peggioramento, dopo trauma o con febbre, e richiede accesso urgente se ci sono problemi urinari/fecali o deficit neurologici? A) Si, uno o piu elementi B) Non so / dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Il formicolio riguarda area sella, inguine, genitali o tra le gambe, oppure si associa a perdita di sensibilita?\n<br><i>A) Si, chiaramente<br>B) Solo in parte o dubbio<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Hai difficolta a trattenere urine o feci, perdita di controllo, debolezza alle gambe o difficolta a camminare?\n<br><i>A) Si, uno o piu segnali<br>B) Solo lieve o dubbio<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Il dolore e severo, in rapido peggioramento, dopo trauma o con febbre, e richiede accesso urgente se ci sono problemi urinari/fecali o deficit neurologici?\n<br><i>A) Si, uno o piu elementi<br>B) Non so / dubbio<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T21:44:01.099Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "urgentBack": true,
+    "cardio": false,
+    "dental": false,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

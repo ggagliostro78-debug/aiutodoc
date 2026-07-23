@@ -1,0 +1,20 @@
+{
+  "id": "ALLERGO_01_URGENTE_REAZIONE_SISTEMICA",
+  "surface": "mobile",
+  "viewport": "iphone-se",
+  "input": "Dopo aver mangiato ho iniziato ad avere prurito diffuso, gonfiore delle labbra e difficoltà a respirare. Mi sento debole.",
+  "questions": [],
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nassunzione recente di un alimento\nprurito diffuso\ngonfiore delle labbra\ndifficolta respiratoria\ndebolezza\n02:55",
+  "expectedBypass": true,
+  "emergencyBypass": true,
+  "geminiCalls": [],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 0,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:55:54.903Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/iphone-se/ALLERGO_01_URGENTE_REAZIONE_SISTEMICA.png"
+}

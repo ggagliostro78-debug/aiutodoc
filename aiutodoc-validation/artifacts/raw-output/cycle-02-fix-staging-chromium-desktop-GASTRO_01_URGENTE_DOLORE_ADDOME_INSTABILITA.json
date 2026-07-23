@@ -1,0 +1,22 @@
+{
+  "id": "GASTRO_01_URGENTE_DOLORE_ADDOME_INSTABILITA",
+  "expectedBranch": "Gastroenterologia",
+  "input": "Da oggi ho un forte dolore addominale che sta peggiorando, ho vomitato più volte, mi sento molto debole e quasi svenuto.",
+  "terminal": "success",
+  "playwrightStatus": "passed",
+  "emergencyBypass": true,
+  "questions": [],
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ndolore addominale forte e in peggioramento\nvomito ripetuto\ndebolezza intensa\nquasi svenimento\n13:17",
+  "specialist": "",
+  "urgency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ndolore addominale forte e in peggioramento\nvomito ripetuto\ndebolezza intensa\nquasi svenimento\n13:17",
+  "redFlagsText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\ndolore addominale forte e in peggioramento\nvomito ripetuto\ndebolezza intensa\nquasi svenimento\n13:17",
+  "geminiCalls": [],
+  "pendingGeminiRequests": 0,
+  "specialistCalls": [],
+  "serpApiWarning": false,
+  "consoleEvents": [],
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-16T11:17:53.110Z",
+  "url": "http://127.0.0.1:4273/"
+}

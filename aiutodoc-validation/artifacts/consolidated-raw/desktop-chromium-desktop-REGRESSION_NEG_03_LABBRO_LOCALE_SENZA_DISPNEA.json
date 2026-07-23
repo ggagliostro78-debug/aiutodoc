@@ -1,0 +1,31 @@
+{
+  "id": "REGRESSION_NEG_03_LABBRO_LOCALE_SENZA_DISPNEA",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Mi sono morso il labbro e ora è leggermente gonfio in un punto. Non ho mangiato alimenti particolari, non ho prurito, orticaria, difficoltà a respirare o gonfiore della lingua.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSi, uno o piu elementi\nB\nSolo lieve o superficiale\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSi, sta aumentando o limita una funzione\nB\nSolo lieve o stabile\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSi, uno o piu segnali\nB\nSolo dubbio\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nUomo di età compresa tra 40 e 64 anni che riferisce di essersi morso il labbro, con conseguente gonfiore localizzato in un punto. Nega l'ingestione di alimenti particolari, la presenza di prurito, orticaria, difficoltà respiratorie o gonfiore della lingua. Le risposte conoscitive e anamnestiche strutturate non hanno evidenziato ulteriori elementi rilevanti.\n\nSegnali rilevanti da riferire al medico:\nassenza di prurito\nassenza di orticaria\nassenza di difficoltà a respirare\nassenza di gonfiore della lingua\nSPECIALISTA CONSIGLIATO\nMedico di Medicina Generale\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nAngio-oedema and anaphylaxis\nNICE Clinical Knowledge Summary\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nnon urgente / visita programmata a breve\nSi consiglia di monitorare l'evoluzione del gonfiore e di eventuali altri sintomi. Evitare di toccare o manipolare la zona interessata. Riferire al medico l'esatto momento e le circostanze in cui si è verificato il morso. Non sono necessarie preparazioni particolari per la visita.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione per gonfiore localizzato al labbro a seguito di morso accidentale. Assenza di sintomi sistemici o allergici.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:35:51.831Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/REGRESSION_NEG_03_LABBRO_LOCALE_SENZA_DISPNEA.png"
+}

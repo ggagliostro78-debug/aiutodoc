@@ -1,0 +1,53 @@
+{
+  "capturedAt": "2026-07-17T02:14:30.0605022+02:00",
+  "repository": "Z:\\ProgettiAI\\Antigravity\\Futuro\\AIutoDoc_main",
+  "branch": "aiutodoc-clinical-validation",
+  "head": "f5b58abffa615ab04ec0a6acf83392e08e7fc52b",
+  "main": "f776bae225406bd05df9bbb95828ebefe0e16e81",
+  "workingTree": {
+    "clean": false,
+    "trackedModifiedCount": 11,
+    "untrackedCount": 571,
+    "trackedModified": [
+      "aiutodoc-validation/README.md",
+      "aiutodoc-validation/expected-results.json",
+      "aiutodoc-validation/package.json",
+      "aiutodoc-validation/reports/clinical-functional-report.md",
+      "aiutodoc-validation/reports/git-safety-evidence.md",
+      "aiutodoc-validation/reports/technical-ui-flow-report.md",
+      "aiutodoc-validation/scripts/score-results.ts",
+      "aiutodoc-validation/test-cases.json",
+      "src/app_shared.js",
+      "src/app_v3_standalone.js",
+      "src/chat_interface.js"
+    ],
+    "note": "All listed changes and pre-existing untracked files are user-owned and must not be overwritten or reverted by this audit."
+  },
+  "sha256": {
+    "src/app_v3_standalone.js": "cd68c9e7bd30848c6f9a3e3177fd5a74dc5cd83d9139bdd86e88cf63816fc542",
+    "src/app_shared.js": "ad6906bfa62a1254cb792f229f78f3e3fd6b7b9bbc22286f77467bcb486b9be3",
+    "src/chat_interface.js": "ab58e927f7c2c812de23c17cfd564654b8b06e6630ff40f33f3ca363b89a601c",
+    "src/app_bootstrap.js": "1a93012b716500df17b8b2ea3762aa8a1044e5e4c65b5be53856f3a3a1b08b4c",
+    "index.html": "042d7d061c904a3cf9b7544407da046fb0ef8ca3790c3c4994d89df6090f9107",
+    "server/gemini_proxy.js": "a2e54cf564a1031e7775c52a98178f1c429996c3bb96ff0ee4ff9c608f066c97",
+    "server/specialist_search.js": "ebf086fb524ca1528ada36bd0613bd2edf03b77b46fdf2ef27758c2c63e0bb4a",
+    "server/places.js": "eee8c117159a58620c7a78802cfc8c4f35ab5d576ba981b60a6ad7ff11cbaa74",
+    "server/enrich.js": "dd6b7bb70ad24483f0d62596790d1746245083d35711f909b526790b8b4ff222",
+    "scripts/dev-local.js": "8f348558693cebc619ed9f0fdb2c81461b0f48f86f614f9207ecc029475ec96d",
+    "aiutodoc-validation/scripts/anamnesis-routing-validator.ts": "3a52bb7495211098145fa55fdffad4a2dbc7f31b5a2c338bf138ca052151bd5a",
+    "aiutodoc-validation/scripts/score-results.ts": "6473c81bdc29fed91cb5dc30f2c398cada353c82599273ea8297483fe6a5d13a",
+    "aiutodoc-validation/test-cases.json": "0eff288c3473956ef6e72cf9a5df7eecf9470046a2e14b8c7a37c0a66a36ff10",
+    "aiutodoc-validation/expected-results.json": "01d2d22c20e68f66fcc0cf710d8c5102243ffdc3869d3a708453dda93cf353c0",
+    "src/style.css": "c594803f25f4a8548f84164cfa8bfa42a58f67d9854c9cf48054c2035ecc778b",
+    "aiutodoc-validation/reports/VALIDATION-ANTI-HALLUCINATION-AUDIT.md": "f9c58723cf7aae35a0b732d91688c879f6e1ec0a6dc6d0a44a5954f028595e63",
+    "aiutodoc-validation/reports/VALIDATION-CASE-REGISTRY.md": "ec4c7e279bc82c777251f25731c43093e60bb72bf2d84191eacc5605f2e4328c",
+    "aiutodoc-validation/reports/VALIDATION-CONSISTENCY-AUDIT.md": "475dc3560d029fe94e11940bf28d13b84ff4d6f052b4ec431e370a31df357175",
+    "aiutodoc-validation/reports/VALIDATION-CONSOLIDATION-FINAL-VERIFICATION.md": "1b844592ed6c964ef0916be3c1b171347e63a0d920c760e5433d53ffed0bf84b",
+    "aiutodoc-validation/reports/VALIDATION-CONTINUITY-HANDOFF.md": "5854584732ae85ed90f35cb237aef1638a11e0c15193316f532e985eb9e7d451",
+    "aiutodoc-validation/reports/VALIDATION-FINAL-STATUS.md": "84a3d68aea43903c622019328ce39827f1fb355e2e6bf15425e4d196410b7641",
+    "aiutodoc-validation/reports/VALIDATION-MASTER-INDEX.md": "a6bd2ce25b8581ac9720980f63228e967e227eb9ac15679c3ab9ad8035d84f08",
+    "aiutodoc-validation/reports/VALIDATION-RAW-REGISTRY.md": "da22f801ce4246edcb7ace594c2d7842a3573862b15a84f7562a79c38ae6b404",
+    "aiutodoc-validation/reports/VALIDATION-REPORT-MAP.md": "6214e2c435318f8a35dd02937cd81b1afd05f78d880492b36e0039ff50de4b53",
+    "aiutodoc-validation/artifacts/validation-master-manifest.json": "7fe5fd46e194e3dd92cea29d93b23ad8a23bbd8e38f59ef14b7479218f137203"
+  }
+}

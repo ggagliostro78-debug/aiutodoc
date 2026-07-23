@@ -1,0 +1,53 @@
+{
+  "id": "NEURO_06_ANTICOAGULANTE_TRAUMA_TESTA",
+  "input": "Ieri ho battuto la testa cadendo e prendo un anticoagulante. Ora ho mal di testa, ma non ho vomitato e non ho perso conoscenza.",
+  "terminal": "success",
+  "playwrightStatus": "passed",
+  "emergencyBypass": false,
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Il mal di testa è iniziato all'improvviso, è il peggiore mai avuto o è molto diverso dal solito?\n\nA\nSì, improvviso o molto diverso\nB\nNon so / è dubbio\nC\nNo, è simile agli episodi abituali\nD\nNessuna delle precedenti",
+    "2. Si associa a debolezza, difficoltà a parlare, confusione, febbre, rigidità del collo, trauma o sonnolenza marcata?\n\nA\nSì, uno o più segni\nB\nSolo sintomi lievi o dubbi\nC\nNo\nD\nNessuna delle precedenti",
+    "3. Durante gli episodi hai nausea, fastidio alla luce o ai rumori, disturbi visivi o bisogno di stare al buio?\n\nA\nSì, chiaramente\nB\nSolo in parte\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nLa paziente, di sesso femminile e di età compresa tra 40 e 64 anni, con un peso di 70 kg, riferisce di aver subito un trauma cranico a seguito di una caduta il giorno precedente. Attualmente lamenta mal di testa. È in terapia con farmaci anticoagulanti. La paziente nega esplicitamente la perdita di conoscenza e l'insorgenza di vomito dopo l'evento.\n\nSegnali rilevanti da riferire al medico:\nTrauma cranico recente\nTerapia anticoagulante in corso\nCefalea post-traumatica\nAssenza di perdita di conoscenza\nAssenza di vomito\nSPECIALISTA CONSIGLIATO\nNeurologo\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nSuspected neurological conditions: recognition and referral\nNICE guideline NG127\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nAlta / urgente: recarsi immediatamente al Pronto Soccorso.\nRecarsi immediatamente al Pronto Soccorso. Informare il personale medico dell'assunzione di anticoagulanti e di tutti i farmaci in uso. Non assumere antidolorifici senza indicazione medica, in particolare quelli che possono influenzare la coagulazione (es. FANS). Monitorare attentamente l'insorgenza di nuovi sintomi o il peggioramento di quelli attuali.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione neurologica urgente per trauma cranico in paziente in terapia anticoagulante con cefalea post-traumatica. Escludere complicanze emorragiche.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "specialist": "Neurologo",
+  "areaSpecialistica": {
+    "branca": "Neurologia",
+    "area_specialistica": "Valutazione neurologica post-traumatica in paziente in terapia anticoagulante",
+    "eventuale_secondo_livello": "Neurochirurgia in caso di complicanze"
+  },
+  "urgency": "Alta / urgente: recarsi immediatamente al Pronto Soccorso.\nRecarsi immediatamente al Pronto Soccorso. Informare il personale medico dell'assunzione di anticoagulanti e di tutti i farmaci in uso. Non assumere antidolorifici senza indicazione medica, in particolare quelli che possono influenzare la coagulazione (es. FANS). Monitorare attentamente l'insorgenza di nuovi sintomi o il peggioramento di quelli attuali.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nTrauma cranico recente\nTerapia anticoagulante in corso\nCefalea post-traumatica\nAssenza di perdita di conoscenza\nAssenza di vomito",
+  "geminiCalls": [
+    {
+      "event": "request",
+      "method": "POST",
+      "atMs": 442647.8895
+    },
+    {
+      "event": "response",
+      "status": 200,
+      "atMs": 460265.3809
+    }
+  ],
+  "searchMethodology": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "blockedSearchRequests": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+    },
+    {
+      "type": "warning",
+      "text": "Fallback specialist-search senza risultati: Error: La ricerca reale non ha restituito risultati verificabili.\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3565:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2393:44)"
+    }
+  ],
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-16T12:31:53.824Z",
+  "url": "http://127.0.0.1:4273/"
+}

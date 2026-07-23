@@ -1,0 +1,688 @@
+{
+    "generatedAt":  "2026-07-14T23:24:05.4233906Z",
+    "environment":  "staging-local",
+    "baseUrl":  "http://127.0.0.1:4273",
+    "browser":  "chromium-desktop",
+    "mocks":  false,
+    "geminiIntercepted":  false,
+    "retries":  0,
+    "classification":  "BLOCCO ESTERNO NON RIPRODUCIBILE",
+    "cases":  [
+                  {
+                      "id":  "ENDO_05_NEGATIVO_FAME_POST_ALLENAMENTO",
+                      "comparisonCase":  false,
+                      "sanitizedPayload":  {
+                                               "schema":  "POST JSON { prompt: string }",
+                                               "healthData":  "[SANITIZED]",
+                                               "metrics":  {
+                                                               "sha256":  "d38039e6b76cb97b0fa6bfee4c54ce0bc3a4f0441b91b241582b3282d067a6e1",
+                                                               "charLength":  4792,
+                                                               "utf8Bytes":  4798,
+                                                               "newlineCount":  37,
+                                                               "accentCount":  6,
+                                                               "apostropheCount":  11,
+                                                               "literalNullCount":  0,
+                                                               "literalUndefinedCount":  0,
+                                                               "healthFields":  [
+                                                                                    {
+                                                                                        "field":  "Fascia di età iniziale",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Età puntuale, se clinicamente necessaria e raccolta",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Peso, se clinicamente necessario e raccolto",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Altezza, se clinicamente necessaria e raccolta",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Sesso biologico",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Zona",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Disturbo",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Risposte Conoscitive",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Risposte Anamnestiche",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Nota libera conoscitiva",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Nota libera anamnestica",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    }
+                                                                                ]
+                                                           }
+                                           },
+                      "events":  [
+                                     {
+                                         "atMs":  9697.085,
+                                         "event":  "request",
+                                         "method":  "POST",
+                                         "url":  "/api/gemini",
+                                         "bodyBytes":  4934,
+                                         "prompt":  {
+                                                        "sha256":  "d38039e6b76cb97b0fa6bfee4c54ce0bc3a4f0441b91b241582b3282d067a6e1",
+                                                        "charLength":  4792,
+                                                        "utf8Bytes":  4798,
+                                                        "newlineCount":  37,
+                                                        "accentCount":  6,
+                                                        "apostropheCount":  11,
+                                                        "literalNullCount":  0,
+                                                        "literalUndefinedCount":  0,
+                                                        "healthFields":  [
+                                                                             {
+                                                                                 "field":  "Fascia di età iniziale",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Età puntuale, se clinicamente necessaria e raccolta",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Peso, se clinicamente necessario e raccolto",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Altezza, se clinicamente necessaria e raccolta",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Sesso biologico",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Zona",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Disturbo",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Risposte Conoscitive",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Risposte Anamnestiche",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Nota libera conoscitiva",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Nota libera anamnestica",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             }
+                                                                         ]
+                                                    }
+                                     },
+                                     {
+                                         "atMs":  22866.317,
+                                         "event":  "response",
+                                         "url":  "/api/gemini",
+                                         "status":  200,
+                                         "durationMs":  13169.592
+                                     }
+                                 ],
+                      "timeline":  [
+                                       {
+                                           "atMs":  3262.804,
+                                           "event":  "page_loaded"
+                                       },
+                                       {
+                                           "atMs":  4748.927,
+                                           "event":  "clinical_input_submitted",
+                                           "state":  "4_CONOSCITIVE"
+                                       },
+                                       {
+                                           "atMs":  9731.893,
+                                           "event":  "research_started",
+                                           "state":  "6_RICERCA_SCIENTIFICA"
+                                       },
+                                       {
+                                           "atMs":  56274.57,
+                                           "event":  "state_final",
+                                           "state":  "7_FINE"
+                                       }
+                                   ],
+                      "frontend":  {
+                                       "finalState":  "7_FINE",
+                                       "geminiRequestCount":  1,
+                                       "pendingGeminiRequests":  0,
+                                       "loaderVisible":  false,
+                                       "inputBarVisible":  false,
+                                       "sendButtonVisible":  false,
+                                       "sendButtonEnabled":  true,
+                                       "successOutputVisible":  true,
+                                       "failureOutputVisible":  false,
+                                       "failureText":  ""
+                                   }
+                  },
+                  {
+                      "id":  "GINE_05_NEGATIVO_RITARDO_CICLO",
+                      "comparisonCase":  false,
+                      "sanitizedPayload":  {
+                                               "schema":  "POST JSON { prompt: string }",
+                                               "healthData":  "[SANITIZED]",
+                                               "metrics":  {
+                                                               "sha256":  "072ff97215e3f1254146e1fef1cf28ec5743477bd943fcce0331764c0149a4d7",
+                                                               "charLength":  4776,
+                                                               "utf8Bytes":  4784,
+                                                               "newlineCount":  37,
+                                                               "accentCount":  8,
+                                                               "apostropheCount":  11,
+                                                               "literalNullCount":  0,
+                                                               "literalUndefinedCount":  0,
+                                                               "healthFields":  [
+                                                                                    {
+                                                                                        "field":  "Fascia di età iniziale",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Età puntuale, se clinicamente necessaria e raccolta",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Peso, se clinicamente necessario e raccolto",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Altezza, se clinicamente necessaria e raccolta",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Sesso biologico",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Zona",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Disturbo",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Risposte Conoscitive",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Risposte Anamnestiche",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Nota libera conoscitiva",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Nota libera anamnestica",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    }
+                                                                                ]
+                                                           }
+                                           },
+                      "events":  [
+                                     {
+                                         "atMs":  7273.135,
+                                         "event":  "request",
+                                         "method":  "POST",
+                                         "url":  "/api/gemini",
+                                         "bodyBytes":  4920,
+                                         "prompt":  {
+                                                        "sha256":  "072ff97215e3f1254146e1fef1cf28ec5743477bd943fcce0331764c0149a4d7",
+                                                        "charLength":  4776,
+                                                        "utf8Bytes":  4784,
+                                                        "newlineCount":  37,
+                                                        "accentCount":  8,
+                                                        "apostropheCount":  11,
+                                                        "literalNullCount":  0,
+                                                        "literalUndefinedCount":  0,
+                                                        "healthFields":  [
+                                                                             {
+                                                                                 "field":  "Fascia di età iniziale",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Età puntuale, se clinicamente necessaria e raccolta",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Peso, se clinicamente necessario e raccolto",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Altezza, se clinicamente necessaria e raccolta",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Sesso biologico",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Zona",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Disturbo",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Risposte Conoscitive",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Risposte Anamnestiche",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Nota libera conoscitiva",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Nota libera anamnestica",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             }
+                                                                         ]
+                                                    }
+                                     },
+                                     {
+                                         "atMs":  16425.756,
+                                         "event":  "response",
+                                         "url":  "/api/gemini",
+                                         "status":  200,
+                                         "durationMs":  9152.805
+                                     }
+                                 ],
+                      "timeline":  [
+                                       {
+                                           "atMs":  784.563,
+                                           "event":  "page_loaded"
+                                       },
+                                       {
+                                           "atMs":  2384.324,
+                                           "event":  "clinical_input_submitted",
+                                           "state":  "4_CONOSCITIVE"
+                                       },
+                                       {
+                                           "atMs":  7303.757,
+                                           "event":  "research_started",
+                                           "state":  "6_RICERCA_SCIENTIFICA"
+                                       },
+                                       {
+                                           "atMs":  53485.431,
+                                           "event":  "state_final",
+                                           "state":  "7_FINE"
+                                       }
+                                   ],
+                      "frontend":  {
+                                       "finalState":  "7_FINE",
+                                       "geminiRequestCount":  1,
+                                       "pendingGeminiRequests":  0,
+                                       "loaderVisible":  false,
+                                       "inputBarVisible":  false,
+                                       "sendButtonVisible":  false,
+                                       "sendButtonEnabled":  true,
+                                       "successOutputVisible":  true,
+                                       "failureOutputVisible":  false,
+                                       "failureText":  ""
+                                   }
+                  },
+                  {
+                      "id":  "ENDO_04_BORDERLINE_CICLO_IRREGOLARE",
+                      "comparisonCase":  true,
+                      "sanitizedPayload":  {
+                                               "schema":  "POST JSON { prompt: string }",
+                                               "healthData":  "[SANITIZED]",
+                                               "metrics":  {
+                                                               "sha256":  "44573b61f5359e9637091ef4220cf558da71905e144741e8ca4715997f4a205b",
+                                                               "charLength":  4725,
+                                                               "utf8Bytes":  4731,
+                                                               "newlineCount":  37,
+                                                               "accentCount":  6,
+                                                               "apostropheCount":  11,
+                                                               "literalNullCount":  0,
+                                                               "literalUndefinedCount":  0,
+                                                               "healthFields":  [
+                                                                                    {
+                                                                                        "field":  "Fascia di età iniziale",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Età puntuale, se clinicamente necessaria e raccolta",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Peso, se clinicamente necessario e raccolto",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Altezza, se clinicamente necessaria e raccolta",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Sesso biologico",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Zona",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Disturbo",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Risposte Conoscitive",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Risposte Anamnestiche",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Nota libera conoscitiva",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Nota libera anamnestica",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    }
+                                                                                ]
+                                                           }
+                                           },
+                      "events":  [
+                                     {
+                                         "atMs":  6888.817,
+                                         "event":  "request",
+                                         "method":  "POST",
+                                         "url":  "/api/gemini",
+                                         "bodyBytes":  4867,
+                                         "prompt":  {
+                                                        "sha256":  "44573b61f5359e9637091ef4220cf558da71905e144741e8ca4715997f4a205b",
+                                                        "charLength":  4725,
+                                                        "utf8Bytes":  4731,
+                                                        "newlineCount":  37,
+                                                        "accentCount":  6,
+                                                        "apostropheCount":  11,
+                                                        "literalNullCount":  0,
+                                                        "literalUndefinedCount":  0,
+                                                        "healthFields":  [
+                                                                             {
+                                                                                 "field":  "Fascia di età iniziale",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Età puntuale, se clinicamente necessaria e raccolta",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Peso, se clinicamente necessario e raccolto",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Altezza, se clinicamente necessaria e raccolta",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Sesso biologico",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Zona",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Disturbo",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Risposte Conoscitive",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Risposte Anamnestiche",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Nota libera conoscitiva",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Nota libera anamnestica",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             }
+                                                                         ]
+                                                    }
+                                     },
+                                     {
+                                         "atMs":  20726.396,
+                                         "event":  "response",
+                                         "url":  "/api/gemini",
+                                         "status":  200,
+                                         "durationMs":  13837.813
+                                     }
+                                 ],
+                      "timeline":  [
+                                       {
+                                           "atMs":  546.446,
+                                           "event":  "page_loaded"
+                                       },
+                                       {
+                                           "atMs":  1949.226,
+                                           "event":  "clinical_input_submitted",
+                                           "state":  "4_CONOSCITIVE"
+                                       },
+                                       {
+                                           "atMs":  6909.983,
+                                           "event":  "research_started",
+                                           "state":  "6_RICERCA_SCIENTIFICA"
+                                       },
+                                       {
+                                           "atMs":  53016.891,
+                                           "event":  "state_final",
+                                           "state":  "7_FINE"
+                                       }
+                                   ],
+                      "frontend":  {
+                                       "finalState":  "7_FINE",
+                                       "geminiRequestCount":  1,
+                                       "pendingGeminiRequests":  0,
+                                       "loaderVisible":  false,
+                                       "inputBarVisible":  false,
+                                       "sendButtonVisible":  false,
+                                       "sendButtonEnabled":  true,
+                                       "successOutputVisible":  true,
+                                       "failureOutputVisible":  false,
+                                       "failureText":  ""
+                                   }
+                  },
+                  {
+                      "id":  "GINE_04_BORDERLINE_BRUCIORE_URINARIO",
+                      "comparisonCase":  true,
+                      "sanitizedPayload":  {
+                                               "schema":  "POST JSON { prompt: string }",
+                                               "healthData":  "[SANITIZED]",
+                                               "metrics":  {
+                                                               "sha256":  "5da2e2d5c67cc6e6e23869a6185ecb95dd7d5eead6f4e97dda10c8afc518389f",
+                                                               "charLength":  4765,
+                                                               "utf8Bytes":  4771,
+                                                               "newlineCount":  37,
+                                                               "accentCount":  6,
+                                                               "apostropheCount":  11,
+                                                               "literalNullCount":  0,
+                                                               "literalUndefinedCount":  0,
+                                                               "healthFields":  [
+                                                                                    {
+                                                                                        "field":  "Fascia di età iniziale",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Età puntuale, se clinicamente necessaria e raccolta",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Peso, se clinicamente necessario e raccolto",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Altezza, se clinicamente necessaria e raccolta",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Sesso biologico",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Zona",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Disturbo",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Risposte Conoscitive",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Risposte Anamnestiche",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Nota libera conoscitiva",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    },
+                                                                                    {
+                                                                                        "field":  "Nota libera anamnestica",
+                                                                                        "value":  "[SANITIZED]"
+                                                                                    }
+                                                                                ]
+                                                           }
+                                           },
+                      "events":  [
+                                     {
+                                         "atMs":  6624.969,
+                                         "event":  "request",
+                                         "method":  "POST",
+                                         "url":  "/api/gemini",
+                                         "bodyBytes":  4907,
+                                         "prompt":  {
+                                                        "sha256":  "5da2e2d5c67cc6e6e23869a6185ecb95dd7d5eead6f4e97dda10c8afc518389f",
+                                                        "charLength":  4765,
+                                                        "utf8Bytes":  4771,
+                                                        "newlineCount":  37,
+                                                        "accentCount":  6,
+                                                        "apostropheCount":  11,
+                                                        "literalNullCount":  0,
+                                                        "literalUndefinedCount":  0,
+                                                        "healthFields":  [
+                                                                             {
+                                                                                 "field":  "Fascia di età iniziale",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Età puntuale, se clinicamente necessaria e raccolta",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Peso, se clinicamente necessario e raccolto",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Altezza, se clinicamente necessaria e raccolta",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Sesso biologico",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Zona",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Disturbo",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Risposte Conoscitive",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Risposte Anamnestiche",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Nota libera conoscitiva",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             },
+                                                                             {
+                                                                                 "field":  "Nota libera anamnestica",
+                                                                                 "value":  "[SANITIZED]"
+                                                                             }
+                                                                         ]
+                                                    }
+                                     },
+                                     {
+                                         "atMs":  18158.167,
+                                         "event":  "response",
+                                         "url":  "/api/gemini",
+                                         "status":  200,
+                                         "durationMs":  11533.498
+                                     }
+                                 ],
+                      "timeline":  [
+                                       {
+                                           "atMs":  643.327,
+                                           "event":  "page_loaded"
+                                       },
+                                       {
+                                           "atMs":  2173.365,
+                                           "event":  "clinical_input_submitted",
+                                           "state":  "4_CONOSCITIVE"
+                                       },
+                                       {
+                                           "atMs":  6672.866,
+                                           "event":  "research_started",
+                                           "state":  "6_RICERCA_SCIENTIFICA"
+                                       },
+                                       {
+                                           "atMs":  52828.575,
+                                           "event":  "state_final",
+                                           "state":  "7_FINE"
+                                       }
+                                   ],
+                      "frontend":  {
+                                       "finalState":  "7_FINE",
+                                       "geminiRequestCount":  1,
+                                       "pendingGeminiRequests":  0,
+                                       "loaderVisible":  false,
+                                       "inputBarVisible":  false,
+                                       "sendButtonVisible":  false,
+                                       "sendButtonEnabled":  true,
+                                       "successOutputVisible":  true,
+                                       "failureOutputVisible":  false,
+                                       "failureText":  ""
+                                   }
+                  }
+              ]
+}

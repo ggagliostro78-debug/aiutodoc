@@ -1,0 +1,47 @@
+{
+  "id": "ROUTING_03_URO_GRAVIDANZA_FEBBRE_FIANCO",
+  "input": "Donna di 34 anni, incinta di 22 settimane. Da ieri ho bruciore quando urino e dolore al fianco destro. Stanotte ho avuto febbre a 38,8 con brividi e oggi mi sento molto debole. Ho anche nausea, ma pensavo fosse normale in gravidanza.",
+  "beforeQuestions": [
+    "La zona rossa è calda, gonfia, dolorosa e si sta allargando? A) Sì, chiaramente B) Solo in parte C) No D) Nessuna delle precedenti",
+    "Sono presenti febbre, brividi, debolezza, diabete, immunodepressione o rapido peggioramento? A) Sì, uno o più B) Non so / dubbio C) No D) Nessuna delle precedenti",
+    "La zona coinvolge volto/occhio o ci sono strie rosse, dolore sproporzionato o confusione? A) Sì B) Non so / dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "afterQuestions": [
+    "In gravidanza, febbre, brividi, dolore al fianco, bruciore urinario, nausea o vomito sono presenti ora o stanno peggiorando? A) Si, uno o piu sintomi sono presenti o peggiorano B) Sono lievi o dubbi C) No D) Nessuna delle precedenti",
+    "A che settimana di gravidanza sei e sono comparse contrazioni, perdite di sangue o liquido, o riduzione dei movimenti fetali se li percepisci gia? A) Si, uno o piu segnali ostetrici B) Non so / non applicabile C) No D) Nessuna delle precedenti",
+    "La debolezza, la febbre, il dolore al fianco o i sintomi urinari fanno pensare a necessita di accesso urgente a Pronto Soccorso o Ostetricia? A) Si, serve valutazione urgente B) Non so / dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T20:48:05.929Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "playwrightError": "",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "relevant": [
+      "gravidanza",
+      "febbre",
+      "brividi",
+      "fianco",
+      "bruciore urinario",
+      "nausea",
+      "vomito",
+      "debolezza",
+      "settimana",
+      "contrazioni",
+      "perdite",
+      "movimenti fetali",
+      "pronto soccorso",
+      "ostetricia",
+      "urgente"
+    ],
+    "offBranch": [],
+    "diagnoses": [],
+    "prescriptions": [],
+    "problem": ""
+  }
+}

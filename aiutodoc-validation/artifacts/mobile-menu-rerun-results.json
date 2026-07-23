@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-17",
+  "methodology": "Rerun mirato con Gemini reale; ricerca specialisti e persistenza neutralizzate soltanto nel runner",
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "menu": {
+    "iphone-13": "PASS",
+    "iphone-se": "PASS",
+    "pixel-7": "PASS",
+    "android-compact": "PASS",
+    "ariaExpanded": "PASS",
+    "focus": "PASS",
+    "escape": "PASS",
+    "backdropClick": "PASS",
+    "blockingOverlay": 0,
+    "criticalOverflow": 0
+  },
+  "rotation": {
+    "iphone-13": "PASS",
+    "pixel-7": "PASS",
+    "inputLosses": 0,
+    "questionnaireStateLosses": 0,
+    "criticalOverflow": 0
+  },
+  "mobileClinical": {
+    "executions": 8,
+    "passed": 8,
+    "ordinary": 4,
+    "bypass": 4,
+    "ordinaryGeminiHttp200": 4,
+    "geminiCallsInBypass": 0,
+    "externalSpecialistSearchCalls": 0,
+    "falsePositiveUrgent": 0,
+    "falseNegativeUrgent": 0,
+    "diagnosesOrImproperSuspicions": 0,
+    "prescriptionsOrDosages": 0,
+    "consoleErrorCases": 0,
+    "cases": [
+      { "project": "iphone-13", "id": "PED_02_FEBBRE_BAMBINO_PROGRAMMATA", "type": "ordinary", "status": "PASS" },
+      { "project": "iphone-13", "id": "PED_01_URGENTE_DIFFICOLTA_RESPIRATORIA", "type": "bypass", "status": "PASS" },
+      { "project": "iphone-se", "id": "OCUL_05_NEGATIVO_AFFATICAMENTO_SCHERMI", "type": "ordinary-long-negations", "status": "PASS" },
+      { "project": "iphone-se", "id": "OCUL_01_URGENTE_PERDITA_VISIVA_IMPROVVISA", "type": "bypass", "status": "PASS" },
+      { "project": "pixel-7", "id": "PED_05_NEGATIVO_STANCHEZZA_DOPO_SPORT", "type": "ordinary-negations", "status": "PASS", "rerun": "PASS after runner-only answer selection correction" },
+      { "project": "pixel-7", "id": "PNEUMO_01_URGENTE_DISPNEA", "type": "bypass", "status": "PASS" },
+      { "project": "android-compact", "id": "PNEUMO_05_NEGATIVO_FIATO_CORTO_POST_SFORZO", "type": "ordinary-negations", "status": "PASS" },
+      { "project": "android-compact", "id": "GASTRO_02_MELENA_CAPOGIRI_URGENTE", "type": "bypass", "status": "PASS" }
+    ]
+  },
+  "ped02": { "status": "PASS", "mobile": "iphone-13", "desktop": "PASS", "exactAge": 7, "weightKg": 24, "heightCm": 125, "geminiHttp": 200 },
+  "desktopSmoke": { "tests": 3, "passed": 3, "homeAndConsents": "PASS", "desktopNavigation": "PASS", "ordinaryPed02": "PASS", "bypassVisualLoss": "PASS", "longOutput": "PASS", "consoleErrors": 0 },
+  "staticChecks": { "check": "PASS", "build": "PASS", "validator": "12/12 PASS", "json": "PASS", "secretScan": "PASS", "diffCheck": "PASS except two documented pre-existing trailing whitespace lines" },
+  "rawDirectory": "artifacts/mobile-menu-fix-raw",
+  "screenshotDirectory": "artifacts/mobile-menu-fix-screenshots/after"
+}

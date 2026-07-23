@@ -1,0 +1,35 @@
+{
+  "id": "PED_05_NEGATIVO_STANCHEZZA_DOPO_SPORT",
+  "input": "Mio figlio ha 11 anni. Dopo un allenamento intenso era molto stanco, ma dopo aver riposato e bevuto è tornato normale. Non ha dolore al petto, svenimenti, difficoltà respiratoria o sintomi a riposo.",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-16T13:31:32.381Z",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nIl paziente è un bambino di 11 anni che riferisce episodi di stanchezza significativa dopo allenamenti fisici intensi. Tali episodi si risolvono completamente con riposo e idratazione. Non sono presenti sintomi a riposo, né dolore al petto, svenimenti o difficoltà respiratorie. La stanchezza è presente da mesi/anni, con andamento altalenante, e il bambino ha patologie croniche note (non specificate). Riferisce occasionali difficoltà nell'addormentamento e un uso minimo o nullo di farmaci.\n\nSegnali rilevanti da riferire al medico:\nstanchezza dopo allenamento intenso\npatologie croniche note\ndifficoltà solo nell'addormentamento\nassenza di dolore al petto\nassenza di svenimenti\nassenza di difficoltà respiratoria\nassenza di sintomi a riposo\nSPECIALISTA CONSIGLIATO\nPediatra\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nFever in under 5s: assessment and initial management\nNICE guideline NG143\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nNon urgente / visita programmata a breve\nSi consiglia di raccogliere e portare alla visita tutta la documentazione medica pregressa relativa alle patologie croniche note del bambino. Utile anche annotare un diario delle attività fisiche, dei periodi di stanchezza e dei tempi di recupero, oltre a informazioni su dieta e abitudini di sonno. Assicurarsi che il bambino sia ben idratato prima e dopo l'attività fisica.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione pediatrica per stanchezza post-sforzo in bambino di 11 anni con risoluzione dei sintomi a riposo e idratazione. Assenza di dolore toracico, svenimenti o difficoltà respiratoria. Anamnesi di patologie croniche note.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "specialist": "Segnali rilevanti da riferire al medico:\nPediatra",
+  "areaSpecialistica": "{\"branca\":\"Pediatria\",\"area_specialistica\":\"Valutazione della stanchezza post-sforzo e del benessere generale in un bambino con patologie croniche note\",\"eventuale_secondo_livello\":\"Non necessario in prima battuta, da valutare in base all'esito della visita pediatrica\"}",
+  "urgency": "Non urgente / visita programmata a breve\nSi consiglia di raccogliere e portare alla visita tutta la documentazione medica pregressa relativa alle patologie croniche note del bambino. Utile anche annotare un diario delle attività fisiche, dei periodi di stanchezza e dei tempi di recupero, oltre a informazioni su dieta e abitudini di sonno. Assicurarsi che il bambino sia ben idratato prima e dopo l'attività fisica.",
+  "redFlagsText": "Il paziente è un bambino di 11 anni che riferisce episodi di stanchezza significativa dopo allenamenti fisici intensi. Tali episodi si risolvono completamente con riposo e idratazione. Non sono presenti sintomi a riposo, né dolore al petto, svenimenti o difficoltà respiratorie. La stanchezza è presente da mesi/anni, con andamento altalenante, e il bambino ha patologie croniche note (non specificate). Riferisce occasionali difficoltà nell'addormentamento e un uso minimo o nullo di farmaci.\nSegnali rilevanti da riferire al medico:\nstanchezza dopo allenamento intenso\npatologie croniche note\ndifficoltà solo nell'addormentamento\nassenza di dolore al petto\nassenza di svenimenti\nassenza di difficoltà respiratoria\nassenza di sintomi a riposo",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSì\nB\nNo\nC\nA volte\nD\nNessuna delle precedenti",
+    "A\nSì, spesso mi sveglia\nB\nNo, dormo bene\nC\nDifficoltà solo nell'addormentamento\nD\nNessuna delle precedenti",
+    "A\nMoltissimo\nB\nAbbastanza\nC\nPoco o nulla\nD\nNessuna delle precedenti"
+  ],
+  "state": "7_FINE",
+  "geminiCalls": [
+    {
+      "url": "/api/gemini",
+      "startedAt": 1784208647201,
+      "status": 200,
+      "durationMs": 11530
+    }
+  ],
+  "searchCalls": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "researchSpecialistsNotExecuted": true
+}

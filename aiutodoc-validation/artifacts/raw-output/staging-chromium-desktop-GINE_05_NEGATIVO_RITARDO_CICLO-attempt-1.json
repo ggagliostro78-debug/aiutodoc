@@ -1,0 +1,11 @@
+{
+  "id": "GINE_05_NEGATIVO_RITARDO_CICLO",
+  "branch": "Ginecologia",
+  "input": "Il ciclo è in ritardo di quattro giorni, ma di solito non è sempre regolare. Non ho dolore forte, sanguinamento, capogiri o svenimenti.",
+  "geminiCalls": [],
+  "attempt": 1,
+  "playwrightStatus": "failed",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/"
+}

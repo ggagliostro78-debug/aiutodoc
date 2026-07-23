@@ -1,0 +1,18 @@
+{
+  "id": "PNEUMO_01_URGENTE_DISPNEA",
+  "project": "pixel-7",
+  "bypass": true,
+  "geminiStatuses": [],
+  "neutralizedSearchRequests": 0,
+  "externalSpecialistSearchCalls": 0,
+  "diagnoses": 0,
+  "prescriptions": 0,
+  "falsePositiveUrgent": 0,
+  "falseNegativeUrgent": 0,
+  "details": {},
+  "outputLength": 230,
+  "consoleErrors": [],
+  "screenshot": "artifacts/mobile-menu-fix-screenshots/after/pixel-7-PNEUMO_01_URGENTE_DISPNEA.png",
+  "status": "PASS",
+  "timestamp": "2026-07-17T09:44:10.298Z"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "OCUL_04_BORDERLINE_DOLORE_OCULARE_CEFALEA",
+  "input": "Da ieri ho dolore intorno a un occhio e mal di testa. La vista è normale e non ho debolezza, difficoltà a parlare, occhio rosso o vomito.",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-16T13:35:49.258Z",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nLa paziente, di età compresa tra 40 e 64 anni e peso di 70 kg, riferisce da ieri la comparsa di dolore intorno a un occhio e mal di testa. I sintomi sono descritti come simili a episodi abituali che si manifestano da mesi/anni, con un andamento che alterna momenti buoni e cattivi. La paziente ha patologie croniche note. Non sono stati riferiti debolezza, difficoltà a parlare, occhio rosso o vomito, e la vista è normale.\n\nSegnali rilevanti da riferire al medico:\nassenza di debolezza\nassenza di difficoltà a parlare\nassenza di occhio rosso\nassenza di vomito\nvista normale\nsintomi simili a episodi abituali\npatologie croniche note\nSPECIALISTA CONSIGLIATO\nNeurologo\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nSuspected neurological conditions: recognition and referral\nNICE guideline NG127\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nPrioritaria\nSi consiglia di tenere un diario dei sintomi, annotando la frequenza, l'intensità, la localizzazione del dolore, eventuali fattori scatenanti o allevianti, e i farmaci assunti. Portare alla visita tutta la documentazione medica pregressa relativa a patologie croniche note e a precedenti episodi simili, inclusi eventuali esami o referti specialistici. Preparare un elenco aggiornato di tutti i farmaci in uso.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Visita neurologica per valutazione di cefalea e dolore periorbitario ricorrente, in paziente con anamnesi di episodi simili da mesi/anni, in assenza di deficit neurologici acuti, alterazioni visive o segni di allarme oculari.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "specialist": "Segnali rilevanti da riferire al medico:\nNeurologo",
+  "areaSpecialistica": "{\"branca\":\"Neurologia\",\"area_specialistica\":\"Valutazione di cefalea e dolore periorbitario ricorrente\",\"eventuale_secondo_livello\":\"Non necessario al primo inquadramento\"}",
+  "urgency": "Prioritaria\nSi consiglia di tenere un diario dei sintomi, annotando la frequenza, l'intensità, la localizzazione del dolore, eventuali fattori scatenanti o allevianti, e i farmaci assunti. Portare alla visita tutta la documentazione medica pregressa relativa a patologie croniche note e a precedenti episodi simili, inclusi eventuali esami o referti specialistici. Preparare un elenco aggiornato di tutti i farmaci in uso.",
+  "redFlagsText": "La paziente, di età compresa tra 40 e 64 anni e peso di 70 kg, riferisce da ieri la comparsa di dolore intorno a un occhio e mal di testa. I sintomi sono descritti come simili a episodi abituali che si manifestano da mesi/anni, con un andamento che alterna momenti buoni e cattivi. La paziente ha patologie croniche note. Non sono stati riferiti debolezza, difficoltà a parlare, occhio rosso o vomito, e la vista è normale.\nSegnali rilevanti da riferire al medico:\nassenza di debolezza\nassenza di difficoltà a parlare\nassenza di occhio rosso\nassenza di vomito\nvista normale\nsintomi simili a episodi abituali\npatologie croniche note",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSì, improvviso o molto diverso\nB\nNon so / è dubbio\nC\nNo, è simile agli episodi abituali\nD\nNessuna delle precedenti",
+    "A\nSì, uno o più segni\nB\nSolo sintomi lievi o dubbi\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSì, chiaramente\nB\nSolo in parte\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "state": "7_FINE",
+  "geminiCalls": [
+    {
+      "url": "/api/gemini",
+      "startedAt": 1784208903637,
+      "status": 200,
+      "durationMs": 8694
+    }
+  ],
+  "searchCalls": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "researchSpecialistsNotExecuted": true
+}

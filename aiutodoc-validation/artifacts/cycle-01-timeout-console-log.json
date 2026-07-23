@@ -1,0 +1,477 @@
+{
+    "generatedAt":  "2026-07-14T23:24:05.4233906Z",
+    "sanitized":  true,
+    "sanitization":  "Input sanitari sostituiti con [DATI_SANITARI_OSCURATI]; nessun segreto registrato.",
+    "cases":  [
+                  {
+                      "id":  "ENDO_05_NEGATIVO_FAME_POST_ALLENAMENTO",
+                      "events":  [
+                                     {
+                                         "atMs":  99.56,
+                                         "type":  "log",
+                                         "text":  "Rescue UI Script loading..."
+                                     },
+                                     {
+                                         "atMs":  158.648,
+                                         "type":  "log",
+                                         "text":  "App shared loading..."
+                                     },
+                                     {
+                                         "atMs":  185.101,
+                                         "type":  "log",
+                                         "text":  "Triage engine loading... (v3.1.0-STANDALONE)"
+                                     },
+                                     {
+                                         "atMs":  241.753,
+                                         "type":  "log",
+                                         "text":  "Initializing App Engine (v3.0.0)..."
+                                     },
+                                     {
+                                         "atMs":  3789.437,
+                                         "type":  "log",
+                                         "text":  "Privacy accepted."
+                                     },
+                                     {
+                                         "atMs":  4501.001,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e Italia"
+                                     },
+                                     {
+                                         "atMs":  4503.536,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e Italia | Stato attuale: 2_ZONA"
+                                     },
+                                     {
+                                         "atMs":  4734.368,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e [DATI_SANITARI_OSCURATI]"
+                                     },
+                                     {
+                                         "atMs":  4734.966,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e [DATI_SANITARI_OSCURATI] | Stato attuale: 3_DISTURBO"
+                                     },
+                                     {
+                                         "atMs":  4737.353,
+                                         "type":  "warning",
+                                         "text":  "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+                                     },
+                                     {
+                                         "atMs":  5281.675,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Da mesi/anni | Stato attuale: 4_CONOSCITIVE"
+                                     },
+                                     {
+                                         "atMs":  5818.403,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Alterna momenti buoni e cattivi | Stato attuale: 4_CONOSCITIVE"
+                                     },
+                                     {
+                                         "atMs":  6425.997,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Patologie croniche note | Stato attuale: 4_CONOSCITIVE"
+                                     },
+                                     {
+                                         "atMs":  6969.913,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e No | Stato attuale: 4B_NOTA_CONOSCITIVA_SCELTA"
+                                     },
+                                     {
+                                         "atMs":  7501.609,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Compaiono anche a riposo | Stato attuale: 5_ANAMNESTICHE"
+                                     },
+                                     {
+                                         "atMs":  8083.913,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Regolari | Stato attuale: 5_ANAMNESTICHE"
+                                     },
+                                     {
+                                         "atMs":  8555.517,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) No | Stato attuale: 5_ANAMNESTICHE"
+                                     },
+                                     {
+                                         "atMs":  8852.758,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e 35"
+                                     },
+                                     {
+                                         "atMs":  8853.978,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e 35 | Stato attuale: 5C_DETTAGLIO_CONDIZIONATO"
+                                     },
+                                     {
+                                         "atMs":  9119.835,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e 70"
+                                     },
+                                     {
+                                         "atMs":  9120.254,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e 70 | Stato attuale: 5C_DETTAGLIO_CONDIZIONATO"
+                                     },
+                                     {
+                                         "atMs":  9695.15,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e No | Stato attuale: 5B_NOTA_ANAMNESTICA_SCELTA"
+                                     },
+                                     {
+                                         "atMs":  55791.309,
+                                         "type":  "error",
+                                         "text":  "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+                                     },
+                                     {
+                                         "atMs":  55791.411,
+                                         "type":  "warning",
+                                         "text":  "Fallback specialist-search senza risultati: Error: Specialist Search Error (502): {\"error\":\"Errore ricerca specialisti.\",\"code\":\"GOOGLE_SEARCH_ERROR\",\"detail\":\"SerpApi error (429): {\\n  \\\"error\\\": \\\"Your account has run out of searches.\\\"\\n}\"}\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3368:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2284:44)"
+                                     }
+                                 ]
+                  },
+                  {
+                      "id":  "GINE_05_NEGATIVO_RITARDO_CICLO",
+                      "events":  [
+                                     {
+                                         "atMs":  157.234,
+                                         "type":  "log",
+                                         "text":  "Rescue UI Script loading..."
+                                     },
+                                     {
+                                         "atMs":  622.293,
+                                         "type":  "log",
+                                         "text":  "App shared loading..."
+                                     },
+                                     {
+                                         "atMs":  674.243,
+                                         "type":  "log",
+                                         "text":  "Triage engine loading... (v3.1.0-STANDALONE)"
+                                     },
+                                     {
+                                         "atMs":  761.575,
+                                         "type":  "log",
+                                         "text":  "Initializing App Engine (v3.0.0)..."
+                                     },
+                                     {
+                                         "atMs":  1499.2,
+                                         "type":  "log",
+                                         "text":  "Privacy accepted."
+                                     },
+                                     {
+                                         "atMs":  2150.873,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e Italia"
+                                     },
+                                     {
+                                         "atMs":  2153.063,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e Italia | Stato attuale: 2_ZONA"
+                                     },
+                                     {
+                                         "atMs":  2372.724,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e [DATI_SANITARI_OSCURATI]"
+                                     },
+                                     {
+                                         "atMs":  2373.311,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e [DATI_SANITARI_OSCURATI] | Stato attuale: 3_DISTURBO"
+                                     },
+                                     {
+                                         "atMs":  2376.425,
+                                         "type":  "warning",
+                                         "text":  "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+                                     },
+                                     {
+                                         "atMs":  3003.014,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Da mesi/anni | Stato attuale: 4_CONOSCITIVE"
+                                     },
+                                     {
+                                         "atMs":  3491.315,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Alterna momenti buoni e cattivi | Stato attuale: 4_CONOSCITIVE"
+                                     },
+                                     {
+                                         "atMs":  4057.895,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Patologie croniche note | Stato attuale: 4_CONOSCITIVE"
+                                     },
+                                     {
+                                         "atMs":  4608.754,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e No | Stato attuale: 4B_NOTA_CONOSCITIVA_SCELTA"
+                                     },
+                                     {
+                                         "atMs":  5090.065,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Non ricordo | Stato attuale: 5_ANAMNESTICHE"
+                                     },
+                                     {
+                                         "atMs":  5607.051,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) No | Stato attuale: 5_ANAMNESTICHE"
+                                     },
+                                     {
+                                         "atMs":  6246.931,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) No | Stato attuale: 5_ANAMNESTICHE"
+                                     },
+                                     {
+                                         "atMs":  6680.504,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e 35"
+                                     },
+                                     {
+                                         "atMs":  6680.586,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e 35 | Stato attuale: 5C_DETTAGLIO_CONDIZIONATO"
+                                     },
+                                     {
+                                         "atMs":  7272.953,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e No | Stato attuale: 5B_NOTA_ANAMNESTICA_SCELTA"
+                                     },
+                                     {
+                                         "atMs":  53196.358,
+                                         "type":  "error",
+                                         "text":  "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+                                     },
+                                     {
+                                         "atMs":  53197.021,
+                                         "type":  "warning",
+                                         "text":  "Fallback specialist-search senza risultati: Error: Specialist Search Error (502): {\"error\":\"Errore ricerca specialisti.\",\"code\":\"GOOGLE_SEARCH_ERROR\",\"detail\":\"SerpApi error (429): {\\n  \\\"error\\\": \\\"Your account has run out of searches.\\\"\\n}\"}\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3368:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2284:44)"
+                                     }
+                                 ]
+                  },
+                  {
+                      "id":  "ENDO_04_BORDERLINE_CICLO_IRREGOLARE",
+                      "events":  [
+                                     {
+                                         "atMs":  99.371,
+                                         "type":  "log",
+                                         "text":  "Rescue UI Script loading..."
+                                     },
+                                     {
+                                         "atMs":  230.912,
+                                         "type":  "log",
+                                         "text":  "App shared loading..."
+                                     },
+                                     {
+                                         "atMs":  295.436,
+                                         "type":  "log",
+                                         "text":  "Triage engine loading... (v3.1.0-STANDALONE)"
+                                     },
+                                     {
+                                         "atMs":  517.614,
+                                         "type":  "log",
+                                         "text":  "Initializing App Engine (v3.0.0)..."
+                                     },
+                                     {
+                                         "atMs":  1200.977,
+                                         "type":  "log",
+                                         "text":  "Privacy accepted."
+                                     },
+                                     {
+                                         "atMs":  1770.622,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e Italia"
+                                     },
+                                     {
+                                         "atMs":  1777.369,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e Italia | Stato attuale: 2_ZONA"
+                                     },
+                                     {
+                                         "atMs":  1933.635,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e [DATI_SANITARI_OSCURATI]"
+                                     },
+                                     {
+                                         "atMs":  1934.328,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e [DATI_SANITARI_OSCURATI] | Stato attuale: 3_DISTURBO"
+                                     },
+                                     {
+                                         "atMs":  1938.046,
+                                         "type":  "warning",
+                                         "text":  "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+                                     },
+                                     {
+                                         "atMs":  2520.348,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Da mesi/anni | Stato attuale: 4_CONOSCITIVE"
+                                     },
+                                     {
+                                         "atMs":  3068.251,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Alterna momenti buoni e cattivi | Stato attuale: 4_CONOSCITIVE"
+                                     },
+                                     {
+                                         "atMs":  3653.203,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Patologie croniche note | Stato attuale: 4_CONOSCITIVE"
+                                     },
+                                     {
+                                         "atMs":  4201.295,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e No | Stato attuale: 4B_NOTA_CONOSCITIVA_SCELTA"
+                                     },
+                                     {
+                                         "atMs":  4734.179,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) No o minimo | Stato attuale: 5_ANAMNESTICHE"
+                                     },
+                                     {
+                                         "atMs":  5305.421,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) No | Stato attuale: 5_ANAMNESTICHE"
+                                     },
+                                     {
+                                         "atMs":  5870.385,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) No | Stato attuale: 5_ANAMNESTICHE"
+                                     },
+                                     {
+                                         "atMs":  6100.943,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e 70"
+                                     },
+                                     {
+                                         "atMs":  6102.167,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e 70 | Stato attuale: 5C_DETTAGLIO_CONDIZIONATO"
+                                     },
+                                     {
+                                         "atMs":  6351.794,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e 170"
+                                     },
+                                     {
+                                         "atMs":  6352.614,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e 170 | Stato attuale: 5C_DETTAGLIO_CONDIZIONATO"
+                                     },
+                                     {
+                                         "atMs":  6883.934,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e No | Stato attuale: 5B_NOTA_ANAMNESTICA_SCELTA"
+                                     },
+                                     {
+                                         "atMs":  52816.51,
+                                         "type":  "error",
+                                         "text":  "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+                                     },
+                                     {
+                                         "atMs":  52816.688,
+                                         "type":  "warning",
+                                         "text":  "Fallback specialist-search senza risultati: Error: Specialist Search Error (502): {\"error\":\"Errore ricerca specialisti.\",\"code\":\"GOOGLE_SEARCH_ERROR\",\"detail\":\"SerpApi error (429): {\\n  \\\"error\\\": \\\"Your account has run out of searches.\\\"\\n}\"}\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3368:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2284:44)"
+                                     }
+                                 ]
+                  },
+                  {
+                      "id":  "GINE_04_BORDERLINE_BRUCIORE_URINARIO",
+                      "events":  [
+                                     {
+                                         "atMs":  158.646,
+                                         "type":  "log",
+                                         "text":  "Rescue UI Script loading..."
+                                     },
+                                     {
+                                         "atMs":  464.805,
+                                         "type":  "log",
+                                         "text":  "App shared loading..."
+                                     },
+                                     {
+                                         "atMs":  537.973,
+                                         "type":  "log",
+                                         "text":  "Triage engine loading... (v3.1.0-STANDALONE)"
+                                     },
+                                     {
+                                         "atMs":  618.556,
+                                         "type":  "log",
+                                         "text":  "Initializing App Engine (v3.0.0)..."
+                                     },
+                                     {
+                                         "atMs":  1327.018,
+                                         "type":  "log",
+                                         "text":  "Privacy accepted."
+                                     },
+                                     {
+                                         "atMs":  1914.529,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e Italia"
+                                     },
+                                     {
+                                         "atMs":  1918.602,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e Italia | Stato attuale: 2_ZONA"
+                                     },
+                                     {
+                                         "atMs":  2156.67,
+                                         "type":  "log",
+                                         "text":  "App Engine: Ricevuto comando via Dispatcher -\u003e [DATI_SANITARI_OSCURATI]"
+                                     },
+                                     {
+                                         "atMs":  2156.982,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e [DATI_SANITARI_OSCURATI] | Stato attuale: 3_DISTURBO"
+                                     },
+                                     {
+                                         "atMs":  2160.216,
+                                         "type":  "warning",
+                                         "text":  "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+                                     },
+                                     {
+                                         "atMs":  2783.84,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Da mesi/anni | Stato attuale: 4_CONOSCITIVE"
+                                     },
+                                     {
+                                         "atMs":  3367.38,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Alterna momenti buoni e cattivi | Stato attuale: 4_CONOSCITIVE"
+                                     },
+                                     {
+                                         "atMs":  3931.635,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) Patologie croniche note | Stato attuale: 4_CONOSCITIVE"
+                                     },
+                                     {
+                                         "atMs":  4522.274,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e No | Stato attuale: 4B_NOTA_CONOSCITIVA_SCELTA"
+                                     },
+                                     {
+                                         "atMs":  5010.372,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) No | Stato attuale: 5_ANAMNESTICHE"
+                                     },
+                                     {
+                                         "atMs":  5507.992,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) No | Stato attuale: 5_ANAMNESTICHE"
+                                     },
+                                     {
+                                         "atMs":  6035.754,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e C) No | Stato attuale: 5_ANAMNESTICHE"
+                                     },
+                                     {
+                                         "atMs":  6618.29,
+                                         "type":  "log",
+                                         "text":  "Engine: elaborazione input -\u003e No | Stato attuale: 5B_NOTA_ANAMNESTICA_SCELTA"
+                                     },
+                                     {
+                                         "atMs":  52590.53,
+                                         "type":  "error",
+                                         "text":  "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+                                     },
+                                     {
+                                         "atMs":  52591.204,
+                                         "type":  "warning",
+                                         "text":  "Fallback specialist-search senza risultati: Error: Specialist Search Error (502): {\"error\":\"Errore ricerca specialisti.\",\"code\":\"GOOGLE_SEARCH_ERROR\",\"detail\":\"SerpApi error (429): {\\n  \\\"error\\\": \\\"Your account has run out of searches.\\\"\\n}\"}\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3368:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2284:44)"
+                                     }
+                                 ]
+                  }
+              ]
+}

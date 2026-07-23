@@ -1,0 +1,47 @@
+{
+  "id": "ROUTING_02_NEURO_VERTIGINI_DIPLOPIA",
+  "input": "Uomo di 67 anni. Da circa un'ora ho vertigini forti, vedo doppio a momenti e cammino storto come se perdessi l'equilibrio. Ho vomitato una volta. Non ho mal di testa forte e non ho la bocca storta. Prendo farmaci per fibrillazione atriale.",
+  "beforeQuestions": [
+    "Hai notato formicolii, perdita di sensibilità o riduzione della forza in una parte del corpo? A) Sì, in modo evidente B) Solo lieve o intermittente C) No D) Nessuna delle precedenti",
+    "Il sintomo si associa a disturbi dell'equilibrio, della parola, della vista o del controllo dei movimenti? A) Sì, chiaramente B) Solo in parte C) No D) Nessuna delle precedenti",
+    "L'esordio è stato improvviso oppure graduale e ricorrente? A) Improvviso B) Graduale o ricorrente C) Non saprei D) Nessuna delle precedenti"
+  ],
+  "afterQuestions": [
+    "I sintomi sono iniziati all'improvviso o da poco e sono ancora presenti o ricorrenti? A) Si, esordio recente o improvviso B) Non so con precisione C) No, sono vecchi o gia risolti D) Nessuna delle precedenti",
+    "Ci sono visione doppia, difficolta a camminare, perdita di equilibrio, problemi di coordinazione, parola, volto, forza o sensibilita? A) Si, uno o piu segnali B) Solo in parte C) No D) Nessuna delle precedenti",
+    "Sono presenti vomito, fibrillazione atriale, anticoagulanti, peggioramento o sintomi ancora in corso tali da richiedere valutazione urgente? A) Si, uno o piu elementi B) Non so / dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T20:48:03.541Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "playwrightError": "",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "relevant": [
+      "improvviso",
+      "recente",
+      "visione doppia",
+      "camminare",
+      "equilibrio",
+      "coordinazione",
+      "parola",
+      "volto",
+      "forza",
+      "sensibilita",
+      "vomito",
+      "fibrillazione",
+      "anticoagulanti",
+      "peggioramento",
+      "urgente"
+    ],
+    "offBranch": [],
+    "diagnoses": [],
+    "prescriptions": [],
+    "problem": ""
+  }
+}

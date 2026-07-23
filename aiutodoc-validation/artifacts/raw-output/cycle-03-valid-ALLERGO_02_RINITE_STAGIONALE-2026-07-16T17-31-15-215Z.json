@@ -1,0 +1,33 @@
+{
+  "id": "ALLERGO_02_RINITE_STAGIONALE",
+  "input": "Ogni primavera ho starnuti, naso chiuso e prurito agli occhi. Non ho difficoltà a respirare, gonfiore, febbre o sintomi importanti durante il resto dell’anno.",
+  "timestamp": "2026-07-16T17:31:15.215Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nPaziente di sesso femminile, fascia d'età 40-64 anni, riferisce la comparsa ogni primavera di starnuti, naso chiuso e prurito agli occhi. Questi sintomi persistono da mesi/anni, con un andamento che alterna momenti buoni e cattivi, e si manifestano esclusivamente in primavera. La paziente non riporta difficoltà a respirare, gonfiore, febbre o altri sintomi importanti al di fuori del periodo primaverile. La vista è invariata, l'oculare è bianco e normale, e non sono stati riferiti disturbi visivi simili in precedenza.\n\nSegnali rilevanti da riferire al medico:\nstarnuti\nnaso chiuso\nprurito agli occhi\nsintomi stagionali (ogni primavera)\ndurata da mesi/anni\nandamento alternante\nassenza di difficoltà a respirare\nassenza di gonfiore\nassenza di febbre\nassenza di sintomi importanti durante il resto dell’anno\nSPECIALISTA CONSIGLIATO\nAllergologo\nFonti a supporto dell’orientamento\n\nRiferimenti metodologici sulla qualità dell’invio allo specialista; il catalogo specifico per questa branca è in aggiornamento.\n\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nnon urgente / visita programmata a breve\nSi consiglia di annotare la data di inizio dei sintomi, la loro frequenza e intensità, eventuali fattori scatenanti noti e l'efficacia di qualsiasi rimedio tentato. Portare con sé eventuali referti di visite o esami precedenti, se disponibili.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Si richiede visita specialistica allergologica per valutazione di sintomi oculari e rinitici a carattere stagionale.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nCalo molto brusco/improvviso\nB\nLento e progressivo\nC\nLa vista è invariata\nD\nNessuna delle precedenti",
+    "A\nSì, molto rosso e urente\nB\nSolo leggermente arrossato\nC\nOculare bianco normale\nD\nNessuna delle precedenti",
+    "A\nMolti lampi e punti neri improvvisi\nB\nQualche mosca volante vecchia\nC\nNessun disturbo visivo simile\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Segnali rilevanti da riferire al medico:\nAllergologo\nVuoi il codice per recuperare questa ricerca?\nSpecialisti e strutture individuati:",
+  "areaSpecialistica": "{\"branca\":\"Allergologia\",\"area_specialistica\":\"Valutazione di sintomi rinitici e oculari stagionali\",\"eventuale_secondo_livello\":\"Non necessario al momento\"}",
+  "urgency": "non urgente / visita programmata a breve\nSi consiglia di annotare la data di inizio dei sintomi, la loro frequenza e intensità, eventuali fattori scatenanti noti e l'efficacia di qualsiasi rimedio tentato. Portare con sé eventuali referti di visite o esami precedenti, se disponibili.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nstarnuti\nnaso chiuso\nprurito agli occhi\nsintomi stagionali (ogni primavera)\ndurata da mesi/anni\nandamento alternante\nassenza di difficoltà a respirare\nassenza di gonfiore\nassenza di febbre\nassenza di sintomi importanti durante il resto dell’anno",
+  "geminiCalls": [
+    {
+      "started": 1784223029586,
+      "status": 200,
+      "durationMs": 5335
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

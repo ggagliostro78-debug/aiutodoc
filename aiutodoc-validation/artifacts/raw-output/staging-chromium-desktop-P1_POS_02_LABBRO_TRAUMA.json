@@ -1,0 +1,40 @@
+{
+  "id": "P1_POS_02_LABBRO_TRAUMA",
+  "input": "Mi sono morso il labbro e ora è leggermente gonfio in un punto. Non ho prurito, orticaria, difficoltà a respirare o gonfiore della lingua.",
+  "questions": [
+    "Nel punto del morso o trauma ci sono sanguinamento, ferita aperta o dolore importante? A) Si, uno o piu elementi B) Solo lieve o superficiale C) No D) Nessuna delle precedenti",
+    "Il gonfiore locale sta aumentando o rende difficile aprire la bocca, parlare o deglutire? A) Si, sta aumentando o limita una funzione B) Solo lieve o stabile C) No D) Nessuna delle precedenti",
+    "Dopo il trauma sono comparsi gonfiore diffuso, lingua gonfia o difficolta respiratoria? A) Si, uno o piu segnali B) Solo dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "Nel punto del morso o trauma ci sono sanguinamento, ferita aperta o dolore importante?\n<br><i>A) Si, uno o piu elementi<br>B) Solo lieve o superficiale<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Il gonfiore locale sta aumentando o rende difficile aprire la bocca, parlare o deglutire?\n<br><i>A) Si, sta aumentando o limita una funzione<br>B) Solo lieve o stabile<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "Dopo il trauma sono comparsi gonfiore diffuso, lingua gonfia o difficolta respiratoria?\n<br><i>A) Si, uno o piu segnali<br>B) Solo dubbio<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T21:52:27.667Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "pregnancyUrgent": false,
+    "pregnancyMild": false,
+    "traumaLip": true,
+    "dental": false,
+    "followUp": false,
+    "allergyUrgent": false,
+    "allergyMild": false,
+    "flank": false,
+    "cardio": false,
+    "pigmented": false,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

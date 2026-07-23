@@ -1,0 +1,40 @@
+{
+  "id": "P1_NEG_06_FIANCO_GRAVIDANZA_POSITIVA",
+  "input": "Sono incinta di 18 settimane e ho dolore al fianco, nausea e bruciore urinario.",
+  "questions": [
+    "In gravidanza, febbre, brividi, dolore al fianco, bruciore urinario, nausea o vomito sono presenti ora o stanno peggiorando? A) Si, uno o piu sintomi sono presenti o peggiorano B) Sono lievi o dubbi C) No D) Nessuna delle precedenti",
+    "A che settimana di gravidanza sei e sono comparse contrazioni, perdite di sangue o liquido, o riduzione dei movimenti fetali se li percepisci gia? A) Si, uno o piu segnali ostetrici B) Non so / non applicabile C) No D) Nessuna delle precedenti",
+    "La debolezza, la febbre, il dolore al fianco o i sintomi urinari fanno pensare a necessita di accesso urgente a Pronto Soccorso o Ostetricia? A) Si, serve valutazione urgente B) Non so / dubbio C) No D) Nessuna delle precedenti"
+  ],
+  "rawQuestions": [
+    "In gravidanza, febbre, brividi, dolore al fianco, bruciore urinario, nausea o vomito sono presenti ora o stanno peggiorando?\n<br><i>A) Si, uno o piu sintomi sono presenti o peggiorano<br>B) Sono lievi o dubbi<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "A che settimana di gravidanza sei e sono comparse contrazioni, perdite di sangue o liquido, o riduzione dei movimenti fetali se li percepisci gia?\n<br><i>A) Si, uno o piu segnali ostetrici<br>B) Non so / non applicabile<br>C) No<br>D) Nessuna delle precedenti</i>",
+    "La debolezza, la febbre, il dolore al fianco o i sintomi urinari fanno pensare a necessita di accesso urgente a Pronto Soccorso o Ostetricia?\n<br><i>A) Si, serve valutazione urgente<br>B) Non so / dubbio<br>C) No<br>D) Nessuna delle precedenti</i>"
+  ],
+  "emergencyBypass": false,
+  "emergencyText": "",
+  "state": "4_CONOSCITIVE",
+  "geminiCalls": [],
+  "timestamp": "2026-07-12T21:52:47.487Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "url": "http://127.0.0.1:4273/",
+  "playwrightStatus": "passed",
+  "evaluation": {
+    "status": "PASS ROUTING",
+    "failures": [],
+    "emergency": false,
+    "pregnancyUrgent": true,
+    "pregnancyMild": false,
+    "traumaLip": false,
+    "dental": false,
+    "followUp": false,
+    "allergyUrgent": false,
+    "allergyMild": false,
+    "flank": false,
+    "cardio": false,
+    "pigmented": false,
+    "prohibitedDiagnosis": false,
+    "prohibitedPrescription": false
+  }
+}

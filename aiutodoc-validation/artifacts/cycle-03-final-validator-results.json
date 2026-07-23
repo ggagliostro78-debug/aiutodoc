@@ -1,0 +1,42 @@
+{
+  "cycle": "03",
+  "caseId": "PED_02_FEBBRE_BAMBINO_PROGRAMMATA",
+  "executedCases": 1,
+  "finalAttempt": 2,
+  "automaticRetries": 0,
+  "clinicalFunctionalResult": "PASS",
+  "playwrightResult": "PASS",
+  "formalGate": "SUPERATO",
+  "formalClosure": true,
+  "runnerCorrection": {
+    "scope": "TEMPORARY_RUNNER_ONLY",
+    "previousFalseNegative": "La verifica letterale 'durata' non riconosceva l'equivalente 'Da quanto dura la febbre'",
+    "correctedAssertion": "durata|quanto dura",
+    "productModified": false
+  },
+  "conditionalDetails": {
+    "exact_age": 7,
+    "weight_kg": 24,
+    "height_cm": 125,
+    "queueCompleted": true
+  },
+  "gemini": {
+    "real": true,
+    "intercepted": false,
+    "httpStatus": 200
+  },
+  "branch": "Pediatria",
+  "specialist": "Pediatra",
+  "urgency": "Urgenza bassa / valutazione pediatrica programmata o tempestiva secondo andamento",
+  "negationsIgnored": 0,
+  "diagnosesOrSuspicions": 0,
+  "prescriptionsOrDosages": 0,
+  "inventedData": 0,
+  "criticalOutOfBranchQuestions": 0,
+  "externalSpecialistSearchCalls": 0,
+  "methodologicalSearchStatus": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "pediatricsGate": "SUPERATO 6/6",
+  "ophthalmologyGate": "SUPERATO",
+  "allergologyGate": "SUPERATO",
+  "cycle03": "SUPERATO E CHIUSO"
+}

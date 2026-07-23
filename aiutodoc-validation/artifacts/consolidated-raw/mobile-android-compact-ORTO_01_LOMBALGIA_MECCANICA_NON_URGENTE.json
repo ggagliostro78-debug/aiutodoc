@@ -1,0 +1,31 @@
+{
+  "id": "ORTO_01_LOMBALGIA_MECCANICA_NON_URGENTE",
+  "surface": "mobile",
+  "viewport": "android-compact",
+  "input": "Uomo di 42 anni. Da 10 giorni ho dolore lombare dopo aver sollevato uno scatolone pesante. Il dolore aumenta quando mi piego o sto seduto a lungo e migliora un po' camminando. Non ho febbre, non ho perdita di peso, non ho trauma importante, non ho dolore che scende sotto il ginocchio, non ho debolezza alle gambe, non ho perdita di sensibilita nella zona genitale, non ho problemi a urinare o trattenere feci.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSì, chiaramente\nB\nSolo in parte\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSì\nB\nSolo lievemente\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSì\nB\nNon so / dubbio\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nUomo di 42 anni che riferisce dolore lombare insorto da circa 10 giorni, dopo aver sollevato uno scatolone pesante. Il dolore tende ad aumentare con la flessione del tronco e la posizione seduta prolungata, mentre migliora con il cammino. Il paziente nega la presenza di febbre, perdita di peso, traumi significativi recenti, irradiazione del dolore al di sotto del ginocchio, debolezza agli arti inferiori, perdita di sensibilità nella zona genitale o problemi urinari o fecali. Viene riportato un peso corporeo di 24 kg.\n\nSegnali rilevanti da riferire al medico:\ndolore lombare dopo sforzo\npeggioramento con flessione o posizione seduta\nassenza di febbre\nassenza di perdita di peso\nassenza di trauma importante\nassenza di dolore sotto il ginocchio\nassenza di debolezza alle gambe\nassenza di anestesia a sella o perdita di sensibilita genitale\nassenza di problemi urinari o fecali\nSPECIALISTA CONSIGLIATO\nFisiatra o Ortopedico del rachide; Medico di Medicina Generale come primo filtro se appropriato\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nLow back pain and sciatica: assessment and management\nNICE guideline NG59\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nUrgenza bassa / visita programmata se il dolore persiste o limita le attivita\nAnnota durata, andamento e limitazioni funzionali del dolore e porta eventuali referti gia disponibili. Chiedi una valutazione programmata se il dolore persiste o limita le attivita. Vai in Pronto Soccorso o contatta 112/118 solo se compaiono disturbi urinari o fecali, anestesia a sella, debolezza progressiva, febbre, trauma importante, dolore notturno ingravescente, orientamento per infezione o tumore, o peggioramento rapido.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione programmata per dolore lombare post-sforzo senza red flag riferite; considerare MMG, Fisiatria o Ortopedia del rachide secondo evoluzione clinica.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T01:02:01.967Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/android-compact/ORTO_01_LOMBALGIA_MECCANICA_NON_URGENTE.png"
+}

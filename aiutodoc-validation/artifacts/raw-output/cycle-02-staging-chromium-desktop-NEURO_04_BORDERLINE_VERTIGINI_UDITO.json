@@ -1,0 +1,69 @@
+{
+  "id": "NEURO_04_BORDERLINE_VERTIGINI_UDITO",
+  "expectedBranch": "Neurologia",
+  "input": "Ho vertigini quando giro la testa e da qualche giorno sento meno da un orecchio. Non ho debolezza, difficoltà a parlare o visione doppia.",
+  "terminal": "success",
+  "playwrightStatus": "passed",
+  "emergencyBypass": false,
+  "questions": [
+    "Lamenti febbre alta, gonfiore dei linfonodi (collo) o difficoltà a deglutire anche i liquidi?\n<br><i>A) Sì, tutto questo<br>B) Solo un po' di fastidio<br>C) Niente gonfiore o febbre<br>D) Nessuna delle precedenti</i>",
+    "C'è perdita dell'udito, sensazione di orecchio tappato o ronzio (acufene) costante?\n<br><i>A) Rombano/Fischiano in continuo<br>B) Sento ovattato / calo lieve dell'udito<br>C) Nessun problema uditivo<br>D) Nessuna delle precedenti</i>",
+    "Hai tosse persistente da oltre 2-3 settimane o hai cambiato improvvisamente la voce (raucedine cronica)?\n<br><i>A) Sì, da molto tempo<br>B) Da pochi giorni<br>C) Non ho tosse né calo di voce<br>D) Nessuna delle precedenti</i>"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nUtente di sesso femminile, di età compresa tra 40 e 64 anni, riferisce la comparsa di vertigini in concomitanza con i movimenti della testa e una riduzione dell'udito monolaterale da alcuni giorni. Nega la presenza di debolezza, difficoltà a parlare o visione doppia. Non sono state fornite ulteriori informazioni anamnestiche o conoscitive.\n\nSegnali rilevanti da riferire al medico:\nassenza di debolezza\nassenza di difficoltà a parlare\nassenza di visione doppia\nSPECIALISTA CONSIGLIATO\nOtorinolaringoiatra\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nHearing loss in adults: assessment and management\nNICE guideline NG98\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nprioritaria\nSi consiglia di annotare quando sono iniziati i sintomi, la loro frequenza, quali movimenti della testa scatenano le vertigini e se ci sono altri sintomi associati. Portare un elenco di eventuali farmaci assunti regolarmente e qualsiasi documentazione medica precedente pertinente, se disponibile.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Visita Otorinolaringoiatrica per vertigini posizionali e ipoacusia monolaterale.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nClinica Otorinolaringoiatrica\nSSN\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Viale del Policlinico, 155, 00161 Roma RM, Italia\n\nContatti: Sito web: http://www.uniroma1.it/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nProf. Andrea Gallo\nPrivato\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Via Domenico Chelini, 10, 00197 Roma RM, Italia\n\nContatti: Telefono: 339 722 0011 | Sito web: http://www.profandreagallo.it/\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione.\n\nDott. Massimo Ducci\nPrivato\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Via dei Monti Tiburtini, 385/389, 00157 Roma RM, Italia\n\nContatti: Telefono: 06 9318 8014\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione.\n\nPoliambulatorio Otosystem Fisioterapia\nPrivato\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Via Romanello da Forlì, 17, 00176 Roma RM, Italia\n\nContatti: Telefono: 06 2780 1314 | Sito web: https://www.fisioterapiaromaprenestina.com/\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione.\n\nCentro Medico G Italia\nPrivato\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Via degli Oleandri, 8, 88046 Lamezia Terme CZ, Italia\n\nContatti: Telefono: 0968 200373 | Sito web: http://www.centromedicogitalia.it/\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione.\n\nProf. Giovanna Cantarella\nPrivato\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Via Francesco Sforza, 35, 20122 Milano MI, Italia\n\nContatti: Telefono: 039 974 5689\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione. | Otorino\n\nDott. Andrea Bravetti\nPrivato\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Via S. Silverio, 23, 00165 Roma RM, Italia\n\nContatti: Telefono: 379 325 8398\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione. | Medico\n\nDott.ssa Giulia Lucchesi\nPrivato\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Via Papa Giovanni XXIII, 14, 98051 Barcellona Pozzo di Gotto ME, Italia\n\nContatti: Telefono: 351 222 2010 | Sito web: https://www.facebook.com/profile.php?id=61555706683706\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione. | Otorinolaringoiatra\n\nDr. Italo Cantore\nPrivato\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Via Oslavia, 62, 00195 Roma RM, Italia\n\nContatti: Telefono: 06 8394 0253 | Sito web: https://www.studiomedicocantore.it/\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione. | otorinolaringoiatria Roma\n\nDott. Francesco Mazzola\nPrivato\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Via Elio Chianesi, 53, 00144 Roma RM, Italia\n\nContatti: Contatta la struttura per informazioni\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione. | Otorinolaringoiatria\n\n🇮🇹ISME ISTITUTO MEDICO EUROPEO🇪🇺\nSSN\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: V. Ruggiero Settimo, 55, 90139 Palermo PA, Italia\n\nContatti: Telefono: 091 638 6380 | Sito web: http://www.istitutomedicoeuropeo.com/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nProf. Gaetano Paludetti\nPrivato\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Via Ruggero Fauro, 82, 00197 Roma RM, Italia\n\nContatti: Telefono: 06 807 5614 | Sito web: https://www.otorinolaringoiatraroma.it/\n\nInfo: Specialista o struttura sanitaria privata in regime di libera professione.\n\nGrande Ospedale Metropolitano - Presidio Morelli\nSSN\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Viale Europa, 89133 Reggio di Calabria RC, Italia\n\nContatti: Telefono: 0965 397111 | Sito web: http://www.ospedalerc.it/come-raggiungerci\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nPresidio Columbus\nSSN\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Via Giuseppe Moscati, 31, 00168 Roma RM, Italia\n\nContatti: Telefono: 06 30151 | Sito web: https://www.policlinicogemelli.it/contatti/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nIRCCS Ospedale San Raffaele\nSSN\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Via Olgettina, 60, 20132 Milano MI, Italia\n\nContatti: Telefono: 02 26431 | Sito web: https://www.hsr.it/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).\n\nPoliclinico Umberto I - Istituto odontoiatrico George Eastman\nSSN\n\nSpecializzazione: Otorinolaringoiatra\n\nIndirizzo/Modalità: Viale Regina Elena, 287b, 00161 Roma RM, Italia\n\nContatti: Telefono: 06 49971 | Sito web: https://www.policlinicoumberto1.it/presidio-odontoiatrico-george-eastman/\n\nInfo: Struttura o specialista operante in regime SSN (pubblico o convenzionato).",
+  "specialist": "Otorinolaringoiatra",
+  "areaSpecialistica": {
+    "branca": "Otorinolaringoiatria",
+    "area_specialistica": "Valutazione di vertigini posizionali e ipoacusia monolaterale",
+    "eventuale_secondo_livello": "Non necessario"
+  },
+  "urgency": "prioritaria\nSi consiglia di annotare quando sono iniziati i sintomi, la loro frequenza, quali movimenti della testa scatenano le vertigini e se ci sono altri sintomi associati. Portare un elenco di eventuali farmaci assunti regolarmente e qualsiasi documentazione medica precedente pertinente, se disponibile.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nassenza di debolezza\nassenza di difficoltà a parlare\nassenza di visione doppia",
+  "failureText": "",
+  "geminiCalls": [
+    {
+      "event": "request",
+      "atMs": 6857.578,
+      "method": "POST",
+      "bodyBytes": 4994
+    },
+    {
+      "event": "response",
+      "atMs": 13947.832,
+      "status": 200,
+      "durationMs": 7090.285
+    }
+  ],
+  "pendingGeminiRequests": 0,
+  "specialistCalls": [
+    {
+      "event": "request",
+      "atMs": 52606.998,
+      "method": "POST"
+    },
+    {
+      "event": "response",
+      "atMs": 52834.049,
+      "status": 502
+    }
+  ],
+  "serpApiWarning": true,
+  "consoleEvents": [
+    {
+      "type": "warning",
+      "text": "Validazione automatica sintomo non disponibile; applicato fallback prudente."
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)"
+    },
+    {
+      "type": "warning",
+      "text": "Fallback specialist-search senza risultati: Error: Specialist Search Error (502): {\"error\":\"Errore ricerca specialisti.\",\"code\":\"GOOGLE_SEARCH_ERROR\",\"detail\":\"SerpApi error (429): {\\n  \\\"error\\\": \\\"Your account has run out of searches.\\\"\\n}\"}\n    at TriageEngine._getSpecialistSearchResults (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:3368:19)\n    at async TriageEngine._eseguiRicercaAI (http://127.0.0.1:4273/src/app_v3_standalone.js?v=4.1.1:2284:44)"
+    }
+  ],
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "timestamp": "2026-07-15T00:12:03.304Z",
+  "url": "http://127.0.0.1:4273/"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "ALLERGO_03_REAZIONE_CUTANEA_RICORRENTE",
+  "input": "Da alcune settimane ogni tanto compaiono chiazze pruriginose che spariscono dopo qualche ora. Non ho gonfiore del viso, difficoltà respiratoria, febbre o dolore.",
+  "timestamp": "2026-07-16T18:36:49.231Z",
+  "environment": "staging",
+  "browser": "chromium-desktop",
+  "emergencyBypass": false,
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nDa alcune settimane compaiono ogni tanto chiazze pruriginose che spariscono dopo qualche ora. Sono negati gonfiore del viso, difficolta respiratoria, febbre e dolore.\n\nSegnali rilevanti da riferire al medico:\nchiazze pruriginose ricorrenti\nscomparsa dopo qualche ora\nsintomi da alcune settimane\nassenza di gonfiore del viso\nassenza di difficolta respiratoria\nassenza di febbre\nassenza di dolore\nSPECIALISTA CONSIGLIATO\nAllergologo o Dermatologo\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nSkin conditions: general dermatology referral context\nNICE Clinical Knowledge Summaries\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nNon urgente / visita programmata\nAnnota durata di ogni chiazza, frequenza, alimenti, farmaci, infezioni recenti, caldo, freddo, pressione, stress ed episodi precedenti; porta fotografie se disponibili. Richiedi assistenza urgente se compaiono gonfiore del viso o delle labbra o sintomi respiratori.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione allergologica o dermatologica programmata per chiazze pruriginose transitorie ricorrenti, senza segnali sistemici riferiti.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "questions": [
+    "Molto bene. Ora passiamo alla seconda fase con 3 domande anamnestiche più specifiche sul disturbo per migliorare l'orientamento (rispondi con A, B, C o D).\n\n1. Quanto dura ogni singola chiazza, con quale frequenza compare e hai fotografie degli episodi?\n\nA\nDura ore ed e documentata\nB\nDurata variabile senza foto\nC\nDura oltre un giorno\nD\nNessuna delle precedenti",
+    "2. Noti legami con alimenti, farmaci, infezioni recenti, caldo, freddo, pressione sulla pelle o stress?\n\nA\nUno o piu legami chiari\nB\nLegame dubbio\nC\nNessun legame\nD\nNessuna delle precedenti",
+    "3. Durante gli episodi compaiono gonfiore del viso o delle labbra, sintomi respiratori o altri episodi simili in passato?\n\nA\nGonfiore o sintomi respiratori\nB\nSolo episodi cutanei precedenti\nC\nNessuno\nD\nNessuna delle precedenti"
+  ],
+  "specialist": "Allergologo o Dermatologo",
+  "areaSpecialistica": {
+    "branca": "Allergologia / Dermatologia",
+    "area_specialistica": "Chiazze pruriginose transitorie e ricorrenti da valutare",
+    "eventuale_secondo_livello": "Allergologia o Dermatologia secondo il primo inquadramento"
+  },
+  "urgency": "Non urgente / visita programmata\nAnnota durata di ogni chiazza, frequenza, alimenti, farmaci, infezioni recenti, caldo, freddo, pressione, stress ed episodi precedenti; porta fotografie se disponibili. Richiedi assistenza urgente se compaiono gonfiore del viso o delle labbra o sintomi respiratori.",
+  "redFlagsText": "Segnali rilevanti da riferire al medico:\nchiazze pruriginose ricorrenti\nscomparsa dopo qualche ora\nsintomi da alcune settimane\nassenza di gonfiore del viso\nassenza di difficolta respiratoria\nassenza di febbre\nassenza di dolore",
+  "geminiCalls": [
+    {
+      "status": 200,
+      "durationMs": 7906
+    }
+  ],
+  "neutralizedSearchRoutes": [
+    "/api/places",
+    "/api/specialist-search"
+  ],
+  "externalSpecialistSearchCalls": 0
+}

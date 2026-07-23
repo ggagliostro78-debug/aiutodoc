@@ -1,0 +1,31 @@
+{
+  "id": "REGRESSION_POS_01_NEURO",
+  "surface": "desktop",
+  "viewport": "chromium-desktop",
+  "input": "Da circa mezz'ora ho forti vertigini, vedo doppio, faccio fatica a camminare dritto e ho vomitato. Ho la fibrillazione atriale e assumo un anticoagulante.",
+  "questions": [
+    "A\nDa qualche ora/giorno\nB\nDa alcune settimane\nC\nDa mesi/anni\nD\nNessuna delle precedenti",
+    "A\nImprovvisa e acuta\nB\nGraduale ma in peggioramento\nC\nAlterna momenti buoni e cattivi\nD\nNessuna delle precedenti",
+    "A\nNessuna patologia/farmaco\nB\nAssumo farmaci di base (es. pressione, sciroppi)\nC\nPatologie croniche note\nD\nNessuna delle precedenti",
+    "A\nSi, esordio recente o improvviso\nB\nNon so con precisione\nC\nNo, sono vecchi o gia risolti\nD\nNessuna delle precedenti",
+    "A\nSi, uno o piu segnali\nB\nSolo in parte\nC\nNo\nD\nNessuna delle precedenti",
+    "A\nSi, uno o piu elementi\nB\nNon so / dubbio\nC\nNo\nD\nNessuna delle precedenti"
+  ],
+  "output": "Attenzione: Questo servizio fornisce informazioni di orientamento sanitario e supporto alla ricerca dello specialista. Non sostituisce il parere di un professionista sanitario.\nSintesi Anamnestica\n\nL'utente, maschio di età compresa tra 40 e 64 anni, riferisce l'insorgenza acuta, circa mezz'ora fa, di forti vertigini, visione doppia, difficoltà a mantenere l'equilibrio e a camminare dritto, accompagnati da vomito. È nota una condizione di fibrillazione atriale per la quale assume regolarmente una terapia anticoagulante. Si rileva inoltre un peso corporeo di 24 kg.\n\nSegnali rilevanti da riferire al medico:\nInsorgenza acuta di vertigini severe\nVisione doppia (diplopia)\nDifficoltà a camminare dritto (atassia)\nVomito\nAnamnesi di fibrillazione atriale\nAssunzione di terapia anticoagulante\nPeso corporeo estremamente basso (24 kg)\nSPECIALISTA CONSIGLIATO\nNeurologo\nFonti a supporto dell’orientamento\n\nRiferimenti clinici e metodologici consultabili, pertinenti alla branca indicata.\n\nSuspected neurological conditions: recognition and referral\nNICE guideline NG127\nReferral interventions from primary to specialist care: a systematic review\nBlank et al., British Journal of General Practice, 2014 (abstract PubMed)\nDefining a framework for a quality referral: systematic scoping review\nOsman et al., British Journal of General Practice, 2026 (abstract PubMed)\nLe fonti sostengono i criteri generali di orientamento, non confermano una diagnosi né sostituiscono la valutazione del medico.\nGUIDA AL COMPORTAMENTO\n\nAlta / urgente\nÈ fondamentale recarsi immediatamente presso un pronto soccorso o chiamare i servizi di emergenza. Non guidare e non farsi accompagnare da persone non idonee. Informare il personale medico di tutti i farmaci assunti, in particolare l'anticoagulante, e della storia clinica di fibrillazione atriale. Evitare di mangiare o bere in attesa della valutazione medica.\n\nNOTA PER L'IMPEGNATIVA (MMG)\n\n\"Valutazione neurologica urgente per insorgenza acuta di vertigini, diplopia, atassia e vomito in paziente con fibrillazione atriale in terapia anticoagulante.\"\n\nVuoi il codice per recuperare questa ricerca?\n\nIl recupero resta anonimo: non serve registrarti. Conserva il codice con cura, perche chiunque lo possieda puo recuperare questa ricerca.\n\nAccetto i Termini e Condizioni d'uso.\nDichiaro di aver letto l'Informativa Privacy.\nPresto consenso esplicito al trattamento dei dati sanitari inseriti ai sensi dell'art. 9(2)(a) GDPR.\nScegli 2 caratteri alfanumerici per personalizzare il codice recupero\nGenera codice anonimo\n\nPer tutelare la tua privacy, il codice e' l'unica chiave di recupero. Non condividerlo.\n\nQuesta è un'indicazione informativa. Confermala sempre con il tuo medico curante.\n\nSpecialisti e strutture individuati: i dati mostrati derivano da schede pubbliche disponibili al momento della ricerca.\n\nNessuna scheda specialistica disponibile\nRicerca\n\nNon sono state trovate schede pubbliche verificabili per questa combinazione di specialista e zona al momento della ricerca.\n\nPuoi riprovare ampliando la zona geografica, ad esempio indicando la Provincia, la Regione o Italia.",
+  "expectedBypass": false,
+  "emergencyBypass": false,
+  "geminiCalls": [
+    {
+      "status": 200
+    }
+  ],
+  "externalSpecialistSearchCalls": 0,
+  "neutralizedSearchRequests": 2,
+  "searchStatement": "RICERCA SPECIALISTI NON ESEGUITA PER SCELTA METODOLOGICA",
+  "diagnoses": [],
+  "prescriptions": [],
+  "problems": [],
+  "playwright": "PASS",
+  "timestamp": "2026-07-17T00:32:25.703Z",
+  "screenshot": "artifacts/consolidated-mobile-screenshots/chromium-desktop/REGRESSION_POS_01_NEURO.png"
+}

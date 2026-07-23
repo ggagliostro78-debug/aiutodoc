@@ -1,0 +1,19 @@
+﻿{
+    "id":  "PED_02_FEBBRE_BAMBINO_PROGRAMMATA",
+    "attempt":  1,
+    "input":  "Mia figlia ha 7 anni e da ieri ha febbre fino a 38,5. Beve, mangia poco ma Ã¨ vigile. Non ha difficoltÃ  a respirare, rigiditÃ  del collo, macchie violacee o convulsioni.",
+    "environment":  "staging",
+    "browser":  "chromium-desktop",
+    "status":  "NON VALUTABILE - ERRORE RUNNER",
+    "exactAgeInserted":  null,
+    "questions":  [
+                      "Durata della febbre, temperatura massima e modalita di misurazione",
+                      "Idratazione, urine, vigilanza e alimentazione",
+                      "Respiro, dolore, tosse, vomito o diarrea, rash, farmaci gia somministrati e condizioni croniche"
+                  ],
+    "geminiCalls":  [
+
+                    ],
+    "externalSpecialistSearchCalls":  0,
+    "error":  "Campo eta non trovato mentre il controllo era in transizione verso lo stato editabile."
+}

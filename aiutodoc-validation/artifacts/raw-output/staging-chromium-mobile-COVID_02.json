@@ -1,0 +1,17 @@
+{
+  "id": "COVID_02",
+  "input": "Donna di 78 anni, positiva al COVID. Ha diabete e insufficienza cardiaca. Febbre 38,8 da due giorni, tosse, molta debolezza e saturazione 92-93. Dice di fare fatica a respirare quando va in bagno.",
+  "output": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nSaturazione 92% riferita\nDifficoltà respiratoria o dispnea riferita\nDiabete riferito\nInsufficienza cardiaca riferita\nEtà avanzata riferita\n15:45",
+  "specialist": "",
+  "urgency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nSaturazione 92% riferita\nDifficoltà respiratoria o dispnea riferita\nDiabete riferito\nInsufficienza cardiaca riferita\nEtà avanzata riferita\n15:45",
+  "redFlagsText": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nSaturazione 92% riferita\nDifficoltà respiratoria o dispnea riferita\nDiabete riferito\nInsufficienza cardiaca riferita\nEtà avanzata riferita\n15:45",
+  "disclaimer": "Importante\n\nAIutoDoc non fornisce diagnosi, prescrizioni o pareri medici e non sostituisce una visita sanitaria.\n\nIn caso di urgenza, sintomi gravi o peggioramento improvviso, chiama il 112/118 o rivolgiti al Pronto Soccorso.",
+  "sources": "",
+  "clinicalEmergency": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nSaturazione 92% riferita\nDifficoltà respiratoria o dispnea riferita\nDiabete riferito\nInsufficienza cardiaca riferita\nEtà avanzata riferita\n15:45",
+  "urgencyReason": "Le informazioni inserite contengono possibili segnali di urgenza: contatta subito il 112/118 o recati al Pronto Soccorso. Questo avviso non è una diagnosi.\nMotivazione dell'urgenza:\nSaturazione 92% riferita\nDifficoltà respiratoria o dispnea riferita\nDiabete riferito\nInsufficienza cardiaca riferita\nEtà avanzata riferita\n15:45",
+  "questionCount": 0,
+  "url": "http://127.0.0.1:4273/",
+  "environment": "staging",
+  "timestamp": "2026-07-07T13:45:38.281Z",
+  "screenshot": "../artifacts/screenshots-staging/staging-chromium-mobile-COVID_02.png"
+}

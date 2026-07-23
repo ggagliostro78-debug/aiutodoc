@@ -1,0 +1,42 @@
+﻿[
+    {
+        "file":  "src/app_v3_standalone.js",
+        "sha256":  "CD68C9E7BD30848C6F9A3E3177FD5A74DC5CD83D9139BDD86E88CF63816FC542"
+    },
+    {
+        "file":  "src/app_shared.js",
+        "sha256":  "AD6906BFA62A1254CB792F229F78F3E3FD6B7B9BBC22286F77467BCB486B9BE3"
+    },
+    {
+        "file":  "src/chat_interface.js",
+        "sha256":  "AB58E927F7C2C812DE23C17CFD564654B8B06E6630FF40F33F3CA363B89A601C"
+    },
+    {
+        "file":  "src/app_bootstrap.js",
+        "sha256":  "1A93012B716500DF17B8B2EA3762AA8A1044E5E4C65B5BE53856F3A3A1B08B4C"
+    },
+    {
+        "file":  "index.html",
+        "sha256":  "042D7D061C904A3CF9B7544407DA046FB0EF8CA3790C3C4994D89DF6090F9107"
+    },
+    {
+        "file":  "server/gemini_proxy.js",
+        "sha256":  "A2E54CF564A1031E7775C52A98178F1C429996C3BB96FF0EE4FF9C608F066C97"
+    },
+    {
+        "file":  "aiutodoc-validation/scripts/anamnesis-routing-validator.ts",
+        "sha256":  "3A52BB7495211098145FA55FDFFAD4A2DBC7F31B5A2C338BF138CA052151BD5A"
+    },
+    {
+        "file":  "aiutodoc-validation/scripts/score-results.ts",
+        "sha256":  "6473C81BDC29FED91CB5DC30F2C398CADA353C82599273EA8297483FE6A5D13A"
+    },
+    {
+        "file":  "aiutodoc-validation/test-cases.json",
+        "sha256":  "0EFF288C3473956EF6E72CF9A5DF7EECF9470046A2E14B8C7A37C0A66A36FF10"
+    },
+    {
+        "file":  "aiutodoc-validation/expected-results.json",
+        "sha256":  "01D2D22C20E68F66FCC0CF710D8C5102243FFDC3869D3A708453DDA93CF353C0"
+    }
+]
