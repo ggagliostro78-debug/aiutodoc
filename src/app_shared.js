@@ -87,6 +87,19 @@ function buildSpecialtyEvidenceHTML(specialty, clinicalContext = "") {
         </section>`;
 }
 
+function buildNewSearchActionsHTML() {
+    return `
+        <section class="new-search-actions" aria-label="Azioni al termine della ricerca">
+            <p>Vuoi effettuare un altro orientamento?</p>
+            <button type="button" class="new-search-button new-search-inline restart-orientation-btn" data-restart-orientation>
+                <span aria-hidden="true">↻</span> Fai una nuova ricerca
+            </button>
+        </section>
+        <button type="button" class="new-search-button new-search-floating restart-orientation-btn" data-restart-orientation aria-label="Fai una nuova ricerca e torna all'inizio">
+            <span aria-hidden="true">↻</span> Fai una nuova ricerca
+        </button>`;
+}
+
 function sanitizeHTML(html) {
     const template = document.createElement('template');
     template.innerHTML = String(html ?? "");

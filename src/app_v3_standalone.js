@@ -2765,7 +2765,7 @@ class TriageEngine {
                   </div>
                 </div>`;
             }
-            out += resultsHTML + `</div>`;
+            out += resultsHTML + `</div>` + buildNewSearchActionsHTML();
             this.onMessage(out);
 
             trackEvent('specialist_search_result_shown', {

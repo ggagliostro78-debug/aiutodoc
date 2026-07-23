@@ -345,7 +345,7 @@ class ChatInterface {
               </div>
             </div>`;
         }
-        out += resultsHTML + `</div>`;
+        out += resultsHTML + `</div>` + buildNewSearchActionsHTML();
 
         this.addMessage(out, 'system-msg');
     }
@@ -418,6 +418,23 @@ class ChatInterface {
             });
         });
 
+        const restartButtons = bubble.querySelectorAll('.restart-orientation-btn[data-restart-orientation]');
+        restartButtons.forEach((button) => {
+            button.addEventListener('click', () => this.restartOrientation());
+        });
+
+        const inlineRestartButton = bubble.querySelector('.new-search-inline');
+        const floatingRestartButton = bubble.querySelector('.new-search-floating');
+        if (inlineRestartButton && floatingRestartButton && 'IntersectionObserver' in window) {
+            const restartButtonObserver = new IntersectionObserver((entries) => {
+                const inlineButtonIsVisible = entries.some((entry) => entry.isIntersecting);
+                floatingRestartButton.classList.toggle('is-hidden', inlineButtonIsVisible);
+                floatingRestartButton.setAttribute('aria-hidden', inlineButtonIsVisible ? 'true' : 'false');
+                floatingRestartButton.setAttribute('tabindex', inlineButtonIsVisible ? '-1' : '0');
+            }, { threshold: 0.25 });
+            restartButtonObserver.observe(inlineRestartButton);
+        }
+
         const time = document.createElement('div');
         time.className = 'msg-time';
         const now = new Date();
@@ -436,6 +453,14 @@ class ChatInterface {
         } else {
             this.scrollToBottom();
         }
+    }
+
+    restartOrientation() {
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        window.location.reload();
     }
 
     setLoading(isLoading) {
