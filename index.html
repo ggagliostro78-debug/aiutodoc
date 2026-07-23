@@ -1036,7 +1036,7 @@
     // Rescue UI Script (Standard Script for Max Availability)
     (function() {
       console.log("Rescue UI Script loading...");
-      const APP_CONSENT_VERSION = '2026-07-02-compliance-v1';
+      const APP_CONSENT_VERSION = '2026-07-19-serpapi-v1';
       const ENTRY_CONSENT_KEY = 'aiutodoc_entry_consents';
       const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
       const privacyModal = document.getElementById('privacy-modal');
@@ -1102,7 +1102,7 @@
           scope: scope,
           consentVersion: APP_CONSENT_VERSION,
           documentVersions: {
-            privacy: '2026-05-29-v1',
+            privacy: '2026-07-19-v1.1',
             cookie: '2026-07-02-v1.2',
             disclaimer: '2026-05-29-v1',
             terms: '2026-07-02-v1.1'
@@ -1365,7 +1365,7 @@
                 <li><strong>Dati trattati:</strong> Le informazioni inserite, incluse eventuali informazioni sanitarie, vengono trattate per fornire il servizio richiesto e gestite secondo quanto indicato nella presente Informativa Privacy. Se richiedi il codice di recupero, viene registrato anche un identificativo utente pseudonimo associato ai consensi prestati.</li>
                 <li><strong>Base giuridica:</strong> Per l'uso del servizio sono richiesti consensi separati: presa visione del disclaimer medico, accettazione dei termini e consenso esplicito al trattamento dei dati sanitari ex art. 9(2)(a) GDPR.</li>
                 <li><strong>Finalità e conservazione:</strong> I dati inseriti vengono trattati per erogare il servizio di orientamento sanitario informativo. La conservazione dipende dalle funzioni richieste dall'utente, come il codice di recupero previa registrazione.</li>
-                <li><strong>Comunicazione a terzi:</strong> Per il funzionamento della ricerca, il testo fornito può essere elaborato tramite API di fornitori di Intelligenza Artificiale che operano secondo protocolli di sicurezza standard.</li>
+                <li><strong>Comunicazione a terzi:</strong> Il testo della sessione può essere elaborato da Google per generare l'orientamento. Per cercare specialisti e strutture, SerpApi riceve soltanto la branca o figura specialistica indicata e l'area geografica, non la chat sanitaria completa né identificativi diretti.</li>
                 <li><strong>Diritti dell'interessato:</strong> Puoi scrivere a info@aiutodoc.it per richieste di accesso, rettifica, cancellazione o revoca del consenso.</li>
               </ul>
             `; 
@@ -1477,7 +1477,7 @@
   </script>
   <script src="./src/config.js?v=1.1.3"></script>
   <script src="./src/app_shared.js?v=4.1.1"></script>
-  <script src="./src/app_v3_standalone.js?v=4.1.1"></script>
+  <script src="./src/app_v3_standalone.js?v=4.1.4"></script>
   <script src="./src/chat_interface.js?v=4.1.1"></script>
   <script src="./src/app_bootstrap.js?v=4.1.1"></script>
 </body>

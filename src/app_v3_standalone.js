@@ -206,7 +206,7 @@ class TriageEngine {
         });
 
         this.state = '2_ZONA';
-        this.onMessage(`Perfetto, ho registrato le informazioni essenziali nel rispetto della minimizzazione dei dati.<br><br><strong>Qual ? la tua zona geografica?</strong><br>Puoi indicare Comune, Provincia o scrivere <strong>Italia</strong> per una ricerca nazionale.`);
+        this.onMessage(`<strong>Qual è la tua zona geografica?</strong><br>Puoi indicare Comune, Provincia o scrivere <strong>Italia</strong> per una ricerca nazionale.`);
         this._updatePlaceholder();
         if (inputEl) {
             inputEl.focus();
@@ -1067,6 +1067,50 @@ class TriageEngine {
         }
     }
 
+    async _validateSymptomWithBackend(symptom) {
+        const cleanSymptom = String(symptom || "").trim();
+        if (cleanSymptom.length < 3) {
+            throw new Error("Descrizione del sintomo mancante o troppo breve.");
+        }
+
+        const API_URL = (typeof CONFIG !== 'undefined' && CONFIG.GEMINI_API_URL)
+            ? CONFIG.GEMINI_API_URL
+            : "/api/gemini";
+        if (window.location.protocol === 'file:' && API_URL.startsWith('/')) {
+            throw new Error("La validazione automatica richiede un server locale o un deploy serverless.");
+        }
+
+        const response = await this._fetchWithTimeout(
+            API_URL,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'validate_symptom',
+                    symptom: cleanSymptom
+                })
+            },
+            15000
+        );
+
+        if (!response.ok) {
+            throw new Error(`Validazione automatica non disponibile (${response.status}).`);
+        }
+
+        const payload = await response.json();
+        const result = payload && payload.result;
+        if (!result
+            || typeof result.is_medical_request !== 'boolean'
+            || typeof result.is_possible_emergency !== 'boolean') {
+            throw new Error("Risposta di validazione automatica non valida.");
+        }
+
+        return {
+            is_medical_request: result.is_medical_request,
+            is_possible_emergency: result.is_possible_emergency
+        };
+    }
+
     async processUserInput(text) {
         const input = text.trim();
         console.log("Engine: elaborazione input ->", input, "| Stato attuale:", this.state);
@@ -1131,7 +1175,7 @@ class TriageEngine {
                 this.userData.sessoEta = `${sesso}, ${ageNum} anni`;
                 console.log("Engine: Sesso ed Età validati ->", this.userData.sessoEta);
                 this.state = '2_ZONA';
-                this.onMessage(`Perfetto: <strong>${this.userData.sessoEta}</strong>. <br><br><strong>Qual è la tua zona geografica (Comune e Provincia)?</strong>`);
+                this.onMessage(`<strong>Qual è la tua zona geografica?</strong><br>Puoi indicare Comune, Provincia o scrivere <strong>Italia</strong> per una ricerca nazionale.`);
                 this._updatePlaceholder();
                 break;
 
@@ -3621,7 +3665,7 @@ class TriageEngine {
                 "assenza di difficolta respiratoria, che non riduce l'urgenza infettiva"
             ];
             normalized.preparazione_visita = "Richiedi una valutazione medica urgente oggi. Vai in Pronto Soccorso o contatta 112/118 se compaiono peggioramento rapido, confusione, pressione bassa, febbre alta persistente, strie rosse estese, immunodepressione importante, coinvolgimento di volto o occhio, dolore sproporzionato o segni di sepsi. Non rimandare a visita programmata.";
-            normalized.impegnativa_medico = "Valutazione urgente per possibile infezione cutanea acuta in paziente diabetico con febbre, brividi e debolezza, senza diagnosi certa di cellulite o erisipela e senza prescrizioni.";
+            normalized.impegnativa_medico = "Valutazione urgente dei sintomi cutanei acuti riferiti in paziente diabetico con febbre, brividi e debolezza, senza formulare diagnosi di cellulite o erisipela e senza prescrizioni.";
         }
         if (this._isPossibleAnaphylaxisContext()) {
             normalized.specialista_indicato = "112/118, Pronto Soccorso, emergenza allergologica";

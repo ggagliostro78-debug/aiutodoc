@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aiutodoc-static-v20260702-compliance-v1';
+const CACHE_NAME = 'aiutodoc-static-v20260720-chat-copy-v1';
 const ASSETS = [
   './',
   './index.html',

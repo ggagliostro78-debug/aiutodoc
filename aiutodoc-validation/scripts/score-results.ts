@@ -175,7 +175,7 @@ export function scoreResult(captured: CapturedResult, expected: ExpectedResult):
   const missedSevereUrgency = severe && matchedUrgency.length === 0;
   const contradictoryUrgency = /(?:112|pronto soccorso)/i.test(clinicalText)
     && /non pronto soccorso se stabile/i.test(clinicalText)
-    && !/(?:in caso di|se (?:compaiono|presenta|peggiora|diventa instabile))/i.test(clinicalText);
+    && !/(?:in caso di|se (?:stabile|compaiono|presenta|peggiora|diventa instabile))/i.test(clinicalText);
 
   const specialistScore = matchedSpecialists.length ? 2 : matches(output, expected.secondary).length ? 1 : 0;
   const urgencyScore = matchedUrgency.length ? 2 : severe ? 0 : 1;
