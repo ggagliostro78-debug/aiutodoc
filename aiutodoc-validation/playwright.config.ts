@@ -5,7 +5,7 @@ const environment = process.env.AIUTODOC_ENV || 'mocked-local';
 if (!['mocked-local', 'staging', 'live'].includes(environment)) throw new Error(`AIUTODOC_ENV non valido: ${environment}`);
 if (environment === 'staging' && !process.env.AIUTODOC_BASE_URL) throw new Error('AIUTODOC_BASE_URL è obbligatorio in staging.');
 const realEngine = environment !== 'mocked-local';
-const baseURL = process.env.AIUTODOC_BASE_URL || (environment === 'live' ? 'https://aiutodoc.it' : 'http://127.0.0.1:4173');
+const baseURL = process.env.AIUTODOC_BASE_URL || (environment === 'live' ? 'http://127.0.0.1:4274' : 'http://127.0.0.1:4274');
 
 export default defineConfig({
   testDir: './tests',
@@ -35,7 +35,7 @@ export default defineConfig({
   webServer: realEngine ? undefined : {
     command: 'npm run dev',
     cwd: path.resolve(__dirname, '..'),
-    url: 'http://127.0.0.1:4173',
+    url: 'http://127.0.0.1:4274',
     reuseExistingServer: true,
     timeout: 30_000
   }

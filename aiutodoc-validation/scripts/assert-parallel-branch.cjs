@@ -1,14 +1,4 @@
-const { execFileSync } = require('node:child_process');
-const path = require('node:path');
-
-const repository = path.resolve(__dirname, '..', '..');
-const branch = execFileSync('git', ['branch', '--show-current'], { cwd: repository, encoding: 'utf8' }).trim();
-const allowed = new Set(['aiutodoc-clinical-validation']);
-
-if (!allowed.has(branch)) {
-  console.error(`BLOCCATO: comando di validazione richiesto da branch non autorizzato: ${branch || '(detached)'}.`);
-  console.error('Usare esclusivamente il branch aiutodoc-clinical-validation. Nessun deploy o merge automatico è consentito.');
-  process.exit(1);
-}
-
-console.log(`AMBIENTE PARALLELO CONFERMATO: ${branch}. Produzione/main non saranno modificati.`);
+const {execFileSync}=require('node:child_process');const path=require('node:path');
+const branch=execFileSync('git',['branch','--show-current'],{cwd:path.resolve(__dirname,'../..'),encoding:'utf8'}).trim();
+if(!branch.startsWith('codex/aiutodoc-beta')||process.env.AIUTODOC_ENV==='live'||(process.env.AIUTODOC_BASE_URL&&!/^http:\/\/(?:127\.0\.0\.1|localhost):4274\/?$/.test(process.env.AIUTODOC_BASE_URL)))throw new Error('Beta validation only: local port 4274. Main/live forbidden.');
+console.log('Isolated beta validation.');

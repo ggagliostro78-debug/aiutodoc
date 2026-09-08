@@ -1,4 +1,14 @@
 node_modules/
+test-results/
 artifacts/test-results/
 artifacts/html-report/
 artifacts/playwright-results.json
+artifacts/*screenshots*/
+artifacts/visual-comparison/
+artifacts/main-smoke/
+artifacts/main-smoke-test-results/
+artifacts/consolidated-test-results/
+artifacts/staging-runtime/
+artifacts/*.tmp.json
+delivery/
+*.zip

@@ -11,6 +11,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="application-name" content="AIutoDoc" />
   <meta name="apple-mobile-web-app-title" content="AIutoDoc" />
+  <meta name="robots" content="noindex, nofollow">
   <title>AIutoDoc.it - Prenderti cura di te non è mai stato così semplice</title>
   <meta name="description" content="AIutoDoc offre orientamento sanitario informativo e supporto alla ricerca dello specialista più coerente con le informazioni fornite. Non sostituisce il medico." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -29,6 +30,7 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./assets/favicon-192.png" />
   <link rel="stylesheet" href="./src/style.css?v=4.1.0">
+  <script src="./src/beta_client.js"></script>
   <script src="./src/ga_bootstrap.js?v=4.2.0"></script>
   <link rel="privacy-policy" href="https://aiutodoc.it/privacy-policy/">
   <link rel="terms-of-service" href="https://aiutodoc.it/termini-condizioni/">
@@ -117,7 +119,7 @@
   </script>
 </head>
 
-<body>
+<body class="beta-app">
   <div id="app-splash" class="app-splash">
     <div class="app-splash-card">
       <div class="app-splash-title">AIutoDoc</div>
@@ -160,7 +162,7 @@
       <button type="button" id="cookie-close" class="cookie-close" aria-label="Chiudi e rifiuta i cookie non necessari">&times;</button>
       <div class="cookie-consent-copy">
         <h2 id="cookie-consent-title">Preferenze cookie</h2>
-        <p>Usiamo cookie tecnici, necessari al funzionamento del sito, che non richiedono il tuo consenso. Utilizziamo anche cookie analitici di terze parti (Google Analytics) per statistiche aggregate sull'uso del sito: questi vengono attivati solo con il tuo consenso. Non usiamo cookie di profilazione o marketing.</p>
+        <p>Usiamo cookie tecnici, necessari al funzionamento del sito, che non richiedono il tuo consenso. Google Analytics e disattivato: nessun evento viene inviato. Puoi comunque provare accettazione, rifiuto e modifica delle preferenze. Non usiamo cookie di profilazione o marketing.</p>
         <a href="/cookie-policy/" target="_blank" rel="noopener">Maggiori informazioni: Cookie Policy</a>
       </div>
       <div id="cookie-customize-panel" class="cookie-customize-panel hidden">
@@ -211,8 +213,9 @@
           <button type="button" class="nav-btn" onclick="window.location.href='/glossario/'">Glossario</button>
           <button type="button" class="nav-btn" onclick="window.location.href='/specializzazioni/'">Specializzazioni</button>
           <button id="reset-btn" class="nav-btn" title="Riavvia Sessione">Nuova Ricerca</button>
-          
+
           <button type="button" id="recovery-page-btn" class="nav-btn recovery-btn-style" onclick="window.location.href='/recupera-ricerca/'" title="Recupera una ricerca già eseguita">Recupera ricerca</button>
+          <button type="button" id="beta-end-session" class="nav-btn">Termina sessione</button>
         </nav>
       </div>
     </header>
@@ -228,7 +231,7 @@
             <div class="msg-bubble">
               <div class="welcome-title">Trova più facilmente lo specialista adatto alle tue esigenze.</div>
               <p style="text-align: center; margin-bottom: 10px; font-size: 0.95rem;">AIutoDoc è un sistema di supporto che si basa sull’utilizzo dell’intelligenza artificiale per lo scopo più umano che ci sia: <strong>la cura</strong>. Attraverso poche e semplici domande ti aiuta ad <strong>accedere alle figure specialistiche più adatte a te</strong>, sulla base dei sintomi e delle informazioni che condividi.</p>
-              
+
               <div class="medical-disclaimer-card" role="note" aria-label="Avviso medico importante" data-testid="medical-disclaimer">
                 <strong>Importante</strong>
                 <p>AIutoDoc non fornisce diagnosi, prescrizioni o pareri medici e non sostituisce una visita sanitaria.</p>
@@ -319,7 +322,7 @@
         <div class="chat-footer-links">
           Fare del bene ci fa stare bene: <a href="mailto:info@aiutodoc.it?subject=Collaborazione AIutoDoc">Collabora con noi</a> o <a href="mailto:info@aiutodoc.it?subject=Opportunita istituzionali AIutoDoc">Scopri le opportunità istituzionali</a>
         </div>
-        
+
         <!-- AI DISCLAIMER BOX -->
         <div class="ai-disclaimer-box" style="margin-top: 20px; padding: 15px; background-color: #f0f7f7; border-left: 4px solid var(--primary); border-radius: 4px; font-size: 0.85rem; color: var(--text-main);">
           <strong>Nota Informativa:</strong> AIutoDoc.it utilizza sistemi digitali di orientamento per aiutarti a individuare la branca specialistica più coerente con le informazioni fornite. Non prescrive cure e non sostituisce il parere del medico. In caso di emergenza, contatta il 112.</div>
@@ -332,7 +335,7 @@
             <img src="./assets/about.png" alt="Chi Siamo" class="section-image" loading="lazy" decoding="async" onerror="this.style.display='none'">
           </div>
           <h2>Perché AIutoDoc?</h2>
-          
+
           <p><strong>AIutoDoc</strong> nasce per rendere più semplice l'orientamento sanitario. Raccoglie poche informazioni per restituire una risposta coerente con le tue necessità, <strong>supportandoti nella ricerca</strong> di professionisti e strutture sanitarie.</p>
 
           <p>Le informazioni che fornisci vengono sempre trattate in modo sicuro e <strong>al solo fine di individuare la categoria specialistica più pertinente</strong>. Per maggiori dettagli consulta la nostra <a href="/privacy-policy/" target="_blank" rel="noopener"><strong>Privacy Policy</strong></a>.</p>
@@ -342,7 +345,7 @@
               <h3>Il problema delle liste d'attesa</h3>
               <p>Molte delle lunghe attese nel Servizio Sanitario Regionale (SSR) dipendono da richieste indirizzate verso la specializzazione sbagliata. Un <strong>orientamento informativo</strong> ti può aiutare a prepararti meglio al confronto con il medico ma, soprattutto, a <strong>trovare lo specialista più adatto alle tue esigenze</strong>, riducendo il rischio di attese prolungate e sprechi di denaro.</p>
             </div>
-            
+
             <div class="solution-box">
               <h3>Il Ruolo di AIutoDoc</h3>
               <p>AIutoDoc interviene preventivamente con un percorso digitale di orientamento che precede la fase di prenotazione, senza sostituire il medico o le sue decisioni.</p>
@@ -1037,8 +1040,8 @@
     (function() {
       console.log("Rescue UI Script loading...");
       const APP_CONSENT_VERSION = '2026-07-19-serpapi-v1';
-      const ENTRY_CONSENT_KEY = 'aiutodoc_entry_consents';
-      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
+      const ENTRY_CONSENT_KEY = 'aiutodoc_beta_entry_consents';
+      const COOKIE_CONSENT_KEY = 'aiutodoc_beta_cookie_preferences';
       const privacyModal = document.getElementById('privacy-modal');
       const acceptBtn = document.getElementById('accept-privacy-btn');
       const userInput = document.getElementById('user-input');
@@ -1061,11 +1064,11 @@
       const minorMessage = document.getElementById('minor-flow-message');
 
       function readJsonStorage(key) {
-        try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch (error) { return null; }
+        try { return JSON.parse((key === ENTRY_CONSENT_KEY ? sessionStorage : localStorage).getItem(key) || 'null'); } catch (error) { return null; }
       }
 
       function writeJsonStorage(key, value) {
-        try { localStorage.setItem(key, JSON.stringify(value)); } catch (error) { console.warn('Storage non disponibile:', key, error); }
+        try { (key === ENTRY_CONSENT_KEY ? sessionStorage : localStorage).setItem(key, JSON.stringify(value)); } catch (error) { console.warn('Storage non disponibile:', key, error); }
       }
 
       function readStorageValue(key) {
@@ -1079,7 +1082,7 @@
       function hasValidEntryConsent() {
         const saved = readJsonStorage(ENTRY_CONSENT_KEY);
         return !!(
-          saved &&
+          saved && window.betaEntryReceipt() &&
           saved.consentVersion === APP_CONSENT_VERSION &&
           saved.ageOver14 === true &&
           saved.medicalDisclaimer === true &&
@@ -1097,29 +1100,8 @@
         if (sendBtn) sendBtn.disabled = false;
       }
 
-      function logConsent(scope, consents, extra) {
-        const payload = {
-          scope: scope,
-          consentVersion: APP_CONSENT_VERSION,
-          documentVersions: {
-            privacy: '2026-07-19-v1.1',
-            cookie: '2026-07-02-v1.2',
-            disclaimer: '2026-05-29-v1',
-            terms: '2026-07-02-v1.1'
-          },
-          consents: consents,
-          textSnapshot: extra && extra.textSnapshot ? extra.textSnapshot : '',
-          source: extra && extra.source ? extra.source : 'web'
-        };
-
-        fetch('/api/consent-logs', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          keepalive: true
-        }).catch(function(error) {
-          console.warn('Log consenso non inviato:', error);
-        });
+      function logConsent(scope, consents) {
+        return window.betaRegisterConsent(scope, consents);
       }
 
       function loadGoogleAnalytics() {
@@ -1170,7 +1152,7 @@
         logConsent('cookie_banner', record, {
           source: action,
           textSnapshot: 'Cookie tecnici necessari; cookie analytics solo previo consenso; marketing non utilizzato.'
-        });
+        }).catch(function() { alert('Preferenze applicate nel browser; registro temporaneamente non disponibile.'); });
         hideCookieBanner();
       }
 
@@ -1208,9 +1190,9 @@
 
       const storedCookiePreferences = readJsonStorage(COOKIE_CONSENT_KEY);
       const storedCookieExpired = storedCookiePreferences && Date.parse(storedCookiePreferences.expiresAt || '') <= Date.now();
-      const forceCookiePreferences = readStorageValue('aiutodoc_open_cookie_preferences') === '1';
+      const forceCookiePreferences = readStorageValue('aiutodoc_beta_open_cookie_preferences') === '1';
       if (forceCookiePreferences) {
-        removeStorageValue('aiutodoc_open_cookie_preferences');
+        removeStorageValue('aiutodoc_beta_open_cookie_preferences');
         showCookieBanner(true);
       } else if (storedCookiePreferences && !storedCookieExpired) {
         applyCookiePreferences(storedCookiePreferences);
@@ -1236,7 +1218,10 @@
           ageRadios.forEach(function(input) { input.addEventListener('change', syncConsentButton); });
           consentInputs.forEach(function(input) { input.addEventListener('change', syncConsentButton); });
 
-          acceptBtn.addEventListener('click', function() {
+          acceptBtn.addEventListener('click', async function() {
+            acceptBtn.disabled = true;
+            try { await logConsent('entry_gate', {ageOver14:true,medicalDisclaimer:true,terms:true,healthData:true}); }
+            catch(error) { acceptBtn.disabled = false; alert(error.message); return; }
             console.log("Privacy accepted.");
             writeJsonStorage(ENTRY_CONSENT_KEY, {
               ageOver14: true,
@@ -1245,15 +1230,6 @@
               healthData: true,
               consentVersion: APP_CONSENT_VERSION,
               acceptedAt: new Date().toISOString()
-            });
-            logConsent('entry_gate', {
-              ageOver14: true,
-              medicalDisclaimer: true,
-              terms: true,
-              healthData: true
-            }, {
-              source: 'entry_gate',
-              textSnapshot: 'Verifica eta; presa visione disclaimer medico; accettazione termini; consenso esplicito al trattamento dati sanitari art. 9(2)(a) GDPR.'
             });
             privacyModal.classList.add('hidden');
             setTimeout(function() { privacyModal.style.display = 'none'; }, 500);
@@ -1357,8 +1333,8 @@
         legalModal.classList.remove('hidden');
         let title = '', text = '';
         switch (type) {
-          case 'privacy': 
-            title = 'Privacy Policy'; 
+          case 'privacy':
+            title = 'Privacy Policy';
             text = `
               <h4>Informativa ai sensi del Regolamento UE 2016/679 (GDPR)</h4>
               <ul>
@@ -1368,10 +1344,10 @@
                 <li><strong>Comunicazione a terzi:</strong> Il testo della sessione può essere elaborato da Google per generare l'orientamento. Per cercare specialisti e strutture, SerpApi riceve soltanto la branca o figura specialistica indicata e l'area geografica, non la chat sanitaria completa né identificativi diretti.</li>
                 <li><strong>Diritti dell'interessato:</strong> Puoi scrivere a info@aiutodoc.it per richieste di accesso, rettifica, cancellazione o revoca del consenso.</li>
               </ul>
-            `; 
+            `;
             break;
-          case 'terms': 
-            title = 'Termini e Condizioni'; 
+          case 'terms':
+            title = 'Termini e Condizioni';
             text = `
               <h4>Regolamento per l'uso della piattaforma aiutodoc.it</h4>
               <ul>
@@ -1381,18 +1357,18 @@
                 <li><strong>Emergenze:</strong> In caso di emergenza medica o sintomi acuti, l'utente non deve utilizzare la piattaforma ma contattare immediatamente il 112.</li>
                 <li><strong>Contatti per richieste:</strong> Per richieste informative o di rimozione dall'indicizzazione è possibile scrivere a info@aiutodoc.it.</li>
               </ul>
-            `; 
+            `;
             break;
-          case 'cookie': 
-            title = 'Cookie Policy'; 
+          case 'cookie':
+            title = 'Cookie Policy';
             text = `
               <p>Questo sito utilizza solo cookie tecnici essenziali per il funzionamento della piattaforma e strumenti di analisi (Google Analytics 4) configurati con l'anonimizzazione dell'IP attiva e senza condivisione dati con terze parti.</p>
               <p>Non vengono utilizzati cookie di profilazione o di terze parti per scopi pubblicitari.</p>
-            `; 
+            `;
             break;
-          case 'disclaimer': 
-            title = 'Disclaimer Medico'; 
-            text = '<p>Sono un sistema di intelligenza artificiale che fornisce informazioni di orientamento sanitario. Non sostituisco un medico. I risultati sono indicazioni informative e devono essere confermati con il tuo medico curante. In caso di urgenza chiama il 112.</p>'; 
+          case 'disclaimer':
+            title = 'Disclaimer Medico';
+            text = '<p>Sono un sistema di intelligenza artificiale che fornisce informazioni di orientamento sanitario. Non sostituisco un medico. I risultati sono indicazioni informative e devono essere confermati con il tuo medico curante. In caso di urgenza chiama il 112.</p>';
             break;
         }
         document.getElementById('legal-modal-title').innerHTML = title;
@@ -1477,6 +1453,8 @@
   </script>
   <script src="./src/config.js?v=1.1.3"></script>
   <script src="./src/app_shared.js?v=4.1.1"></script>
+  <script src="./src/clinical_rules.js"></script>
+  <script src="./src/questionnaire_rules.js"></script>
   <script src="./src/app_v3_standalone.js?v=4.1.4"></script>
   <script src="./src/chat_interface.js?v=4.1.1"></script>
   <script src="./src/app_bootstrap.js?v=4.1.1"></script>

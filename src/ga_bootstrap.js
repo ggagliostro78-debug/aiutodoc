@@ -1,6 +1,6 @@
 (function() {
-  const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
-  const GA_MEASUREMENT_ID = 'G-9C1TRG2K0X';
+  const COOKIE_CONSENT_KEY = 'aiutodoc_beta_cookie_preferences';
+  const GA_MEASUREMENT_ID = window.AIUTODOC_ANALYTICS_ID || '';
 
   function readJsonStorage(key) {
     try {
@@ -15,7 +15,7 @@
     if (!preferences) return false;
 
     const expiresAt = Date.parse(preferences.expiresAt || '');
-    if (Number.isFinite(expiresAt) && expiresAt <= Date.now()) return false;
+    if (!Number.isFinite(expiresAt) || expiresAt <= Date.now()) return false;
 
     return preferences.analytics === true;
   }
@@ -41,7 +41,8 @@
   let analyticsConfigured = false;
 
   function initializeGoogleAnalytics() {
-    if (analyticsConfigured) return;
+    if (!GA_MEASUREMENT_ID) return;
+    if (analyticsConfigured) { window.gtag('consent', 'update', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted' }); return; }
 
     ensureGtagStub();
     window.gtag('consent', 'default', {

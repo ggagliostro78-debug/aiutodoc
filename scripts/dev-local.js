@@ -6,8 +6,9 @@ const { handleSpecialistSearch } = require("../server/specialist_search");
 const { createRequestContext } = require("../server/request_guard");
 
 const root = path.resolve(__dirname, "..");
-const host = process.env.HOST || "127.0.0.1";
-const port = Number(process.env.PORT || 4173);
+const host = "127.0.0.1";
+process.env.BETA_LOCAL_MODE = "true";
+if (process.env.NETLIFY || process.env.NODE_ENV === "production") throw new Error("Beta locale solo per sviluppo.");
 
 function loadDotEnv() {
     const envPath = path.join(root, ".env");
@@ -24,13 +25,14 @@ function loadDotEnv() {
         if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
             value = value.slice(1, -1);
         }
-        if (!process.env[key]) {
+        if (key.startsWith("BETA_") && !process.env[key]) {
             process.env[key] = value;
         }
     }
 }
 
 loadDotEnv();
+const port = Number(process.env.BETA_PORT || 4284);
 
 const mimeTypes = {
     ".css": "text/css; charset=utf-8",
@@ -61,7 +63,7 @@ function readBody(req) {
 }
 
 function send(res, statusCode, headers, body) {
-    res.writeHead(statusCode, headers);
+    res.writeHead(statusCode, { "X-Content-Type-Options":"nosniff", "Referrer-Policy":"no-referrer", "X-Robots-Tag":"noindex, nofollow", ...headers });
     res.end(body);
 }
 
@@ -123,6 +125,12 @@ async function handleApi(req, res) {
         return true;
     }
 
+    if (req.url === "/api/triage-delete") {
+        const { handleTriageDelete } = require("../server/triage_store");
+        const result = await handleTriageDelete({method:req.method,body,context:createRequestContext(req)});
+        send(res,result.statusCode,result.headers,result.body);return true;
+    }
+
     if (req.url === "/api/triage-recover") {
         const { handleTriageRecover } = require("../server/triage_store");
         const result = await handleTriageRecover({
@@ -149,15 +157,7 @@ async function handleApi(req, res) {
         send(res, 200, {
             "Content-Type": "application/json; charset=utf-8",
             "Cache-Control": "no-store"
-        }, JSON.stringify({
-            apiKey: process.env.FIREBASE_API_KEY || "",
-            authDomain: process.env.FIREBASE_AUTH_DOMAIN || "",
-            projectId: process.env.FIREBASE_PROJECT_ID || "",
-            storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "",
-            messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || "",
-            appId: process.env.FIREBASE_APP_ID || "",
-            measurementId: process.env.FIREBASE_MEASUREMENT_ID || ""
-        }));
+        }, '{}');
         return true;
     }
 
@@ -168,10 +168,11 @@ function safeFilePath(url) {
     const pathname = decodeURIComponent(new URL(url, `http://${host}:${port}`).pathname);
     const relative = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
     let filePath = path.resolve(root, relative);
-    if (!filePath.startsWith(root)) return null;
+    if (!filePath.startsWith(root + path.sep)) return null;
     if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
         filePath = path.join(filePath, "index.html");
     }
+    if (!/^(?:index\.html|service-worker\.js|manifest\.webmanifest|robots\.txt|sitemap\.xml|logo\.jpg|src[\/\\]|assets[\/\\]|(?:chi-siamo|privacy-policy|cookie-policy|disclaimer-medico|termini-condizioni|glossario|per-gli-specialisti|recupera-ricerca|specializzazioni|beta)[\/\\])/.test(path.relative(root,filePath))) return null;
     return filePath.startsWith(root) ? filePath : null;
 }
 
@@ -195,13 +196,13 @@ const server = http.createServer(async (req, res) => {
         }, fs.readFileSync(filePath));
     } catch (error) {
         send(res, 500, { "Content-Type": "application/json; charset=utf-8" }, JSON.stringify({
-            error: error instanceof Error ? error.message : String(error)
+            error: "Richiesta non disponibile."
         }));
     }
 });
 
 server.listen(port, host, () => {
-    const hasSearch = process.env.GOOGLE_CSE_API_KEY && process.env.GOOGLE_CSE_ID;
-    const mode = `${process.env.GEMINI_API_KEY ? "con proxy Gemini" : "senza GEMINI_API_KEY"}; ${hasSearch ? "con ricerca Google" : "senza ricerca Google configurata"}`;
+    const hasSearch = process.env.BETA_GOOGLE_PLACES_API_KEY || process.env.BETA_SERPAPI_API_KEY || (process.env.BETA_GOOGLE_CSE_API_KEY && process.env.BETA_GOOGLE_CSE_ID);
+    const mode = `${process.env.BETA_GEMINI_API_KEY ? "con proxy Gemini" : "senza GEMINI_API_KEY"}; ${hasSearch ? "con ricerca Google" : "senza ricerca Google configurata"}`;
     console.log(`AIutoDoc locale: http://${host}:${port} (${mode})`);
 });

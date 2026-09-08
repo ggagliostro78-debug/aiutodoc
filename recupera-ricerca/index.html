@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="/src/style.css?v=4.1.0">
   <script src="/src/ga_bootstrap.js?v=4.2.0"></script>
 </head>
-<body>
+<body><aside style="padding:10px;background:#fff1bf;color:#423414"><strong>AIutoDoc</strong> · Ambiente separato, solo casi inventati. <a href="/beta/">Informazioni sul servizio</a></aside>
   <div id="app-splash" class="app-splash">
     <div class="app-splash-card">
       <div class="app-splash-title">AIutoDoc</div>
@@ -78,7 +78,7 @@
           <button type="button" class="nav-btn" onclick="window.location.href='/glossario/'">Glossario</button>
           <button type="button" class="nav-btn" onclick="window.location.href='/specializzazioni/'">Specializzazioni</button>
           <button id="reset-btn" class="nav-btn" title="Riavvia Sessione">Nuova Ricerca</button>
-          
+
           <button type="button" id="recovery-page-btn" class="nav-btn recovery-btn-style" onclick="window.location.href='/recupera-ricerca/'" title="Recupera una ricerca già eseguita">Recupera ricerca</button>
         </nav>
       </div>
@@ -95,7 +95,7 @@
     <div class="recovery-page-card">
       <label class="recovery-page-label" for="recovery-page-input">Inserisci il tuo ID ricerca</label>
       <div class="recovery-page-form">
-        <input type="text" id="recovery-page-input" class="recovery-page-input" placeholder="Es. AB12CD34" autocomplete="off" inputmode="text">
+        <input type="text" id="recovery-page-input" class="recovery-page-input" placeholder="Incolla il codice di 48 caratteri" autocomplete="off" inputmode="text">
         <button type="button" id="recovery-page-submit" class="btn-premium-wide recovery-page-submit">Recupera ricerca</button>
       </div>
       <p class="recovery-page-note">Dopo il click ti riportiamo in home e mostriamo direttamente la ricerca recuperata.</p>
@@ -135,7 +135,7 @@
 
   <script>
     (function() {
-      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
+      const COOKIE_CONSENT_KEY = 'aiutodoc_beta_cookie_preferences';
       const cookieConsent = document.getElementById('cookie-consent');
       const cookieCustomizePanel = document.getElementById('cookie-customize-panel');
       const cookieAnalytics = document.getElementById('cookie-analytics');
@@ -347,7 +347,7 @@
           });
         }
         try {
-          localStorage.setItem('aiutodoc_pending_recovery_id', id);
+          sessionStorage.setItem('aiutodoc_beta_pending_recovery_id', id);
         } catch (error) {
           console.warn('Impossibile salvare ID recupero:', error);
         }

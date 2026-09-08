@@ -1,36 +1,4 @@
 /* style.css */
-@font-face {
-  font-family: "Open Sauce";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/open-sauce-one@latest/latin-400-normal.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Open Sauce";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/open-sauce-one@latest/latin-500-normal.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Open Sauce";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 600;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/open-sauce-one@latest/latin-600-normal.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Open Sauce";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 700;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/open-sauce-one@latest/latin-700-normal.woff2") format("woff2");
-}
-
 :root {
   --primary: #0F5464;
   --primary-hover: #5CC9CC;
@@ -2144,11 +2112,11 @@ body {
 
   /* Main Navigation (Improved Mobile Overlay) */
   .main-nav {
-    display: none !important; 
+    display: none !important;
     flex-direction: column !important;
     width: 100vw !important;
     min-height: var(--app-height) !important;
-    padding: calc(68px + var(--safe-top)) calc(20px + var(--safe-right)) calc(24px + var(--safe-bottom)) calc(20px + var(--safe-left)) !important; 
+    padding: calc(68px + var(--safe-top)) calc(20px + var(--safe-right)) calc(24px + var(--safe-bottom)) calc(20px + var(--safe-left)) !important;
     gap: 12px !important;
     position: fixed !important; /* Independent of banner container */
     top: 0;
@@ -3734,3 +3702,11 @@ select,
   }
 }
 
+
+/* Beta identity and long recovery tokens. */
+.id-copy-box,.recovery-id,.registration-gate strong{overflow-wrap:anywhere;word-break:break-word}
+@media(max-width:600px){.result-card-main>div[style*="grid"]{grid-template-columns:1fr!important}}
+
+[data-beta-delete]{padding:10px 14px;border:1px solid #b42318;border-radius:8px;background:#fff5f5;color:#8b1d13;font:inherit;cursor:pointer;max-width:100%;margin:8px 0}
+
+body.beta-app{flex-direction:column;align-items:center;justify-content:flex-start}

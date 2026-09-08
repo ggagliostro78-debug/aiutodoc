@@ -1,232 +1,46 @@
-const crypto = require("crypto");
-const { getFirestoreAdmin } = require("./firebase_admin");
-const {
-    enforceRateLimit,
-    truncateText,
-    validateBodySize
-} = require("./request_guard");
-
-const COLLECTION_NAME = "anonymous_triages";
-const MAX_TRIAGE_BODY_BYTES = 80 * 1024;
-const RECOVERY_CODE_BYTES = 4;
-
-function parseBody(body) {
-    if (!body) return {};
-    if (typeof body === "string") {
-        try {
-            return JSON.parse(body);
-        } catch (error) {
-            return {};
-        }
-    }
-    if (typeof body === "object") return body;
-    return {};
+const crypto=require('node:crypto');const storage=require('./beta_storage');
+const {hash,isLocal}=require('./beta_environment');const contract=require('./beta_contract');
+const {verifyReceipt}=require('./consent_logs');const {validateBodySize,validateOrigin,enforceRateLimit}=require('./request_guard');
+const COLLECTION='beta_triages_v2';
+function normalizeRecoveryCode(v){return String(v||'').toUpperCase().replace(/[\s-]/g,'');}
+function normalizeUserCodePrefix(v){return String(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,2);}
+function generateRecoveryCode(){return crypto.randomBytes(24).toString('hex').toUpperCase();}
+function response(statusCode,payload,headers={}){return {statusCode,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers},body:JSON.stringify(payload)};}
+async function guard(method,body,context,scope){
+ const g=validateOrigin(context)||validateBodySize(body,scope==='save'?81920:8192)||await enforceRateLimit(context.ip||'anonymous',{scope:'triage-'+scope,limit:10});
+ if(g)return response(g.statusCode,g.payload,g.headers);
+ if(method==='OPTIONS')return response(204,{});if(method!=='POST')return response(405,{error:'Metodo non consentito.'});return null;
 }
-
-function buildResponse(statusCode, payload, extraHeaders = {}) {
-    return {
-        statusCode,
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            "Cache-Control": "no-store",
-            ...extraHeaders
-        },
-        body: JSON.stringify(payload)
-    };
+function parse(body){try{const p=typeof body==='string'?JSON.parse(body):body;return p&&typeof p==='object'&&!Array.isArray(p)?p:{};}catch{return {};}}
+async function handleTriageSave({method,body,context={}}){
+ const denied=await guard(method,body,context,'save');if(denied)return denied;
+ const p=parse(body);const consent=await verifyReceipt(p.consentReceipt,'archive');if(!consent)return response(403,{error:'Consenso al salvataggio mancante, scaduto o non valido.'});
+ let triage;try{
+  const t=p.triage||{};const userData=contract.input(t.userData);delete userData.height_cm;
+  triage={date:new Date().toISOString(),userData,result:{...contract.result(t.result),risultati:contract.cards(t.result.risultati)},source:'beta',schemaVersion:2,consentId:consent.id,consentVersion:consent.version};
+ }catch{return response(400,{error:'Dati orientamento incompleti o non validi.'});}
+ const configured=Number((process.env.TRIAGE_RETENTION_DAYS||process.env.BETA_TRIAGE_RETENTION_DAYS)||30);const days=Number.isInteger(configured)&&configured>0?Math.min(configured,30):30;
+ const expiresAt=new Date(Date.now()+days*86400000).toISOString();
+ const claim='used_'+consent.id;
+ try{await storage.create('beta_consents_v2',claim,{expiresAt,scope:'archive_claim'});}catch(e){return response(e.code==='BETA_CONFLICT'?409:503,{error:'Richiedi una nuova ricevuta di consenso al salvataggio.'});}
+ for(let attempt=0;attempt<3;attempt++){
+  const code=generateRecoveryCode();
+  try{await storage.create(COLLECTION,hash('recovery:'+code),{...triage,expiresAt});return response(200,{id:code,recoveryCode:code,expiresAt,storageMode:isLocal()?'volatile':'cloud'});}
+  catch(e){if(e.code==='BETA_CONFLICT')continue;await storage.remove('beta_consents_v2',claim).catch(()=>{});return response(503,{error:'Archivio temporaneamente non disponibile.'});}
+ }
+ await storage.remove('beta_consents_v2',claim).catch(()=>{});
+ return response(503,{error:'Impossibile generare il codice. Riprova.'});
 }
-
-function buildCorsHeaders() {
-    const allowedOrigin = process.env.GEMINI_ALLOWED_ORIGIN || process.env.SEARCH_ALLOWED_ORIGIN;
-    if (!allowedOrigin) return {};
-
-    return {
-        "Access-Control-Allow-Origin": allowedOrigin,
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type"
-    };
+async function recover({method,body,context={}},remove=false){
+ const denied=await guard(method,body,context,'recover');if(denied)return denied;
+ const p=parse(body),code=normalizeRecoveryCode(p.id||p.recoveryCode);
+ if(!/^[A-F0-9]{48}$/.test(code))return response(400,{error:'Codice beta non valido.'});
+ try{
+  const id=hash('recovery:'+code),t=await storage.read(COLLECTION,id);
+  if(!t)return response(404,{error:'Codice non trovato o scaduto.'});
+  if(remove){await storage.remove(COLLECTION,id);if(t.consentId){await storage.remove('beta_consents_v2',t.consentId);await storage.remove('beta_consents_v2','used_'+t.consentId);}return response(200,{ok:true});}
+  if(t.schemaVersion!==2)return response(409,{error:'Versione archivio non supportata.'});
+  const {consentId,...safe}=t;return response(200,{triage:{...safe,id:code}});
+ }catch{return response(503,{error:'Archivio beta temporaneamente non disponibile.'});}
 }
-
-function buildGuardResponse(guardResult, corsHeaders) {
-    if (!guardResult) return null;
-    return buildResponse(guardResult.statusCode, guardResult.payload, {
-        ...corsHeaders,
-        ...(guardResult.headers || {})
-    });
-}
-
-function normalizeRecoveryCode(code) {
-    return String(code || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
-}
-
-function normalizeUserCodePrefix(prefix) {
-    return String(prefix || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 2);
-}
-
-function generateRecoveryCode(userPrefix) {
-    const prefix = normalizeUserCodePrefix(userPrefix);
-    if (prefix.length !== 2) {
-        const error = new Error("Prefisso codice non valido.");
-        error.code = "RECOVERY_PREFIX_INVALID";
-        throw error;
-    }
-
-    const bytes = crypto.randomBytes(RECOVERY_CODE_BYTES);
-    const letters = String.fromCharCode(65 + (bytes[0] % 26)) + String.fromCharCode(65 + (bytes[1] % 26));
-    const numbers = String(((bytes[2] << 8) + bytes[3]) % 10000).padStart(4, "0");
-    return `${prefix}${letters}${numbers}`;
-}
-
-function hashRecoveryCode(code) {
-    return crypto
-        .createHash("sha256")
-        .update(normalizeRecoveryCode(code), "utf8")
-        .digest("hex");
-}
-
-function retentionDays() {
-    const value = Number(process.env.TRIAGE_RETENTION_DAYS || 30);
-    return Number.isFinite(value) && value > 0 ? Math.min(value, 365) : 30;
-}
-
-function compactTriageData(input) {
-    const result = input.result && typeof input.result === "object" ? input.result : {};
-    const userData = input.userData && typeof input.userData === "object" ? input.userData : {};
-
-    return {
-        date: input.date || new Date().toISOString(),
-        source: truncateText(input.source || "api", 40),
-        userData: {
-            age: userData.age ?? null,
-            age_range: truncateText(userData.age_range || "", 20),
-            exact_age: userData.exact_age ?? null,
-            weight_kg: userData.weight_kg ?? null,
-            sex_at_birth: truncateText(userData.sex_at_birth || "", 40),
-            zona: truncateText(userData.zona || "", 200),
-            zonaDettagli: userData.zonaDettagli || null,
-            disturbo: truncateText(userData.disturbo || "", 600),
-            conoscitiveResp: Array.isArray(userData.conoscitiveResp) ? userData.conoscitiveResp.slice(0, 10) : [],
-            anamnesticheResp: Array.isArray(userData.anamnesticheResp) ? userData.anamnesticheResp.slice(0, 10) : [],
-            notaAnamnestica: truncateText(userData.notaAnamnestica || "", 1200)
-        },
-        result: {
-            sintesi_anamnestica: truncateText(result.sintesi_anamnestica || "", 3000),
-            specialista_indicato: truncateText(result.specialista_indicato || "", 160),
-            preparazione_visita: truncateText(result.preparazione_visita || "", 2000),
-            impegnativa_medico: truncateText(result.impegnativa_medico || "", 2000),
-            risultati: Array.isArray(result.risultati) ? result.risultati.slice(0, 20) : []
-        }
-    };
-}
-
-async function handleTriageSave({ method, body, context = {} }) {
-    const corsHeaders = buildCorsHeaders();
-    if (method === "OPTIONS") return { statusCode: 204, headers: corsHeaders, body: "" };
-    if (method !== "POST") return buildResponse(405, { error: "Metodo non consentito." }, corsHeaders);
-
-    const rateLimit = enforceRateLimit(context.ip || "anonymous", {
-        scope: "triage-save",
-        limit: Number(process.env.TRIAGE_RATE_LIMIT_PER_MINUTE || 10)
-    });
-    const rateLimitResponse = buildGuardResponse(rateLimit, corsHeaders);
-    if (rateLimitResponse) return rateLimitResponse;
-
-    const bodySize = validateBodySize(body, MAX_TRIAGE_BODY_BYTES);
-    const bodySizeResponse = buildGuardResponse(bodySize, corsHeaders);
-    if (bodySizeResponse) return bodySizeResponse;
-
-    const payload = parseBody(body);
-    const triage = compactTriageData(payload.triage || payload);
-    if (!triage.result.specialista_indicato || !triage.result.sintesi_anamnestica) {
-        return buildResponse(400, { error: "Dati triage incompleti." }, corsHeaders);
-    }
-
-    const userPrefix = normalizeUserCodePrefix(payload.userCodePrefix || payload.triage?.userCodePrefix);
-    if (userPrefix.length !== 2) {
-        return buildResponse(400, { error: "Inserisci due caratteri alfanumerici per generare il codice recupero." }, corsHeaders);
-    }
-
-    const recoveryCode = generateRecoveryCode(userPrefix);
-    const codeHash = hashRecoveryCode(recoveryCode);
-    const now = new Date();
-    const expiresAt = new Date(now.getTime() + retentionDays() * 24 * 60 * 60 * 1000);
-
-    try {
-        const db = getFirestoreAdmin();
-        await db.collection(COLLECTION_NAME).doc(codeHash).set({
-            ...triage,
-            id: recoveryCode,
-            codeHash,
-            createdAt: now.toISOString(),
-            expiresAt: expiresAt.toISOString(),
-            schemaVersion: 1
-        });
-    } catch (error) {
-        console.error("Anonymous triage save failed:", error);
-        return buildResponse(503, {
-            error: "Archivio anonimo temporaneamente non disponibile.",
-            code: error && error.code ? error.code : "TRIAGE_STORE_UNAVAILABLE"
-        }, corsHeaders);
-    }
-
-    return buildResponse(200, {
-        id: recoveryCode,
-        recoveryCode,
-        expiresAt: expiresAt.toISOString()
-    }, corsHeaders);
-}
-
-async function handleTriageRecover({ method, body, context = {} }) {
-    const corsHeaders = buildCorsHeaders();
-    if (method === "OPTIONS") return { statusCode: 204, headers: corsHeaders, body: "" };
-    if (method !== "POST") return buildResponse(405, { error: "Metodo non consentito." }, corsHeaders);
-
-    const rateLimit = enforceRateLimit(context.ip || "anonymous", {
-        scope: "triage-recover",
-        limit: Number(process.env.TRIAGE_RATE_LIMIT_PER_MINUTE || 10)
-    });
-    const rateLimitResponse = buildGuardResponse(rateLimit, corsHeaders);
-    if (rateLimitResponse) return rateLimitResponse;
-
-    const bodySize = validateBodySize(body, 8 * 1024);
-    const bodySizeResponse = buildGuardResponse(bodySize, corsHeaders);
-    if (bodySizeResponse) return bodySizeResponse;
-
-    const payload = parseBody(body);
-    const recoveryCode = normalizeRecoveryCode(payload.id || payload.recoveryCode);
-    if (recoveryCode.length < 6 || recoveryCode.length > 40) {
-        return buildResponse(400, { error: "Codice recupero non valido." }, corsHeaders);
-    }
-
-    let snapshot;
-    try {
-        const db = getFirestoreAdmin();
-        snapshot = await db.collection(COLLECTION_NAME).doc(hashRecoveryCode(recoveryCode)).get();
-    } catch (error) {
-        console.error("Anonymous triage recover failed:", error);
-        return buildResponse(503, {
-            error: "Archivio anonimo temporaneamente non disponibile.",
-            code: error && error.code ? error.code : "TRIAGE_STORE_UNAVAILABLE"
-        }, corsHeaders);
-    }
-    if (!snapshot.exists) {
-        return buildResponse(404, { error: "ID non trovato." }, corsHeaders);
-    }
-
-    const data = snapshot.data();
-    if (Date.parse(data.expiresAt || "") <= Date.now()) {
-        return buildResponse(410, { error: "Codice scaduto." }, corsHeaders);
-    }
-
-    delete data.codeHash;
-    return buildResponse(200, {
-        triage: data
-    }, corsHeaders);
-}
-
-module.exports = {
-    generateRecoveryCode,
-    handleTriageRecover,
-    handleTriageSave,
-    normalizeUserCodePrefix,
-    normalizeRecoveryCode
-};
+module.exports={handleTriageSave,handleTriageRecover:args=>recover(args),handleTriageDelete:args=>recover(args,true),generateRecoveryCode,normalizeRecoveryCode,normalizeUserCodePrefix};

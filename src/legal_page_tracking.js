@@ -1,5 +1,5 @@
 (function() {
-  const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
+  const COOKIE_CONSENT_KEY = 'aiutodoc_beta_cookie_preferences';
 
   function readJsonStorage(key) {
     try {

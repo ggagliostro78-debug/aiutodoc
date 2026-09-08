@@ -15,8 +15,7 @@ class ChatInterface {
     }
 
     _bindEvents() {
-        window.handleUserSend = (text) => {
-            console.log("App Engine: Ricevuto comando via Dispatcher ->", text);
+        window.handleUserSend = (text) => {    // No user input, medical text, recovery codes or raw errors in browser logs.
             this.handleSendViaDispatcher(text);
         };
 
@@ -39,13 +38,12 @@ class ChatInterface {
 
     _consumePendingRecoveryId() {
         try {
-            const key = 'aiutodoc_pending_recovery_id';
-            const pending = localStorage.getItem(key);
+            const key = 'aiutodoc_beta_pending_recovery_id';
+            const pending = sessionStorage.getItem(key);
             if (!pending) return '';
-            localStorage.removeItem(key);
+            sessionStorage.removeItem(key);
             return String(pending).trim();
-        } catch (error) {
-            console.warn('Recovery pending ID non disponibile:', error);
+        } catch (error) {    // No user input, medical text, recovery codes or raw errors in browser logs.
             return '';
         }
     }
@@ -224,8 +222,7 @@ class ChatInterface {
         if (!id) return;
         const recoverySource = typeof idOverride === 'string'
             ? 'recovery_page_redirect'
-            : 'manual_input';
-        console.log("Recovery: avviato recupero per ID", id);
+            : 'manual_input';    // No user input, medical text, recovery codes or raw errors in browser logs.
 
         trackEvent('recovery_requested', {
             recovery_source: recoverySource
@@ -235,8 +232,7 @@ class ChatInterface {
         const allResults = getStoredTriages();
         let saved = allResults[cleanID];
 
-        if (!saved) {
-            console.log("Recovery: ID non presente in locale, cerco nel Cloud...");
+        if (!saved) {    // No user input, medical text, recovery codes or raw errors in browser logs.
             saved = await this._loadFromCloud(cleanID);
             if (saved) {
                 saveStoredTriage(saved);
@@ -279,14 +275,11 @@ class ChatInterface {
                 body: JSON.stringify({ id })
             });
 
-            if (response.ok) {
-                console.log("Cloud Recovery (Firebase): Triage trovato!");
+            if (response.ok) {    // No user input, medical text, recovery codes or raw errors in browser logs.
                 const payload = await response.json();
                 return payload.triage || null;
-            }
-            console.log("Cloud Recovery: codice non trovato o non disponibile.", response.status);
-        } catch (err) {
-            console.error("Cloud Recovery (Firebase) ERRORE:", err);
+            }    // No user input, medical text, recovery codes or raw errors in browser logs.
+        } catch (err) {    // No user input, medical text, recovery codes or raw errors in browser logs.
         }
         return null;
     }
@@ -306,9 +299,13 @@ class ChatInterface {
         <div class="result-card-main" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px;">
             <h3 style="color: var(--primary); margin-top: 0;">Sintesi Anamnestica</h3>
             <p style="line-height: 1.6; color: #4a5568;">${escapeHTML(normalizeMedicalText(saved.result.sintesi_anamnestica || saved.result.patologia_presunta))}</p>
-            
+
+            <p data-testid="urgency-output"><strong>Urgenza:</strong> ${escapeHTML(saved.result.livello_urgenza || 'Informazione non disponibile: consulta il medico.')}</p>
+            <p data-testid="specialization-area-output">${escapeHTML(saved.result.area_specialistica_piu_adatta?.area_specialistica || '')}</p>
+            <ul data-testid="red-flags-output">${(saved.result.red_flags_rilevate || []).map(flag => '<li>' + escapeHTML(flag) + '</li>').join('')}</ul>
+            <button type="button" data-beta-delete="${escapeHTML(saved.id)}">Cancella questa ricerca dall'archivio</button>
             <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
-            
+
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div style="background: #f0f7f7; padding: 15px; border-radius: 10px;">
                     <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #0F5464; font-weight: bold; margin-bottom: 5px;">Specialista Consigliato</span>
@@ -320,9 +317,10 @@ class ChatInterface {
                     <p style="margin: 0; font-size: 0.9rem; color: #2d3748;">${escapeHTML(normalizeMedicalText(saved.result.preparazione_visita))}</p>
                 </div>
             </div>
-            
+
             <div style="margin-top: 20px; background: #fef2f2; padding: 15px; border-radius: 10px; border: 1px dashed #f87171;">
-                <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #b91c1c; font-weight: bold; margin-bottom: 5px;">Nota per l'Impegnativa (MMG)</span>
+                <span style="display: block; font-size: 0.8rem; text-transform: uppercase; color: #b91c1c; font-weight: bold; margin-bottom: 5px;">Proposta di dicitura per l'impegnativa (da valutare con il MMG)</span>
+                <p style="margin: 0 0 8px; color: #374151;">Il medico curante decide se usarla e come formularla.</p>
                 <p style="margin: 0; font-style: italic; color: #374151;">"${escapeHTML(normalizeMedicalText(saved.result.impegnativa_medico))}"</p>
             </div>
         </div>
@@ -330,8 +328,8 @@ class ChatInterface {
 
         let resultsHTML = "";
         const engine = new TriageEngine(() => {});
-        saved.result.risultati.forEach(r => {
-            resultsHTML += engine._buildCard(r.nome, r.specializzazione || saved.result.specialista_indicato, r.tipo, r.indirizzo_modalita, r.contatti, r.fonte || "Archivio", r.info, r.url);
+        (saved.result.risultati || []).forEach(r => {
+            resultsHTML += engine._buildCard(r);
         });
         if (!resultsHTML) {
             resultsHTML = `
@@ -566,8 +564,7 @@ window.copyTriageID = function(id, element) {
         }
     };
 
-    copyToClipboard(id).then(() => {
-        console.log("ID Copied to clipboard:", id);
+    copyToClipboard(id).then(() => {    // No user input, medical text, recovery codes or raw errors in browser logs.
         if (element) {
             const hint = element.querySelector('.copy-hint');
             if (hint) {
@@ -578,9 +575,7 @@ window.copyTriageID = function(id, element) {
                 }, 2500);
             }
         }
-    }).catch(err => {
-        console.error("Errore durante la copia:", err);
+    }).catch(err => {    // No user input, medical text, recovery codes or raw errors in browser logs.
         alert("Non è stato possibile copiare l'ID automaticamente. Per favore terminalo manualmente: " + id);
     });
 };
-

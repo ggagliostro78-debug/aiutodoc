@@ -1,68 +1,31 @@
-const DEFAULT_MAX_BODY_BYTES = 64 * 1024;
-const DEFAULT_MAX_FIELD_LENGTH = 4000;
-const DEFAULT_RATE_LIMIT = 30;
-const DEFAULT_RATE_WINDOW_MS = 60 * 1000;
-
-const buckets = new Map();
-
-function getClientKey(event = {}) {
-    const headers = event.headers || {};
-    const forwardedFor = headers["x-forwarded-for"] || headers["X-Forwarded-For"] || "";
-    const firstForwarded = String(forwardedFor).split(",")[0].trim();
-    return firstForwarded || headers["client-ip"] || headers["Client-Ip"] || event.ip || "anonymous";
+const {hash,isLocal}=require('./beta_environment');
+const {env}=require('./beta_environment');
+const storage=require('./beta_storage');
+function createRequestContext(event={}) {
+ const headers=Object.fromEntries(Object.entries(event.headers||{}).map(([k,v])=>[k.toLowerCase(),v]));
+ return {headers,ip:isLocal()?(event.socket?.remoteAddress||event.ip||'local'):(headers['x-nf-client-connection-ip']||'unknown')};
 }
-
-function createRequestContext(event = {}) {
-    return {
-        headers: event.headers || {},
-        ip: getClientKey(event)
-    };
+function validateBodySize(body,maxBytes=65536){try{if(Buffer.byteLength(typeof body==='string'?body:JSON.stringify(body||{}))<=maxBytes)return null;}catch{}return {statusCode:413,payload:{error:'Payload troppo grande.'}};}
+function truncateText(value,maxLength=4000){return String(value||'').replace(/\s+/g,' ').trim().slice(0,maxLength);}
+function validateOrigin(context={}) {
+ const origin=context.headers?.origin||context.headers?.Origin;
+ if(!origin)return null;
+ const localPort=Number(env('AIUTODOC_PORT','PORT','BETA_PORT') || 4284);
+ const productionOrigins = [
+  env('AIUTODOC_ALLOWED_ORIGIN','GEMINI_ALLOWED_ORIGIN','SEARCH_ALLOWED_ORIGIN','BETA_ALLOWED_ORIGIN'),
+  'https://aiutodoc.it',
+  'https://www.aiutodoc.it'
+ ].filter(Boolean);
+ const origins=isLocal()?[`http://127.0.0.1:${localPort}`,`http://localhost:${localPort}`]:productionOrigins;
+ if(origins.includes(origin))return null;
+ return {statusCode:403,payload:{error:'Origine non consentita.'}};
 }
-
-function estimateBodyBytes(body) {
-    if (!body) return 0;
-    if (typeof body === "string") return Buffer.byteLength(body, "utf8");
-    return Buffer.byteLength(JSON.stringify(body), "utf8");
+async function enforceRateLimit(key,options={}) {
+ const limit=Number(options.limit||20),windowMs=Number(options.windowMs||60000);
+ try {
+  if(!Number.isInteger(limit)||limit<1||limit>1000||!Number.isFinite(windowMs)||windowMs<1000)throw new Error('CONFIG');
+  const accepted=await storage.consume(hash('rate:'+options.scope+':'+key),limit,windowMs);
+  return accepted?null:{statusCode:429,payload:{error:'Troppe richieste. Riprova tra poco.'},headers:{'Retry-After':String(Math.ceil(windowMs/1000))}};
+ }catch{return {statusCode:503,payload:{error:'Protezione richieste temporaneamente non disponibile.'}};}
 }
-
-function validateBodySize(body, maxBytes = DEFAULT_MAX_BODY_BYTES) {
-    if (estimateBodyBytes(body) <= maxBytes) return null;
-    return {
-        statusCode: 413,
-        payload: { error: "Payload troppo grande." }
-    };
-}
-
-function truncateText(value, maxLength = DEFAULT_MAX_FIELD_LENGTH) {
-    return String(value || "").replace(/\s+/g, " ").trim().slice(0, maxLength);
-}
-
-function enforceRateLimit(key, options = {}) {
-    const limit = Number(options.limit || DEFAULT_RATE_LIMIT);
-    const windowMs = Number(options.windowMs || DEFAULT_RATE_WINDOW_MS);
-    const now = Date.now();
-    const bucketKey = `${options.scope || "default"}:${key || "anonymous"}`;
-    const current = buckets.get(bucketKey);
-
-    if (!current || now > current.resetAt) {
-        buckets.set(bucketKey, { count: 1, resetAt: now + windowMs });
-        return null;
-    }
-
-    current.count += 1;
-    if (current.count <= limit) return null;
-
-    const retryAfter = Math.max(1, Math.ceil((current.resetAt - now) / 1000));
-    return {
-        statusCode: 429,
-        payload: { error: "Troppe richieste. Riprova tra poco." },
-        headers: { "Retry-After": String(retryAfter) }
-    };
-}
-
-module.exports = {
-    createRequestContext,
-    enforceRateLimit,
-    truncateText,
-    validateBodySize
-};
+module.exports={createRequestContext,validateBodySize,truncateText,enforceRateLimit,validateOrigin};

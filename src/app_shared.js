@@ -1,8 +1,6 @@
-// Shared helpers, globals, analytics and Firebase bootstrap.
-console.log("App shared loading...");
+// Shared helpers, globals, analytics and Firebase bootstrap.    // No user input, medical text, recovery codes or raw errors in browser logs.
 
-window.addEventListener('error', (event) => {
-    console.error("GLOBAL APP ERROR:", event.message, "at", event.filename, ":", event.lineno);
+window.addEventListener('error', (event) => {    // No user input, medical text, recovery codes or raw errors in browser logs.
     if (event.filename && event.filename.includes('app_v3_standalone.js')) {
         alert("Errore caricamento AIutoDoc: " + event.message + ". Prova a fare un Hard Refresh (Ctrl+F5).");
     }
@@ -190,18 +188,17 @@ let GoogleGenerativeAI = true; // Placeholder per indicare che il motore è pron
 
 let db = null;
 const AI_FINAL_NOTICE = "Questa è un'indicazione informativa. Confermala sempre con il tuo medico curante.";
-const APP_CONSENT_VERSION = "2026-07-02-compliance-v1";
-const REGISTERED_USER_KEY = "aiutodoc_registered_user";
-const ENTRY_CONSENT_KEY = "aiutodoc_entry_consents";
-const TRIAGE_STORAGE_KEY = "aiutodoc_triages";
+const APP_CONSENT_VERSION = "2026-09-08-beta-v2";
+const REGISTERED_USER_KEY = "aiutodoc_beta_registered_user";
+const ENTRY_CONSENT_KEY = "aiutodoc_beta_entry_consents";
+const TRIAGE_STORAGE_KEY = "aiutodoc_beta_triages";
 const TRIAGE_STORAGE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 const TRIAGE_STORAGE_MAX_ITEMS = 20;
 
 function getStoredJson(key) {
     try {
         return JSON.parse(localStorage.getItem(key) || "null");
-    } catch (error) {
-        console.warn("Dato locale non leggibile:", key, error);
+    } catch (error) {    // No user input, medical text, recovery codes or raw errors in browser logs.
         return null;
     }
 }
@@ -221,95 +218,27 @@ function buildCloudTriageDocId(userId, triageId) {
     return `${cleanUserId}_${cleanTriageId}`;
 }
 
+const betaTriages = new Map();
+window.clearBetaTriages = () => betaTriages.clear();
 function getStoredTriages() {
-    const saved = getStoredJson(TRIAGE_STORAGE_KEY) || {};
-    const now = Date.now();
-    const entries = Object.entries(saved)
-        .filter(([, value]) => {
-            const dateMs = Date.parse(value?.date || "");
-            return Number.isFinite(dateMs) && now - dateMs <= TRIAGE_STORAGE_TTL_MS;
-        })
-        .sort(([, a], [, b]) => Date.parse(b?.date || "") - Date.parse(a?.date || ""));
-
-    const pruned = Object.fromEntries(entries.slice(0, TRIAGE_STORAGE_MAX_ITEMS));
-    if (entries.length !== Object.keys(saved).length) {
-        localStorage.setItem(TRIAGE_STORAGE_KEY, JSON.stringify(pruned));
-    }
-    return pruned;
+ for (const [id,value] of betaTriages) if (!Number.isFinite(Date.parse(value.expiresAt)) || Date.parse(value.expiresAt)<=Date.now()) betaTriages.delete(id);
+ return Object.fromEntries(betaTriages);
 }
-
-function saveStoredTriage(dataToSave) {
-    const id = normalizeTriageID(dataToSave?.id);
-    if (!id) return;
-    const allResults = getStoredTriages();
-    allResults[id] = dataToSave;
-    const entries = Object.entries(allResults)
-        .sort(([, a], [, b]) => Date.parse(b?.date || "") - Date.parse(a?.date || ""))
-        .slice(0, TRIAGE_STORAGE_MAX_ITEMS);
-    localStorage.setItem(TRIAGE_STORAGE_KEY, JSON.stringify(Object.fromEntries(entries)));
-}
-
-function maskEmail(email) {
-    const [name, domain] = String(email || "").split("@");
-    if (!name || !domain) return "";
-    const visible = name.slice(0, 2);
-    return `${visible}${"*".repeat(Math.max(2, name.length - 2))}@${domain}`;
-}
-
-async function sha256Hex(value) {
-    const normalized = String(value || "").trim().toLowerCase();
-    if (window.crypto && window.crypto.subtle && window.TextEncoder) {
-        const bytes = new TextEncoder().encode(normalized);
-        const hashBuffer = await window.crypto.subtle.digest("SHA-256", bytes);
-        return Array.from(new Uint8Array(hashBuffer))
-            .map((byte) => byte.toString(16).padStart(2, "0"))
-            .join("");
-    }
-
-    return btoa(unescape(encodeURIComponent(normalized))).replace(/=+$/g, "");
-}
-
-async function registerUserForRecovery(email, consentFlags = {}) {
-    const cleanEmail = String(email || "").trim().toLowerCase();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
-        throw new Error("Inserisci un indirizzo email valido.");
-    }
-
-    const required = ["terms", "privacy", "healthData"];
-    if (!required.every((key) => consentFlags[key] === true)) {
-        throw new Error("Per generare il codice devi confermare tutti i consensi richiesti.");
-    }
-
-    const emailHash = await sha256Hex(cleanEmail);
-    const registeredUser = {
-        userId: `usr_${emailHash.slice(0, 16)}`,
-        emailHash,
-        emailMasked: maskEmail(cleanEmail),
-        registeredAt: new Date().toISOString(),
-        consentVersion: APP_CONSENT_VERSION,
-        consents: {
-            terms: true,
-            privacy: true,
-            healthData: true
-        }
-    };
-
-    localStorage.setItem(REGISTERED_USER_KEY, JSON.stringify(registeredUser));
-
-    return registeredUser;
+function saveStoredTriage(data) {
+ if(!data || !data.id || !Number.isFinite(Date.parse(data.expiresAt)) || Date.parse(data.expiresAt)<=Date.now()) return;
+ betaTriages.set(normalizeTriageID(data.id),data);
+ while(betaTriages.size>20) betaTriages.delete(betaTriages.keys().next().value);
 }
 
 async function resolveFirebaseConfig() {
     return null;
 }
 
-async function initFirebase() {
-    console.log("Firebase client disabilitato: archivio recupero gestito solo dal backend.");
+async function initFirebase() {    // No user input, medical text, recovery codes or raw errors in browser logs.
 }
 window.firebaseReady = Promise.resolve();
 
-async function loadSDK() {
-    console.log("Standalone mode: Dynamic SDK loading disabled for file:// compatibility.");
+async function loadSDK() {    // No user input, medical text, recovery codes or raw errors in browser logs.
 }
 
 function trackEvent(eventName, params = {}) {
@@ -323,7 +252,9 @@ function trackEvent(eventName, params = {}) {
         };
         const safeParams = {};
 
+        const allowed = new Set(['method','results_count','recovery_code_offered','recovery_source','retrieval_mode','destination_section','contact_type','prompt_origin','outcome','platform','source','storage_mode']);
         Object.entries(params || {}).forEach(([key, value]) => {
+            if (!allowed.has(key) || typeof value === 'object') return;
             const safeKey = reservedParamMap[key] || key;
             safeParams[safeKey] = value;
         });

@@ -1,3 +1,6 @@
+const { providerFetch } = require('./beta_http');
+const { env } = require('./beta_environment');
+const { validateOrigin } = require('./request_guard');
 const GOOGLE_SEARCH_URL = "https://www.googleapis.com/customsearch/v1";
 const SERPAPI_SEARCH_URL = "https://serpapi.com/search.json";
 const {
@@ -39,7 +42,7 @@ function buildResponse(statusCode, payload, extraHeaders = {}) {
 }
 
 function buildCorsHeaders() {
-    const allowedOrigin = process.env.GEMINI_ALLOWED_ORIGIN || process.env.SEARCH_ALLOWED_ORIGIN;
+    const allowedOrigin = env('AIUTODOC_ALLOWED_ORIGIN', 'GEMINI_ALLOWED_ORIGIN', 'SEARCH_ALLOWED_ORIGIN', 'BETA_ALLOWED_ORIGIN') || 'https://aiutodoc.it';
     if (!allowedOrigin) return {};
 
     return {
@@ -207,9 +210,9 @@ function extractDisplayName(title, snippet) {
 }
 
 function getSearchConfig() {
-    const apiKey = process.env.GOOGLE_CSE_API_KEY || process.env.GOOGLE_SEARCH_API_KEY || "";
-    const searchEngineId = process.env.GOOGLE_CSE_ID || process.env.GOOGLE_SEARCH_ENGINE_ID || "";
-    const serpApiKey = process.env.SERPAPI_API_KEY || "";
+    const apiKey = env('GOOGLE_CSE_API_KEY', 'BETA_GOOGLE_CSE_API_KEY');
+    const searchEngineId = env('GOOGLE_CSE_ID', 'GOOGLE_SEARCH_ENGINE_ID', 'BETA_GOOGLE_CSE_ID', 'BETA_GOOGLE_SEARCH_ENGINE_ID');
+    const serpApiKey = env('SERPAPI_API_KEY', 'BETA_SERPAPI_API_KEY');
     return { apiKey, searchEngineId, serpApiKey };
 }
 
@@ -446,7 +449,7 @@ async function searchSpecialists(payload, fetchImpl) {
 
     results = results.slice(0, DEFAULT_RESULT_COUNT);
 
-    results = await enrichResults(results, fetchImpl);
+    // Use structured public search results; no arbitrary website fetch.
 
     return {
         distribution: {
@@ -469,6 +472,9 @@ async function searchSpecialists(payload, fetchImpl) {
 }
 
 async function handleSpecialistSearch({ method, body, fetchImpl = fetch, context = {} }) {
+    const origin = validateOrigin(context);
+    if (origin) return buildResponse(origin.statusCode, origin.payload);
+    fetchImpl = providerFetch(fetchImpl);
     const corsHeaders = buildCorsHeaders();
 
     if (method === "OPTIONS") {
@@ -483,9 +489,9 @@ async function handleSpecialistSearch({ method, body, fetchImpl = fetch, context
         return buildResponse(405, { error: "Metodo non consentito." }, corsHeaders);
     }
 
-    const rateLimit = enforceRateLimit(context.ip || "anonymous", {
+    const rateLimit = await enforceRateLimit(context.ip || "anonymous", {
         scope: "specialist-search",
-        limit: Number(process.env.SEARCH_RATE_LIMIT_PER_MINUTE || 30)
+        limit: Number(env('SEARCH_RATE_LIMIT_PER_MINUTE', 'BETA_SEARCH_RATE_LIMIT_PER_MINUTE') || 30)
     });
     const rateLimitResponse = buildGuardResponse(rateLimit, corsHeaders);
     if (rateLimitResponse) return rateLimitResponse;

@@ -1,3 +1,6 @@
+const { providerFetch } = require('./beta_http');
+const { env } = require('./beta_environment');
+const { validateOrigin } = require('./request_guard');
 const SERPAPI_SEARCH_URL = "https://serpapi.com/search.json";
 const {
     enforceRateLimit,
@@ -8,7 +11,7 @@ const {
 const MAX_QUERY_LENGTH = 180;
 
 function buildCorsHeaders() {
-    const allowedOrigin = process.env.GEMINI_ALLOWED_ORIGIN || process.env.SEARCH_ALLOWED_ORIGIN;
+    const allowedOrigin = env('AIUTODOC_ALLOWED_ORIGIN', 'GEMINI_ALLOWED_ORIGIN', 'SEARCH_ALLOWED_ORIGIN', 'BETA_ALLOWED_ORIGIN') || 'https://aiutodoc.it';
     if (!allowedOrigin) return {};
 
     return {
@@ -47,6 +50,9 @@ function buildGuardResponse(guardResult, corsHeaders) {
 }
 
 async function handleEnrichEntity({ method, body, fetchImpl = fetch, context = {} }) {
+    const origin = validateOrigin(context);
+    if (origin) return buildResponse(origin.statusCode, origin.payload);
+    fetchImpl = providerFetch(fetchImpl);
     const corsHeaders = buildCorsHeaders();
 
     if (method === "OPTIONS") {
@@ -61,9 +67,9 @@ async function handleEnrichEntity({ method, body, fetchImpl = fetch, context = {
         return buildResponse(405, { error: "Metodo non consentito. Usa POST." }, corsHeaders);
     }
 
-    const rateLimit = enforceRateLimit(context.ip || "anonymous", {
+    const rateLimit = await enforceRateLimit(context.ip || "anonymous", {
         scope: "enrich",
-        limit: Number(process.env.SEARCH_RATE_LIMIT_PER_MINUTE || 30)
+        limit: Number(env('SEARCH_RATE_LIMIT_PER_MINUTE', 'BETA_SEARCH_RATE_LIMIT_PER_MINUTE') || 30)
     });
     const rateLimitResponse = buildGuardResponse(rateLimit, corsHeaders);
     if (rateLimitResponse) return rateLimitResponse;
@@ -78,7 +84,7 @@ async function handleEnrichEntity({ method, body, fetchImpl = fetch, context = {
         return buildResponse(400, { error: "Manca il parametro query." }, corsHeaders);
     }
 
-    const serpApiKey = process.env.SERPAPI_API_KEY;
+    const serpApiKey = env('SERPAPI_API_KEY', 'BETA_SERPAPI_API_KEY');
     if (!serpApiKey) {
         return buildResponse(500, { error: "SERPAPI_API_KEY mancante nel backend." }, corsHeaders);
     }
@@ -101,7 +107,7 @@ async function handleEnrichEntity({ method, body, fetchImpl = fetch, context = {
         }
 
         const data = await response.json();
-        
+
         // Priority 1: Knowledge Graph
         if (data.knowledge_graph) {
             const kg = data.knowledge_graph;
@@ -113,7 +119,7 @@ async function handleEnrichEntity({ method, body, fetchImpl = fetch, context = {
                 }, corsHeaders);
             }
         }
-        
+
         // Priority 2: Local Results (Maps)
         if (data.local_results && data.local_results.length > 0) {
             const loc = data.local_results[0];
@@ -132,8 +138,8 @@ async function handleEnrichEntity({ method, body, fetchImpl = fetch, context = {
         }, corsHeaders);
 
     } catch (error) {
-        console.error("Enrichment Error:", error);
-        return buildResponse(500, { error: error.message }, corsHeaders);
+        console.warn('Provider ricerca non disponibile.');
+        return buildResponse(500, { error: 'Servizio temporaneamente non disponibile.' }, corsHeaders);
     }
 }
 

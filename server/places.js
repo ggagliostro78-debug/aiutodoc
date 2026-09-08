@@ -1,3 +1,6 @@
+const { providerFetch } = require('./beta_http');
+const { env } = require('./beta_environment');
+const { validateOrigin } = require('./request_guard');
 const PLACES_API_URL = "https://places.googleapis.com/v1/places:searchText";
 const NOMINATIM_API_URL = "https://nominatim.openstreetmap.org/search";
 const {
@@ -9,7 +12,7 @@ const {
 const MAX_QUERY_FIELD_LENGTH = 120;
 
 function buildCorsHeaders() {
-    const allowedOrigin = process.env.GEMINI_ALLOWED_ORIGIN || process.env.SEARCH_ALLOWED_ORIGIN;
+    const allowedOrigin = env('AIUTODOC_ALLOWED_ORIGIN', 'GEMINI_ALLOWED_ORIGIN', 'SEARCH_ALLOWED_ORIGIN', 'BETA_ALLOWED_ORIGIN') || 'https://aiutodoc.it';
     if (!allowedOrigin) return {};
 
     return {
@@ -69,14 +72,14 @@ async function fetchPlaces(query, apiKey, fetchImpl) {
         });
 
         if (!response.ok) {
-            console.error(`Google Places API Error for query "${query}":`, response.status);
+            console.warn('Provider ricerca non disponibile.');
             return [];
         }
 
         const data = await response.json();
         return data.places || [];
     } catch (e) {
-        console.error(`Error searching Places for query "${query}":`, e);
+        console.warn('Provider ricerca non disponibile.');
         return [];
     }
 }
@@ -194,43 +197,43 @@ function isValidPlace(p) {
     if (filterOutKeywords.test(name)) {
         return false;
     }
-    
+
     // Check types
     const types = p.types || [];
     const excludedTypes = ["pharmacy", "drugstore", "store", "home_goods_store", "shopping_mall", "beauty_salon"];
     if (types.some(t => excludedTypes.includes(t))) {
         return false;
     }
-    
+
     // Exclude competitors from name
     const lowerName = name.toLowerCase();
-    if (lowerName.includes("miodottore") || 
-        lowerName.includes("topdoctors") || 
-        lowerName.includes("dottori") || 
-        lowerName.includes("guidapsicologi") || 
-        lowerName.includes("idoctors") || 
-        lowerName.includes("doctolib") || 
-        lowerName.includes("cupsolidale") || 
+    if (lowerName.includes("miodottore") ||
+        lowerName.includes("topdoctors") ||
+        lowerName.includes("dottori") ||
+        lowerName.includes("guidapsicologi") ||
+        lowerName.includes("idoctors") ||
+        lowerName.includes("doctolib") ||
+        lowerName.includes("cupsolidale") ||
         lowerName.includes("docplanner")) {
         return false;
     }
-    
+
     return true;
 }
 
 function classifyPlace(name, types = []) {
     const nameLower = (name || "").toLowerCase();
-    
+
     // SSN keywords (public hospitals, local health authorities, or accredited clinical institutes)
     const ssnKeywords = [
-        "ospedale", "ospedaliero", "ospedaliera", "policlinico", "asl", "asp", "usl", "ssn", 
+        "ospedale", "ospedaliero", "ospedaliera", "policlinico", "asl", "asp", "usl", "ssn",
         "presidio", "asst", "ats", "a.o.", "a.o.u.", "pubblic", "sanitaria locale", "sanitario locale",
-        "istituto", "iomi", "clinica", "casa di cura", "irccs", "fondazione", 
+        "istituto", "iomi", "clinica", "casa di cura", "irccs", "fondazione",
         "don calabria", "humanitas", "auxologico", "galeazzi", "rizzoli", "sacco", "niguarda",
-        "fatebenefratelli", "gemelli", "umberto i", "san raffaele", "careggi", "spallanzani", 
+        "fatebenefratelli", "gemelli", "umberto i", "san raffaele", "careggi", "spallanzani",
         "sant'orsola", "cardarelli", "monaldi", "cotugno"
     ];
-    
+
     if (ssnKeywords.some(kw => nameLower.includes(kw))) {
         return "SSN";
     }
@@ -238,7 +241,7 @@ function classifyPlace(name, types = []) {
     if (types.includes("hospital")) {
         return "SSN";
     }
-    
+
     return "Privato";
 }
 
@@ -247,15 +250,15 @@ function formatPlace(p, searchScope = "") {
     const address = p.formattedAddress || "Indirizzo non disponibile";
     const phone = p.nationalPhoneNumber || "";
     let website = p.websiteUri || "";
-    
+
     // Competitor strip
-    if (website.toLowerCase().includes("miodottore") || 
-        website.toLowerCase().includes("topdoctors") || 
-        website.toLowerCase().includes("dottori") || 
-        website.toLowerCase().includes("guidapsicologi") || 
-        website.toLowerCase().includes("idoctors") || 
-        website.toLowerCase().includes("doctolib") || 
-        website.toLowerCase().includes("cupsolidale") || 
+    if (website.toLowerCase().includes("miodottore") ||
+        website.toLowerCase().includes("topdoctors") ||
+        website.toLowerCase().includes("dottori") ||
+        website.toLowerCase().includes("guidapsicologi") ||
+        website.toLowerCase().includes("idoctors") ||
+        website.toLowerCase().includes("doctolib") ||
+        website.toLowerCase().includes("cupsolidale") ||
         website.toLowerCase().includes("docplanner")) {
         website = "";
     }
@@ -325,6 +328,9 @@ function isOutsideUserArea(result, { comune, provincia, regione }) {
 
 
 async function handlePlacesSearch({ method, body, fetchImpl = fetch, context = {} }) {
+    const origin = validateOrigin(context);
+    if (origin) return buildResponse(origin.statusCode, origin.payload);
+    fetchImpl = providerFetch(fetchImpl);
     const corsHeaders = buildCorsHeaders();
 
     if (method === "OPTIONS") {
@@ -335,9 +341,9 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch, context = {
         return buildResponse(405, { error: "Metodo non consentito." }, corsHeaders);
     }
 
-    const rateLimit = enforceRateLimit(context.ip || "anonymous", {
+    const rateLimit = await enforceRateLimit(context.ip || "anonymous", {
         scope: "places",
-        limit: Number(process.env.SEARCH_RATE_LIMIT_PER_MINUTE || 30)
+        limit: Number(env('SEARCH_RATE_LIMIT_PER_MINUTE', 'BETA_SEARCH_RATE_LIMIT_PER_MINUTE') || 30)
     });
     const rateLimitResponse = buildGuardResponse(rateLimit, corsHeaders);
     if (rateLimitResponse) return rateLimitResponse;
@@ -367,10 +373,10 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch, context = {
                 location
             }, corsHeaders);
         } catch (error) {
-            console.error("Errore validazione localita:", error);
+            console.warn('Provider ricerca non disponibile.');
             return buildResponse(502, {
                 error: "Errore durante la verifica della localita.",
-                detail: error instanceof Error ? error.message : String(error)
+                detail: 'Servizio temporaneamente non disponibile.'
             }, corsHeaders);
         }
     }
@@ -380,7 +386,7 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch, context = {
         return buildResponse(400, { error: "Parametri di ricerca mancanti." }, corsHeaders);
     }
 
-    const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_API_KEY;
+    const apiKey = env('GOOGLE_PLACES_API_KEY', 'GOOGLE_MAPS_API_KEY', 'BETA_GOOGLE_PLACES_API_KEY', 'BETA_GOOGLE_MAPS_API_KEY');
     if (!apiKey) {
         return buildResponse(503, {
             error: "Ricerca Google Places non configurata.",
@@ -487,7 +493,7 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch, context = {
     } catch (error) {
         return buildResponse(502, {
             error: "Errore durante la ricerca strutturata su Google Places.",
-            detail: error instanceof Error ? error.message : String(error)
+            detail: 'Servizio temporaneamente non disponibile.'
         }, corsHeaders);
     }
 }

@@ -192,7 +192,7 @@ function setupMailtoTracking() {
 }
 
 function registerServiceWorker() {
-    if (!('serviceWorker' in navigator)) return;
+    if (window.AIUTODOC_BETA || !('serviceWorker' in navigator)) return;
     if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') return;
 
     window.addEventListener('load', () => {
@@ -224,13 +224,13 @@ function registerServiceWorker() {
             });
             registration.update().catch(() => {});
         }).catch((error) => {
-            console.warn('Service worker non registrato:', error);
+    // No user input, medical text, recovery codes or raw errors in browser logs.
         });
     });
 }
 
 function initApp() {
-    console.log("Initializing App Engine (v3.0.0)...");
+    // No user input, medical text, recovery codes or raw errors in browser logs.
 
     setupMobileViewport();
     setupInputAutoGrow();
