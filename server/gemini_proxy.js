@@ -46,9 +46,9 @@ async function handleGeminiProxy({method,body,context={},fetchImpl=fetch}){
   if(validation)data={disturbo:contract.text(p.symptom,1200,true)};
   else {if(p.action!=='orientation')throw 0;data=contract.input(p.userData);}
  }catch{return response(400,{error:'Dati non validi o troppo lunghi.'});}
- if(!externalEnabled())return response(503,{error:'I servizi di orientamento non sono ancora attivi in questo ambiente.',code:'EXTERNAL_DISABLED'});
+ if(!externalEnabled())return response(503,{error:'Servizio di orientamento temporaneamente non disponibile.',code:'EXTERNAL_DISABLED'});
  const key=env('GEMINI_API_KEY','BETA_GEMINI_API_KEY');
- if(!key)return response(503,{error:'L’orientamento non è ancora configurato in questo ambiente.',code:'CONFIG_REQUIRED'});
+ if(!key)return response(503,{error:'Servizio di orientamento temporaneamente non disponibile.',code:'CONFIG_REQUIRED'});
  try{
   const call=providerFetch(fetchImpl);
   const upstream=await call('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',{

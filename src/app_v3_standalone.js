@@ -1556,8 +1556,8 @@ class TriageEngine {
             const errDetail = err && err.message ? err.message : String(err);
     // No user input, medical text, recovery codes or raw errors in browser logs.
             const messages = {
-                BETA_EXTERNAL_DISABLED: 'I servizi di orientamento non sono ancora attivi in questo ambiente. Riprovare non risolve: occorre completarne l’attivazione.',
-                BETA_CONFIG_REQUIRED: 'L’orientamento non è ancora configurato in questo ambiente. Riprovare non risolve: occorre completare la configurazione.',
+                BETA_EXTERNAL_DISABLED: 'Il servizio di orientamento è temporaneamente non disponibile. Puoi avviare una nuova ricerca più tardi; per assistenza sanitaria rivolgiti al medico.',
+                BETA_CONFIG_REQUIRED: 'Il servizio di orientamento è temporaneamente non disponibile. Puoi avviare una nuova ricerca più tardi; per assistenza sanitaria rivolgiti al medico.',
                 CONSENT_REQUIRED: 'Conferma nuovamente il consenso e avvia una nuova ricerca.'
             };
             this._showResearchFailure(messages[err.code] || 'Il servizio non ha completato la ricerca. Puoi avviare una nuova ricerca; per assistenza sanitaria rivolgiti al medico.');
