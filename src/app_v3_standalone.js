@@ -1683,34 +1683,45 @@ class TriageEngine {
         const API_URL = (typeof CONFIG !== 'undefined' && CONFIG.SPECIALIST_SEARCH_API_URL)
             ? CONFIG.SPECIALIST_SEARCH_API_URL
             : "/api/specialist-search";
+        const fallbackApiUrl = "/api/places";
 
         if (window.location.protocol === 'file:' && API_URL.startsWith('/')) {
             throw new Error("La ricerca reale richiede un server locale o un deploy serverless.");
         }
 
         const details = this.userData.zonaDettagli || {};
-        const response = await fetch(API_URL, {
+        const requestBody = JSON.stringify({
+            specialista,
+            disturbo: this.userData.disturbo,
+            zona: this.userData.zona,
+            comune: details.comune || this.userData.zona,
+            provincia: details.provincia || this.userData.zona,
+            regione: details.regione || this.userData.zona
+        });
+        const endpoints = API_URL === fallbackApiUrl ? [API_URL] : [API_URL, fallbackApiUrl];
+        let data = null;
+        let lastError = null;
+
+        for (const endpoint of endpoints) {
+            const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                specialista,
-                disturbo: this.userData.disturbo,
-                zona: this.userData.zona,
-                provincia: details.provincia || this.userData.zona,
-                regione: details.regione || this.userData.zona
-            })
-        });
+                body: requestBody
+            });
 
-        if (!response.ok) {
-            const errText = await response.text();
-            throw new Error(`Specialist Search Error (${response.status}): ${errText}`);
+            if (response.ok) {
+                data = await response.json();
+                break;
+            }
+
+            lastError = `Specialist Search Error (${response.status}): ${await response.text()}`;
         }
 
-        const data = await response.json();
+        if (!data) throw new Error(lastError || "Ricerca specialisti non disponibile.");
         const curated = this._buildCuratedSearchResults(specialista);
-        const webResults = Array.isArray(data.results) ? data.results : [];
+        const webResults = Array.isArray(data.results) ? data.results : (Array.isArray(data.risultati) ? data.risultati : []);
         const cleanSpec = String(specialista || "medico specialista")
             .replace(/\s*\/\s*/g, " ")
             .replace(/\bmedico\b/gi, "")
