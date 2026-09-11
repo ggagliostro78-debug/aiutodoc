@@ -30,7 +30,7 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./assets/favicon-192.png" />
   <link rel="stylesheet" href="./src/style.css?v=4.1.0">
-  <script src="./src/beta_client.js"></script>
+  <script src="./src/session_client.js"></script>
   <script src="./src/ga_bootstrap.js?v=4.2.0"></script>
   <link rel="privacy-policy" href="https://aiutodoc.it/privacy-policy/">
   <link rel="terms-of-service" href="https://aiutodoc.it/termini-condizioni/">
@@ -119,7 +119,7 @@
   </script>
 </head>
 
-<body class="beta-app">
+<body class="app-session">
   <div id="app-splash" class="app-splash">
     <div class="app-splash-card">
       <div class="app-splash-title">AIutoDoc</div>
@@ -215,7 +215,7 @@
           <button id="reset-btn" class="nav-btn" title="Riavvia Sessione">Nuova Ricerca</button>
 
           <button type="button" id="recovery-page-btn" class="nav-btn recovery-btn-style" onclick="window.location.href='/recupera-ricerca/'" title="Recupera una ricerca già eseguita">Recupera ricerca</button>
-          <button type="button" id="beta-end-session" class="nav-btn">Termina sessione</button>
+          <button type="button" id="end-session" class="nav-btn">Termina sessione</button>
         </nav>
       </div>
     </header>
@@ -1039,9 +1039,14 @@
     // Rescue UI Script (Standard Script for Max Availability)
     (function() {
       console.log("Rescue UI Script loading...");
-      const APP_CONSENT_VERSION = '2026-07-19-serpapi-v1';
-      const ENTRY_CONSENT_KEY = 'aiutodoc_beta_entry_consents';
-      const COOKIE_CONSENT_KEY = 'aiutodoc_beta_cookie_preferences';
+      const APP_CONSENT_VERSION = '2026-09-11-v3';
+      const LEGACY_APP_CONSENT_VERSIONS = ['2026-09-08-v2', '2026-09-08-beta-v2'];
+      const ENTRY_CONSENT_KEY = 'aiutodoc_entry_consents';
+      const LEGACY_ENTRY_CONSENT_KEY = 'aiutodoc_beta_entry_consents';
+      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
+      const LEGACY_COOKIE_CONSENT_KEY = 'aiutodoc_beta_cookie_preferences';
+      const COOKIE_PREFERENCES_KEY = 'aiutodoc_open_cookie_preferences';
+      const LEGACY_COOKIE_PREFERENCES_KEY = 'aiutodoc_beta_open_cookie_preferences';
       const privacyModal = document.getElementById('privacy-modal');
       const acceptBtn = document.getElementById('accept-privacy-btn');
       const userInput = document.getElementById('user-input');
@@ -1063,6 +1068,18 @@
       ].filter(Boolean);
       const minorMessage = document.getElementById('minor-flow-message');
 
+      function migrateStorageKey(storage, legacyKey, key) {
+        try {
+          const legacyValue = storage.getItem(legacyKey);
+          if (storage.getItem(key) === null && legacyValue !== null) storage.setItem(key, legacyValue);
+          storage.removeItem(legacyKey);
+        } catch (error) {}
+      }
+
+      migrateStorageKey(sessionStorage, LEGACY_ENTRY_CONSENT_KEY, ENTRY_CONSENT_KEY);
+      migrateStorageKey(localStorage, LEGACY_COOKIE_CONSENT_KEY, COOKIE_CONSENT_KEY);
+      migrateStorageKey(localStorage, LEGACY_COOKIE_PREFERENCES_KEY, COOKIE_PREFERENCES_KEY);
+
       function readJsonStorage(key) {
         try { return JSON.parse((key === ENTRY_CONSENT_KEY ? sessionStorage : localStorage).getItem(key) || 'null'); } catch (error) { return null; }
       }
@@ -1082,8 +1099,8 @@
       function hasValidEntryConsent() {
         const saved = readJsonStorage(ENTRY_CONSENT_KEY);
         return !!(
-          saved && window.betaEntryReceipt() &&
-          saved.consentVersion === APP_CONSENT_VERSION &&
+          saved && window.aiutodocEntryReceipt() &&
+          [APP_CONSENT_VERSION, ...LEGACY_APP_CONSENT_VERSIONS].includes(saved.consentVersion) &&
           saved.ageOver14 === true &&
           saved.medicalDisclaimer === true &&
           saved.terms === true &&
@@ -1101,7 +1118,7 @@
       }
 
       function logConsent(scope, consents) {
-        return window.betaRegisterConsent(scope, consents);
+        return window.aiutodocRegisterConsent(scope, consents);
       }
 
       function loadGoogleAnalytics() {
@@ -1190,9 +1207,9 @@
 
       const storedCookiePreferences = readJsonStorage(COOKIE_CONSENT_KEY);
       const storedCookieExpired = storedCookiePreferences && Date.parse(storedCookiePreferences.expiresAt || '') <= Date.now();
-      const forceCookiePreferences = readStorageValue('aiutodoc_beta_open_cookie_preferences') === '1';
+      const forceCookiePreferences = readStorageValue(COOKIE_PREFERENCES_KEY) === '1';
       if (forceCookiePreferences) {
-        removeStorageValue('aiutodoc_beta_open_cookie_preferences');
+        removeStorageValue(COOKIE_PREFERENCES_KEY);
         showCookieBanner(true);
       } else if (storedCookiePreferences && !storedCookieExpired) {
         applyCookiePreferences(storedCookiePreferences);

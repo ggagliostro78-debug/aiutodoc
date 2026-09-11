@@ -3,7 +3,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),crypto=re
 const {privateKey}=crypto.generateKeyPairSync('rsa',{modulusLength:2048,privateKeyEncoding:{type:'pkcs8',format:'pem'},publicKeyEncoding:{type:'spki',format:'pem'}});
 process.env.BETA_LOCAL_MODE='false';process.env.BETA_EXTERNAL_SERVICES='true';process.env.BETA_FIREBASE_PROJECT_ID='synthetic-audit-beta';
 process.env.BETA_FIREBASE_SERVICE_ACCOUNT_JSON=JSON.stringify({project_id:'synthetic-audit-beta',client_email:'synthetic@example.invalid',private_key:privateKey});
-const storage=require('../server/beta_storage');
+const storage=require('../server/secure_storage');
 test('cloud uses beta project and create-if-absent; never upsert',async()=>{
  const old=global.fetch;let write;
  global.fetch=async(url,opts)=>{assert.ok(!url.includes('/anonymous_triages/'));if(url.includes('oauth2'))return new Response(JSON.stringify({access_token:'synthetic',expires_in:3600}));write=JSON.parse(opts.body).writes[0];return new Response('{}');};

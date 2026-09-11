@@ -1,6 +1,6 @@
-const {requireExternal,hash,fail}=require('./beta_environment');
-const {env}=require('./beta_environment');
-const storage=require('./beta_storage');
+const {requireExternal,hash,fail}=require('./runtime_environment');
+const {env}=require('./runtime_environment');
+const storage=require('./secure_storage');
 const allowed=new Set(['generativelanguage.googleapis.com','places.googleapis.com','www.googleapis.com','serpapi.com','nominatim.openstreetmap.org']);
 function providerFetch(fetchImpl=fetch) {
     const deadline=Date.now()+30000;let calls=0;

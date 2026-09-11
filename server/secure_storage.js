@@ -1,5 +1,5 @@
 const crypto = require('node:crypto');
-const {env, isLocal, requireExternal, fail} = require('./beta_environment');
+const {env, isLocal, requireExternal, fail} = require('./runtime_environment');
 const memory = new Map();
 const collections = new Set(['beta_triages_v2','beta_consents_v2','beta_limits_v1']);
 let cachedToken;

@@ -188,10 +188,10 @@ let GoogleGenerativeAI = true; // Placeholder per indicare che il motore è pron
 
 let db = null;
 const AI_FINAL_NOTICE = "Questa è un'indicazione informativa. Confermala sempre con il tuo medico curante.";
-const APP_CONSENT_VERSION = "2026-09-08-beta-v2";
-const REGISTERED_USER_KEY = "aiutodoc_beta_registered_user";
-const ENTRY_CONSENT_KEY = "aiutodoc_beta_entry_consents";
-const TRIAGE_STORAGE_KEY = "aiutodoc_beta_triages";
+const APP_CONSENT_VERSION = "2026-09-11-v3";
+const REGISTERED_USER_KEY = "aiutodoc_registered_user";
+const ENTRY_CONSENT_KEY = "aiutodoc_entry_consents";
+const TRIAGE_STORAGE_KEY = "aiutodoc_triages";
 const TRIAGE_STORAGE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 const TRIAGE_STORAGE_MAX_ITEMS = 20;
 
@@ -218,16 +218,16 @@ function buildCloudTriageDocId(userId, triageId) {
     return `${cleanUserId}_${cleanTriageId}`;
 }
 
-const betaTriages = new Map();
-window.clearBetaTriages = () => betaTriages.clear();
+const sessionTriages = new Map();
+window.clearSessionTriages = () => sessionTriages.clear();
 function getStoredTriages() {
- for (const [id,value] of betaTriages) if (!Number.isFinite(Date.parse(value.expiresAt)) || Date.parse(value.expiresAt)<=Date.now()) betaTriages.delete(id);
- return Object.fromEntries(betaTriages);
+ for (const [id,value] of sessionTriages) if (!Number.isFinite(Date.parse(value.expiresAt)) || Date.parse(value.expiresAt)<=Date.now()) sessionTriages.delete(id);
+ return Object.fromEntries(sessionTriages);
 }
 function saveStoredTriage(data) {
  if(!data || !data.id || !Number.isFinite(Date.parse(data.expiresAt)) || Date.parse(data.expiresAt)<=Date.now()) return;
- betaTriages.set(normalizeTriageID(data.id),data);
- while(betaTriages.size>20) betaTriages.delete(betaTriages.keys().next().value);
+ sessionTriages.set(normalizeTriageID(data.id),data);
+ while(sessionTriages.size>20) sessionTriages.delete(sessionTriages.keys().next().value);
 }
 
 async function resolveFirebaseConfig() {

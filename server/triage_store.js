@@ -1,5 +1,5 @@
-const crypto=require('node:crypto');const storage=require('./beta_storage');
-const {hash,isLocal}=require('./beta_environment');const contract=require('./beta_contract');
+const crypto=require('node:crypto');const storage=require('./secure_storage');
+const {hash,isLocal}=require('./runtime_environment');const contract=require('./triage_contract');
 const {verifyReceipt}=require('./consent_logs');const {validateBodySize,validateOrigin,enforceRateLimit}=require('./request_guard');
 const COLLECTION='beta_triages_v2';
 function normalizeRecoveryCode(v){return String(v||'').toUpperCase().replace(/[\s-]/g,'');}
@@ -34,13 +34,13 @@ async function handleTriageSave({method,body,context={}}){
 async function recover({method,body,context={}},remove=false){
  const denied=await guard(method,body,context,'recover');if(denied)return denied;
  const p=parse(body),code=normalizeRecoveryCode(p.id||p.recoveryCode);
- if(!/^[A-F0-9]{48}$/.test(code))return response(400,{error:'Codice beta non valido.'});
+ if(!/^[A-F0-9]{48}$/.test(code))return response(400,{error:'Codice di recupero non valido.'});
  try{
   const id=hash('recovery:'+code),t=await storage.read(COLLECTION,id);
   if(!t)return response(404,{error:'Codice non trovato o scaduto.'});
   if(remove){await storage.remove(COLLECTION,id);if(t.consentId){await storage.remove('beta_consents_v2',t.consentId);await storage.remove('beta_consents_v2','used_'+t.consentId);}return response(200,{ok:true});}
   if(t.schemaVersion!==2)return response(409,{error:'Versione archivio non supportata.'});
   const {consentId,...safe}=t;return response(200,{triage:{...safe,id:code}});
- }catch{return response(503,{error:'Archivio beta temporaneamente non disponibile.'});}
+ }catch{return response(503,{error:'Archivio temporaneamente non disponibile.'});}
 }
 module.exports={handleTriageSave,handleTriageRecover:args=>recover(args),handleTriageDelete:args=>recover(args,true),generateRecoveryCode,normalizeRecoveryCode,normalizeUserCodePrefix};

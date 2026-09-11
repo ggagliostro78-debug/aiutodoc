@@ -2,11 +2,12 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 process.env.BETA_LOCAL_MODE='true';delete process.env.NETLIFY;delete process.env.NODE_ENV;
 process.env.BETA_EXTERNAL_SERVICES='false';
-const storage=require('../server/beta_storage'),{hash}=require('../server/beta_environment');
+const crypto=require('node:crypto');
+const storage=require('../server/secure_storage'),{hash,secret}=require('../server/runtime_environment');
 const {handleConsentLogs,verifyReceipt}=require('../server/consent_logs');
 const {handleTriageSave,handleTriageRecover,handleTriageDelete}=require('../server/triage_store');
 const {handleGeminiProxy}=require('../server/gemini_proxy');
-const {VERSION}=require('../server/beta_contract');
+const {VERSION,LEGACY_VERSIONS}=require('../server/triage_contract');
 const {createRequestContext}=require('../server/request_guard');
 let serial=0;
 function request(body){return {method:'POST',context:{ip:'test-'+serial++},body};}
@@ -23,6 +24,18 @@ test('ricevute firmate, versionate, revocabili e non falsificabili',async()=>{
  assert.equal((await handleConsentLogs(request({action:'revoke',receipt:r}))).statusCode,200);
  assert.equal(await verifyReceipt(r,'entry_gate'),null);
  assert.equal((await handleConsentLogs(request({scope:'archive',consentVersion:'old',consents:{terms:true,privacy:true,healthData:true}}))).statusCode,400);
+});
+test('ricevute attive della versione precedente restano valide fino alla scadenza',async()=>{
+ const [version]=LEGACY_VERSIONS,id='legacy_'+crypto.randomBytes(8).toString('hex'),now=Date.now();
+ const data=Buffer.from(JSON.stringify({id,scope:'entry_gate',version,exp:now+60000})).toString('base64url');
+ const receipt=data+'.'+crypto.createHmac('sha256',secret()).update(data).digest('base64url');
+ await storage.create('beta_consents_v2',id,{scope:'entry_gate',consentVersion:version,expiresAt:new Date(now+86400000).toISOString()});
+ assert.ok(await verifyReceipt(receipt,'entry_gate'));
+});
+test('nuove ricevute archivio registrano un testo neutro e coerente',async()=>{
+ const response=await handleConsentLogs(request({scope:'archive',consentVersion:VERSION,consents:{terms:true,privacy:true,healthData:true}}));
+ const issued=JSON.parse(response.body),record=await storage.read('beta_consents_v2',issued.id);
+ assert.equal(response.statusCode,200);assert.match(record.textSnapshot,/gestito lato server/i);assert.equal(/beta/i.test(record.textSnapshot),false);
 });
 test('archivio completo, codice a 192 bit solo hash, minimizzazione e cancellazione',async()=>{
  const r=await handleTriageSave(request({triage,consentReceipt:await receipt()}));assert.equal(r.statusCode,200);

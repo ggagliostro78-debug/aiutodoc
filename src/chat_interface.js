@@ -38,10 +38,12 @@ class ChatInterface {
 
     _consumePendingRecoveryId() {
         try {
-            const key = 'aiutodoc_beta_pending_recovery_id';
-            const pending = sessionStorage.getItem(key);
+            const key = 'aiutodoc_pending_recovery_id';
+            const legacyKey = 'aiutodoc_beta_pending_recovery_id';
+            const pending = sessionStorage.getItem(key) || sessionStorage.getItem(legacyKey);
             if (!pending) return '';
             sessionStorage.removeItem(key);
+            sessionStorage.removeItem(legacyKey);
             return String(pending).trim();
         } catch (error) {    // No user input, medical text, recovery codes or raw errors in browser logs.
             return '';
@@ -303,7 +305,7 @@ class ChatInterface {
             <p data-testid="urgency-output"><strong>Urgenza:</strong> ${escapeHTML(saved.result.livello_urgenza || 'Informazione non disponibile: consulta il medico.')}</p>
             <p data-testid="specialization-area-output">${escapeHTML(saved.result.area_specialistica_piu_adatta?.area_specialistica || '')}</p>
             <ul data-testid="red-flags-output">${(saved.result.red_flags_rilevate || []).map(flag => '<li>' + escapeHTML(flag) + '</li>').join('')}</ul>
-            <button type="button" data-beta-delete="${escapeHTML(saved.id)}">Cancella questa ricerca dall'archivio</button>
+            <button type="button" data-archive-delete="${escapeHTML(saved.id)}">Cancella questa ricerca dall'archivio</button>
             <hr style="border: 0; border-top: 1px solid #edf2f7; margin: 20px 0;">
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">

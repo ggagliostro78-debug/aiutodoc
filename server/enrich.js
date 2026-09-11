@@ -1,5 +1,5 @@
-const { providerFetch } = require('./beta_http');
-const { env } = require('./beta_environment');
+const { providerFetch } = require('./provider_http');
+const { env } = require('./runtime_environment');
 const { validateOrigin } = require('./request_guard');
 const SERPAPI_SEARCH_URL = "https://serpapi.com/search.json";
 const {

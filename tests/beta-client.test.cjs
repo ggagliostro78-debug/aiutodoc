@@ -6,9 +6,16 @@ function analytics(preferences=null,id='TEST-BETA'){
 }
 test('analytics accept/revoke/accept restores granted',()=>{const a=analytics();a.window.aiutodocSetAnalyticsConsent(true);a.window.aiutodocSetAnalyticsConsent(false);a.window.aiutodocSetAnalyticsConsent(true);assert.equal(a.events.filter(x=>x[0]==='consent').at(-1)[2].analytics_storage,'granted');assert.equal(a.scripts.length,1);});
 test('expired or malformed preference never loads analytics',()=>{for(const expiresAt of ['broken',new Date(0).toISOString(),undefined])assert.equal(analytics({analytics:true,expiresAt}).scripts.length,0);});
-test('beta has no analytics property, even after consent',()=>{const a=analytics(null,'');a.window.aiutodocSetAnalyticsConsent(true);assert.equal(a.scripts.length,0);});
+test('analytics stays disabled without a configured property, even after consent',()=>{const a=analytics(null,'');a.window.aiutodocSetAnalyticsConsent(true);assert.equal(a.scripts.length,0);});
 test('API timeout wrapper fails on HTTP consent error',async()=>{
  const window={fetch:async()=>new Response('{}',{status:503})};const data=new Map();const sessionStorage={getItem:k=>data.get(k),setItem:(k,v)=>data.set(k,v),removeItem:k=>data.delete(k)};
- vm.runInNewContext(fs.readFileSync('src/beta_client.js','utf8'),{window,document:{addEventListener:()=>{}},location:{href:'http://127.0.0.1:4274/',origin:'http://127.0.0.1:4274'},sessionStorage,URL,Response,AbortController,setTimeout,clearTimeout});
- await assert.rejects(window.betaRegisterConsent('entry_gate',{}));assert.equal(data.size,0);
+ vm.runInNewContext(fs.readFileSync('src/session_client.js','utf8'),{window,document:{addEventListener:()=>{}},location:{href:'http://127.0.0.1:4274/',origin:'http://127.0.0.1:4274'},sessionStorage,URL,Response,AbortController,setTimeout,clearTimeout});
+ await assert.rejects(window.aiutodocRegisterConsent('entry_gate',{}));assert.equal(data.size,0);
+});
+test('legacy session keys migrate before use',()=>{
+ const data=new Map([['aiutodoc_beta_entry_receipt',JSON.stringify({receipt:'signed',expiresAt:new Date(Date.now()+60000).toISOString()})],['aiutodoc_beta_entry_consents','{}']]);
+ const sessionStorage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v),removeItem:k=>data.delete(k)};
+ const window={fetch:async()=>new Response('{}',{status:503})};
+ vm.runInNewContext(fs.readFileSync('src/session_client.js','utf8'),{window,document:{addEventListener:()=>{}},location:{href:'http://127.0.0.1:4274/',origin:'http://127.0.0.1:4274'},sessionStorage,URL,Response,AbortController,setTimeout,clearTimeout});
+ assert.equal(window.aiutodocEntryReceipt(),'signed');assert.equal(data.has('aiutodoc_beta_entry_receipt'),false);assert.equal(data.has('aiutodoc_beta_entry_consents'),false);
 });

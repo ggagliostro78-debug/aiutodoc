@@ -192,7 +192,7 @@ function setupMailtoTracking() {
 }
 
 function registerServiceWorker() {
-    if (window.AIUTODOC_BETA || !('serviceWorker' in navigator)) return;
+    if (window.AIUTODOC_OFFLINE_CACHE_DISABLED || !('serviceWorker' in navigator)) return;
     if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') return;
 
     window.addEventListener('load', () => {

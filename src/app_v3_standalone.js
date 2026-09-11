@@ -443,7 +443,7 @@ class TriageEngine {
         }, 100);
 
         this.researchTimeout = setTimeout(() => {
-            window.betaAbortRequests?.();
+            window.aiutodocAbortRequests?.();
             this._showResearchFailure("La ricerca reale non ha risposto entro il tempo previsto. Riprova tra poco: nessun risultato simulato viene mostrato.");
         }, 55000);
 
@@ -543,7 +543,7 @@ class TriageEngine {
             consentedAt: new Date().toISOString()
         };
 
-        const consent = await window.betaRegisterConsent('archive', consentFlags);
+        const consent = await window.aiutodocRegisterConsent('archive', consentFlags);
         pendingData.consentReceipt = consent.receipt;
         const saved = await this._saveToCloud(pendingData);
         pendingData.id = saved.id;

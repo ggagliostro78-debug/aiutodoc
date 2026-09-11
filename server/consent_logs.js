@@ -1,9 +1,9 @@
 const crypto=require('node:crypto');
-const storage=require('./beta_storage');const {secret,hash}=require('./beta_environment');
-const {VERSION,DOCUMENTS}=require('./beta_contract');
+const storage=require('./secure_storage');const {secret,hash}=require('./runtime_environment');
+const {VERSION,LEGACY_VERSIONS,DOCUMENTS}=require('./triage_contract');
 const {validateBodySize,enforceRateLimit,validateOrigin}=require('./request_guard');
 const COLLECTION='beta_consents_v2';
-const snapshots={entry_gate:'Consenso esplicito al trattamento per orientamento informativo; disclaimer medico; termini; verifica eta.',archive:'Consenso esplicito al salvataggio facoltativo dei dati sanitari per massimo 30 giorni e recupero tramite codice. Beta locale: archivio volatile, cancellato al riavvio.',cookie_banner:'Cookie necessari; analytics facoltativi e disattivati nella beta; marketing non utilizzato.'};
+const snapshots={entry_gate:'Consenso esplicito al trattamento per orientamento informativo; disclaimer medico; termini; verifica eta.',archive:"Consenso esplicito al salvataggio facoltativo dei dati sanitari per massimo 30 giorni e recupero tramite codice. L'archivio e gestito lato server e puo essere cancellato dall'utente tramite la funzione dedicata.",cookie_banner:'Cookie necessari; analytics facoltativi solo previo consenso; marketing non utilizzato.'};
 function response(statusCode,payload){return {statusCode,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'},body:JSON.stringify(payload)};}
 function sign(value){return crypto.createHmac('sha256',secret()).update(value).digest('base64url');}
 async function verifyReceipt(receipt,scope){
@@ -12,9 +12,9 @@ async function verifyReceipt(receipt,scope){
   const [data,sig,...rest]=receipt.split('.');if(!sig||rest.length)return null;
   const expected=Buffer.from(sign(data));const received=Buffer.from(sig);if(expected.length!==received.length||!crypto.timingSafeEqual(expected,received))return null;
   const p=JSON.parse(Buffer.from(data,'base64url').toString());
-  if(p.scope!==scope||p.version!==VERSION||!Number.isFinite(p.exp)||p.exp<=Date.now())return null;
+  if(p.scope!==scope||![VERSION,...LEGACY_VERSIONS].includes(p.version)||!Number.isFinite(p.exp)||p.exp<=Date.now())return null;
   const record=await storage.read(COLLECTION,p.id);
-  if(!record||record.scope!==scope||record.consentVersion!==VERSION)return null;
+  if(!record||record.scope!==scope||record.consentVersion!==p.version)return null;
   return {id:p.id,scope,version:p.version};
  }catch{return null;}
 }

@@ -7,8 +7,13 @@ const { createRequestContext } = require("../server/request_guard");
 
 const root = path.resolve(__dirname, "..");
 const host = "127.0.0.1";
-process.env.BETA_LOCAL_MODE = "true";
-if (process.env.NETLIFY || process.env.NODE_ENV === "production") throw new Error("Beta locale solo per sviluppo.");
+const LOCAL_ENV_KEYS = new Set([
+    "AIUTODOC_PORT", "AIUTODOC_EXTERNAL_SERVICES", "AIUTODOC_SIGNING_SECRET", "AIUTODOC_ALLOWED_ORIGIN",
+    "FIREBASE_PROJECT_ID", "FIREBASE_SERVICE_ACCOUNT_JSON", "GEMINI_API_KEY", "GOOGLE_PLACES_API_KEY",
+    "GOOGLE_CSE_API_KEY", "GOOGLE_CSE_ID", "SERPAPI_API_KEY", "TRIAGE_RETENTION_DAYS", "PROVIDER_CALLS_PER_DAY"
+]);
+process.env.AIUTODOC_LOCAL_MODE = "true";
+if (process.env.NETLIFY || process.env.NODE_ENV === "production") throw new Error("Ambiente locale solo per sviluppo.");
 
 function loadDotEnv() {
     const envPath = path.join(root, ".env");
@@ -25,14 +30,14 @@ function loadDotEnv() {
         if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
             value = value.slice(1, -1);
         }
-        if (key.startsWith("BETA_") && !process.env[key]) {
+        if ((LOCAL_ENV_KEYS.has(key) || key.startsWith("BETA_")) && !process.env[key]) {
             process.env[key] = value;
         }
     }
 }
 
 loadDotEnv();
-const port = Number(process.env.BETA_PORT || 4284);
+const port = Number(process.env.AIUTODOC_PORT || process.env.BETA_PORT || 4284);
 
 const mimeTypes = {
     ".css": "text/css; charset=utf-8",
@@ -172,7 +177,7 @@ function safeFilePath(url) {
     if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
         filePath = path.join(filePath, "index.html");
     }
-    if (!/^(?:index\.html|service-worker\.js|manifest\.webmanifest|robots\.txt|sitemap\.xml|logo\.jpg|src[\/\\]|assets[\/\\]|(?:chi-siamo|privacy-policy|cookie-policy|disclaimer-medico|termini-condizioni|glossario|per-gli-specialisti|recupera-ricerca|specializzazioni|beta)[\/\\])/.test(path.relative(root,filePath))) return null;
+    if (!/^(?:index\.html|service-worker\.js|manifest\.webmanifest|robots\.txt|sitemap\.xml|logo\.jpg|src[\/\\]|assets[\/\\]|(?:chi-siamo|privacy-policy|cookie-policy|disclaimer-medico|termini-condizioni|glossario|per-gli-specialisti|recupera-ricerca|specializzazioni)[\/\\])/.test(path.relative(root,filePath))) return null;
     return filePath.startsWith(root) ? filePath : null;
 }
 
@@ -202,7 +207,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(port, host, () => {
-    const hasSearch = process.env.BETA_GOOGLE_PLACES_API_KEY || process.env.BETA_SERPAPI_API_KEY || (process.env.BETA_GOOGLE_CSE_API_KEY && process.env.BETA_GOOGLE_CSE_ID);
-    const mode = `${process.env.BETA_GEMINI_API_KEY ? "con proxy Gemini" : "senza GEMINI_API_KEY"}; ${hasSearch ? "con ricerca Google" : "senza ricerca Google configurata"}`;
+    const hasSearch = process.env.GOOGLE_PLACES_API_KEY || process.env.BETA_GOOGLE_PLACES_API_KEY || process.env.SERPAPI_API_KEY || process.env.BETA_SERPAPI_API_KEY || ((process.env.GOOGLE_CSE_API_KEY || process.env.BETA_GOOGLE_CSE_API_KEY) && (process.env.GOOGLE_CSE_ID || process.env.BETA_GOOGLE_CSE_ID));
+    const mode = `${process.env.GEMINI_API_KEY || process.env.BETA_GEMINI_API_KEY ? "con proxy Gemini" : "senza GEMINI_API_KEY"}; ${hasSearch ? "con ricerca Google" : "senza ricerca Google configurata"}`;
     console.log(`AIutoDoc locale: http://${host}:${port} (${mode})`);
 });

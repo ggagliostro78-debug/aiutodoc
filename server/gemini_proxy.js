@@ -1,7 +1,7 @@
-const contract=require('./beta_contract');const {verifyReceipt}=require('./consent_logs');
+const contract=require('./triage_contract');const {verifyReceipt}=require('./consent_logs');
 const {validateBodySize,validateOrigin,enforceRateLimit}=require('./request_guard');
-const {providerFetch}=require('./beta_http');
-const {env, externalEnabled}=require('./beta_environment');
+const {providerFetch}=require('./provider_http');
+const {env, externalEnabled}=require('./runtime_environment');
 const TRIAGE_RESPONSE_SCHEMA = {
     type: "OBJECT",
     required: ["sintesi_anamnestica", "specialista_indicato", "livello_urgenza", "area_specialistica_piu_adatta", "preparazione_visita", "impegnativa_medico", "red_flags_rilevate"],

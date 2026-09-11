@@ -1,5 +1,6 @@
 (function() {
-  const COOKIE_CONSENT_KEY = 'aiutodoc_beta_cookie_preferences';
+  const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
+  const LEGACY_COOKIE_CONSENT_KEY = 'aiutodoc_beta_cookie_preferences';
   const GA_MEASUREMENT_ID = window.AIUTODOC_ANALYTICS_ID || '';
 
   function readJsonStorage(key) {
@@ -9,6 +10,12 @@
       return null;
     }
   }
+
+  try {
+    const legacyPreferences = window.localStorage.getItem(LEGACY_COOKIE_CONSENT_KEY);
+    if (window.localStorage.getItem(COOKIE_CONSENT_KEY) === null && legacyPreferences !== null) window.localStorage.setItem(COOKIE_CONSENT_KEY, legacyPreferences);
+    window.localStorage.removeItem(LEGACY_COOKIE_CONSENT_KEY);
+  } catch (error) {}
 
   function hasValidAnalyticsConsent() {
     const preferences = readJsonStorage(COOKIE_CONSENT_KEY);

@@ -1,6 +1,6 @@
-const {hash,isLocal}=require('./beta_environment');
-const {env}=require('./beta_environment');
-const storage=require('./beta_storage');
+const {hash,isLocal}=require('./runtime_environment');
+const {env}=require('./runtime_environment');
+const storage=require('./secure_storage');
 function createRequestContext(event={}) {
  const headers=Object.fromEntries(Object.entries(event.headers||{}).map(([k,v])=>[k.toLowerCase(),v]));
  return {headers,ip:isLocal()?(event.socket?.remoteAddress||event.ip||'local'):(headers['x-nf-client-connection-ip']||'unknown')};

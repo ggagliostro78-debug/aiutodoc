@@ -7,7 +7,7 @@ Questa copia parte dal commit di produzione `e6795b64498b8991dfa679594089ee7f6f5
 
 ## Avvio locale
 
-Eseguire `npm run dev` in questa cartella e aprire <http://127.0.0.1:4284/>. Non aprire direttamente index.html. La porta puo essere cambiata con BETA_PORT.
+Eseguire `npm run dev` in questa cartella e aprire <http://127.0.0.1:4284/>. Non aprire direttamente index.html. La porta puo essere cambiata con AIUTODOC_PORT.
 
 Il file .env non e incluso: le credenziali non fanno parte del trasferimento delle sorgenti. Senza configurazione i servizi esterni restano disattivati; il questionario, i controlli urgenti e i test sintetici locali restano disponibili. L'archivio locale e in RAM e si svuota al riavvio. Usare dati inventati durante le prove.
 
@@ -28,7 +28,7 @@ Contiene main-sources.zip e repository.bundle, verificato da git bundle verify, 
 
 ## Limiti prima del deploy
 
-Il trasferimento locale non e un deploy. L'upgrade usa variabili BETA_*, firma dei consensi e un database diverso dalla produzione storica: vedere BETA-MIGRATION.md. I vecchi codici di recupero non sono compatibili. Conservare i dati e i consensi storici senza importazione automatica; definire compatibilita, TTL e rollback prima di sostituire il sito pubblico.
+Il trasferimento locale non e un deploy. L'upgrade usa variabili server-side, firma dei consensi e un database diverso dalla produzione storica: vedere BETA-MIGRATION.md. I vecchi codici di recupero non sono compatibili. Conservare i dati e i consensi storici senza importazione automatica; definire compatibilita, TTL e rollback prima di sostituire il sito pubblico.
 
 Le modifiche includono prompt server-side, controlli sulle risposte, registro consensi, minimizzazione e cancellazione, regole cliniche separate, protezioni API e nuove diciture privacy/cookie. Analytics restano disattivati e noindex preservato. Nessuna nuova dipendenza, nessuna credenziale pubblicata, nessuna modifica al database di produzione effettuata con questa integrazione.
 
