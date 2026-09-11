@@ -3,7 +3,10 @@ class BetaQuestionnaireRules {
     _generaDomandeAnamnestiche(disturbo) {
         const rawLower = normalizeMedicalText(disturbo || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’‘`´]/g, "'");
         const stripNegatedClauses = (value) => String(value || "")
-            .replace(/\b(?:non ho|non ha|non presento|non presenta|non riferisco|non sono|non mi sono|nessun[oa]?|senza|assenza di|nega|negano)\b[^.!?;]{0,180}(?=[.!?;]|$)/gi, " ")
+            // "nessun dato" non e una negazione clinica: non deve eliminare
+            // la sede o il sintomo che lo segue. Gestiamo solo negazioni di
+            // elementi sanitari e le forme comuni "non c'e/non ci sono".
+            .replace(/\b(?:non ho|non ha|non presento|non presenta|non riferisco|non sono|non mi sono|non c(?:'|e|è)|non ci sono|nessun[oa]?\s+(?=(?:dolore|sintom[ai]|segn[io]|trauma|febbre|gonfiore|rigidit[aà]|formicolio|debolezza|deformit[aà]|ferit[ae]|rossore|calore|perdita|problema|difficolt[aà]))|senza|assenza di|nega|negano)\b[^.!?;]{0,180}(?=[.!?;]|$)/gi, " ")
             .replace(/\s+/g, " ")
             .trim();
         const dLower = stripNegatedClauses(rawLower);
@@ -459,9 +462,9 @@ class BetaQuestionnaireRules {
         }
         if (activeHas(/(?:spalla|cuffia|omero|clavicola|sopra la testa)/i)) {
             return questionSet(
-                "Il dolore alla spalla aumenta quando alzi il braccio, prendi oggetti in alto o dormi su quel lato?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Quali movimenti sono più limitati dal dolore alla spalla?\n<br><i>A) Alzare il braccio, prendere oggetti in alto o dietro la schiena<br>B) Soprattutto carico, movimenti ripetitivi o postura prolungata<br>C) Nessun movimento in particolare</i>",
                 "Hai perdita improvvisa di forza, deformità, trauma importante, febbre, rossore o calore?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>",
-                "Il problema è iniziato dopo trauma/sforzo preciso oppure si è sviluppato gradualmente?\n<br><i>A) Dopo trauma o gesto preciso<br>B) Gradualmente<br>C) Non saprei</i>"
+                "Riducendo il carico o cambiando postura il fastidio migliora, resta stabile o peggiora anche a riposo?\n<br><i>A) Migliora chiaramente<br>B) Resta presente ma stabile<br>C) Peggiora anche a riposo o rapidamente</i>"
             );
         }
         if (activeHas(/(?:orticaria diffusa|gonfiore[^.!?;]{0,40}(?:labbra|lingua)|gola che si chiude|respiro difficile|anafil|frutta secca)/i)
@@ -599,9 +602,9 @@ class BetaQuestionnaireRules {
         }
         if (activeHas(/(?:spalla|cuffia|omero|clavicola|sopra la testa)/i)) {
             return questionSet(
-                "Il dolore alla spalla aumenta quando alzi il braccio, prendi oggetti in alto o dormi su quel lato?\n<br><i>A) Sì, chiaramente<br>B) Solo in parte<br>C) No</i>",
+                "Quali movimenti sono più limitati dal dolore alla spalla?\n<br><i>A) Alzare il braccio, prendere oggetti in alto o dietro la schiena<br>B) Soprattutto carico, movimenti ripetitivi o postura prolungata<br>C) Nessun movimento in particolare</i>",
                 "Hai perdita improvvisa di forza, deformità, trauma importante, febbre, rossore o calore?\n<br><i>A) Sì<br>B) Non so / dubbio<br>C) No</i>",
-                "Il problema è iniziato dopo trauma/sforzo preciso oppure si è sviluppato gradualmente?\n<br><i>A) Dopo trauma o gesto preciso<br>B) Gradualmente<br>C) Non saprei</i>"
+                "Riducendo il carico o cambiando postura il fastidio migliora, resta stabile o peggiora anche a riposo?\n<br><i>A) Migliora chiaramente<br>B) Resta presente ma stabile<br>C) Peggiora anche a riposo o rapidamente</i>"
             );
         }
         if (activeHas(/(?:caviglia|caviglie|piede|dita fredde|pallide|frattur|lussazion)/i)

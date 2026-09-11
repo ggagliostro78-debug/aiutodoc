@@ -10,6 +10,15 @@ const invented=[
 for(const [text,expected] of invented)test('holdout urgenza: '+invented.findIndex(x=>x[0]===text),()=>{for(const age of [27,43,61]){const e=engine();e.userData={age,disturbo:text,conoscitiveResp:[],anamnesticheResp:[]};assert.equal(Boolean(e._detectUrgency(text)),expected,'age='+age);}});
 test('domande: variazioni sintattiche del disturbo non producono una diagnosi',()=>{for(const text of ['Ho male al ginocchio quando cammino.','Il ginocchio mi fa male camminando.','Da tempo avverto dolore al ginocchio.']){const e=engine();e.userData.disturbo=text;const q=e._generaDomandeAnamnestiche(text);assert.ok(Array.isArray(q)&&q.length>=3);assert.ok(q.every(s=>typeof s==='string'&&s.includes('?')));}});
 
+test('domande: dolore di spalla non viene deviato verso il questionario emotivo da negazioni o parole incidentali',()=>{
+ const e=engine();
+ const q=e._generaDomandeAnamnestiche('Caso simulato, nessun dato reale: da sei settimane dolore alla spalla dopo palestra e lavoro al computer; peggiora in alcuni movimenti ma non c\'è stato trauma, non ho febbre, deformità, perdita di forza improvvisa o dolore notturno importante.');
+ assert.match(q[0],/movimenti.*spalla/i);
+ assert.match(q[1],/perdita improvvisa di forza.*deformità/i);
+ assert.match(q[2],/Riducendo il carico/i);
+ assert.ok(q.every(question=>! /malessere emotivo|vissuti|rapporto con gli altri/i.test(question)));
+});
+
 test('negazioni non cancellano la frase avversativa',()=>{const e=engine();assert.match(e._stripNegatedClinicalClauses('Non ho dolore al petto ma ho difficolta a respirare a riposo.'),/difficolta a respirare/);assert.equal(e._detectUrgency('Non ho dolore al petto ma ho difficolta a respirare a riposo.'),true);});
 
 test('altezza richiesta solo nei contesti anamnestici pertinenti e facoltativa',()=>{
