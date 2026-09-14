@@ -908,11 +908,14 @@ body {
 }
 
 .tag-badge {
+  display: inline-flex;
+  flex-shrink: 0;
   font-size: 0.7rem;
   padding: 2px 6px;
   border-radius: 4px;
   background: var(--primary);
   color: white;
+  white-space: nowrap;
 }
 
 /* Privacy Modal */
@@ -3710,3 +3713,20 @@ select,
 [data-archive-delete]{padding:10px 14px;border:1px solid #b42318;border-radius:8px;background:#fff5f5;color:#8b1d13;font:inherit;cursor:pointer;max-width:100%;margin:8px 0}
 
 body.app-session{flex-direction:column;align-items:center;justify-content:flex-start}
+/* Entry choice and direct search share the existing medical notices and gate. */
+#entry-choice[hidden], #initial-medical-form[hidden], #direct-search-panel[hidden],
+#direct-orientation-invite[hidden] { display: none !important; }
+.entry-paths { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
+.entry-path { padding: 20px; border: 2px solid #b9d8d8; border-radius: 14px; background: #f5fbfb; color: #164b55; text-align: left; cursor: pointer; font: inherit; }
+.entry-path strong, .entry-path span { display: block; }
+.entry-path strong { font-size: 1.05rem; margin-bottom: 10px; }
+.entry-path span { font-size: .9rem; line-height: 1.5; }
+.entry-path[aria-expanded="true"] { border-color: var(--primary); background: #e7f4f2; }
+.entry-path:focus-visible, #direct-search-form :focus-visible { outline: 3px solid #176d84; outline-offset: 3px; }
+#direct-search-form label { display: block; font-weight: 600; margin: 16px 0 8px; }
+#direct-search-form input, #direct-search-form select { width: 100%; box-sizing: border-box; min-width: 0; min-height: 48px; padding: 12px; border: 1px solid #95b5bc; border-radius: 8px; background: white; color: #203d46; font: inherit; }
+#direct-location-help { font-size: .85rem; }
+#direct-search-status { margin: 16px 0; overflow-wrap: anywhere; }
+#direct-search-results { overflow-wrap: anywhere; }
+#direct-search-submit:disabled { opacity: .65; cursor: wait; }
+@media (max-width: 600px) { .entry-paths { grid-template-columns: 1fr; } .entry-path { padding: 16px; } }

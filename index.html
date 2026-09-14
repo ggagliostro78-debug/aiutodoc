@@ -238,7 +238,33 @@
                 <p>In caso di urgenza, sintomi gravi o peggioramento improvviso, chiama il 112/118 o rivolgiti al Pronto Soccorso.</p>
               </div>
 
-              <form id="initial-medical-form" class="initial-intake-card" data-testid="initial-medical-form" novalidate>
+              <section id="entry-choice" aria-labelledby="entry-choice-title">
+                <h3 id="entry-choice-title">Come vuoi iniziare?</h3>
+                <div class="entry-paths">
+                  <button type="button" class="entry-path" id="choose-guided" aria-controls="initial-medical-form" aria-expanded="false"><strong>Aiutami a orientarmi</strong><span>Rispondi alle domande sui tuoi disturbi e sulla tua storia sanitaria per un orientamento informativo.</span></button>
+                  <button type="button" class="entry-path" id="choose-direct" aria-controls="direct-search-panel" aria-expanded="false"><strong>So già quale branca cercare</strong><span>Scegli la branca e la zona per cercare subito specialisti e strutture.</span></button>
+                </div>
+              </section>
+              <section id="direct-search-panel" class="initial-intake-card" hidden aria-labelledby="direct-search-title">
+                <h3 id="direct-search-title">Cerca uno specialista</h3>
+                <p>La branca è una tua scelta, non un’indicazione medica di AIutoDoc. Non inserire sintomi o dati personali nella località.</p>
+                <form id="direct-search-form">
+                  <label for="direct-specialty">Branca medica</label>
+                  <select id="direct-specialty" required><option value="">Seleziona una branca</option></select>
+                  <label for="direct-location">Area geografica</label>
+                  <input id="direct-location" type="text" required minlength="2" maxlength="160" placeholder="Es. Milano, provincia di Roma, Toscana o Italia" aria-describedby="direct-location-help" autocomplete="off">
+                  <p id="direct-location-help">Indica un Comune, una Provincia, una Regione oppure Italia. Verifica sempre l’indirizzo nelle schede pubbliche.</p>
+                  <button type="submit" class="btn-primary-wide" id="direct-search-submit">Cerca specialisti</button>
+                </form>
+                <p id="direct-search-status" role="status" aria-live="polite"></p>
+                <div id="direct-search-results"></div>
+                <aside id="direct-orientation-invite" class="medical-disclaimer-card" hidden>
+                  <h3>Vuoi approfondire la scelta della branca?</h3>
+                  <p>Le domande sui disturbi e sulla tua storia sanitaria (anamnesi) possono aiutarti a capire quale branca è più coerente con le informazioni che condividi. È un orientamento informativo: l’appropriatezza dello specialista va valutata con il medico.</p>
+                  <button type="button" id="direct-start-guided" class="btn-primary-wide">Inizia le domande di orientamento</button>
+                </aside>
+              </section>
+              <form id="initial-medical-form" class="initial-intake-card" data-testid="initial-medical-form" hidden novalidate>
                 <h3>Prima di iniziare</h3>
                 <p>Per orientarti meglio verso lo specialista più appropriato, seleziona una fascia di età e indica il sesso biologico.</p>
 
@@ -1474,6 +1500,7 @@
   <script src="./src/questionnaire_rules.js"></script>
   <script src="./src/app_v3_standalone.js?v=4.1.4"></script>
   <script src="./src/chat_interface.js?v=4.1.1"></script>
+  <script src="./src/direct_search.js"></script>
   <script src="./src/app_bootstrap.js?v=4.1.1"></script>
 </body>
 </html>

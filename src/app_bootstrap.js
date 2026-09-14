@@ -253,6 +253,7 @@ function initApp() {
         }, 120);
     });
     window.triageEngine = triageEngine;
+    setupEntryPaths(triageEngine);
 
     setupSplashScreen();
     window.scrollTo(0, 0);
