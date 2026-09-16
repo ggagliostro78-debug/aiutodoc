@@ -10,7 +10,8 @@ const host = "127.0.0.1";
 const LOCAL_ENV_KEYS = new Set([
     "AIUTODOC_PORT", "AIUTODOC_EXTERNAL_SERVICES", "AIUTODOC_SIGNING_SECRET", "AIUTODOC_ALLOWED_ORIGIN",
     "FIREBASE_PROJECT_ID", "FIREBASE_SERVICE_ACCOUNT_JSON", "GEMINI_API_KEY", "GOOGLE_PLACES_API_KEY",
-    "GOOGLE_CSE_API_KEY", "GOOGLE_CSE_ID", "SERPAPI_API_KEY", "TRIAGE_RETENTION_DAYS", "PROVIDER_CALLS_PER_DAY"
+    "GOOGLE_CSE_API_KEY", "GOOGLE_CSE_ID", "SERPAPI_API_KEY", "TRIAGE_RETENTION_DAYS", "PROVIDER_CALLS_PER_DAY",
+    "GOOGLE_MAPS_API_KEY", "GOOGLE_SEARCH_ENGINE_ID", "AIUTODOC_SHARED_API_ENV"
 ]);
 process.env.AIUTODOC_LOCAL_MODE = "true";
 if (process.env.NETLIFY || process.env.NODE_ENV === "production") throw new Error("Ambiente locale solo per sviluppo.");
@@ -37,6 +38,8 @@ function loadDotEnv() {
 }
 
 loadDotEnv();
+const sharedApiKeys = require('./shared-api-env.cjs').loadSharedApiEnv(root);
+if (sharedApiKeys.length) console.log(`API condivise caricate per lo sviluppo locale: ${sharedApiKeys.join(', ')}`);
 const port = Number(process.env.AIUTODOC_PORT || process.env.BETA_PORT || 4284);
 
 const mimeTypes = {

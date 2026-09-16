@@ -29,6 +29,9 @@ AIutoDoc-clinical-validation-*.zip
 .env
 .env.*
 !.env.example
+*firebase-adminsdk*.json
+*service-account*.json
+serviceAccount*.json
 
 # Dependency folders if ever installed locally
 node_modules/

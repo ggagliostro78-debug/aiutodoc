@@ -55,7 +55,7 @@ function cleanField(value) {
     return truncateText(value, MAX_QUERY_FIELD_LENGTH);
 }
 
-async function fetchPlaces(query, apiKey, fetchImpl) {
+async function fetchPlaces(query, apiKey, fetchImpl, strict = false) {
     try {
         const response = await fetchImpl(PLACES_API_URL, {
             method: "POST",
@@ -72,13 +72,16 @@ async function fetchPlaces(query, apiKey, fetchImpl) {
         });
 
         if (!response.ok) {
+            if (strict) throw new Error('PLACES_UNAVAILABLE');
             console.warn('Provider ricerca non disponibile.');
             return [];
         }
 
         const data = await response.json();
+        if (strict && (data.error || (data.places !== undefined && !Array.isArray(data.places)))) throw new Error('PLACES_INVALID_RESPONSE');
         return data.places || [];
     } catch (e) {
+        if (strict) throw new Error('PLACES_UNAVAILABLE');
         console.warn('Provider ricerca non disponibile.');
         return [];
     }
@@ -358,6 +361,8 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch, context = {
     const comune = cleanField(payload.comune);
     const provincia = cleanField(payload.provincia);
     const regione = cleanField(payload.regione);
+    const searchMode = cleanField(payload.searchMode);
+    const zona = typeof payload.zona === 'string' ? payload.zona.trim() : '';
     const fallbackQuery = cleanField(payload.query);
     const locationQuery = cleanField(payload.location || payload.localita || fallbackQuery);
 
@@ -385,6 +390,9 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch, context = {
     if (!specialista && !fallbackQuery) {
         return buildResponse(400, { error: "Parametri di ricerca mancanti." }, corsHeaders);
     }
+    if (searchMode === "direct" && (zona.length < 2 || zona.length > 160 || !specialista || typeof payload.specialista !== 'string' || payload.specialista.length > 160)) {
+        return buildResponse(400, { error: "Area geografica non valida." }, corsHeaders);
+    }
 
     const apiKey = env('GOOGLE_PLACES_API_KEY', 'GOOGLE_MAPS_API_KEY', 'BETA_GOOGLE_PLACES_API_KEY', 'BETA_GOOGLE_MAPS_API_KEY');
     if (!apiKey) {
@@ -396,6 +404,21 @@ async function handlePlacesSearch({ method, body, fetchImpl = fetch, context = {
     }
 
     try {
+        if (searchMode === "direct") {
+            // Uses the established Google Places key; queries do not expand the
+            // requested area. Provider addresses may omit a province/region name,
+            // so a substring check against the raw input is not a geographic filter.
+            const queries = [
+                `${specialista} ${zona}`,
+                `${specialista} studio medico ${zona}`,
+                `${specialista} clinica ospedale ${zona}`
+            ];
+            const groups = await Promise.all(queries.map(query => fetchPlaces(query, apiKey, fetchImpl, true)));
+            const seen = new Set();
+            const risultati = groups.flatMap(group => formatPlaceList(group, seen, "Area richiesta"))
+                .slice(0, 20);
+            return buildResponse(200, { risultati }, corsHeaders);
+        }
         let localPublicRaw = [];
         let localClinicRaw = [];
         let localPrivateRaw = [];

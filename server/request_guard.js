@@ -7,6 +7,12 @@ function createRequestContext(event={}) {
 }
 function validateBodySize(body,maxBytes=65536){try{if(Buffer.byteLength(typeof body==='string'?body:JSON.stringify(body||{}))<=maxBytes)return null;}catch{}return {statusCode:413,payload:{error:'Payload troppo grande.'}};}
 function truncateText(value,maxLength=4000){return String(value||'').replace(/\s+/g,' ').trim().slice(0,maxLength);}
+function isAllowedNetlifyPreviewOrigin(origin){
+ try{
+  const url=new URL(origin);
+  return url.protocol==='https:'&&/^deploy-preview-\d+--aiutodoc\.netlify\.app$/.test(url.hostname);
+ }catch{return false;}
+}
 function validateOrigin(context={}) {
  const origin=context.headers?.origin||context.headers?.Origin;
  if(!origin)return null;
@@ -17,6 +23,7 @@ function validateOrigin(context={}) {
   'https://www.aiutodoc.it'
  ].filter(Boolean);
  const origins=isLocal()?[`http://127.0.0.1:${localPort}`,`http://localhost:${localPort}`]:productionOrigins;
+ if(!isLocal()&&isAllowedNetlifyPreviewOrigin(origin))return null;
  if(origins.includes(origin))return null;
  return {statusCode:403,payload:{error:'Origine non consentita.'}};
 }
