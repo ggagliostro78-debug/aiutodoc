@@ -17,6 +17,9 @@ test('local origin follows the configured port; production remains restricted',(
   assert.equal(origin('http://127.0.0.1:4284').statusCode,403);
   process.env.NETLIFY='true';process.env.AIUTODOC_ALLOWED_ORIGIN='https://aiutodoc.it';
   assert.equal(origin('https://aiutodoc.it'),null);
+  assert.equal(origin('https://deploy-preview-2--aiutodoc.netlify.app'),null);
+  assert.equal(origin('https://deploy-preview-2--other-site.netlify.app').statusCode,403);
+  assert.equal(origin('https://branch--aiutodoc.netlify.app').statusCode,403);
   assert.equal(origin('http://127.0.0.1:4384').statusCode,403);
  } finally {
   for(const key of keys)if(previous[key]===undefined)delete process.env[key];else process.env[key]=previous[key];

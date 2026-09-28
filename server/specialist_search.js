@@ -394,6 +394,15 @@ async function searchSpecialists(payload, fetchImpl) {
     // Data minimization: external search providers receive only the requested
     // specialty and geographic scope, never the symptom narrative or full chat.
     const clinicalTerms = specialista;
+    if (payload.searchMode === 'direct') {
+        // Direct lookup never expands the requested area or uses clinical text.
+        const queries = ['ospedale reparto', 'clinica centro specialistico', 'specialista studio medico']
+            .map(kind => `${clinicalTerms} ${zona} ${kind} telefono indirizzo`);
+        const groups = await Promise.all(queries.map(query => fetchGoogleResults({
+            query, scope: 'Area richiesta', fetchImpl, count: 10
+        })));
+        return { results: dedupeResults(groups.flat()).slice(0, DEFAULT_RESULT_COUNT) };
+    }
     const negations = "-miodottore -doctolib -idoctors -paginegialle -paginebianche -cup -qsalute -guidasalute -topdoctors";
     const localPublicQuery = `${clinicalTerms} ${provincia} ospedale pubblico reparto telefono indirizzo ${negations}`.trim();
     const localClinicQuery = `${clinicalTerms} ${provincia} clinica privata convenzionata centro specialistico telefono indirizzo ${negations}`.trim();
@@ -501,6 +510,11 @@ async function handleSpecialistSearch({ method, body, fetchImpl = fetch, context
     if (bodySizeResponse) return bodySizeResponse;
 
     const payload = parseBody(body);
+    if (payload.searchMode === 'direct' &&
+        (typeof payload.zona !== 'string' || payload.zona.trim().length < 2 || payload.zona.length > MAX_QUERY_FIELD_LENGTH ||
+         typeof payload.specialista !== 'string' || payload.specialista.length > MAX_QUERY_FIELD_LENGTH)) {
+        return buildResponse(400, { error: 'Branca o area geografica non valida.' }, corsHeaders);
+    }
     if (!cleanText(payload.specialista)) {
         return buildResponse(400, { error: "Specialista mancante." }, corsHeaders);
     }
