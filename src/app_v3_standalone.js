@@ -120,7 +120,7 @@ class TriageEngine {
             "0_2": "0-2 anni",
             "3_5": "3-5 anni",
             "6_12": "6-12 anni",
-            "13_17": "13-17 anni",
+            "14_17": "14-17 anni",
             "18_39": "18-39 anni",
             "40_64": "40-64 anni",
             "65_74": "65-74 anni",
@@ -134,7 +134,8 @@ class TriageEngine {
         if (age <= 2) return "0_2";
         if (age <= 5) return "3_5";
         if (age <= 12) return "6_12";
-        if (age <= 17) return "13_17";
+        if (age === 13) return "";
+        if (age <= 17) return "14_17";
         if (age <= 39) return "18_39";
         if (age <= 64) return "40_64";
         if (age <= 74) return "65_74";
@@ -144,7 +145,7 @@ class TriageEngine {
     _validateInitialMedicalSearch(data) {
         const errors = {};
         const allowedSexAtBirth = ["female", "male", "not_specified"];
-        const allowedAgeRanges = ["0_2", "3_5", "6_12", "13_17", "18_39", "40_64", "65_74", "75_plus"];
+        const allowedAgeRanges = ["0_2", "3_5", "6_12", "14_17", "18_39", "40_64", "65_74", "75_plus"];
 
         if (!data.age_range || !allowedAgeRanges.includes(data.age_range)) {
             errors.age = "Seleziona una fascia di età per continuare.";
@@ -247,7 +248,7 @@ class TriageEngine {
 
     _needsPreciseAge() {
         const text = this._clinicalContextText();
-        const pediatricRanges = ["0_2", "3_5", "6_12", "13_17"];
+        const pediatricRanges = ["0_2", "3_5", "6_12", "14_17"];
         const geriatricRanges = ["65_74", "75_plus"];
         return pediatricRanges.includes(this.userData.age_range)
             || geriatricRanges.includes(this.userData.age_range)
@@ -256,14 +257,14 @@ class TriageEngine {
 
     _needsWeight() {
         const text = this._clinicalContextText();
-        const pediatricRanges = ["0_2", "3_5", "6_12", "13_17"];
+        const pediatricRanges = ["0_2", "3_5", "6_12", "14_17"];
         return pediatricRanges.includes(this.userData.age_range)
             || /\b(peso|bmi|massa corporea|nutriz|diet|obes|sovrappeso|sottopeso|endocrin|diabet|glicem|metabolic|cardiometabolic|cardio metabol|disidrata|vomit|diarrea|farmac|dosagg|dose)\w*/i.test(text);
     }
 
     _needsHeight() {
         const text = this._clinicalContextText();
-        const pediatricRanges = ["0_2", "3_5", "6_12", "13_17"];
+        const pediatricRanges = ["0_2", "3_5", "6_12", "14_17"];
         return this._needsWeight() && (
             pediatricRanges.includes(this.userData.age_range)
             || /\b(altezza|bmi|imc|indice di massa corporea|crescita|nutriz|diet|obes|sovrappeso|sottopeso|endocrin|diabet|metabolic|cardiometabolic|cardio metabol)\w*/i.test(text)

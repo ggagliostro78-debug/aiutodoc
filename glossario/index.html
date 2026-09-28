@@ -18,7 +18,7 @@
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="stylesheet" href="/src/style.css?v=4.1.0">
   <script src="/src/ga_bootstrap.js?v=4.2.0"></script>
-<meta name="robots" content="noindex,nofollow"></head>
+</head>
 <body>
   <div id="app-splash" class="app-splash">
     <div class="app-splash-card">
@@ -107,7 +107,6 @@
             <div class="g-card"><strong>Anamnesi:</strong> raccolta della storia personale e clinica.</div>
             <div class="g-card"><strong>Anedonia:</strong> incapacità di provare piacere nelle attività quotidiane.</div>
             <div class="g-card"><strong>Apatia:</strong> mancanza di interesse, motivazione o coinvolgimento emotivo.</div>
-            <div class="g-card"><strong>Disfonia:</strong> alterazione della voce legata a fattori emotivi.</div>
             <div class="g-card"><strong>Derealizzazione:</strong> sensazione che l&#x27;ambiente circostante sia irreale o distante.</div>
             <div class="g-card"><strong>Disforia:</strong> profondo malessere emotivo, spesso vissuto con disagio interiore o irritabilità.</div>
             <div class="g-card"><strong>DOC:</strong> Disturbo Ossessivo Compulsivo, comportamenti ripetitivi.</div>
@@ -219,7 +218,6 @@
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
             Andrologia e Urologia</h3>
           <div class="grid-cards">
-            <div class="g-card"><strong>Calcolosi renale:</strong> presenza di calcoli nei reni o nelle vie urinarie.</div>
             <div class="g-card"><strong>Disfunzione erettile:</strong> difficoltà persistente a ottenere o mantenere un&#x27;erezione sufficiente per un rapporto sessuale.</div>
             <div class="g-card"><strong>Ematuria:</strong> presenza di sangue nelle urine, visibile a occhio nudo o rilevabile solo con un esame di laboratorio.</div>
             <div class="g-card"><strong>Epididimite:</strong> infiammazione dell&#x27;epididimo, la struttura adiacente al testicolo.</div>
@@ -368,7 +366,7 @@
             <div class="g-card"><strong>Eritema a farfalla:</strong> arrossamento tipico del volto, soprattutto guance e dorso del naso, associato spesso al Lupus Eritematoso Sistemico (LES).</div>
             <div class="g-card"><strong>Fibromialgia:</strong> sindrome caratterizzata da dolore muscoloscheletrico diffuso, affaticamento e disturbi del sonno.</div>
             <div class="g-card"><strong>Gotta:</strong> forma di artrite dolorosa causata da un accumulo di acido urico nel sangue (iperuricemia).</div>
-            <div class="g-card"><strong>PCR:</strong> proteina c reattiva, marker di infiammazione acuta nel sangue.</div>
+            <div class="g-card"><strong>Proteina C-reattiva (PCR):</strong> indicatore di infiammazione nel sangue.</div>
             <div class="g-card"><strong>Rigidità mattutina:</strong> difficoltà a muovere le articolazioni al risveglio.</div>
             <div class="g-card"><strong>Sclerodermia:</strong> rara malattia autoimmune con ispessimento e irrigidimento della cute e, nei casi più severi, degli organi interni.</div>
             <div class="g-card"><strong>Sindrome di Raynaud:</strong> disturbo che provoca un&#x27;improvvisa e anomala costrizione dei piccoli vasi sanguigni (vasospasmo), riducendo l&#x27;afflusso di sangue alle estremità del corpo.</div>
@@ -377,7 +375,7 @@
 
           <h3
             style="color:var(--primary); margin-top:20px; font-size:1.1rem; border-bottom:1px solid #eee; padding-bottom:5px;">
-            Nefrologia e Urologia</h3>
+            Nefrologia</h3>
           <div class="grid-cards">
             <div class="g-card"><strong>Calcolosi renale:</strong> presenza di calcoli nei reni o nelle vie urinarie. Può essere del tutto asintomatica o causare dolore intenso quando i calcoli si spostano.</div>
             <div class="g-card"><strong>Colica renale:</strong> dolore acuto e improvviso nella zona lombare, causato dal passaggio di un calcolo lungo le vie urinarie.</div>
@@ -473,7 +471,7 @@
 
   <script>
     (function() {
-      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
+      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences_ga4_v1';
       const cookieConsent = document.getElementById('cookie-consent');
       const cookieCustomizePanel = document.getElementById('cookie-customize-panel');
       const cookieAnalytics = document.getElementById('cookie-analytics');
@@ -542,6 +540,7 @@
           necessary: true,
           analytics: preferences.analytics === true,
           marketing: false,
+          consentVersion: '2026-09-28-ga4-v1',
           savedAt: new Date().toISOString(),
           expiresAt: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString()
         };

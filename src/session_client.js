@@ -1,7 +1,6 @@
 (function(){
  'use strict';
  window.AIUTODOC_OFFLINE_CACHE_DISABLED=true;
- window.AIUTODOC_ANALYTICS_ID='';
  const VERSION='2026-09-11-v3',KEY='aiutodoc_entry_receipt',LEGACY_KEY='aiutodoc_beta_entry_receipt',ENTRY_CONSENT_KEY='aiutodoc_entry_consents',LEGACY_ENTRY_CONSENT_KEY='aiutodoc_beta_entry_consents';
  function migrateSessionKey(legacyKey,key){try{const legacyValue=sessionStorage.getItem(legacyKey);if(sessionStorage.getItem(key)===null&&legacyValue!==null)sessionStorage.setItem(key,legacyValue);sessionStorage.removeItem(legacyKey);}catch{return;}}
  migrateSessionKey(LEGACY_KEY,KEY);migrateSessionKey(LEGACY_ENTRY_CONSENT_KEY,ENTRY_CONSENT_KEY);

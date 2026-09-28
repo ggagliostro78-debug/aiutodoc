@@ -5,7 +5,19 @@ function analytics(preferences=null,id='TEST-BETA'){
  vm.runInNewContext(fs.readFileSync('src/ga_bootstrap.js','utf8'),{window,document:{querySelector:()=>null,createElement:()=>({dataset:{}}),head:{appendChild:x=>scripts.push(x)}},Date,JSON,Number,encodeURIComponent});return {window,events,scripts};
 }
 test('analytics accept/revoke/accept restores granted',()=>{const a=analytics();a.window.aiutodocSetAnalyticsConsent(true);a.window.aiutodocSetAnalyticsConsent(false);a.window.aiutodocSetAnalyticsConsent(true);assert.equal(a.events.filter(x=>x[0]==='consent').at(-1)[2].analytics_storage,'granted');assert.equal(a.scripts.length,1);});
-test('expired or malformed preference never loads analytics',()=>{for(const expiresAt of ['broken',new Date(0).toISOString(),undefined])assert.equal(analytics({analytics:true,expiresAt}).scripts.length,0);});
+test('public pages use the shared GA4 property only after consent',()=>{
+ const events=[],scripts=[],window={localStorage:{getItem:()=>null},gtag:(...v)=>events.push(v)};
+ vm.runInNewContext(fs.readFileSync('src/ga_bootstrap.js','utf8'),{window,document:{querySelector:()=>null,createElement:()=>({dataset:{}}),head:{appendChild:x=>scripts.push(x)}},Date,JSON,Number,encodeURIComponent,Object});
+ assert.equal(scripts.length,0);
+ window.aiutodocSetAnalyticsConsent(true);
+ assert.equal(scripts.length,1);
+ assert.match(scripts[0].src,/G-9C1TRG2K0X$/);
+});
+test('expired, malformed or obsolete preference never loads analytics',()=>{
+ for(const expiresAt of ['broken',new Date(0).toISOString(),undefined])assert.equal(analytics({analytics:true,consentVersion:'2026-09-28-ga4-v1',expiresAt}).scripts.length,0);
+ assert.equal(analytics({analytics:true,expiresAt:new Date(Date.now()+60000).toISOString()}).scripts.length,0);
+ assert.equal(analytics({analytics:true,consentVersion:'2026-09-28-ga4-v1',expiresAt:new Date(Date.now()+60000).toISOString()}).scripts.length,1);
+});
 test('analytics stays disabled without a configured property, even after consent',()=>{const a=analytics(null,'');a.window.aiutodocSetAnalyticsConsent(true);assert.equal(a.scripts.length,0);});
 test('API timeout wrapper fails on HTTP consent error',async()=>{
  const window={fetch:async()=>new Response('{}',{status:503})};const data=new Map();const sessionStorage={getItem:k=>data.get(k),setItem:(k,v)=>data.set(k,v),removeItem:k=>data.delete(k)};
