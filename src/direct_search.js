@@ -6,8 +6,27 @@ const DIRECT_SPECIALTIES = [
     'Infettivologia', 'Medicina dello sport', 'Medicina interna', 'Nefrologia',
     'Neurochirurgia', 'Neurologia', 'Oculistica', 'Odontoiatria', 'Oncologia',
     'Ortopedia e traumatologia', 'Otorinolaringoiatria', 'Pediatria', 'Pneumologia',
-    'Psichiatria', 'Reumatologia', 'Urologia'
+    'Psicologia', 'Psichiatria', 'Reumatologia', 'Urologia'
 ];
+
+function directCuratedResults(engine, specialty, zone) {
+    const isPsychology = /psicolog/i.test(String(specialty || ''));
+    const isRomeOrOnline = /(?:\broma\b|\bonline\b)/i.test(String(zone || ''));
+    if (!isPsychology || !isRomeOrOnline || typeof engine._buildCuratedSearchResults !== 'function') return [];
+
+    return engine._buildCuratedSearchResults(specialty)
+        .filter(entry => /greta\s+devoli/i.test(String(entry && entry.nome || '')));
+}
+
+function uniqueResults(entries) {
+    const seen = new Set();
+    return entries.filter(entry => {
+        const key = `${entry && entry.nome || ''}|${entry && entry.indirizzo_modalita || ''}`.trim().toLowerCase();
+        if (!key || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+    });
+}
 
 function setupEntryPaths(engine) {
     const get = id => document.getElementById(id);
@@ -106,7 +125,8 @@ function setupEntryPaths(engine) {
             }
             const foundResults = Array.isArray(data.results) ? data.results : data.risultati;
             if (!Array.isArray(foundResults)) throw new Error('Invalid search response');
-            const cards = foundResults.filter(item => item && typeof item === 'object').slice(0, 20)
+            const curated = directCuratedResults(engine, selectedSpecialty, zona);
+            const cards = uniqueResults([...curated, ...foundResults].filter(item => item && typeof item === 'object')).slice(0, 20)
                 .map(card => engine._buildCard(card, selectedSpecialty)).filter(Boolean);
             status.textContent = cards.length
                 ? `${cards.length} schede pubbliche per ${selectedSpecialty}. Area richiesta: ${zona}.`

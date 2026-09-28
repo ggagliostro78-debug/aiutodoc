@@ -88,7 +88,13 @@ function ui(fetchImpl, receipt = 'synthetic') {
         });
         return elements.get(id);
     };
-    const engine = { state: '1_SESSO_ETA', _buildCard: card => card.nome === 'valid' ? '<p>Public card</p>' : '' };
+    const engine = {
+        state: '1_SESSO_ETA',
+        _buildCard: card => card.nome === 'valid' ? '<p>Public card</p>' : (card.nome === 'Dr.ssa Greta Devoli' ? '<p>Greta Devoli</p>' : ''),
+        _buildCuratedSearchResults: specialty => /psicolog/i.test(specialty)
+            ? [{ nome: 'Dr.ssa Greta Devoli', indirizzo_modalita: 'Roma e online in tutta Italia' }]
+            : []
+    };
     const context = { document: { getElementById: get, createElement: () => ({}) }, window: { aiutodocEntryReceipt: () => receipt }, fetch: fetchImpl, AbortController, setTimeout, clearTimeout, engine };
     vm.createContext(context);
     vm.runInContext(fs.readFileSync('src/direct_search.js', 'utf8') + '\nsetupEntryPaths(engine);', context);
@@ -107,6 +113,23 @@ test('direct UI sends only specialty/area and invites guided flow after success'
     assert.equal(app.get('initial-medical-form').hidden, false);
     assert.equal(app.get('direct-search-panel').hidden, true);
     assert.equal(app.engine.state, '1_SESSO_ETA');
+});
+
+test('direct search lists Psicologia and includes Greta Devoli only for Roma or online', async () => {
+    assert.match(fs.readFileSync('src/direct_search.js', 'utf8'), /'Psicologia'/);
+    for (const zona of ['Roma', 'online']) {
+        const app = ui(async () => ({ ok: true, json: async () => ({ risultati: [] }) }));
+        app.get('direct-specialty').value = 'Psicologia';
+        app.get('direct-location').value = zona;
+        await app.submit();
+        assert.match(app.get('direct-search-results').innerHTML, /Greta Devoli/);
+        assert.match(app.get('direct-search-status').textContent, /^1 schede pubbliche per Psicologia/);
+    }
+    const outsideArea = ui(async () => ({ ok: true, json: async () => ({ risultati: [] }) }));
+    outsideArea.get('direct-specialty').value = 'Psicologia';
+    outsideArea.get('direct-location').value = 'Milano';
+    await outsideArea.submit();
+    assert.equal(outsideArea.get('direct-search-results').innerHTML, '');
 });
 
 test('direct UI falls back to existing web search when Places is not configured', async () => {

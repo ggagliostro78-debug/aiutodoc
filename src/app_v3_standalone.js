@@ -1633,10 +1633,10 @@ class TriageEngine {
                 nome: "Dr.ssa Greta Devoli",
                 specializzazione: "Psicologa ad orientamento Sistemico-Relazionale",
                 tipo: "Privato",
-                indirizzo_modalita: "Online in tutta Italia",
+                indirizzo_modalita: "Roma e online in tutta Italia",
                 contatti: "3479847838 | gretadevoli@gmail.com",
                 fonte: "Scheda curata",
-                info: "Disponibile online a livello nazionale per le specialità e sotto-specialità indicate."
+                info: "Disponibile a Roma e online. Verifica recapiti e disponibilità prima di contattarla."
             });
         }
 
