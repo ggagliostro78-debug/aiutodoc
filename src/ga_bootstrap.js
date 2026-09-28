@@ -1,7 +1,12 @@
 (function() {
-  const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
-  const LEGACY_COOKIE_CONSENT_KEY = 'aiutodoc_beta_cookie_preferences';
-  const GA_MEASUREMENT_ID = window.AIUTODOC_ANALYTICS_ID || '';
+  const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences_ga4_v1';
+  const ANALYTICS_CONSENT_VERSION = '2026-09-28-ga4-v1';
+  // The GA4 measurement ID is a public identifier, not a credential. Keep the
+  // optional window override for controlled tests, while making Analytics work
+  // on every public page that loads this shared bootstrap.
+  const GA_MEASUREMENT_ID = Object.prototype.hasOwnProperty.call(window, 'AIUTODOC_ANALYTICS_ID')
+    ? window.AIUTODOC_ANALYTICS_ID
+    : 'G-9C1TRG2K0X';
 
   function readJsonStorage(key) {
     try {
@@ -11,12 +16,6 @@
     }
   }
 
-  try {
-    const legacyPreferences = window.localStorage.getItem(LEGACY_COOKIE_CONSENT_KEY);
-    if (window.localStorage.getItem(COOKIE_CONSENT_KEY) === null && legacyPreferences !== null) window.localStorage.setItem(COOKIE_CONSENT_KEY, legacyPreferences);
-    window.localStorage.removeItem(LEGACY_COOKIE_CONSENT_KEY);
-  } catch (error) {}
-
   function hasValidAnalyticsConsent() {
     const preferences = readJsonStorage(COOKIE_CONSENT_KEY);
     if (!preferences) return false;
@@ -24,7 +23,7 @@
     const expiresAt = Date.parse(preferences.expiresAt || '');
     if (!Number.isFinite(expiresAt) || expiresAt <= Date.now()) return false;
 
-    return preferences.analytics === true;
+    return preferences.analytics === true && preferences.consentVersion === ANALYTICS_CONSENT_VERSION;
   }
 
   function ensureGtagStub() {

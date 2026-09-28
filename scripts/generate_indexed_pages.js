@@ -71,7 +71,7 @@ function pageTemplate({ title, description, canonicalPath, bodyContent, extraScr
   const commonScript = `
   <script>
     (function() {
-      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
+      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences_ga4_v1';
       const cookieConsent = document.getElementById('cookie-consent');
       const cookieCustomizePanel = document.getElementById('cookie-customize-panel');
       const cookieAnalytics = document.getElementById('cookie-analytics');
@@ -140,6 +140,7 @@ function pageTemplate({ title, description, canonicalPath, bodyContent, extraScr
           necessary: true,
           analytics: preferences.analytics === true,
           marketing: false,
+          consentVersion: '2026-09-28-ga4-v1',
           savedAt: new Date().toISOString(),
           expiresAt: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString()
         };

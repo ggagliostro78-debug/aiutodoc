@@ -161,7 +161,7 @@
       <button type="button" id="cookie-close" class="cookie-close" aria-label="Chiudi e rifiuta i cookie non necessari">&times;</button>
       <div class="cookie-consent-copy">
         <h2 id="cookie-consent-title">Preferenze cookie</h2>
-        <p>Usiamo cookie tecnici, necessari al funzionamento del sito, che non richiedono il tuo consenso. Google Analytics e disattivato: nessun evento viene inviato. Puoi comunque provare accettazione, rifiuto e modifica delle preferenze. Non usiamo cookie di profilazione o marketing.</p>
+        <p>Usiamo cookie tecnici, necessari al funzionamento del sito, che non richiedono il tuo consenso. Con il tuo consenso possiamo usare Google Analytics per statistiche aggregate di utilizzo: lo script viene caricato solo dopo l'accettazione dei cookie analitici. Non usiamo cookie di profilazione o marketing.</p>
         <a href="/cookie-policy/" target="_blank" rel="noopener">Maggiori informazioni: Cookie Policy</a>
       </div>
       <div id="cookie-customize-panel" class="cookie-customize-panel hidden">
@@ -1042,8 +1042,8 @@
       const LEGACY_APP_CONSENT_VERSIONS = ['2026-09-08-v2', '2026-09-08-beta-v2'];
       const ENTRY_CONSENT_KEY = 'aiutodoc_entry_consents';
       const LEGACY_ENTRY_CONSENT_KEY = 'aiutodoc_beta_entry_consents';
-      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences';
-      const LEGACY_COOKIE_CONSENT_KEY = 'aiutodoc_beta_cookie_preferences';
+      const COOKIE_CONSENT_KEY = 'aiutodoc_cookie_preferences_ga4_v1';
+      const ANALYTICS_CONSENT_VERSION = '2026-09-28-ga4-v1';
       const COOKIE_PREFERENCES_KEY = 'aiutodoc_open_cookie_preferences';
       const LEGACY_COOKIE_PREFERENCES_KEY = 'aiutodoc_beta_open_cookie_preferences';
       const privacyModal = document.getElementById('privacy-modal');
@@ -1076,7 +1076,6 @@
       }
 
       migrateStorageKey(sessionStorage, LEGACY_ENTRY_CONSENT_KEY, ENTRY_CONSENT_KEY);
-      migrateStorageKey(localStorage, LEGACY_COOKIE_CONSENT_KEY, COOKIE_CONSENT_KEY);
       migrateStorageKey(localStorage, LEGACY_COOKIE_PREFERENCES_KEY, COOKIE_PREFERENCES_KEY);
 
       function readJsonStorage(key) {
@@ -1159,7 +1158,7 @@
           analytics: preferences.analytics === true,
           marketing: false,
           action: action,
-          consentVersion: APP_CONSENT_VERSION,
+          consentVersion: ANALYTICS_CONSENT_VERSION,
           savedAt: new Date().toISOString(),
           expiresAt: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString()
         };
